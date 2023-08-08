@@ -1,0 +1,70 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{asset('img/logo-essom.png')}}" class="img-circle" alt="User Image">        
+        </div>
+        <div class="info">                     
+            @auth
+            <a href="#" class="d-block" onclick="event.preventDefault(); document.getElementById('form-logout').submit();">{{auth()->user()->name}}</a>    
+            <form action="{{route('logout')}}" method="POST" style="display: none;" id="form-logout">
+                @csrf
+            </form>        
+            @else
+            <a href="{{ route('login')}}" class="d-block">Login</a>            
+            @endauth
+         
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+       
+        <li class="nav-header">แบบบันทึก</li>
+        <li class="nav-item">
+            <a href="{{route('pd-noti.index')}}" class="nav-link {{\Request::routeIs('pd-noti.index') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบแจ้งผลิต</p>
+            </a>           
+        </li> 
+        <li class="nav-item">
+            <a href="{{route('pd-open.index')}}" class="nav-link {{\Request::routeIs('pd-open.index') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบเปิดงาน</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบสั่งงาน</p>
+            </a>           
+        </li>       
+        <li class="nav-header">รายงาน</li>       
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>แผนการผลิต</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>ติดตามงาน</p>
+            </a>           
+        </li>
+        <li class="nav-header">ตั้งค่า</li>
+        <li class="nav-item">
+            <a href="{{route('employee.list')}}" class="nav-link {{\Request::routeIs('employee.list') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>ผู้ใช้งานระบบ</p>
+            </a>           
+        </li>       
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
