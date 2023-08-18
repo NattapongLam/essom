@@ -37,3 +37,4 @@ Route::post('/getData' , [App\Http\Controllers\ProductionNotice::class , 'getDat
 Route::resource('/pd-open' , App\Http\Controllers\ProductionOpen::class);
 Route::post('/getData-Open' , [App\Http\Controllers\ProductionOpen::class , 'getDataOpen']);
 Route::resource('/pd-work' , App\Http\Controllers\ProductionWorkOrder::class);
+Route::post('/getData-Work' , [App\Http\Controllers\ProductionWorkOrder::class , 'getDataWork']);

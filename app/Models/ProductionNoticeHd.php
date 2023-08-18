@@ -16,4 +16,8 @@ class ProductionNoticeHd extends Model
     {
         return $this->hasMany(ProductionNoticeDt::class, 'productionnotice_hd_id', 'productionnotice_hd_id');
     }
+    public function ProductionNoticeOp()
+    {
+        return $this->hasMany(ProductionNoticeOp::class, 'productionnotice_hd_id', 'productionnotice_hd_id');
+    }
 }

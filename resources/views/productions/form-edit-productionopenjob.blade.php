@@ -160,7 +160,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
-                    <label class="form-label">รายะลเอียด</label><br>
+                    <label class="form-label">รายละเอียด</label><br>
                     <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -187,11 +187,48 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">Total</td>
+                                <td>{{number_format($total,2)}}</td>                                
+                            </tr>
+                        </tfoot>
                     </table>
                     </div>
                     </div>
                 </div>
-            </div>             
+            </div><hr>  
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                    <label class="form-label">Optional</label><br>
+                    <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>สินค้า</th>
+                                <th>จำนวน</th>
+                                <th>รายละเอียด</th>
+                                <th>รายละเอียดไฟฟ้า</th>
+                                <th>รายละเอียด Software</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($op as $item)
+                                <tr>
+                                    <td>{{$item->productionnotice_op_name}} ({{$item->productionnotice_op_code}})</td>
+                                    <td>{{$item->productionnotice_op_qty}} / {{$item->productionnotice_op_unit}}</td>
+                                    <td>{{$item->productionnotice_op_remark}}</td>
+                                    <td>{{$item->productionnotice_op_elect}}</td>
+                                    <td>{{$item->productionnotice_op_software}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    </div>
+                    </div>
+                </div>
+            </div>           
         </div>
         </form>
     </div>

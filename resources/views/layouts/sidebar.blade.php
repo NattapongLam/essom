@@ -37,11 +37,47 @@
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-work.index')}}" class="nav-link {{\Request::routeIs('pd-work.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบสั่งงาน</p>
             </a>           
-        </li>       
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบเบิกวัสดุอุปกรณ์</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>รับคืนจากการเบิก</p>
+            </a>           
+        </li> 
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบขอซื้อ</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>บันทึกชั่วโมงการทำงาน</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ตรวจสอบขั้นตอนสุดท้าย</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบปิดงาน</p>
+            </a>           
+        </li>                
         <li class="nav-header">รายงาน</li>       
         <li class="nav-item">
             <a href="#" class="nav-link">
@@ -53,6 +89,37 @@
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>ติดตามงาน</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>สต็อคคงเหลือ</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Man Hour Report</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Cost of Material</p>
+            </a>           
+        </li>
+        <li class="nav-header">ระบบคุณภาพ</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-bullhorn"></i>
+                <p>เอกสาร NCR</p>
+            </a>           
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-bullhorn"></i>
+                <p>เอกสาร CAR</p>
             </a>           
         </li>
         <li class="nav-header">ตั้งค่า</li>

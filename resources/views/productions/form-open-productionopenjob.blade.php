@@ -7,8 +7,21 @@
         <div class="card-body">
             <h3 class="card-title" style="font-weight: bold">เอกสารเปิดงาน</h3><br><hr>
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover" id="tb_job">
                     <thead>
+                        <tr>
+                            <th>สถานะ</th>
+                            <th>กำหนดส่ง</th>
+                            <th>วันที่</th>
+                            <th>เลขที่</th>
+                            <th>วันที่เริ่ม - จบ</th>
+                            <th>ลูกค้า</th>
+                            <th>สินค้า</th>
+                            <th>Spec Page</th>
+                            <th>รายละเอียด</th>
+                            <th>ประมาณการต้นทุน</th>
+                            <th></th>
+                        </tr>
                         <tr>
                             <th>สถานะ</th>
                             <th>กำหนดส่ง</th>
@@ -101,6 +114,53 @@
 @endsection
 @push('scriptjs')
 <script>
+$(document).ready(function() {
+ $('#tb_job').DataTable({
+            "pageLength": 30,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            columnDefs: [{
+                targets: 1,
+                type: 'time-date-sort'
+            }],
+            order: [
+                [2, "desc"]
+            ],
+            fixedHeader: {
+				header:false,
+				footer:false
+			},
+        pagingType: "full_numbers",
+        bSort: true,
+            initComplete: function() {
+      this.api().columns().every(function() {
+        var column = this;
+        var select = $('<select class="form-control select2"><option value=""></option></select>')
+          .appendTo($(column.header()).empty())
+          .on('change', function() {
+            var val = $.fn.dataTable.util.escapeRegex(
+              $(this).val()
+            );
+
+            column
+              .search(val ? '^' + val + '$' : '', true, false)
+              .draw();
+          });
+
+        column.data().unique().sort().each(function(d, j) {
+          select.append('<option value="' + d + '">' + d + '</option>')
+        });
+      });
+    }
+    
+    })
+});
 getDataOpen = (id) => {
 $.ajax({
     url: "{{ url('/getData-Open') }}",

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\ProductionNoticeOp;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductionOpenjobDt;
 use App\Models\ProductionOpenjobHd;
@@ -26,7 +27,7 @@ class ProductionOpen extends Controller
     {
         $hd = DB::table('productionopenjob_hd')
         ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->where('productionopenjob_hd.productionopenjob_status_id','<>',2)->get();
+        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1,2,4,5,11])->get();
         return view('productions.form-open-productionopenjob',compact('hd'));
     }
 
@@ -81,8 +82,15 @@ class ProductionOpen extends Controller
         } else {
             $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[2,4,5])->get();
         }
-        
-        return view('productions.form-edit-productionopenjob', compact('hd','dt','sta'));
+        $op = ProductionNoticeOp::leftjoin('productionnotice_hd','productionnotice_op.productionnotice_hd_id','=','productionnotice_hd.productionnotice_hd_id')
+        ->where('productionnotice_hd.productionnotice_hd_docuno',$hd->productionnotice_hd_docuno)
+        ->where('productionnotice_op.productionnotice_op_flag',true)
+        ->where('productionnotice_op.productionnotice_op_main',$hd->ms_product_code)
+        ->get();
+        $total = ProductionOpenjobDt::where('productionopenjob_hd_id', $id)
+        ->where('productionopenjob_dt_flag',true)
+        ->sum('estimatecost');
+        return view('productions.form-edit-productionopenjob', compact('hd','dt','sta','op','total'));
     }
 
     /**
@@ -191,11 +199,12 @@ class ProductionOpen extends Controller
         ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
         ->where('productionopenjob_dt.productionopenjob_hd_id', $request->refid)
         ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
-        ->get();           
+        ->get(); 
         return response()->json(
             [
                 'status' => true,
                 'dt' => $dt,
+
             ]);
     }
 

@@ -126,33 +126,79 @@
                 </div>
             </div><hr>
             <div class="row">             
-                <div class="col-12">
-                    <div class="form-group">
-                    <label class="form-label">Optional</label><br>
-                    <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>สินค้า</th>
-                                <th>จำนวน</th>
-                                <th>รายละเอียด</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($dt as $item)
-                                <tr>
-                                    <td>{{$item->productionnotice_dt_listno}}</td>
-                                    <td>{{$item->ms_product_seminame}} ({{$item->ms_product_semicode}})</td>
-                                    <td>{{$item->ms_product_semiqty}} / {{$item->ms_product_semiunit}}</td>
-                                    <td>{{$item->productionnotice_dt_remark}}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+            <div class="col-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                  <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">รายละเอียด</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Optional</a>
+                      </li>
+
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-four-tabContent">
+                      <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>กำหนดส่ง</th>
+                                        <th>สินค้า</th>
+                                        <th>จำนวน</th>
+                                        <th>รายละเอียด</th>
+                                        <th>Spec Page</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($dt as $item)
+                                        <tr>
+                                            <td>{{$item->productionnotice_dt_listno}}</td>
+                                            <td>{{\Carbon\Carbon::parse($item->productionnotice_dt_duedate)->format('d/m/Y')}}</td>
+                                            <td>{{$item->ms_product_seminame}} ({{$item->ms_product_semicode}})</td>
+                                            <td>{{$item->ms_product_semiqty}} / {{$item->ms_product_semiunit}}</td>
+                                            <td>{{$item->productionnotice_dt_remark}}</td>
+                                            <td>{{$item->ms_specpage_name}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                      </div>
+                      <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>สินค้า</th>
+                                        <th>จำนวน</th>
+                                        <th>รายละเอียด</th>
+                                        <th>รายละเอียดไฟฟ้า</th>
+                                        <th>รายละเอียด Software</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($op as $item)
+                                        <tr>
+                                            <td>{{$item->productionnotice_op_name}} ({{$item->productionnotice_op_code}})</td>
+                                            <td>{{$item->productionnotice_op_qty}} / {{$item->productionnotice_op_unit}}</td>
+                                            <td>{{$item->productionnotice_op_remark}}</td>
+                                            <td>{{$item->productionnotice_op_elect}}</td>
+                                            <td>{{$item->productionnotice_op_software}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                      </div>                    
                     </div>
-                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
         </form>

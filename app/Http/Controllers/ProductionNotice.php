@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductionNoticeDt;
 use App\Models\ProductionNoticeHd;
+use App\Models\ProductionNoticeOp;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -75,11 +76,17 @@ class ProductionNotice extends Controller
         $hd = ProductionNoticeHd::leftjoin('ms_customer','productionnotice_hd.ms_customer_id','=','ms_customer.ms_customer_id')
         ->leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->where('productionnotice_hd.productionnotice_hd_id',$id)
-        ->where('productionnotice_hd.productionnotice_status_id',1)->first();
-        $dt = ProductionNoticeDt::where('productionnotice_hd_id',$id)
-        ->where('productionnotice_dt_flag',true)->get();
+        ->where('productionnotice_hd.productionnotice_status_id',1)
+        ->first();
+        $dt = ProductionNoticeDt::leftjoin('ms_specpage','productionnotice_dt.ms_specpage_id','=','ms_specpage.ms_specpage_id')
+        ->where('productionnotice_dt.productionnotice_hd_id',$id)
+        ->where('productionnotice_dt.productionnotice_dt_flag',true)
+        ->get();
+        $op = ProductionNoticeOp::where('productionnotice_hd_id',$id)
+        ->where('productionnotice_op_flag',true)
+        ->get();
         $sta = ProductionNoticeStatus::whereIn('productionnotice_status_id',[2,4,5])->get();
-        return view('productions.form-edit-productionnotice', compact('hd','dt','sta'));
+        return view('productions.form-edit-productionnotice', compact('hd','dt','sta','op'));
     }
 
     /**
@@ -144,13 +151,19 @@ class ProductionNotice extends Controller
     public function getData(Request $request)
     {
         $dt = DB::table('productionnotice_dt')
-        ->where('productionnotice_hd_id', $request->refid)
-        ->where('productionnotice_dt_flag',true)
-        ->get();           
+        ->leftjoin('ms_specpage','productionnotice_dt.ms_specpage_id','=','ms_specpage.ms_specpage_id')
+        ->where('productionnotice_dt.productionnotice_hd_id', $request->refid)
+        ->where('productionnotice_dt.productionnotice_dt_flag',true)
+        ->get();   
+        $op = DB::table('productionnotice_op')
+        ->where('productionnotice_hd_id',$request->refid)     
+        ->where('productionnotice_op_flag',true)  
+        ->get();   
         return response()->json(
             [
                 'status' => true,
                 'dt' => $dt,
+                'op' => $op
             ]);
     }
 
