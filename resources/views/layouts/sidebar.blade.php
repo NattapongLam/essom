@@ -29,6 +29,12 @@
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบแจ้งผลิต</p>
             </a>           
+        </li>
+        <li class="nav-item">
+            <a href="{{route('del-order.index')}}" class="nav-link {{\Request::routeIs('del-order.index') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-pencil-alt"></i>
+                <p>ใบนำส่งสินค้า</p>
+            </a>           
         </li> 
         <li class="nav-item">
             <a href="{{route('pd-open.index')}}" class="nav-link {{\Request::routeIs('pd-open.index') ? 'active' : ''}}">
@@ -43,19 +49,19 @@
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-ladi.index')}}" class="nav-link {{\Request::routeIs('pd-ladi.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบเบิกวัสดุอุปกรณ์</p>
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-retu.index')}}" class="nav-link {{\Request::routeIs('pd-retu.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>รับคืนจากการเบิก</p>
             </a>           
         </li> 
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-requ.index')}}" class="nav-link {{\Request::routeIs('pd-requ.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบขอซื้อ</p>
             </a>           
