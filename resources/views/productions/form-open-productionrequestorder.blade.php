@@ -5,16 +5,16 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารรับคืนจากการเบิก</h3><br><hr>
+            <h3 class="card-title" style="font-weight: bold">เอกสารขอซื้อ</h3><br><hr>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>
                     <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
-                        <th>เลขที่ใบรับคืนจากการเบิก</th>
-                        <th>เลขที่ใบเบิกวัสดุอุปกรณ์</th>
+                        <th>เลขที่ใบขอซื้อ</th>
                         <th>เลขที่อ้างอิง</th>
+                        <th>แผนก</th>
                         <th>หมายเหตุ</th>
                         <th>ผู้บันทึก</th>
                         <th>ผู้อนุมัติ</th>
@@ -23,9 +23,9 @@
                     <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
-                        <th>เลขที่ใบรับคืนจากการเบิก</th>
-                        <th>เลขที่ใบเบิกวัสดุอุปกรณ์</th>
+                        <th>เลขที่ใบขอซื้อ</th>
                         <th>เลขที่อ้างอิง</th>
+                        <th>แผนก</th>
                         <th>หมายเหตุ</th>
                         <th>ผู้บันทึก</th>
                         <th>ผู้อนุมัติ</th>
@@ -35,17 +35,17 @@
                 <tbody>
                     @foreach ($hd as $item)
                     <tr>
-                        <td>{{$item->returnorder_status_name}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->returnorder_hd_date)->format('d/m/Y')}}</td>
-                        <td>{{$item->returnorder_hd_docuno}}</td>
-                        <td>{{$item->ladingorder_hd_docuno}}</td>
+                        <td>{{$item->requestorder_status_name}}</td>
+                        <td>{{\Carbon\Carbon::parse($item->requestorder_hd_date)->format('d/m/Y')}}</td>
+                        <td>{{$item->requestorder_hd_docuno}}</td>
                         <td>{{$item->productionopenjob_hd_docuno}}</td>
-                        <td>{{$item->returnorder_hd_note}}</td>
+                        <td>{{$item->ms_department_name}}</td>
+                        <td>{{$item->requestorder_hd_note}}</td>
                         <td>{{$item->created_person}}</td>
                         <td>{{$item->approved_by}}</td>
                         <td>
-                            @if($item->returnorder_status_id == 1)
-                            <a href="{{route('pd-retu.edit',$item->returnorder_hd_id)}}" 
+                            @if($item->requestorder_status_id == 1)
+                            <a href="{{route('pd-requ.edit',$item->requestorder_hd_id)}}" 
                                 class="btn btn-sm btn-warning" >
                                 <i class="fas fa-edit"></i>
                               </a>                           
@@ -53,8 +53,8 @@
                             <a href="javascript:void(0)" 
                             class="btn btn-primary btn-sm" 
                             data-toggle="modal" data-target="#modal"
-                            onclick="getDataRetu('{{ $item->returnorder_hd_id }}')">
-                            <i class="fas fa-eye"></i></a>                                                     
+                            onclick="getDataRequ('{{$item->requestorder_hd_id }}')">
+                            <i class="fas fa-eye"></i></a>                          
                             @endif  
                         </td>
                     </tr>   
@@ -82,11 +82,12 @@
                         <thead>
                         <tr>
                             <th>ลำดับ</th>
+                            <th>วันที่ต้องการ</th>
                             <th>รหัสสินค้า</th>                                  
                             <th>ชื่อสินค้า</th>    
                             <th>หน่วยนับ</th>  
                             <th>จำนวนเบิก</th>   
-                            <th>จำนวนคืน</th>                        
+                            <th>ราคาต่อหน่วย</th>                        
                         </tr>
                         </thead>
                         <tbody id="tb_list">
@@ -148,9 +149,9 @@ $(document).ready(function() {
     
     })
 }); 
-getDataRetu = (id) => {
+getDataRequ = (id) => {
 $.ajax({
-    url: "{{ url('/getData-Retu') }}",
+    url: "{{ url('/getData-Requ') }}",
     type: "post",
     dataType: "JSON",
     data: {
@@ -163,12 +164,13 @@ $.ajax({
         $.each(data.dt, function(key , item) {
             el_list += `    
              <tr>
-                <td>${item.returnorder_dt_listno}</td>  
+                <td>${item.requestorder_dt_listno}</td>  
+                <td>${item.requestorder_dt_duedate}</td>  
                 <td>${item.ms_product_code}</td>  
                 <td>${item.ms_product_name}</td>  
                 <td>${item.ms_product_unit}</td>        
-                <td>${parseFloat(item.ladingorder_dt_qty).toFixed(2)}</td>  
-                <td>${parseFloat(item.returnorder_dt_qty).toFixed(2)}</td> 
+                <td>${parseFloat(item.ms_product_qty).toFixed(2)}</td>  
+                <td>${parseFloat(item.ms_product_price).toFixed(2)}</td> 
             </tr>
         `
         })      
@@ -177,4 +179,4 @@ $.ajax({
 });
 }  
 </script>
-@endpush             
+@endpush        

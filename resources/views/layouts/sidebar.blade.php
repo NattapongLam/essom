@@ -67,7 +67,7 @@
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-woho.index')}}" class="nav-link  {{\Request::routeIs('pd-woho.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>บันทึกชั่วโมงการทำงาน</p>
             </a>           

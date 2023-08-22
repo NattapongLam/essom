@@ -44,5 +44,9 @@ Route::resource('/pd-ladi' , App\Http\Controllers\ProductionLadingOrder::class);
 Route::post('/getData-Ladi' , [App\Http\Controllers\ProductionLadingOrder::class , 'getDataLadi']);
 Route::resource('/pd-retu' , App\Http\Controllers\ProductionReturnOrder::class);
 Route::post('/getData-Retu' , [App\Http\Controllers\ProductionReturnOrder::class , 'getDataRetu']);
-Route::resource('/pd-requ' , App\Http\Controllers\ProductionReturnOrder::class);
-Route::post('/getData-Requ' , [App\Http\Controllers\ProductionReturnOrder::class , 'getDataRequ']);
+Route::resource('/pd-requ' , App\Http\Controllers\ProductionRequestOrder::class);
+Route::post('/getData-Requ' , [App\Http\Controllers\ProductionRequestOrder::class , 'getDataRequ']);
+Route::resource('/pd-woho' , App\Http\Controllers\ProductionWorkingHours::class);
+Route::post('/getData-Woho' , [App\Http\Controllers\ProductionWorkingHours::class , 'getDataWoho']);
+Route::post('/pd-woho/getjobDocu' , [App\Http\Controllers\DataManageVendor::class , 'getjobDocu'])->name('pd-woho.getjobDocu');
+

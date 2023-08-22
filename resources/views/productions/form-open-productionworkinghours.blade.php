@@ -5,57 +5,62 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารรับคืนจากการเบิก</h3><br><hr>
+            <h3 class="card-title" style="font-weight: bold">เอกสารบันทึกชั่วโมงการทำงาน</h3>&nbsp;
+            <a href="{{route('pd-woho.create')}}" 
+                class="btn btn-sm btn-success" >
+                <i class="fas fa-file"></i>
+            </a>
+            <br><hr>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>
                     <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
-                        <th>เลขที่ใบรับคืนจากการเบิก</th>
-                        <th>เลขที่ใบเบิกวัสดุอุปกรณ์</th>
+                        <th>เลขที่</th>
                         <th>เลขที่อ้างอิง</th>
+                        <th>แผนก</th>
+                        <th>ชั่วโมงอื่นๆ</th>
                         <th>หมายเหตุ</th>
                         <th>ผู้บันทึก</th>
-                        <th>ผู้อนุมัติ</th>
                         <th></th>
                     </tr>
                     <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
-                        <th>เลขที่ใบรับคืนจากการเบิก</th>
-                        <th>เลขที่ใบเบิกวัสดุอุปกรณ์</th>
+                        <th>เลขที่</th>
                         <th>เลขที่อ้างอิง</th>
+                        <th>แผนก</th>
+                        <th>ชั่วโมงอื่นๆ</th>
                         <th>หมายเหตุ</th>
                         <th>ผู้บันทึก</th>
-                        <th>ผู้อนุมัติ</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($hd as $item)
                     <tr>
-                        <td>{{$item->returnorder_status_name}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->returnorder_hd_date)->format('d/m/Y')}}</td>
-                        <td>{{$item->returnorder_hd_docuno}}</td>
-                        <td>{{$item->ladingorder_hd_docuno}}</td>
+                        <td>{{$item->workinghours_status_name}}</td>
+                        <td>{{\Carbon\Carbon::parse($item->workinghours_hd_date)->format('d/m/Y')}}</td>
+                        <td>{{$item->workinghours_hd_docuno}}</td>
                         <td>{{$item->productionopenjob_hd_docuno}}</td>
-                        <td>{{$item->returnorder_hd_note}}</td>
+                        <td>{{$item->ms_department_name}}</td>
+                        <td>{{number_format($item->other_hours,2)}}</td>
+                        <td>{{$item->workinghours_hd_remark}}</td>
                         <td>{{$item->created_person}}</td>
-                        <td>{{$item->approved_by}}</td>
                         <td>
-                            @if($item->returnorder_status_id == 1)
-                            <a href="{{route('pd-retu.edit',$item->returnorder_hd_id)}}" 
+                            @if($item->workinghours_status_id == 1)
+                            <a href="{{route('pd-woho.edit',$item->workinghours_hd_id)}}" 
                                 class="btn btn-sm btn-warning" >
                                 <i class="fas fa-edit"></i>
-                              </a>                           
-                            @else
+                            </a>                           
+                            @else                                                                               
+                            @endif  
                             <a href="javascript:void(0)" 
                             class="btn btn-primary btn-sm" 
                             data-toggle="modal" data-target="#modal"
-                            onclick="getDataRetu('{{ $item->returnorder_hd_id }}')">
-                            <i class="fas fa-eye"></i></a>                                                     
-                            @endif  
+                            onclick="getDataWoho('{{$item->workinghours_hd_id }}')">
+                            <i class="fas fa-eye"></i></a>
                         </td>
                     </tr>   
                     @endforeach                  
@@ -82,11 +87,9 @@
                         <thead>
                         <tr>
                             <th>ลำดับ</th>
-                            <th>รหัสสินค้า</th>                                  
-                            <th>ชื่อสินค้า</th>    
-                            <th>หน่วยนับ</th>  
-                            <th>จำนวนเบิก</th>   
-                            <th>จำนวนคืน</th>                        
+                            <th>รหัสพนักงาน</th>
+                            <th>ชื่อ - นามสกุล</th>                                  
+                            <th>จำนวนชั่วโมง</th>                      
                         </tr>
                         </thead>
                         <tbody id="tb_list">
@@ -148,9 +151,9 @@ $(document).ready(function() {
     
     })
 }); 
-getDataRetu = (id) => {
+getDataWoho = (id) => {
 $.ajax({
-    url: "{{ url('/getData-Retu') }}",
+    url: "{{ url('/getData-Woho') }}",
     type: "post",
     dataType: "JSON",
     data: {
@@ -163,12 +166,10 @@ $.ajax({
         $.each(data.dt, function(key , item) {
             el_list += `    
              <tr>
-                <td>${item.returnorder_dt_listno}</td>  
-                <td>${item.ms_product_code}</td>  
-                <td>${item.ms_product_name}</td>  
-                <td>${item.ms_product_unit}</td>        
-                <td>${parseFloat(item.ladingorder_dt_qty).toFixed(2)}</td>  
-                <td>${parseFloat(item.returnorder_dt_qty).toFixed(2)}</td> 
+                <td>${item.workinghours_dt_listno}</td>  
+                <td>${item.ms_employee_code}</td>  
+                <td>${item.ms_employee_fullname}</td>  
+                <td>${parseFloat(item.workinghours_dt_hours).toFixed(2)}</td> 
             </tr>
         `
         })      
@@ -177,4 +178,4 @@ $.ajax({
 });
 }  
 </script>
-@endpush             
+@endpush        

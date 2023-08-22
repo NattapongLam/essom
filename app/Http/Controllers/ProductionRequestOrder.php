@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ProductionRequestOrderDt;
+use App\Models\ProductionRequestOrderHd;
+use App\Models\ProductionRequestOrderStatus;
 
 class ProductionRequestOrder extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,11 @@ class ProductionRequestOrder extends Controller
      */
     public function index()
     {
-        //
+        $hd = DB::table('requestorder_hd')
+        ->leftjoin('requestorder_status','requestorder_hd.requestorder_status_id','=','requestorder_status.requestorder_status_id')
+        ->leftjoin('ms_department','requestorder_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->get();
+        return view('productions.form-open-productionrequestorder',compact('hd'));
     }
 
     /**
@@ -56,7 +71,14 @@ class ProductionRequestOrder extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = ProductionRequestOrderHd::where('requestorder_hd_id',$id)
+        ->leftjoin('ms_department','requestorder_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->first();
+        $dt = ProductionRequestOrderDt::where('requestorder_hd_id', $id)
+        ->where('requestorder_dt_flag',true)
+        ->get();  
+        $sta = ProductionRequestOrderStatus::whereIn('requestorder_status_id',[2,3])->get();
+        return view('productions.form-edit-productionrequestorder', compact('hd','dt','sta'));
     }
 
     /**
@@ -68,7 +90,32 @@ class ProductionRequestOrder extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $hd = ProductionRequestOrderHd::where('requestorder_hd_id',$id)->first();
+        if($hd){
+            try{
+                $up = ProductionRequestOrderHd::where('requestorder_hd_id',$id)->update([
+                    'requestorder_status_id' => $request->requestorder_status_id,
+                    'approved_date' => Carbon::now(),
+                    'approved_by' => Auth::user()->name,
+                    'approved_note' => $request->note
+                ]);
+                DB::beginTransaction();
+                $dt = ProductionRequestOrderDt::where('requestorder_hd_id',$id)->get();
+                foreach($dt as $key => $value){
+                    $updt = ProductionRequestOrderDt::where('requestorder_dt_id',$value->requestorder_dt_id)->update([
+                    'requestorder_status_id' => $request->requestorder_status_id,
+                    'approveddate' => Carbon::now(),
+                    'approvedby' => Auth::user()->name,
+                    ]);
+                }             
+                DB::commit();
+                return redirect()->route('pd-requ.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('pd-requ.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }
     }
 
     /**
@@ -80,5 +127,17 @@ class ProductionRequestOrder extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function getDataRequ(Request $request)
+    {
+        $dt = DB::table('requestorder_dt')
+        ->where('requestorder_hd_id', $request->refid)
+        ->where('requestorder_dt_flag',true)
+        ->get(); 
+        return response()->json(
+            [
+                'status' => true,
+                'dt' => $dt,
+            ]);
     }
 }
