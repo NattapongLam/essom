@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\EmployeeList;
 use Illuminate\Http\Request;
 use App\Models\DepartmentList;
 use App\Models\WorkingHoursType;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProductionOpenjobHd;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ProductionWorkingHoursDt;
+use App\Models\ProductionWorkingHoursHd;
 
 class ProductionWorkingHours extends Controller
 {
@@ -50,8 +53,17 @@ class ProductionWorkingHours extends Controller
         }
         $dep = DepartmentList::get();
         $typ = WorkingHoursType::get();
-        $jobdoc = ProductionOpenjobHd::get();
-        return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc'));
+        $jobdoc = DB::table('vw_workinghours_job')->get();
+        $lar = EmployeeList::where('ms_department_id',2)->get();
+        $sm1 = EmployeeList::where('ms_department_id',3)->get();
+        $sm2 = EmployeeList::where('ms_department_id',4)->get();
+        $ele = EmployeeList::where('ms_department_id',5)->get();
+        $mac = EmployeeList::where('ms_department_id',6)->get();
+        $pai = EmployeeList::where('ms_department_id',7)->get();
+        $ser = EmployeeList::where('ms_department_id',8)->get();
+        $del = EmployeeList::where('ms_department_id',11)->get();
+        $sto = EmployeeList::where('ms_department_id',12)->get();
+        return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc','lar','sm1','sm2','ele','mac','pai','ser','del','sto'));
     }
 
     /**
@@ -62,7 +74,56 @@ class ProductionWorkingHours extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'ms_department_id' => ['required'],
+            'productionopenjob_dt_id' => ['required'],
+        ]);
+        $doc = DB::table('vw_workinghours_job')->where('productionopenjob_dt_id',$request->productionopenjob_dt_id)->first();
+        $hd = [
+            'workinghours_hd_date' => $request->workinghours_hd_date,
+            'workinghours_hd_docuno' => $request->workinghours_hd_docuno,
+            'workinghours_hd_number' => $request->workinghours_hd_number,
+            'ms_department_id' => $request->ms_department_id,
+            'productionopenjob_hd_docuno' => $doc->productionopenjob_hd_docuno,
+            'productionopenjob_dt_id' => $request->productionopenjob_dt_id,
+            'ms_product_name' => $doc->ms_product_name,
+            'ms_customer_name' => $doc->ms_customer_name,
+            'workinghours_hd_remark' => $request->workinghours_hd_remark,
+            'other_hours' => $request->other_hours,
+            'created_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+            'workinghours_status_id' => 1,
+            'workinghours_hd_type' => $doc->types
+        ];
+        try{
+
+            DB::beginTransaction();
+            $insertHD = ProductionWorkingHoursHd::create($hd);
+            foreach($request->emp_id as $key => $value){
+                $emp = EmployeeList::where('ms_employee_id',$value)->first();
+                if($emp){
+                    $dt[] = [
+                        'workinghours_hd_id' => $insertHD->workinghours_hd_id,
+                        'workinghours_dt_listno' => $key + 1,
+                        'ms_employee_id' => $value,
+                        'ms_employee_code' => $emp->ms_employee_code,
+                        'ms_employee_fullname' => $emp->ms_employee_fullname,
+                        'workinghours_dt_hours' =>  $request->emp_qty[$key],
+                        'workinghours_dt_flag' => true,
+                        'created_at' => $insertHD->created_at,
+                        'created_person' => $insertHD->created_person,
+                        'workinghours_status_id' => $insertHD->workinghours_status_id,
+                    ];
+                }
+            }
+            $insertDT = ProductionWorkingHoursDt::insert($dt);
+            DB::commit();
+            return redirect()->route('pd-woho.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('pd-woho.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
     }
 
     /**
@@ -121,12 +182,11 @@ class ProductionWorkingHours extends Controller
                 'dt' => $dt,
             ]);
     }
-    public function getjobDocu(Request $request)
+    public function getEmployee(Request $request)
     {
-        if($request->workinghours_type == 'Product'){
-            $jobdoc = ProductionOpenjobHd::get();
-            return response()->json(['status' => true , 'jobdoc' => $jobdoc]);
-        }
-       
+        $emp = EmployeeList::where('ms_employee_id',$request->id)->first();
+        return response()->json([
+            'emp' => $emp,
+        ]);
     }
 }

@@ -48,5 +48,5 @@ Route::resource('/pd-requ' , App\Http\Controllers\ProductionRequestOrder::class)
 Route::post('/getData-Requ' , [App\Http\Controllers\ProductionRequestOrder::class , 'getDataRequ']);
 Route::resource('/pd-woho' , App\Http\Controllers\ProductionWorkingHours::class);
 Route::post('/getData-Woho' , [App\Http\Controllers\ProductionWorkingHours::class , 'getDataWoho']);
-Route::post('/pd-woho/getjobDocu' , [App\Http\Controllers\DataManageVendor::class , 'getjobDocu'])->name('pd-woho.getjobDocu');
+Route::post('/getEmployee' , [App\Http\Controllers\ProductionWorkingHours::class , 'getEmployee']);
 

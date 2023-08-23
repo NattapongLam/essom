@@ -22,7 +22,7 @@
                         <th>แผนก</th>
                         <th>ชั่วโมงอื่นๆ</th>
                         <th>หมายเหตุ</th>
-                        <th>ผู้บันทึก</th>
+                        {{-- <th>ผู้บันทึก</th> --}}
                         <th></th>
                     </tr>
                     <tr>
@@ -33,7 +33,7 @@
                         <th>แผนก</th>
                         <th>ชั่วโมงอื่นๆ</th>
                         <th>หมายเหตุ</th>
-                        <th>ผู้บันทึก</th>
+                        {{-- <th>ผู้บันทึก</th> --}}
                         <th></th>
                     </tr>
                 </thead>
@@ -47,7 +47,7 @@
                         <td>{{$item->ms_department_name}}</td>
                         <td>{{number_format($item->other_hours,2)}}</td>
                         <td>{{$item->workinghours_hd_remark}}</td>
-                        <td>{{$item->created_person}}</td>
+                        {{-- <td>{{$item->created_person}}</td> --}}
                         <td>
                             @if($item->workinghours_status_id == 1)
                             <a href="{{route('pd-woho.edit',$item->workinghours_hd_id)}}" 
