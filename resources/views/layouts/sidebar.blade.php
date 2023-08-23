@@ -73,7 +73,7 @@
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('fl-inst.index')}}" class="nav-link {{\Request::routeIs('fl-inst.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ตรวจสอบขั้นตอนสุดท้าย</p>
             </a>           

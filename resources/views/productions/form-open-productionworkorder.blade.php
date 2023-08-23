@@ -106,7 +106,7 @@
 <script>
 $(document).ready(function() {
  $('#tb_job').DataTable({
-            "pageLength": 30,
+            "pageLength": 20,
             "lengthMenu": [
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]

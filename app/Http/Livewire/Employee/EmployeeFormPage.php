@@ -95,7 +95,7 @@ class EmployeeFormPage extends Component
                 $this->password = $pas->password_text;
             }
             else {
-                $this->password = "";
+                $this->password = "123456";
             }            
         }
         return view('livewire.employee.employee-form-page',[

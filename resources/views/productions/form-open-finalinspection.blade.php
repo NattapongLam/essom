@@ -5,64 +5,71 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารแจ้งผลิต</h3><br><hr>
+            <h3 class="card-title" style="font-weight: bold">เอกสารตรวจสอบขั้นตอนสุดท้าย</h3><br><hr>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>
                     <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
-                        <th>เลขที่ใบแจ้งผลิต</th>
-                        <th>กำหนดส่ง</th>
+                        <th>เลขที่ตรวจสอบ</th>
+                        <th>เลขที่เปิดงาน</th>
+                        <th>สินค้า</th>
                         <th>ลูกค้า</th>
-                        <th>ผู้อนุมัติ</th>
+                        <th>Rev.</th>
+                        <th>Serial No</th>
                         <th>หมายเหตุ</th>
+                        {{-- <th>ผู้ตรวจสอบ</th>
+                        <th>ผู้อนุมัติ</th> --}}
                         <th></th>
                     </tr>
                     <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
-                        <th>เลขที่ใบแจ้งผลิต</th>
-                        <th>กำหนดส่ง</th>
+                        <th>เลขที่ใบตรวจสอบ</th>
+                        <th>เลขที่ใบเปิดงาน</th>
+                        <th>สินค้า</th>
                         <th>ลูกค้า</th>
-                        <th>ผู้อนุมัติ</th>
+                        <th>Rev.</th>
+                        <th>Serial No.</th>
                         <th>หมายเหตุ</th>
+                        {{-- <th>ผู้ตรวจสอบ</th>
+                        <th>ผู้อนุมัติ</th> --}}
                         <th></th>
                     </tr>
-                </thead>   
+                </thead>
                 <tbody>
                     @foreach ($hd as $item)
-                    <tr>
-                        <td>{{$item->productionnotice_status_name}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->productionnotice_hd_date)->format('d/m/Y')}}</td>
-                        <td>{{$item->productionnotice_hd_docuno}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->productionnotice_hd_duedate)->format('d/m/Y')}}</td>
-                        <td>{{$item->ms_customer_name}}</td>
-                        <td>{{$item->approved_by}}</td>
-                        <td>{{$item->productionnotice_hd_remark}} / {{$item->approved_note}}</td>
-                        <td>
-                            @if($item->productionnotice_status_id == 1)
-                            <a href="{{route('pd-noti.edit',$item->productionnotice_hd_id)}}" 
-                                class="btn btn-sm btn-warning" >
-                                <i class="fas fa-edit"></i>
-                              </a>                           
-                            @else
-                            <a href="javascript:void(0)" 
-                            class="btn btn-primary btn-sm" 
-                            data-toggle="modal" data-target="#modal"
-                            onclick="getData('{{ $item->productionnotice_hd_id }}')">
-                            <i class="fas fa-eye"></i></a>                          
-                            @endif   
-                        </td>
-                    </tr> 
-                    @endforeach                   
-                </tbody>          
+                        <tr>
+                            <td>{{$item->finalInspection_status_name}}</td>
+                            <td>{{\Carbon\Carbon::parse($item->finalInspection_hd_date)->format('d/m/Y')}}</td>
+                            <td>{{$item->finalInspection_hd_docuno}}</td>
+                            <td>{{$item->productionopenjob_hd_docuno}}</td>
+                            <td>{{$item->ms_product_code}}</td>
+                            <td>{{$item->ms_customer_name}}</td>
+                            <td>{{$item->ms_finalspec_hd_code}} {{$item->ms_finalspec_hd_rev}}</td>
+                            <td>{{$item->serialno}}</td>
+                            <td>{{$item->finalInspection_hd_note}}</td>
+                            {{-- <td>{{$item->checked_by}}</td>
+                            <td>{{$item->approved_by}}</td> --}}
+                            <td>
+                                @if($item->finalInspection_status_id == 4)
+                                <a href="{{route('fl-inst.edit',$item->finalInspection_hd_id)}}" 
+                                    class="btn btn-sm btn-warning" >
+                                    <i class="fas fa-edit"></i>
+                                  </a>                           
+                                @else
+                                <a href="javascript:void(0)" 
+                                class="btn btn-primary btn-sm" 
+                                data-toggle="modal" data-target="#modal"
+                                onclick="getDataInst('{{ $item->finalInspection_hd_id }}')">
+                                <i class="fas fa-eye"></i></a>                          
+                                @endif  
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
-            </div>
-        </div>
-        <div wire:loading wire:target="save" wire:loading.class="overlay" wire:loading.flex>
-            <div class="d-flex justify-content-center align-items-center">
-                <i class="fas fa-2x fa-sync fa-spin"></i>
             </div>
         </div>
     </div>
@@ -82,10 +89,10 @@
                     <div class="card-header p-0 border-bottom-0">
                       <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">รายละเอียด</a>
+                          <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">1.การตรวจสอบในกระบวนการผลิต</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Optional</a>
+                          <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">2.การตรวจสอบขั้นสุดท้าย</a>
                         </li>
   
                       </ul>
@@ -97,15 +104,13 @@
                               <table class="table table-bordered">
                                   <thead>
                                       <tr>
-                                          <th>#</th>
-                                          <th>กำหนดส่ง</th>
-                                          <th>สินค้า</th>
-                                          <th>จำนวน</th>
                                           <th>รายละเอียด</th>
-                                          <th>Spec Page</th>
+                                          <th>ค่าที่ได้</th>
+                                          <th>เช็ค</th>
+                                          <th>หมายเหตุ</th>
                                       </tr>
                                   </thead>
-                                  <tbody id="tb_list"></tbody>
+                                  <tbody id="tb1_list"></tbody>
                               </table>
                               </div>
                         </div>
@@ -114,14 +119,13 @@
                               <table class="table table-bordered">
                                   <thead>
                                       <tr>
-                                          <th>สินค้า</th>
-                                          <th>จำนวน</th>
-                                          <th>รายละเอียด</th>
-                                          <th>รายละเอียดไฟฟ้า</th>
-                                          <th>รายละเอียด Software</th>
+                                        <th>รายละเอียด</th>
+                                        <th>ค่าที่ได้</th>
+                                        <th>เช็ค</th>
+                                        <th>หมายเหตุ</th>
                                       </tr>
                                   </thead>
-                                  <tbody id="opt_list"></tbody>
+                                  <tbody id="tb2_list"></tbody>
                               </table>
                           </div>
                         </div>                    
@@ -154,9 +158,9 @@ $(document).ready(function() {
                 [2, "desc"]
             ],
             fixedHeader: {
-				header:false,
-				footer:false
-			},
+                header:false,
+                footer:false
+            },
         pagingType: "full_numbers",
         bSort: true,
             initComplete: function() {
@@ -181,10 +185,10 @@ $(document).ready(function() {
     }
     
     })
-});
-getData = (id) => {
+});    
+getDataInst = (id) => {
 $.ajax({
-    url: "{{ url('/getData') }}",
+    url: "{{ url('/getData-Inst') }}",
     type: "post",
     dataType: "JSON",
     data: {
@@ -193,36 +197,32 @@ $.ajax({
     },    
     success: function(data) {
         console.log(data);
-        let el_list = ''; 
-        let op_list = ''; 
-        $.each(data.dt, function(key , item) {
-            el_list += `    
+        let el1_list = ''; 
+        let el2_list = ''; 
+        $.each(data.dt1, function(key , item) {
+            el1_list += `    
              <tr>
-                <td>${key+1}</td>
-                <td>${item.productionnotice_dt_duedate}</td>  
-                <td>${item.ms_product_seminame}/${item.ms_product_semicode}</td>  
-                <td>${item.ms_product_semiqty}/${item.ms_product_semiunit}</td>  
-                <td>${item.productionnotice_dt_remark}</td>  
-                <td>${item.ms_specpage_name}</td>                      
+                <td>${item.finalInspection_dt1_remark}</td>  
+                <td>${item.finalInspection_dt1_qty}</td>  
+                <td>${item.finalInspection_dt1_checked}</td>  
+                <td>${item.finalInspection_dt1_description}</td>  
             </tr>
         `
         })      
-        $('#tb_list').html(el_list);
-        $.each(data.op, function(key , item) {
-            op_list += `    
+        $('#tb1_list').html(el1_list);
+        $.each(data.dt2, function(key , item) {
+            el2_list += `    
              <tr>
-                <td>${item.productionnotice_op_name}/${item.productionnotice_op_code}</td>
-                <td>${item.productionnotice_op_qty}/${item.productionnotice_op_unit}</td>  
-                <td>${item.productionnotice_op_remark}</td>  
-                <td>${item.productionnotice_op_elect}</td>  
-                <td>${item.productionnotice_op_software}</td>  
-                   
+                <td>${item.finalInspection_dt2_remark}</td>  
+                <td>${item.finalInspection_dt2_qty}</td>  
+                <td>${item.finalInspection_dt2_checked}</td>  
+                <td>${item.finalInspection_dt2_description}</td>  
             </tr>
         `
         })      
-        $('#opt_list').html(op_list);
+        $('#tb2_list').html(el2_list);
     }
 });
-}
+}          
 </script>
-@endpush
+@endpush             

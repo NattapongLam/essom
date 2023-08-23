@@ -16,8 +16,9 @@
                                 wire:model="code"
                                 name="code" 
                                 id="code">
+                                <option>กรุณาเลือก</option>
                                 @foreach ($employee as $item)
-                                <option value="{{$item->ms_employee_code}}">{{$item->ms_employee_fullname}} ({{$item->ms_employee_code}})</option> 
+                                <option value="{{$item->ms_employee_code}}">{{$item->ms_employee_fullname}} ({{$item->ms_employee_code}}) / {{$item->ms_employee_email}}</option> 
                                 @endforeach                          
                             </select>
                             @error('code')
@@ -87,3 +88,10 @@
         </div>
     </div>
 </div>
+@push('scriptjs')
+<script>
+$(function () {
+    $('.select2').select2()
+})
+</script>
+@endpush 

@@ -49,4 +49,7 @@ Route::post('/getData-Requ' , [App\Http\Controllers\ProductionRequestOrder::clas
 Route::resource('/pd-woho' , App\Http\Controllers\ProductionWorkingHours::class);
 Route::post('/getData-Woho' , [App\Http\Controllers\ProductionWorkingHours::class , 'getDataWoho']);
 Route::post('/getEmployee' , [App\Http\Controllers\ProductionWorkingHours::class , 'getEmployee']);
+Route::post('/cancelDocsMan' , [App\Http\Controllers\ProductionWorkingHours::class , 'cancelDocsMan']);
+Route::resource('/fl-inst' , App\Http\Controllers\FinalInspection::class);
+Route::post('/getData-Inst' , [App\Http\Controllers\FinalInspection::class , 'getDataInst']);
 

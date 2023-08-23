@@ -63,7 +63,9 @@ class ProductionWorkingHours extends Controller
         $ser = EmployeeList::where('ms_department_id',8)->get();
         $del = EmployeeList::where('ms_department_id',11)->get();
         $sto = EmployeeList::where('ms_department_id',12)->get();
-        return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc','lar','sm1','sm2','ele','mac','pai','ser','del','sto'));
+        $des = EmployeeList::where('ms_department_id',14)->get();
+        $eng = EmployeeList::where('ms_department_id',15)->get();
+        return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc','lar','sm1','sm2','ele','mac','pai','ser','del','sto','des','eng'));
     }
 
     /**
@@ -145,7 +147,16 @@ class ProductionWorkingHours extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = ProductionWorkingHoursHd::where('workinghours_hd_id',$id)
+        ->leftjoin('ms_department','workinghours_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->first();
+        $dt = ProductionWorkingHoursDt::where('workinghours_hd_id', $id)
+        ->where('workinghours_dt_flag',true)
+        ->get();  
+        $dep = DepartmentList::get();
+        $typ = WorkingHoursType::get();
+        $jobdoc = DB::table('vw_workinghours_job')->get();
+        return view('productions.form-edit-productionworkinghours', compact('hd','dt','dep','typ','jobdoc'));
     }
 
     /**
@@ -157,7 +168,32 @@ class ProductionWorkingHours extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $hd = ProductionWorkingHoursHd::where('workinghours_hd_id',$id)->first();
+        if($hd){
+            try{
+                DB::beginTransaction();
+                $uphd = ProductionWorkingHoursHd::where('workinghours_hd_id',$id)->update([
+                    'ms_department_id' => $request->ms_department_id,
+                    'workinghours_hd_remark' => $request->workinghours_hd_remark,
+                    'other_hours' => $request->other_hours,
+                    'updated_at' => Carbon::now(),
+                    'created_person' => Auth::user()->name,
+                ]);
+                foreach($request->dt_id as $key => $value){
+                    $updt = ProductionWorkingHoursDt::where('workinghours_dt_id',$value)->update([
+                        'updated_at' => Carbon::now(),
+                        'created_person' => Auth::user()->name,
+                        'workinghours_dt_hours' => $request->dt_qty[$key]
+                    ]);
+                }
+                DB::commit();
+                return redirect()->route('pd-woho.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('pd-woho.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }
     }
 
     /**
@@ -188,5 +224,22 @@ class ProductionWorkingHours extends Controller
         return response()->json([
             'emp' => $emp,
         ]);
+    }
+    public function cancelDocsMan(Request $request)
+    {
+        $hd = ProductionWorkingHoursHd::where('workinghours_hd_id',$request->refid)->update([
+            'workinghours_status_id' => 2,
+            'updated_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+        ]);
+        $dt = ProductionWorkingHoursDt::where('workinghours_hd_id',$request->refid)->update([
+            'workinghours_status_id' => 2,
+            'updated_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+        ]);     
     }
 }

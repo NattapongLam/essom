@@ -163,7 +163,13 @@
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" id="custom-tabs-four-Store-tab" data-toggle="pill" href="#custom-tabs-four-Store" role="tab" aria-controls="custom-tabs-four-Store" aria-selected="false">พัสดุ</a>
-                          </li>  
+                          </li> 
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-four-Design-tab" data-toggle="pill" href="#custom-tabs-four-Design" role="tab" aria-controls="custom-tabs-four-Design" aria-selected="false">ออกแบบ</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-four-ENG-tab" data-toggle="pill" href="#custom-tabs-four-ENG" role="tab" aria-controls="custom-tabs-four-ENG" aria-selected="false">วิศวกรโรงงาน</a>
+                          </li> 
                         </ul>
                       </div>
                       <div class="card-body">
@@ -356,6 +362,50 @@
                                     </thead>
                                     <tbody>    
                                         @foreach ($sto as $item)
+                                        <tr>
+                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
+                                            <td class="text-center">{{$item->ms_employee_code}}</td>
+                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
+                                        </tr>
+                                        @endforeach                                  
+                                    </tbody>
+                                </table>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-four-Design" role="tabpanel" aria-labelledby="custom-tabs-four-Design-tab">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">รหัสพนักงาน</th>
+                                            <th class="text-center">ชื่อ-นามสกุล</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>    
+                                        @foreach ($des as $item)
+                                        <tr>
+                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
+                                            <td class="text-center">{{$item->ms_employee_code}}</td>
+                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
+                                        </tr>
+                                        @endforeach                                  
+                                    </tbody>
+                                </table>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-four-ENG" role="tabpanel" aria-labelledby="custom-tabs-four-ENG-tab">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">รหัสพนักงาน</th>
+                                            <th class="text-center">ชื่อ-นามสกุล</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>    
+                                        @foreach ($eng as $item)
                                         <tr>
                                             <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
                                             <td class="text-center">{{$item->ms_employee_code}}</td>
