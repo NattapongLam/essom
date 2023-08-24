@@ -166,14 +166,36 @@ $.ajax({
     success: function(data) {
         console.log(data);
         let el_list = ''; 
+        let del_list = ''; 
+        let rec_list = ''; 
         $.each(data.dt, function(key , item) {
+            if(item.deliveryorder_dt_model == null){
+                item.deliveryorder_dt_model = ''
+            }else{
+                item.deliveryorder_dt_model = item.deliveryorder_dt_model
+            }
+            if(item.deliveryorder_dt_remark == null){
+                item.deliveryorder_dt_remark = ''
+            }else{
+                item.deliveryorder_dt_remark = item.deliveryorder_dt_remark
+            }
+            if(item.del_checked == 1){
+                del_list =  '<input type="checkbox" id="checkboxPrimary1" checked readonly>'
+            }else{
+                del_list =  '<input type="checkbox" id="checkboxPrimary1" readonly>'
+            }
+            if(item.rec_checked == 1){
+                rec_list =  '<input type="checkbox" id="checkboxPrimary1" checked readonly>'
+            }else{
+                rec_list =  '<input type="checkbox" id="checkboxPrimary1" readonly>'
+            }
             el_list += `    
              <tr>
                 <td>${item.deliveryorder_dt_model}</td>  
                 <td>${item.deliveryorder_dt_desp}</td>  
                 <td>${parseFloat(item.deliveryorder_dt_qty).toFixed(2)}</td>  
-                <td>${item.del_checked}</td>  
-                <td>${item.rec_checked}</td>       
+                <td>${del_list}</td>  
+                <td>${rec_list}</td>       
                 <td>${item.deliveryorder_dt_remark}</td>    
             </tr>
         `

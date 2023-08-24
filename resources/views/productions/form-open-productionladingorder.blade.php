@@ -164,6 +164,11 @@ $.ajax({
         console.log(data);
         let el_list = ''; 
         $.each(data.dt, function(key , item) {
+            if(item.ms_warehouse_name == null){
+                item.ms_warehouse_name = ''
+            }else{
+                item.ms_warehouse_name = item.ms_warehouse_name
+            }
             el_list += `    
              <tr>
                 <td>${item.ladingorder_dt_listno}</td>  

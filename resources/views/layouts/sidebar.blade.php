@@ -79,14 +79,14 @@
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-close.index')}}" class="nav-link {{\Request::routeIs('pd-close.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบปิดงาน</p>
             </a>           
         </li>                
         <li class="nav-header">รายงาน</li>       
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-calendar.index')}}" class="nav-link {{\Request::routeIs('pd-calendar.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>แผนการผลิต</p>
             </a>           

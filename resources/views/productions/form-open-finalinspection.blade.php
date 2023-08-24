@@ -19,8 +19,7 @@
                         <th>Rev.</th>
                         <th>Serial No</th>
                         <th>หมายเหตุ</th>
-                        {{-- <th>ผู้ตรวจสอบ</th>
-                        <th>ผู้อนุมัติ</th> --}}
+                        <th>ผู้อนุมัติ</th>
                         <th></th>
                     </tr>
                     <tr>
@@ -33,8 +32,7 @@
                         <th>Rev.</th>
                         <th>Serial No.</th>
                         <th>หมายเหตุ</th>
-                        {{-- <th>ผู้ตรวจสอบ</th>
-                        <th>ผู้อนุมัติ</th> --}}
+                        <th>ผู้อนุมัติ</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -50,8 +48,7 @@
                             <td>{{$item->ms_finalspec_hd_code}} {{$item->ms_finalspec_hd_rev}}</td>
                             <td>{{$item->serialno}}</td>
                             <td>{{$item->finalInspection_hd_note}}</td>
-                            {{-- <td>{{$item->checked_by}}</td>
-                            <td>{{$item->approved_by}}</td> --}}
+                            <td>{{$item->approved_by}}</td>
                             <td>
                                 @if($item->finalInspection_status_id == 4)
                                 <a href="{{route('fl-inst.edit',$item->finalInspection_hd_id)}}" 
@@ -93,8 +90,7 @@
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">2.การตรวจสอบขั้นสุดท้าย</a>
-                        </li>
-  
+                        </li>  
                       </ul>
                     </div>
                     <div class="card-body">
@@ -200,6 +196,16 @@ $.ajax({
         let el1_list = ''; 
         let el2_list = ''; 
         $.each(data.dt1, function(key , item) {
+            if(item.finalInspection_dt1_qty == null){
+                item.finalInspection_dt1_qty = ''
+            }else{
+                item.finalInspection_dt1_qty = item.finalInspection_dt1_qty
+            }
+            if(item.finalInspection_dt1_description == null){
+                item.finalInspection_dt1_description = ''
+            }else{
+                item.finalInspection_dt1_description = item.finalInspection_dt1_description
+            }
             el1_list += `    
              <tr>
                 <td>${item.finalInspection_dt1_remark}</td>  
@@ -211,6 +217,16 @@ $.ajax({
         })      
         $('#tb1_list').html(el1_list);
         $.each(data.dt2, function(key , item) {
+            if(item.finalInspection_dt2_qty == null){
+                item.finalInspection_dt2_qty = ''
+            }else{
+                item.finalInspection_dt2_qty = item.finalInspection_dt2_qty
+            }
+            if(item.finalInspection_dt2_description == null){
+                item.finalInspection_dt2_description = ''
+            }else{
+                item.finalInspection_dt2_description = item.finalInspection_dt2_description
+            }
             el2_list += `    
              <tr>
                 <td>${item.finalInspection_dt2_remark}</td>  

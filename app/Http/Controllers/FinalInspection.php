@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\FinalInspectionHd;
+use App\Models\FinalInspectionDt1;
+use App\Models\FinalInspectionDt2;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\FinalInspectionStatus;
 
 class FinalInspection extends Controller
 {
@@ -67,7 +72,18 @@ class FinalInspection extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = FinalInspectionHd::where('finalInspection_hd_id',$id)       
+        ->leftjoin('ms_finalspec_hd','finalInspection_hd.ms_finalspec_hd_id','=','ms_finalspec_hd.ms_finalspec_hd_id')
+        ->select('finalInspection_hd.*','ms_finalspec_hd.ms_finalspec_hd_code')
+        ->first();
+        $dt1 = FinalInspectionDt1::where('finalInspection_hd_id', $id)
+        ->where('finalInspection_dt1_flag',true)
+        ->get();  
+        $dt2 = FinalInspectionDt2::where('finalInspection_hd_id', $id)
+        ->where('finalInspection_dt2_flag',true)
+        ->get(); 
+        $sta = FinalInspectionStatus::whereIn('finalInspection_status_id',[2,3])->get();
+        return view('productions.form-edit-finalinspection', compact('hd','dt1','dt2','sta'));
     }
 
     /**
@@ -79,7 +95,24 @@ class FinalInspection extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $hd = FinalInspectionHd::where('finalInspection_hd_id',$id)->first();
+        if($hd){
+            try{
+                DB::beginTransaction();
+                $up = FinalInspectionHd::where('finalInspection_hd_id',$id)->update([
+                    'finalInspection_status_id' => $request->finalInspection_status_id,
+                    'approved_date' => Carbon::now(),
+                    'approved_by' => Auth::user()->name,
+                    'approved_note' => $request->note
+                ]);
+                DB::commit();
+                return redirect()->route('fl-inst.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('fl-inst.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }
     }
 
     /**

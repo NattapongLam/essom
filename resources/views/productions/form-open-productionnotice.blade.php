@@ -209,6 +209,21 @@ $.ajax({
         })      
         $('#tb_list').html(el_list);
         $.each(data.op, function(key , item) {
+            if(item.productionnotice_op_remark == null){
+                item.productionnotice_op_remark = ''
+            }else{
+                item.productionnotice_op_remark = item.productionnotice_op_remark
+            }
+            if(item.productionnotice_op_elect == null){
+                item.productionnotice_op_elect = ''
+            }else{
+                item.productionnotice_op_elect = item.productionnotice_op_elect
+            }
+            if(item.productionnotice_op_software == null){
+                item.productionnotice_op_software = ''
+            }else{
+                item.productionnotice_op_software = item.productionnotice_op_software
+            }
             op_list += `    
              <tr>
                 <td>${item.productionnotice_op_name}/${item.productionnotice_op_code}</td>

@@ -5,7 +5,7 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารเปิดงาน</h3><br><hr>
+            <h3 class="card-title" style="font-weight: bold">เอกสารปิดงาน</h3><br><hr>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tb_job">
                     <thead>
@@ -20,6 +20,7 @@
                             <th>Spec Page</th>
                             <th>รายละเอียด</th>
                             <th>ประมาณการต้นทุน</th>
+                            <th>จำนวนที่เงินที่ใช้</th>
                             <th></th>
                         </tr>
                         <tr>
@@ -33,6 +34,7 @@
                             <th>Spec Page</th>
                             <th>รายละเอียด</th>
                             <th>ประมาณการต้นทุน</th>
+                            <th>จำนวนที่เงินที่ใช้</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -52,6 +54,7 @@
                                 <td>{{$item->ms_specpage_name}}</td>
                                 <td>{{$item->productionnotice_dt_remark}}</td>
                                 <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>
+                                <td>{{number_format($item->productionopenjob_actualcost,2)}}</td>
                                 <td>
                                     @if($item->productionopenjob_status_id == 1 || $item->productionopenjob_status_id == 3)
                                     <a href="{{route('pd-open.edit',$item->productionopenjob_hd_id)}}" 
@@ -62,7 +65,7 @@
                                     <a href="javascript:void(0)" 
                                     class="btn btn-primary btn-sm" 
                                     data-toggle="modal" data-target="#modal"
-                                    onclick="getDataOpen('{{ $item->productionopenjob_hd_id }}')">
+                                    onclick="getDataClose('{{ $item->productionopenjob_hd_id }}')">
                                     <i class="fas fa-eye"></i></a>
                                     @endif                                   
                                 </td>
@@ -90,16 +93,14 @@
                     <table class="table mb-0">
                         <thead>
                         <tr>
-                            <th>สถานะ</th>
-                            <th>แผนก</th>
-                            <th>ลำดับ</th>
-                            <th>วันที่ต้องการ</th>                                  
+                            <th>ลำดับ</th>                              
                             <th>รหัสสินค้า</th>    
                             <th>ชื่อสินค้า</th>  
                             <th>หน่วยนับ</th>     
-                            <th>จำนวน</th>      
-                            <th>รายละเอียด</th>       
-                            <th>ประมาณการต้นทุน</th>                                    
+                            <th>จำนวน</th>          
+                            <th>ประมาณการต้นทุน</th>     
+                            <th>จำนวนที่เงินที่ใช้</th>  
+                            <th>เวลาที่ใช้</th>                               
                         </tr>
                         </thead>
                         <tbody id="tb_list">
@@ -161,9 +162,9 @@ $(document).ready(function() {
     
     })
 });
-getDataOpen = (id) => {
+getDataClose = (id) => {
 $.ajax({
-    url: "{{ url('/getData-Open') }}",
+    url: "{{ url('/getData-Close') }}",
     type: "post",
     dataType: "JSON",
     data: {
@@ -180,17 +181,15 @@ $.ajax({
                 item.productionopenjob_dt_remark = item.productionopenjob_dt_remark
             }
             el_list += `    
-             <tr>
-                <td>${item.productionopenjob_status_name}</td>  
-                <td>${item.ms_department_name}</td>  
+             <tr> 
                 <td>${key+1}</td> 
-                <td>${item.productionopenjob_dt_duedate}</td>  
                 <td>${item.ms_product_code}</td>  
                 <td>${item.ms_product_name}</td>  
                 <td>${item.ms_product_unit}</td>  
-                <td>${item.ms_product_qty}</td>  
-                <td>${item.productionopenjob_dt_remark}</td>           
-                <td>${item.estimatecost}</td>            
+                <td>${parseFloat(item.assembleqty).toFixed(2)}</td>         
+                <td>${parseFloat(item.estimatecost).toFixed(2)}</td>        
+                <td>${parseFloat(item.actualcost).toFixed(2)}</td>    
+                <td>${parseFloat(item.timespent).toFixed(2)}</td> 
             </tr>
         `
         })      
