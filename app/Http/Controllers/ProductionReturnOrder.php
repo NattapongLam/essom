@@ -59,7 +59,15 @@ class ProductionReturnOrder extends Controller
      */
     public function show($id)
     {
-        //
+        $ck = ProductionReturnOrderHd::where('returnorder_hd_docuno',$id)->first();
+        if($ck){
+            $hd = ProductionReturnOrderHd::where('returnorder_hd_id', $ck->returnorder_hd_id)->first();
+            $dt = ProductionReturnOrderDt::where('returnorder_hd_id', $ck->returnorder_hd_id)
+            ->where('returnorder_dt_flag',true)
+            ->get();  
+            $sta = ProductionReturnOrderStatus::whereIn('returnorder_status_id',[2,3])->get();
+            return view('productions.form-edit-productionreturnorder', compact('hd','dt','sta'));
+        }      
     }
 
     /**
@@ -90,13 +98,13 @@ class ProductionReturnOrder extends Controller
         $hd = ProductionReturnOrderHd::where('returnorder_hd_id',$id)->first();
         if($hd){
             try{
+                DB::beginTransaction();
                 $up = ProductionReturnOrderHd::where('returnorder_hd_id',$id)->update([
                     'returnorder_status_id' => $request->returnorder_status_id,
                     'approved_date' => Carbon::now(),
                     'approved_by' => Auth::user()->name,
                     'approved_note' => $request->note
-                ]);
-                DB::beginTransaction();
+                ]);               
                 $dt = ProductionReturnOrderDt::where('returnorder_hd_id',$id)->get();
                 foreach($dt as $key => $value){
                     $updt = ProductionRequestOrderDt::where('requestorder_dt_id',$value->requestorder_dt_id)->update([

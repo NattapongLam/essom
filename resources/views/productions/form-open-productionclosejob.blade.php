@@ -1,7 +1,11 @@
 @extends('layouts.main')
 @section('content')
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+<!-- Toastr -->
+<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css')}}">
 <div class="mt-4"><br>
-<div class="row">
+<div class="row">  
     <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -56,8 +60,8 @@
                                 <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>
                                 <td>{{number_format($item->productionopenjob_actualcost,2)}}</td>
                                 <td>
-                                    @if($item->productionopenjob_status_id == 1 || $item->productionopenjob_status_id == 3)
-                                    <a href="{{route('pd-open.edit',$item->productionopenjob_hd_id)}}" 
+                                    @if($item->productionopenjob_status_id == 12 || $item->productionopenjob_status_id == 13)
+                                    <a href="{{route('pd-close.edit',$item->productionopenjob_hd_id)}}" 
                                         class="btn btn-sm btn-warning" >
                                         <i class="fas fa-edit"></i>
                                       </a>
@@ -66,7 +70,7 @@
                                     class="btn btn-primary btn-sm" 
                                     data-toggle="modal" data-target="#modal"
                                     onclick="getDataClose('{{ $item->productionopenjob_hd_id }}')">
-                                    <i class="fas fa-eye"></i></a>
+                                    <i class="fas fa-eye"></i></a>                                
                                     @endif                                   
                                 </td>
                             </tr>
@@ -114,6 +118,10 @@
 </div>
 @endsection
 @push('scriptjs')
+<!-- SweetAlert2 -->
+<script src="{{asset('/assets/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+<!-- Toastr -->
+<script src="{{asset('/assets/plugins/toastr/toastr.min.js')}}"></script>
 <script>
 $(document).ready(function() {
  $('#tb_job').DataTable({

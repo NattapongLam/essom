@@ -61,7 +61,17 @@ class ProductionRequestOrder extends Controller
      */
     public function show($id)
     {
-        //
+        $ck = ProductionRequestOrderHd::where('requestorder_hd_docuno',$id)->first();
+        if($ck){
+            $hd = ProductionRequestOrderHd::where('requestorder_hd_id',$ck->requestorder_hd_id)
+            ->leftjoin('ms_department','requestorder_hd.ms_department_id','=','ms_department.ms_department_id')
+            ->first();
+            $dt = ProductionRequestOrderDt::where('requestorder_hd_id', $ck->requestorder_hd_id)
+            ->where('requestorder_dt_flag',true)
+            ->get();  
+            $sta = ProductionRequestOrderStatus::whereIn('requestorder_status_id',[2,3])->get();
+            return view('productions.form-edit-productionrequestorder', compact('hd','dt','sta'));
+        }       
     }
 
     /**
@@ -94,13 +104,13 @@ class ProductionRequestOrder extends Controller
         $hd = ProductionRequestOrderHd::where('requestorder_hd_id',$id)->first();
         if($hd){
             try{
+                DB::beginTransaction();
                 $up = ProductionRequestOrderHd::where('requestorder_hd_id',$id)->update([
                     'requestorder_status_id' => $request->requestorder_status_id,
                     'approved_date' => Carbon::now(),
                     'approved_by' => Auth::user()->name,
                     'approved_note' => $request->note
-                ]);
-                DB::beginTransaction();
+                ]);              
                 $dt = ProductionRequestOrderDt::where('requestorder_hd_id',$id)->get();
                 foreach($dt as $key => $value){
                     $updt = ProductionRequestOrderDt::where('requestorder_dt_id',$value->requestorder_dt_id)->update([

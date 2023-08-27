@@ -28,6 +28,9 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-retu.index')}}">ใบรับคืนจากการเบิก</a>/เอกสารรับคืนจากการเบิก</h3>
                     </div>
                 </div>
+                @if ($hd->returnorder_status_id == 3)
+                    
+                @else
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <select class="form-control" name="returnorder_status_id" id="returnorder_status_id">
@@ -49,7 +52,8 @@
                             บันทึก
                          </button>
                     </div>
-                </div>
+                </div> 
+                @endif                
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">

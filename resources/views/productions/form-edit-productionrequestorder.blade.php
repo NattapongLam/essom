@@ -28,7 +28,10 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-requ.index')}}">ใบขอซื้อ</a>/เอกสารขอซื้อ</h3>
                     </div>
                 </div>
-                 <div class="col-12 col-md-2">
+                @if ($hd->requestorder_status_id == 3)
+                    
+                @else
+                <div class="col-12 col-md-2">
                     <div class="form-group">
                         <select class="form-control" name="requestorder_status_id" id="requestorder_status_id">
                             <option value="0">กรุณาเลือกสถานะ</option>
@@ -50,6 +53,7 @@
                          </button>
                     </div>
                 </div>
+                @endif               
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\ProductionNoticeOp;
 use Illuminate\Support\Facades\DB;
+use App\Models\ProductionOpenjobDt;
+use App\Models\ProductionOpenjobHd;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ProductionOpenjobStatus;
 
 class ProductionClose extends Controller
 {
@@ -66,7 +71,33 @@ class ProductionClose extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->first();
+        $dt = ProductionOpenjobDt::leftjoin('productionopenjob_status','productionopenjob_dt.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+        ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
+        ->where('productionopenjob_dt.productionopenjob_hd_id', $id)
+        ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
+        ->get();  
+        if ($hd->productionopenjob_status_id == 12) {
+            $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[13])->get();
+        } else {
+            $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[14])->get();
+        }  
+        $op = ProductionNoticeOp::leftjoin('productionnotice_hd','productionnotice_op.productionnotice_hd_id','=','productionnotice_hd.productionnotice_hd_id')
+        ->where('productionnotice_hd.productionnotice_hd_docuno',$hd->productionnotice_hd_docuno)
+        ->where('productionnotice_op.productionnotice_op_flag',true)
+        ->where('productionnotice_op.productionnotice_op_main',$hd->ms_product_code)
+        ->get();
+        $total = ProductionOpenjobDt::where('productionopenjob_hd_id', $id)
+        ->where('productionopenjob_dt_flag',true)
+        ->sum('estimatecost');
+        $total1 = ProductionOpenjobDt::where('productionopenjob_hd_id', $id)
+        ->where('productionopenjob_dt_flag',true)
+        ->sum('actualcost');
+        $total2 = ProductionOpenjobDt::where('productionopenjob_hd_id', $id)
+        ->where('productionopenjob_dt_flag',true)
+        ->sum('timespent');
+        $docuno = DB::table('vw_productionopenjob_docuall')->where('productionopenjob_hd_docuno',$hd->productionopenjob_hd_docuno)->get();
+        return view('productions.form-edit-productionclosejob', compact('hd','dt','sta','op','total','total1','total2','docuno'));
     }
 
     /**
@@ -78,7 +109,54 @@ class ProductionClose extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $hd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->first();
+        if($hd->productionopenjob_status_id == 13){
+            try{
+                DB::beginTransaction();
+                $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
+                    'productionopenjob_status_id' => $request->productionopenjob_status_id,
+                    'close_checkedperson' => Auth::user()->name,
+                    'close_checkedpersondate' => Carbon::now(),
+                    'close_checkedpersonnote' => $request->note
+                ]);
+                $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
+                foreach ($dt as $key => $value) {
+                    $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
+                        'productionopenjob_status_id' => $request->productionopenjob_status_id
+                    ]);
+                }
+                DB::commit();
+                return redirect()->route('pd-close.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('pd-close.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }
+        else
+        {
+            try{
+                DB::beginTransaction();
+                $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
+                    'productionopenjob_status_id' => $request->productionopenjob_status_id,
+                    'close_approvedperson' => Auth::user()->name,
+                    'close_approvedpersondate' => Carbon::now(),
+                    'close_approvedpersonnote' => $request->note
+                ]);
+                $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
+                foreach ($dt as $key => $value) {
+                    $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
+                        'productionopenjob_status_id' => $request->productionopenjob_status_id
+                    ]);
+                }
+                DB::commit();
+                return redirect()->route('pd-close.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('pd-close.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }
     }
 
     /**

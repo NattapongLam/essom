@@ -56,4 +56,10 @@ Route::resource('/pd-close' , App\Http\Controllers\ProductionClose::class);
 Route::post('/getData-Close' , [App\Http\Controllers\ProductionClose::class , 'getDataClose']);
 Route::resource('/pd-calendar' , App\Http\Controllers\ProductionCalendar::class);
 Route::post('/pd-calendar/getDataProductioncalendar' , [App\Http\Controllers\ProductionCalendar::class , 'getDataProductioncalendar']);
+Route::resource('/pd-follow' , App\Http\Controllers\ProductionFollow::class);
+Route::resource('/wh-stock' , App\Http\Controllers\WareHouseStock::class);
+Route::resource('/mn-report' , App\Http\Controllers\ManhourReport::class);
+Route::post('/getData-ManHour' , [App\Http\Controllers\ManhourReport::class , 'getDataManHour']);
+Route::resource('/cm-report' , App\Http\Controllers\CostMaterialReport::class);
+Route::post('/getData-Cost' , [App\Http\Controllers\CostMaterialReport::class , 'getDataCost']);
 

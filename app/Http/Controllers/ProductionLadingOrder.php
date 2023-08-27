@@ -61,7 +61,17 @@ class ProductionLadingOrder extends Controller
      */
     public function show($id)
     {
-        //
+        $ck = ProductionLadingOrderHd::where('ladingorder_hd_docuno',$id)->first();
+        if($ck){
+            $hd = ProductionLadingOrderHd::where('ladingorder_hd_id',$ck->ladingorder_hd_id)
+            ->leftjoin('ms_department','ladingorder_hd.ms_department_id','=','ms_department.ms_department_id')
+            ->first();
+            $dt = ProductionLadingOrderDt::where('ladingorder_hd_id',$ck->ladingorder_hd_id)
+            ->where('ladingorder_dt_flag',true)
+            ->get();  
+            $sta = ProductionLadingOrderStatus::whereIn('ladingorder_status_id',[2,3])->get();
+            return view('productions.form-edit-productionladingorder', compact('hd','dt','sta'));
+        }       
     }
 
     /**

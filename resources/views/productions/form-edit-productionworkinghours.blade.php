@@ -28,6 +28,9 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-woho.index')}}">เอกสารบันทึกชั่วโมงการทำงาน</h3></a>
                     </div>
                 </div>
+                @if ($hd->workinghours_status_id == 3)
+                    
+                @else
                 <div class="col-12 col-md-3">
                     <div class="form-group row">
                         <label for="workinghours_hd_date" class="col-sm-2 col-form-label">วันที่</label>
@@ -51,6 +54,7 @@
                          </button>
                     </div>
                 </div>
+                @endif              
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">

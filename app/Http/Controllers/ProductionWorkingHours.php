@@ -136,7 +136,17 @@ class ProductionWorkingHours extends Controller
      */
     public function show($id)
     {
-        //
+        $ck = ProductionWorkingHoursHd::where('workinghours_hd_docuno',$id)->first();
+        $hd = ProductionWorkingHoursHd::where('workinghours_hd_id',$ck->workinghours_hd_id)
+        ->leftjoin('ms_department','workinghours_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->first();
+        $dt = ProductionWorkingHoursDt::where('workinghours_hd_id', $ck->workinghours_hd_id)
+        ->where('workinghours_dt_flag',true)
+        ->get();  
+        $dep = DepartmentList::get();
+        $typ = WorkingHoursType::get();
+        $jobdoc = DB::table('vw_workinghours_job')->get();
+        return view('productions.form-edit-productionworkinghours', compact('hd','dt','dep','typ','jobdoc'));
     }
 
     /**

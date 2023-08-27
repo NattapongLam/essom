@@ -92,25 +92,25 @@
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('pd-follow.index')}}" class="nav-link {{\Request::routeIs('pd-follow.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>ติดตามงาน</p>
             </a>           
         </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
+        {{-- <li class="nav-item">
+            <a href="{{route('wh-stock.index')}}" class="nav-link {{\Request::routeIs('wh-stock.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>สต็อคคงเหลือ</p>
             </a>           
-        </li>
+        </li> --}}
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('mn-report.index')}}" class="nav-link {{\Request::routeIs('mn-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>Man Hour Report</p>
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('cm-report.index')}}" class="nav-link {{\Request::routeIs('cm-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>Cost of Material</p>
             </a>           

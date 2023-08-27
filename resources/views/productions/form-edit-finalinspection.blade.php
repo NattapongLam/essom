@@ -28,6 +28,9 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('fl-inst.index')}}">เอกสารตรวจสอบขั้นตอนสุดท้าย</a></h3>
                     </div>
                 </div>
+                @if($hd->finalInspection_status_id == 3)
+                    
+                @else
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <select class="form-control" name="finalInspection_status_id" id="finalInspection_status_id">
@@ -50,6 +53,7 @@
                          </button>
                     </div>
                 </div>
+                @endif              
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">

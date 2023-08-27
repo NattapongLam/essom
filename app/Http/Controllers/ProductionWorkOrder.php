@@ -60,7 +60,29 @@ class ProductionWorkOrder extends Controller
      */
     public function show($id)
     {
-        //
+        $cks = ProductionWorkOrderHd::where('workorder_hd_docuno',$id)->first();
+        if($cks){
+            $hd = ProductionWorkOrderHd::where('workorder_hd_id',$cks->workorder_hd_id)
+            ->leftjoin('ms_department','workorder_hd.ms_department_id','=','ms_department.ms_department_id')
+            ->first();
+            $dt = ProductionWorkOrderDt::where('workorder_hd_id', $cks->workorder_hd_id)
+            ->where('workorder_dt_flag',true)
+            ->get();  
+            if ($hd->workorder_status_id == 1) {
+                $sta = ProductionWorkOrderStatus::whereIn('workorder_status_id',[2,3])->get();
+            } else if ($hd->workorder_status_id == 3){
+                $sta = ProductionWorkOrderStatus::whereIn('workorder_status_id',[2,4])->get();
+            }
+            else{
+                $sta = ProductionWorkOrderStatus::whereIn('workorder_status_id',[7])->get();
+            }
+            $total = ProductionWorkOrderDt::where('workorder_hd_id',$cks->workorder_hd_id)       
+            ->where('workorder_dt_flag',true)
+            ->sum('workorder_dt_total');
+            $ck = ProductionWorkOrderCheck::where('workorder_hd_id', $cks->workorder_hd_id)    
+            ->first();
+            return view('productions.form-edit-productionworkorder', compact('hd','dt','sta','total','ck'));
+        }       
     }
 
     /**

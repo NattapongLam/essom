@@ -61,7 +61,21 @@ class FinalInspection extends Controller
      */
     public function show($id)
     {
-        //
+        $ck = FinalInspectionHd::where('finalInspection_hd_docuno',$id)->first();
+        if($ck){
+            $hd = FinalInspectionHd::where('finalInspection_hd_id',$ck->finalInspection_hd_id)       
+            ->leftjoin('ms_finalspec_hd','finalInspection_hd.ms_finalspec_hd_id','=','ms_finalspec_hd.ms_finalspec_hd_id')
+            ->select('finalInspection_hd.*','ms_finalspec_hd.ms_finalspec_hd_code')
+            ->first();
+            $dt1 = FinalInspectionDt1::where('finalInspection_hd_id',$ck->finalInspection_hd_id)
+            ->where('finalInspection_dt1_flag',true)
+            ->get();  
+            $dt2 = FinalInspectionDt2::where('finalInspection_hd_id',$ck->finalInspection_hd_id)
+            ->where('finalInspection_dt2_flag',true)
+            ->get(); 
+            $sta = FinalInspectionStatus::whereIn('finalInspection_status_id',[2,3])->get();
+            return view('productions.form-edit-finalinspection', compact('hd','dt1','dt2','sta'));
+        }      
     }
 
     /**

@@ -28,7 +28,10 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-ladi.index')}}">ใบเบิกวัสดุอุปกรณ์</a>/เอกสารเบิกวัสดุอุปกรณ์</h3>
                     </div>
                 </div>
-                {{-- <div class="col-12 col-md-2">
+                @if ($hd->ladingorder_status_id == 3 || $hd->ladingorder_status_id == 4)
+                    
+                @else
+                    {{-- <div class="col-12 col-md-2">
                     <div class="form-group">
                         <select class="form-control" name="ladingorder_status_id" id="ladingorder_status_id">
                             <option value="0">กรุณาเลือกสถานะ</option>
@@ -50,6 +53,7 @@
                          </button>
                     </div>
                 </div>
+                @endif               
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">

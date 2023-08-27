@@ -28,6 +28,9 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-work.index')}}">เอกสารสั่งงาน</a>/ใบสั่งงาน</h3>
                     </div>
                 </div>
+                @if ($hd->workorder_status_id == 7)
+                    
+                @else
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <select class="form-control" name="workorder_status_id" id="workorder_status_id">
@@ -49,7 +52,8 @@
                             บันทึก
                          </button>
                     </div>
-                </div>          
+                </div> 
+                @endif                        
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">
