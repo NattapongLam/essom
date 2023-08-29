@@ -117,13 +117,13 @@
         </li>
         <li class="nav-header">ระบบคุณภาพ</li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('ncr-report.index')}}" class="nav-link {{\Request::routeIs('ncr-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-bullhorn"></i>
                 <p>เอกสาร NCR</p>
             </a>           
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('car-report.index')}}" class="nav-link {{\Request::routeIs('car-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-bullhorn"></i>
                 <p>เอกสาร CAR</p>
             </a>           

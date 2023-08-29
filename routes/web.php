@@ -62,4 +62,6 @@ Route::resource('/mn-report' , App\Http\Controllers\ManhourReport::class);
 Route::post('/getData-ManHour' , [App\Http\Controllers\ManhourReport::class , 'getDataManHour']);
 Route::resource('/cm-report' , App\Http\Controllers\CostMaterialReport::class);
 Route::post('/getData-Cost' , [App\Http\Controllers\CostMaterialReport::class , 'getDataCost']);
+Route::resource('/ncr-report' , App\Http\Controllers\NcrReport::class);
+Route::resource('/car-report' , App\Http\Controllers\CarReport::class);
 

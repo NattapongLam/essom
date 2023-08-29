@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductionComment;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductionOpenjobHd;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class ProductionFollow extends Controller
 {
@@ -44,7 +47,29 @@ class ProductionFollow extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'comment' => ['required'],
+            'productionopenjob_hd_docuno' => ['required'],
+        ]);
+        $data =[
+            'comment' => $request->comment,
+            'productionopenjob_hd_docuno' => $request->productionopenjob_hd_docuno,
+            'created_at' => Carbon::now(),
+            'created_save' => Auth::user()->name,
+        ];
+        if($request->hasFile('filename')){
+            $data['filename'] = $request->file('filename')->storeAs('img/comments', "IMG_" . Carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('filename')->extension());
+        }
+        try {
+            DB::beginTransaction();
+            ProductionComment::create($data);
+            DB::commit();
+            return redirect()->route('pd-follow.show',$request->productionopenjob_hd_docuno)->with('success', 'บันทึกข้อมูลสำเร็จ');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return redirect()->route('pd-follow.show',$request->productionopenjob_hd_docuno)->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
     }
 
     /**
@@ -57,7 +82,8 @@ class ProductionFollow extends Controller
     {
         $job = ProductionOpenjobHd::where('productionopenjob_hd_docuno',$id)->first();
         $doc = DB::table('vw_productionopenjob_docuall')->where('productionopenjob_hd_docuno',$job->productionopenjob_hd_docuno)->get();
-        return view('productions.form-view-productionfollow',compact('job','doc'));
+        $comm = ProductionComment::where('productionopenjob_hd_docuno',$id)->get();
+        return view('productions.form-view-productionfollow',compact('job','doc','comm'));
     }
 
     /**

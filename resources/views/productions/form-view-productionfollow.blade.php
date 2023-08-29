@@ -5,8 +5,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Projects Detail</h3>
-    
+              <h3 class="card-title">Projects Detail</h3>    
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -120,9 +119,19 @@
     
                   <h5 class="mt-5 text-muted">Project comment</h5>
                   <ul class="list-unstyled">
+                    @foreach ($comm as $item)
                     <li>
-                      <a href="" class="btn-link text-secondary"></a>
-                    </li>                  
+                      <div class="row">
+                        <div class="col-1">
+                          <a href="{{asset($item->filename)}}"class="btn-link text-secondary"  target=”_blank”><i class="far fa-fw fa-image"></i></a>
+                        </div>
+                        <div class="col-11">
+                          <p class="btn-link text-secondary">{{$item->comment}}</p>
+                        </div>                       
+                      </div>                                     
+                    </li> 
+                    @endforeach
+                                    
                   </ul>
                   <div class="text-center mt-5 mb-3">
                     <a href="{{route('pd-follow.edit',$job->productionopenjob_hd_docuno)}}" class="btn btn-sm btn-primary">Add comment</a>
