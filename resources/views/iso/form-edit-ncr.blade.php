@@ -5,6 +5,9 @@
 <div class="mt-4"><br>
 <div class="row">  
     <div class="col-12">
+        <form id="frm_sub" method="POST" class="form-horizontal" action="{{ route('ncr-report.update', $hd->iso_ncr_id) }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title" style="font-weight: bold">ใบ NCR</h3>
@@ -117,31 +120,31 @@
                     <div class="col-12 col-md-6">
                         <label for="iso_ncr_cause">2.กรณีทราบสาเหตุ</label>
                         @if($hd->iso_ncr_cause == 'ซ่อมแซม')
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause" checked>
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause1" value="ซ่อมแซม" checked>
                         <label for="iso_ncr_cause">ซ่อมแซม</label>
                         @else
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause">
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause1">
                         <label for="iso_ncr_cause">ซ่อมแซม</label>
                         @endif
                         @if($hd->iso_ncr_cause == 'ใช้ตามสภาพ')
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause" checked>
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause2" value="ใช้ตามสภาพ" checked>
                         <label for="iso_ncr_cause">ใช้ตามสภาพ</label>
                         @else
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause">
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause2">
                         <label for="iso_ncr_cause">ใช้ตามสภาพ</label>
                         @endif
                         @if($hd->iso_ncr_cause == 'ทำลาย')
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause" checked>
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause3" value="ทำลาย" checked>
                         <label for="iso_ncr_cause">ทำลาย</label>
                         @else
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause">
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause3">
                         <label for="iso_ncr_cause">ทำลาย</label>
                         @endif
                         @if($hd->iso_ncr_cause == 'นำไปใช้งานอื่น')
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause" checked>
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause4" value="นำไปใช้งานอื่น" checked>
                         <label for="iso_ncr_cause">นำไปใช้งานอื่น</label>
                         @else
-                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause">
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_ncr_cause4">
                         <label for="iso_ncr_cause">นำไปใช้งานอื่น</label>
                         @endif
                     </div>
@@ -149,13 +152,13 @@
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="iso_ncr_other">เหตุผลที่เลือก</label>
-                        <input type="text" class="form-control" value="{{$hd->iso_ncr_other}}">
+                        <input type="text" class="form-control" value="{{$hd->iso_ncr_other}}" name="iso_ncr_other">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <label for="offered_by">เสนอโดย</label>
-                        <select class="form-control select2">
+                        <select class="form-control select2" name="offered_by">
                             <option value="{{$hd->offered_by}}">{{$hd->offered_by}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
@@ -164,13 +167,14 @@
                     </div>
                     <div class="col-12 col-md-4">
                         <label for="offered_job">ตำแหน่ง</label>
-                        <input type="text" class="form-control" value="{{$hd->offered_job}}">
+                        <input type="text" class="form-control" value="{{$hd->offered_job}}" name="offered_job">
                     </div>
                     <div class="col-12 col-md-4">
                         <label for="offered_date">วันที่</label>
-                        <input type="date" class="form-control" value="{{$hd->offered_date}}">
+                        <input type="date" class="form-control" value="{{$hd->offered_date}}" name="offered_date">
                     </div>
                 </div><br>
+                @if ($hd->iso_status_id == 1)
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-success toastrDefaultSuccess">
@@ -178,6 +182,7 @@
                         </button>
                     </div>
                 </div>
+                @endif              
             </div>         
         </div>
         <div class="card">
@@ -189,39 +194,39 @@
                     <div class="col-12 col-md-3">
                         <label for="approval_status">คำอนุมัติ :</label>   
                         @if($hd->approval_status == 'อนุมัติตามเสนอ')
-                            <input type="checkbox" id="checkboxPrimary1" name="approval_status" checked>
+                            <input type="checkbox" id="checkboxPrimary1" name="approval_status1" checked>
                             <label for="approval_status">อนุมัติตามเสนอ</label>
                             @else
-                            <input type="checkbox" id="checkboxPrimary1" name="approval_status">
+                            <input type="checkbox" id="checkboxPrimary1" name="approval_status1">
                             <label for="approval_status">อนุมัติตามเสนอ</label>
                         @endif
                         @if($hd->approval_status == 'ไม่อนุมัติตามเสนอ')
-                            <input type="checkbox" id="checkboxPrimary1" name="approval_status" checked>
+                            <input type="checkbox" id="checkboxPrimary1" name="approval_status2" checked>
                             <label for="approval_status">ไม่อนุมัติตามเสนอ</label>
                             @else
-                            <input type="checkbox" id="checkboxPrimary1" name="approval_status">
+                            <input type="checkbox" id="checkboxPrimary1" name="approval_status2">
                             <label for="approval_status">ไม่อนุมัติตามเสนอ</label>
                             @endif
                     </div>
                     <div class="col-12 col-md-9"> 
                         <label for="approval_remark">เพิ่มเติม :</label>   
-                        <input class="form-control" value="{{$hd->approval_remark}}">
+                        <input class="form-control" value="{{$hd->approval_remark}}" name="approval_remark">
                     </div>
                 </div> 
                 <div class="row">
                     <div class="col-12 col-md-12"> 
                         <label for="iso_ncr_order">คำสั่ง :</label>   
-                        <input class="form-control" value="{{$hd->iso_ncr_order}}">
+                        <input class="form-control" value="{{$hd->iso_ncr_order}}" name="iso_ncr_order">
                     </div>
                 </div> 
                 <div class="row">
                     <div class="col-12 col-md-4"> 
                         <label for="customer_docuno">กรณี USE-AS-IS : ใบยินยอมจากลูกค้าเลขที่ :</label>   
-                        <input class="form-control" value="{{$hd->customer_docuno}}">
+                        <input class="form-control" value="{{$hd->customer_docuno}}" name="customer_docuno">
                     </div>
                     <div class="col-12 col-md-4"> 
                         <label for="customer_date">วันที่ :</label>  
-                        <input type="date" class="form-control" value="{{$hd->customer_date}}">
+                        <input type="date" class="form-control" value="{{$hd->customer_date}}" name="customer_date">
                     </div>
                     <div class="col-12 col-md-4"> 
                     </div>
@@ -229,7 +234,7 @@
                 <div class="row">
                     <div class="col-12 col-md-4"> 
                         <label for="approved_by">ลงชื่อผู้อนุมัติ :</label>  
-                        <select class="form-control select2">
+                        <select class="form-control select2" name="approved_by">
                             <option value="{{$hd->approved_by}}">{{$hd->approved_by}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
@@ -238,13 +243,14 @@
                     </div>
                     <div class="col-12 col-md-4"> 
                         <label for="approved_job">ตำแหน่ง :</label>
-                        <input class="form-control" value="{{$hd->approved_job}}">
+                        <input class="form-control" value="{{$hd->approved_job}}" name="approved_job">
                     </div>
                     <div class="col-12 col-md-4"> 
                         <label for="approved_date">วันที่ :</label>  
-                        <input type="date" class="form-control" value="{{$hd->approved_date}}">
+                        <input type="date" class="form-control" value="{{$hd->approved_date}}" name="approved_date">
                     </div>
                 </div><br>   
+                @if ($hd->iso_status_id == 2)
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-success toastrDefaultSuccess">
@@ -252,6 +258,7 @@
                         </button>
                     </div>
                 </div>
+                @endif    
             </div>
         </div>
         <div class="card">
@@ -262,13 +269,13 @@
                 <div class="row">
                     <div class="col-12 col-md-12"> 
                         <label for="iso_ncr_remark">เพิ่มเติม</label>   
-                        <input class="form-control" value="{{$hd->iso_ncr_remark}}">
+                        <input class="form-control" value="{{$hd->iso_ncr_remark}}" name="iso_ncr_remark">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-4"> 
                         <label for="checked_by">ผู้ตรวจสอบ</label>  
-                        <select class="form-control select2">
+                        <select class="form-control select2" name="checked_by">
                             <option value="{{$hd->checked_by}}">{{$hd->checked_by}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
@@ -276,12 +283,15 @@
                         </select>
                     </div>
                     <div class="col-12 col-md-4"> 
-                        <label for="approved_job">ตำแหน่ง</label>
-                        <input class="form-control" value="{{$hd->checked_date}}">
+                        <label for="checked_job">ตำแหน่ง</label>
+                        <input class="form-control" value="{{$hd->checked_job}}" name="checked_job">
                     </div>
                     <div class="col-12 col-md-4"> 
+                        <label for="checked_date">วันที่ :</label>  
+                        <input type="date" class="form-control" value="{{$hd->checked_date}}" name="checked_date">
                     </div>
                 </div><br>   
+                @if ($hd->iso_status_id == 3)
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-success toastrDefaultSuccess">
@@ -289,8 +299,10 @@
                         </button>
                     </div>
                 </div>
+                @endif 
             </div>
     </div>
+    </form>
 </div>
 </div>
 </div>
