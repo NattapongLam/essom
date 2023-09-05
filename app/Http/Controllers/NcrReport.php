@@ -26,7 +26,7 @@ class NcrReport extends Controller
      */
     public function index()
     {
-        $hd = IsoNcr::get();
+        $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')->get();
         return view('iso.form-open-ncrlist',compact('hd'));
     }
 
@@ -218,5 +218,17 @@ class NcrReport extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function cancelDocsNcr(Request $request)
+    {
+        $hd = DB::table('iso_ncr')->where('iso_ncr_id',$request->refid)->update([
+            'iso_status_id' => 5,
+            'updated_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+        ]);     
     }
 }

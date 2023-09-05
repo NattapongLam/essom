@@ -43,7 +43,7 @@
                                     <a href="{{route('cm-report.edit',$item->costmaterial_report_id)}}" 
                                         class="btn btn-sm btn-warning" >
                                         <i class="fas fa-edit"></i>
-                                      </a>
+                                    </a>
                                     @else
                                     <a href="javascript:void(0)" 
                                     class="btn btn-primary btn-sm" 
@@ -51,6 +51,10 @@
                                     onclick="getDataCost('{{ $item->costmaterial_report_id }}')">
                                     <i class="fas fa-eye"></i></a>                                
                                     @endif 
+                                    <a href="{{route('cm-report.edit',$item->costmaterial_report_id)}}" 
+                                        class="btn btn-sm btn-warning" >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                 </td>  
                             </tr>
                         @endforeach

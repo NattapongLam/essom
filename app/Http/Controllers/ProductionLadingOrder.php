@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\DepartmentList;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,20 @@ class ProductionLadingOrder extends Controller
      */
     public function create()
     {
-        //
+        $docs_last = DB::table('ladingorder_hd')
+        ->where('ladingorder_hd_docuno', 'like', '%' . date('Ymd') . '%')
+        ->orderBy('ladingorder_hd_id', 'desc')->first();
+        if ($docs_last) {
+        $docs = 'ISS-' . date('Ymd').'-'. str_pad($docs_last->ladingorder_hd_number + 1, 4, '0', STR_PAD_LEFT);
+        $docs_number = $docs_last->ladingorder_hd_number + 1;
+        } else {
+        $docs = 'ISS-' . date('Ymd').'-'. str_pad(1, 4, '0', STR_PAD_LEFT);
+        $docs_number = 1;
+        }
+        $dep = DepartmentList::get();
+        $jobdoc = DB::table('vw_ladingorder_job')->get();
+        $stc = DB::table('vw_ms_product1')->get();
+        return view('productions.form-create-productionladingorder',compact('docs','docs_number','dep','jobdoc','stc'));
     }
 
     /**
@@ -50,8 +64,63 @@ class ProductionLadingOrder extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'ms_department_id' => ['required'],
+            'productionopenjob_dt_id' => ['required'],
+        ]);
+        $doc = DB::table('vw_ladingorder_job')->where('productionopenjob_dt_id',$request->productionopenjob_dt_id)->first();
+        $hd = [
+            'ladingorder_hd_date' => $request->ladingorder_hd_date,
+            'ladingorder_hd_docuno' => $request->ladingorder_hd_docuno,
+            'ladingorder_hd_number' => $request->ladingorder_hd_number,
+            'ms_department_id' => $request->ms_department_id,
+            'productionopenjob_hd_docuno' => $doc->productionopenjob_hd_docuno,
+            'productionopenjob_dt_id' => $request->productionopenjob_dt_id,
+            'ms_product_name' => $doc->ms_product_name,
+            'ms_product_qty' => $doc->ms_product_qty,
+            'productionnotice_dt_duedate' => $doc->productionnotice_dt_duedate,
+            'ladingorder_hd_note' => $request->ladingorder_hd_note,
+            'created_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+            'ladingorder_status_id' => 1,
+        ];
+        try{
+
+            DB::beginTransaction();
+            $insertHD = ProductionLadingOrderHd::create($hd);
+            foreach($request->pd_id as $key => $value){
+                $pd = DB::table('vw_ms_product1')->where('id',$value)->first();
+                if($pd){
+                    $dt[] = [
+                        'ladingorder_hd_id' => $insertHD->ladingorder_hd_id,
+                        'ladingorder_dt_listno' => $key + 1,
+                        'ladingorder_dt_issuedate' => $insertHD->ladingorder_hd_date,
+                        'ms_product_id' => $pd->ms_product_id,
+                        'ms_product_code' => trim($pd->ms_product_code),
+                        'ms_product_name' =>  trim($pd->ms_product_name),
+                        'ms_product_unit' => trim($pd->ms_productunit_name),
+                        'ms_product_qty' => $request->pd_qty[$key],
+                        'ms_product_price' => $pd->ms_producttype_price,
+                        'created_at' => Carbon::now(),
+                        'created_person' => Auth::user()->name,
+                        'ladingorder_dt_flag' => true,
+                        'ladingorder_status_id' => 1,
+                        'ms_warehouse_name' => trim($pd->ms_warehouse_name),
+                        'stcqty' => $pd->stcqty,
+                        'returnqty' => 0,
+                        'approvedcheck' => false
+                    ];
+                }
+            }
+            $insertDT = ProductionLadingOrderDt::insert($dt);
+            DB::commit();
+            return redirect()->route('pd-ladi.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('pd-ladi.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
+    } 
 
     /**
      * Display the specified resource.
@@ -147,6 +216,13 @@ class ProductionLadingOrder extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function getProduct(Request $request)
+    {
+        $pd = DB::table('vw_ms_product1')->where('id',$request->id)->first();
+        return response()->json([
+            'pd' => $pd,
+        ]);
     }
     public function getDataLadi(Request $request)
     {

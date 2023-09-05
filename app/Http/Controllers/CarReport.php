@@ -25,7 +25,7 @@ class CarReport extends Controller
      */
     public function index()
     {
-        $hd = IsoCar::get();
+        $hd = IsoCar::leftjoin('iso_status','iso_car.iso_status_id','=','iso_status.iso_status_id')->get();
         return view('iso.form-open-carlist',compact('hd'));
     }
 
@@ -216,5 +216,17 @@ class CarReport extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function cancelDocsCar(Request $request)
+    {
+        $hd = DB::table('iso_car')->where('iso_car_id',$request->refid)->update([
+            'iso_status_id' => 5,
+            'updated_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+        ]);     
     }
 }

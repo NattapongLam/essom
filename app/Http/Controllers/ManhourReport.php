@@ -64,7 +64,13 @@ class ManhourReport extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = DB::table('manhour_report')
+        ->where('manhour_report_id',$id)
+        ->first();
+        $dt = DB::table('manhour_reportsub')
+        ->where('manhour_report_id',$id)
+        ->get();
+        return view('productions.form-edit-manhourreport',compact('hd','dt'));
     }
 
     /**
@@ -76,7 +82,33 @@ class ManhourReport extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $hd = DB::table('manhour_report')->where('manhour_report_id',$id)->first();
+        try{
+            DB::beginTransaction();
+            if($hd->reviewed_by == null){
+                $up = DB::table('manhour_report')
+                ->where('manhour_report_id',$id)
+                ->update([
+                    'reviewed_by' => Auth::user()->name,
+                    'reviewed_date' => Carbon::now()
+                ]);
+    
+            }elseif($hd->acknowledges_by == null){
+                $up = DB::table('manhour_report')
+                ->where('manhour_report_id',$id)
+                ->update([
+                    'acknowledges_by' => Auth::user()->name,
+                    'acknowledges_date' => Carbon::now()
+                ]);
+            }
+            DB::commit();
+            return redirect()->route('mn-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('mn-report.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
+        
     }
 
     /**

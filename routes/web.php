@@ -42,6 +42,7 @@ Route::resource('/pd-work' , App\Http\Controllers\ProductionWorkOrder::class);
 Route::post('/getData-Work' , [App\Http\Controllers\ProductionWorkOrder::class , 'getDataWork']);
 Route::resource('/pd-ladi' , App\Http\Controllers\ProductionLadingOrder::class);
 Route::post('/getData-Ladi' , [App\Http\Controllers\ProductionLadingOrder::class , 'getDataLadi']);
+Route::post('/getProduct' , [App\Http\Controllers\ProductionLadingOrder::class , 'getProduct']);
 Route::resource('/pd-retu' , App\Http\Controllers\ProductionReturnOrder::class);
 Route::post('/getData-Retu' , [App\Http\Controllers\ProductionReturnOrder::class , 'getDataRetu']);
 Route::resource('/pd-requ' , App\Http\Controllers\ProductionRequestOrder::class);
@@ -65,5 +66,6 @@ Route::post('/getData-ManHour' , [App\Http\Controllers\ManhourReport::class , 'g
 Route::resource('/cm-report' , App\Http\Controllers\CostMaterialReport::class);
 Route::post('/getData-Cost' , [App\Http\Controllers\CostMaterialReport::class , 'getDataCost']);
 Route::resource('/ncr-report' , App\Http\Controllers\NcrReport::class);
+Route::post('/cancelDocsNcr' , [App\Http\Controllers\NcrReport::class , 'cancelDocsNcr']);
 Route::resource('/car-report' , App\Http\Controllers\CarReport::class);
-
+Route::post('/cancelDocsCar' , [App\Http\Controllers\CarReport::class , 'cancelDocsCar']);

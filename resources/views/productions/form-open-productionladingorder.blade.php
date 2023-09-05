@@ -5,7 +5,12 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารแจ้งผลิต</h3><br><hr>
+            <h3 class="card-title" style="font-weight: bold">เอกสารใบเบิกวัสดุอุปกรณ์</h3>&nbsp;
+            <a href="{{route('pd-ladi.create')}}" 
+                class="btn btn-sm btn-success" >
+                <i class="fas fa-file"></i>
+            </a>
+            <br><hr>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>

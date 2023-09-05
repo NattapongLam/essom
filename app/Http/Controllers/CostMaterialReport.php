@@ -64,7 +64,9 @@ class CostMaterialReport extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = DB::table('costmaterial_report')->where('costmaterial_report_id',$id)->first();
+        $dt = DB::table('costmaterial_reportsub')->where('costmaterial_report_id',$id)->get();
+        return view('productions.form-edit-costmaterialreport',compact('hd','dt'));
     }
 
     /**
@@ -76,7 +78,32 @@ class CostMaterialReport extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $hd = DB::table('costmaterial_report')->where('costmaterial_report_id',$id)->first();
+        try{
+            DB::beginTransaction();
+            if($hd->reviewed_by == null){
+                $up = DB::table('costmaterial_report')
+                ->where('costmaterial_report_id',$id)
+                ->update([
+                    'reviewed_by' => Auth::user()->name,
+                    'reviewed_date' => Carbon::now()
+                ]);
+    
+            }elseif($hd->acknowledges_by == null){
+                $up = DB::table('costmaterial_report')
+                ->where('costmaterial_report_id',$id)
+                ->update([
+                    'acknowledges_by' => Auth::user()->name,
+                    'acknowledges_date' => Carbon::now()
+                ]);
+            }
+            DB::commit();
+            return redirect()->route('cm-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('cm-report.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
     }
 
     /**

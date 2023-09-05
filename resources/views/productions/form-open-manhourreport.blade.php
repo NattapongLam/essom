@@ -76,7 +76,7 @@
                                     <a href="{{route('mn-report.edit',$item->manhour_report_id)}}" 
                                         class="btn btn-sm btn-warning" >
                                         <i class="fas fa-edit"></i>
-                                      </a>
+                                    </a>
                                     @else
                                     <a href="javascript:void(0)" 
                                     class="btn btn-primary btn-sm" 
