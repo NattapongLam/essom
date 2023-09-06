@@ -71,11 +71,7 @@
                                     data-toggle="modal" data-target="#modal"
                                     onclick="getDataClose('{{ $item->productionopenjob_hd_id }}')">
                                     <i class="fas fa-eye"></i></a>                                
-                                    @endif  
-                                    <a href="{{route('pd-close.edit',$item->productionopenjob_hd_id)}}" 
-                                        class="btn btn-sm btn-warning" >
-                                        <i class="fas fa-edit"></i>
-                                    </a>                                 
+                                    @endif                                                                      
                                 </td>
                             </tr>
                         @endforeach

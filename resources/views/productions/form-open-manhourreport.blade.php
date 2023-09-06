@@ -83,11 +83,7 @@
                                     data-toggle="modal" data-target="#modal"
                                     onclick="getDataManHour('{{ $item->manhour_report_id }}')">
                                     <i class="fas fa-eye"></i></a>                                
-                                    @endif 
-                                    <a href="{{route('mn-report.edit',$item->manhour_report_id)}}" 
-                                        class="btn btn-sm btn-warning" >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                    @endif                                   
                                 </td>
                             </tr>
                         @endforeach
