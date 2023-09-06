@@ -61,7 +61,11 @@
                                 data-toggle="modal" data-target="#modal"
                                 onclick="getDataInst('{{ $item->finalInspection_hd_id }}')">
                                 <i class="fas fa-eye"></i></a>                          
-                                @endif  
+                                @endif 
+                                <a href="{{route('fl-inst.edit',$item->finalInspection_hd_id)}}" 
+                                    class="btn btn-sm btn-warning" >
+                                    <i class="fas fa-edit"></i>
+                                </a> 
                             </td>
                         </tr>
                     @endforeach

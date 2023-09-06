@@ -81,6 +81,7 @@ class ProductionNotice extends Controller
         $dt = ProductionNoticeDt::leftjoin('ms_specpage','productionnotice_dt.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->where('productionnotice_dt.productionnotice_hd_id',$id)
         ->where('productionnotice_dt.productionnotice_dt_flag',true)
+        
         ->get();
         $op = ProductionNoticeOp::where('productionnotice_hd_id',$id)
         ->where('productionnotice_op_flag',true)

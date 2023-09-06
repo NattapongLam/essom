@@ -55,7 +55,7 @@
                             data-toggle="modal" data-target="#modal"
                             onclick="getDataRequ('{{$item->requestorder_hd_id }}')">
                             <i class="fas fa-eye"></i></a>                          
-                            @endif  
+                            @endif
                         </td>
                     </tr>   
                     @endforeach                  

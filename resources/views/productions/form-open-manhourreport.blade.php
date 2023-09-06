@@ -84,6 +84,10 @@
                                     onclick="getDataManHour('{{ $item->manhour_report_id }}')">
                                     <i class="fas fa-eye"></i></a>                                
                                     @endif 
+                                    <a href="{{route('mn-report.edit',$item->manhour_report_id)}}" 
+                                        class="btn btn-sm btn-warning" >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

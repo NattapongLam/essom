@@ -162,7 +162,10 @@
                                             <td>{{$item->ms_product_seminame}} ({{$item->ms_product_semicode}})</td>
                                             <td>{{$item->ms_product_semiqty}} / {{$item->ms_product_semiunit}}</td>
                                             <td>{{$item->productionnotice_dt_remark}}</td>
-                                            <td>{{$item->ms_specpage_name}}</td>
+                                            <td>
+                                                <a href="{{asset($item->filename)}}" target=”_blank”> {{$item->ms_specpage_name}}</a>
+                                               
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

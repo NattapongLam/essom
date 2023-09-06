@@ -60,7 +60,11 @@
                                 data-toggle="modal" data-target="#modal"
                                 onclick="getDataWork('{{ $item->workorder_hd_id }}')">
                                 <i class="fas fa-eye"></i></a>
-                                @endif       
+                                @endif 
+                                <a href="{{route('pd-work.edit',$item->workorder_hd_id)}}" 
+                                    class="btn btn-sm btn-warning" >
+                                    <i class="fas fa-edit"></i>
+                                </a>      
                             </td>
                         @endforeach
                     </tbody>
