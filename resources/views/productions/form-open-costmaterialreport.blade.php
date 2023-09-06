@@ -50,11 +50,7 @@
                                     data-toggle="modal" data-target="#modal"
                                     onclick="getDataCost('{{ $item->costmaterial_report_id }}')">
                                     <i class="fas fa-eye"></i></a>                                
-                                    @endif 
-                                    <a href="{{route('cm-report.edit',$item->costmaterial_report_id)}}" 
-                                        class="btn btn-sm btn-warning" >
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                    @endif                                  
                                 </td>  
                             </tr>
                         @endforeach
