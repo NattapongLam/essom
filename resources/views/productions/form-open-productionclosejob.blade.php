@@ -60,7 +60,7 @@
                                 <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>
                                 <td>{{number_format($item->productionopenjob_actualcost,2)}}</td>
                                 <td>
-                                    @if($item->productionopenjob_status_id == 12 || $item->productionopenjob_status_id == 13)
+                                    @if($item->productionopenjob_status_id == 9 || $item->productionopenjob_status_id == 13)
                                     <a href="{{route('pd-close.edit',$item->productionopenjob_hd_id)}}" 
                                         class="btn btn-sm btn-warning" >
                                         <i class="fas fa-edit"></i>

@@ -77,7 +77,7 @@ class ProductionClose extends Controller
         ->where('productionopenjob_dt.productionopenjob_hd_id', $id)
         ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
         ->get();  
-        if ($hd->productionopenjob_status_id == 12) {
+        if ($hd->productionopenjob_status_id == 9) {
             $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[13])->get();
         } else {
             $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[14])->get();
@@ -110,7 +110,7 @@ class ProductionClose extends Controller
     public function update(Request $request, $id)
     {
         $hd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->first();
-        if($hd->productionopenjob_status_id == 13){
+        if($hd->productionopenjob_status_id == 9){
             try{
                 DB::beginTransaction();
                 $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([

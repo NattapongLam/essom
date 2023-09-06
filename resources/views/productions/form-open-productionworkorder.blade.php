@@ -38,30 +38,32 @@
                     </thead>
                     <tbody>
                         @foreach ($hd as $item)
-                            <td>{{$item->workorder_status_name}}</td>
-                            <td>{{\Carbon\Carbon::parse($item->productionopenjob_dt_duedate)->format('d/m/Y')}}</td>
-                            <td>{{\Carbon\Carbon::parse($item->workorder_hd_date)->format('d/m/Y')}}</td>
-                            <td>{{$item->workorder_hd_docuno}}</td>
-                            <td>{{$item->engineer_by}}</td>
-                            <td>{{$item->vendor_name}}</td>
-                            <td>{{$item->process_group}}</td>
-                            <td>{{$item->productionopenjob_hd_docuno}}</td>
-                            <td>{{$item->checked_by}}</td>
-                            <td>{{$item->approved_by}}</td>
-                            <td>
-                                @if($item->workorder_status_id == 1 || $item->workorder_status_id == 3 || $item->workorder_status_id == 6)
-                                <a href="{{route('pd-work.edit',$item->workorder_hd_id)}}" 
-                                    class="btn btn-sm btn-warning" >
-                                    <i class="fas fa-edit"></i>
-                                  </a>
-                                @else
-                                <a href="javascript:void(0)" 
-                                class="btn btn-primary btn-sm" 
-                                data-toggle="modal" data-target="#modal"
-                                onclick="getDataWork('{{ $item->workorder_hd_id }}')">
-                                <i class="fas fa-eye"></i></a>
-                                @endif       
-                            </td>
+                            <tr>
+                                <td>{{$item->workorder_status_name}}</td>
+                                <td>{{\Carbon\Carbon::parse($item->productionopenjob_dt_duedate)->format('d/m/Y')}}</td>
+                                <td>{{\Carbon\Carbon::parse($item->workorder_hd_date)->format('d/m/Y')}}</td>
+                                <td>{{$item->workorder_hd_docuno}}</td>
+                                <td>{{$item->engineer_by}}</td>
+                                <td>{{$item->vendor_name}}</td>
+                                <td>{{$item->process_group}}</td>
+                                <td>{{$item->productionopenjob_hd_docuno}}</td>
+                                <td>{{$item->checked_by}}</td>
+                                <td>{{$item->approved_by}}</td>
+                                <td>
+                                    @if($item->workorder_status_id == 1 || $item->workorder_status_id == 3 || $item->workorder_status_id == 6)
+                                    <a href="{{route('pd-work.edit',$item->workorder_hd_id)}}" 
+                                        class="btn btn-sm btn-warning" >
+                                        <i class="fas fa-edit"></i>
+                                      </a>
+                                    @else
+                                    <a href="javascript:void(0)" 
+                                    class="btn btn-primary btn-sm" 
+                                    data-toggle="modal" data-target="#modal"
+                                    onclick="getDataWork('{{ $item->workorder_hd_id }}')">
+                                    <i class="fas fa-eye"></i></a>
+                                    @endif       
+                                </td>
+                            </tr>                           
                         @endforeach
                     </tbody>
                 </table>
