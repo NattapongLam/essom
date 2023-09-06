@@ -196,6 +196,11 @@ $.ajax({
         let el_list = ''; 
         let op_list = ''; 
         $.each(data.dt, function(key , item) {
+            if(item.productionnotice_dt_remark == null){
+                item.productionnotice_dt_remark = ''
+            }else{
+                item.productionnotice_dt_remark = item.productionnotice_dt_remark
+            }
             el_list += `    
              <tr>
                 <td>${key+1}</td>
@@ -203,7 +208,11 @@ $.ajax({
                 <td>${item.ms_product_seminame}/${item.ms_product_semicode}</td>  
                 <td>${item.ms_product_semiqty}/${item.ms_product_semiunit}</td>  
                 <td>${item.productionnotice_dt_remark}</td>  
-                <td>${item.ms_specpage_name}</td>                      
+                <td>
+                    <a href="${item.filename}" target=”_blank”>
+                    ${item.ms_specpage_name}
+                    </a>
+                </td>                      
             </tr>
         `
         })      
