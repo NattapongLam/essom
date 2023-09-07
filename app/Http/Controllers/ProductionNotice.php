@@ -26,7 +26,6 @@ class ProductionNotice extends Controller
     public function index()
     {
         $hd = DB::table('productionnotice_hd')
-        ->leftjoin('ms_customer','productionnotice_hd.ms_customer_id','=','ms_customer.ms_customer_id')
         ->leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->leftjoin('productionnotice_status','productionnotice_hd.productionnotice_status_id','=','productionnotice_status.productionnotice_status_id')
         ->where('productionnotice_hd.productionnotice_status_id','<>',2)->get();
@@ -73,8 +72,7 @@ class ProductionNotice extends Controller
      */
     public function edit($id)
     {
-        $hd = ProductionNoticeHd::leftjoin('ms_customer','productionnotice_hd.ms_customer_id','=','ms_customer.ms_customer_id')
-        ->leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
+        $hd = ProductionNoticeHd::leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->where('productionnotice_hd.productionnotice_hd_id',$id)
         ->where('productionnotice_hd.productionnotice_status_id',1)
         ->first();
