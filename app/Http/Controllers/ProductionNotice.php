@@ -97,10 +97,15 @@ class ProductionNotice extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($request->productionnotice_status_id == 0){
+            $sta = 4;
+        }else{
+            $sta = $request->productionnotice_status_id;
+        }
         try{
             DB::beginTransaction();
                 $uphd = ProductionNoticeHd::where('productionnotice_hd_id',$id)->update([
-                    'productionnotice_status_id' => $request->productionnotice_status_id,
+                    'productionnotice_status_id' => $sta,
                     'approved_by' => Auth::user()->name,
                     'approved_date' => Carbon::now(),
                     'approved_note' => $request->approved_note
@@ -111,7 +116,7 @@ class ProductionNotice extends Controller
                 $dt = ProductionNoticeDt::where('productionnotice_hd_id',$id)->get();
                 foreach ($dt as $key => $value) {
                     $updt = ProductionNoticeDt::where('productionnotice_dt_id',$value->productionnotice_dt_id)->update([
-                        'productionnotice_status_id' => $request->productionnotice_status_id
+                        'productionnotice_status_id' => $sta
                     ]);
                 }
             DB::commit();

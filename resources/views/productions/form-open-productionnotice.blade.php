@@ -52,7 +52,7 @@
                             data-toggle="modal" data-target="#modal"
                             onclick="getData('{{ $item->productionnotice_hd_id }}')">
                             <i class="fas fa-eye"></i></a>                          
-                            @endif                              
+                            @endif                                                         
                         </td>
                     </tr> 
                     @endforeach                   

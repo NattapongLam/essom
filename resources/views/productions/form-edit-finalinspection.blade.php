@@ -174,7 +174,9 @@
                           <li class="nav-item">
                             <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">2.การตรวจสอบขั้นสุดท้าย</a>
                           </li>
-    
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-four-profile1-tab" data-toggle="pill" href="#custom-tabs-four-profile1" role="tab" aria-controls="custom-tabs-four-profile1" aria-selected="false">เอกสารแนบ</a>
+                          </li>
                         </ul>
                       </div>
                       <div class="card-body">
@@ -226,7 +228,33 @@
                                     </tbody>
                                 </table>
                             </div>
-                          </div>                    
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-four-profile1" role="tabpanel" aria-labelledby="custom-tabs-four-profile1-tab">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">        
+                                    <thead>
+                                        <tr>
+                                            <th>ลำดับ</th>
+                                            <th>รายละเอียด</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($dt3 as $item)
+                                        <tr>
+                                            <td>{{$item->finalInspection_part_listno}}</td>
+                                            <td>{{$item->finalInspection_part_remark}}</td>
+                                            <td>
+                                                <a href="{{asset($hd->finalInspection_part_filename)}}" target=”_blank”>
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            </td>
+                                           </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                          </div>         
                         </div>
                       </div>
                     </div>

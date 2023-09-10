@@ -65,11 +65,11 @@
                             </td>
                             <td class="project_progress">
                                 <div class="progress progress-sm">
-                                    <div class="progress-bar bg-green" role="progressbar" aria-valuenow="{{$item->per}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$item->per}}%">
+                                    <div class="progress-bar bg-green" role="progressbar" aria-valuenow="{{$item->timeper}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$item->timeper}}%">
                                     </div>
                                 </div>
                                 <small>
-                                    {{number_format($item->per,2)}}% Complete
+                                    {{number_format($item->timeper,2)}}% Complete
                                 </small>
                             </td>
                             <td class="project-state">

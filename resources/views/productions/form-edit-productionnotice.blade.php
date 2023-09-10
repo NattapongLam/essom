@@ -118,6 +118,28 @@
                 </div>
             </div>
             <div class="row">
+                @if ($hd->productionnotice_hd_filename1)
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        <label for="productionnotice_hd_filename1">เอกสารแนบ</label>
+                        <a href="{{asset($hd->productionnotice_hd_filename1)}}" target=”_blank”>
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
+                </div>
+                @endif
+                @if ($hd->productionnotice_hd_filename2)
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        <label for="productionnotice_hd_filename2">เอกสารแนบ</label>
+                        <a href="{{asset($hd->productionnotice_hd_filename2)}}" target=”_blank”>
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
+                </div>
+                @endif                           
+            </div>
+            <div class="row">
                 <div class="col-12 col-md-12">
                     <div class="form-group">
                         <label for="productionnotice_hd_remark">รายละเอียด</label>
