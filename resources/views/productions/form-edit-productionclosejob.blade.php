@@ -145,38 +145,38 @@
             <div class="row">
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label for="checked_date">Machine</label>
-                        <input type="text" class="form-control" value="{{number_format($hd->machinetime,2)}}" readonly>
+                        <label for="checked_date">Machine (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->machinetime_close,2)}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label for="checked_date">Elect</label>
-                        <input type="text" class="form-control" value="{{number_format($hd->electricitytime,2)}}" readonly>
+                        <label for="checked_date">Elect (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->electricitytime_close,2)}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label for="checked_date">Paint</label>
-                        <input type="text" class="form-control" value="{{number_format($hd->painttime,2)}}" readonly>
+                        <label for="checked_date">Paint (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->painttime_close,2)}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label for="checked_date">Assembly</label>
-                        <input type="text" class="form-control" value="{{number_format($hd->assemblytime,2)}}" readonly>
+                        <label for="checked_date">Assembly (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->assemblytime_close,2)}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label for="checked_date">Other</label>
-                        <input type="text" class="form-control" value="{{number_format($hd->othertime,2)}}" readonly>
+                        <label for="checked_date">Other (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->othertime_close,2)}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <label for="checked_date">Total</label>
-                        <input type="text" class="form-control" value="{{number_format($hd->totaltime,2)}}" readonly>
+                        <label for="checked_date">Total (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->totaltime_close,2)}}" readonly>
                     </div>
                 </div>
             </div> 
