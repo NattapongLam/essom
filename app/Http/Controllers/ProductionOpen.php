@@ -103,16 +103,11 @@ class ProductionOpen extends Controller
     public function update(Request $request, $id)
     {
         $hd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->first();
-        if($hd->productionopenjob_status_id == 1){
-            if($request->productionopenjob_status_id = 0){
-                $sta = 3;
-            }else{
-                $sta = $request->productionopenjob_status_id;
-            }
+        if($hd->productionopenjob_status_id == 1){           
             try{
                 DB::beginTransaction();
                     $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
-                        'productionopenjob_status_id' => $sta,
+                        'productionopenjob_status_id' => $request->productionopenjob_status_id,
                         'checked_by' => Auth::user()->name,
                         'checked_date' => Carbon::now(),
                         'checked_note' => $request->note
@@ -120,7 +115,7 @@ class ProductionOpen extends Controller
                     $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
                     foreach ($dt as $key => $value) {
                         $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
-                            'productionopenjob_status_id' => $sta
+                            'productionopenjob_status_id' => $request->productionopenjob_status_id,
                         ]);
                     }
                 DB::commit();
@@ -147,15 +142,10 @@ class ProductionOpen extends Controller
             }
         }
         else{
-            if($request->productionopenjob_status_id = 0){
-                $sta = 4;
-            }else{
-                $sta = $request->productionopenjob_status_id;
-            }
             try{
                 DB::beginTransaction();
                     $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
-                        'productionopenjob_status_id' => $sta,
+                        'productionopenjob_status_id' => $request->productionopenjob_status_id,
                         'approved_by' => Auth::user()->name,
                         'approved_date' => Carbon::now(),
                         'approved_note' => $request->note
@@ -163,7 +153,7 @@ class ProductionOpen extends Controller
                     $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
                     foreach ($dt as $key => $value) {
                         $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
-                            'productionopenjob_status_id' => $sta
+                            'productionopenjob_status_id' =>$request->productionopenjob_status_id,
                         ]);
                     }
                 DB::commit();

@@ -31,7 +31,11 @@
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id">
-                            <option value="0">กรุณาเลือกสถานะ</option>
+                            @if($hd->productionopenjob_status_id == 1)
+                            <option value="3">กรุณาเลือกสถานะ</option>
+                            @else
+                            <option value="4">กรุณาเลือกสถานะ</option>
+                            @endif                            
                             @foreach ($sta as $item)
                             <option value="{{$item->productionopenjob_status_id}}">{{$item->productionopenjob_status_name}}</option>
                             @endforeach
@@ -95,6 +99,44 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label for="checked_date">Machine (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->machinetime,2)}}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label for="checked_date">Elect (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->electricitytime,2)}}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label for="checked_date">Paint (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->painttime,2)}}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label for="checked_date">Assembly (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->assemblytime,2)}}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label for="checked_date">Other (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->othertime,2)}}" readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <label for="checked_date">Total (MH)</label>
+                        <input type="text" class="form-control" value="{{number_format($hd->totaltime,2)}}" readonly>
+                    </div>
+                </div>
+            </div> 
             <div class="row">
                 <div class="col-12 col-md-3">
                     <div class="form-group">

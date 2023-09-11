@@ -31,7 +31,7 @@
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <select class="form-control" name="productionnotice_status_id" id="productionnotice_status_id">
-                            <option value="0">กรุณาเลือกสถานะ</option>
+                            <option value="4">กรุณาเลือกสถานะ</option>
                             @foreach ($sta as $item)
                             <option value="{{$item->productionnotice_status_id}}">{{$item->productionnotice_status_name}}</option>
                             @endforeach
