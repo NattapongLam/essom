@@ -59,7 +59,7 @@
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="workorder_hd_date">วันที่</label>
-                        <input type="date" class="form-control" value="{{$hd->workorder_hd_date}}" readonly>
+                        <input type="date" class="form-control" value="{{\Carbon\Carbon::parse($hd->workorder_hd_date)->format('d/m/Y')}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">

@@ -55,7 +55,7 @@
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="productionnotice_hd_date">วันที่</label>
-                        <input type="date" class="form-control" value="{{$hd->productionnotice_hd_date}}" readonly>
+                        <input type="text" class="form-control" value="{{\Carbon\Carbon::parse($hd->productionnotice_hd_date)->format('d/m/Y')}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
@@ -67,7 +67,7 @@
                 <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="productionnotice_hd_duedate">กำหนดส่ง</label>
-                        <input type="date" class="form-control" value="{{$hd->productionnotice_hd_duedate}}" readonly>
+                        <input type="text" class="form-control" value="{{\Carbon\Carbon::parse($hd->productionnotice_hd_duedate)->format('d/m/Y')}}" readonly>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">

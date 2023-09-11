@@ -35,7 +35,9 @@
                     <div class="form-group row">
                         <label for="workinghours_hd_date" class="col-sm-2 col-form-label">วันที่</label>
                         <div class="col-sm-10">
-                          <input type="date" class="form-control" name="workinghours_hd_date" id="workinghours_hd_date" class="form-control" value="{{$hd->workinghours_hd_date}}" autofocus readonly>
+                          <input type="text" class="form-control" name="workinghours_hd_date" 
+                          id="workinghours_hd_date" class="form-control" value="{{\Carbon\Carbon::parse($hd->workinghours_hd_date)->format('d/m/Y')}}" 
+                          autofocus readonly>
                         </div>
                       </div>
                 </div>
