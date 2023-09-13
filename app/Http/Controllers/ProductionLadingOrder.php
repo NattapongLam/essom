@@ -151,8 +151,9 @@ class ProductionLadingOrder extends Controller
      */
     public function edit($id)
     {
-        $hd = ProductionLadingOrderHd::where('ladingorder_hd_id',$id)
+        $hd = ProductionLadingOrderHd::where('ladingorder_hd_id',$id)     
         ->leftjoin('ms_department','ladingorder_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->select('ladingorder_hd.*','ms_department.ms_department_name')
         ->first();
         $dt = ProductionLadingOrderDt::where('ladingorder_hd_id', $id)
         ->where('ladingorder_dt_flag',true)
