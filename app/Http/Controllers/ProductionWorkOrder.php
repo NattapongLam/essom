@@ -95,6 +95,7 @@ class ProductionWorkOrder extends Controller
     {
         $hd = ProductionWorkOrderHd::where('workorder_hd_id',$id)
         ->leftjoin('ms_department','workorder_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->select('workorder_hd.*','ms_department.ms_department_name')
         ->first();
         $dt = ProductionWorkOrderDt::where('workorder_hd_id', $id)
         ->where('workorder_dt_flag',true)

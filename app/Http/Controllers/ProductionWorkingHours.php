@@ -159,6 +159,7 @@ class ProductionWorkingHours extends Controller
     {
         $hd = ProductionWorkingHoursHd::where('workinghours_hd_id',$id)
         ->leftjoin('ms_department','workinghours_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->select('workinghours_hd.*','ms_department.ms_department_name')
         ->first();
         $dt = ProductionWorkingHoursDt::where('workinghours_hd_id', $id)
         ->where('workinghours_dt_flag',true)
