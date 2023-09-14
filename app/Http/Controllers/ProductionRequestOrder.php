@@ -84,6 +84,7 @@ class ProductionRequestOrder extends Controller
     {
         $hd = ProductionRequestOrderHd::where('requestorder_hd_id',$id)
         ->leftjoin('ms_department','requestorder_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->select('requestorder_hd.*','ms_department.ms_department_name')
         ->first();
         $dt = ProductionRequestOrderDt::where('requestorder_hd_id', $id)
         ->where('requestorder_dt_flag',true)
