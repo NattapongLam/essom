@@ -182,7 +182,10 @@ class ProductionLadingOrder extends Controller
                     'approvedby' => Auth::user()->name,
                     ]);
                 }
-                $ck = ProductionLadingOrderDt::where('ladingorder_hd_id',$id)->where('approvedcheck', false)->first();
+                $ck = ProductionLadingOrderDt::where('ladingorder_hd_id',$id)
+                ->where('approvedcheck', false)
+                ->where('ladingorder_dt_flag',true)
+                ->first();
                 if($ck){
                     $up = ProductionLadingOrderHd::where('ladingorder_hd_id',$id)->update([
                         'approved_by' => Auth::user()->name,
