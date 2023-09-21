@@ -30,6 +30,8 @@ class ProductionWorkingHours extends Controller
         $hd = DB::table('workinghours_hd')
         ->leftjoin('workinghours_status','workinghours_hd.workinghours_status_id','=','workinghours_status.workinghours_status_id')
         ->leftjoin('ms_department','workinghours_hd.ms_department_id','=','ms_department.ms_department_id')
+        ->select('workinghours_hd.*','ms_department.ms_department_name')
+        ->where('workinghours_hd.workinghours_status_id','<>',2)
         ->get();
         return view('productions.form-open-productionworkinghours',compact('hd'));
     }

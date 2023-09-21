@@ -29,6 +29,7 @@ class ProductionLadingOrder extends Controller
         ->leftjoin('ladingorder_status','ladingorder_hd.ladingorder_status_id','=','ladingorder_status.ladingorder_status_id')
         ->leftjoin('ms_department','ladingorder_hd.ms_department_id','=','ms_department.ms_department_id')
         ->select('ladingorder_hd.*','ladingorder_status.ladingorder_status_name','ms_department.ms_department_name')
+        ->where('ladingorder_hd.ladingorder_status_id','<>',2)
         ->get();
         return view('productions.form-open-productionladingorder',compact('hd'));
     }
