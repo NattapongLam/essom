@@ -28,20 +28,19 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-requ.index')}}">ใบขอซื้อ</a>/เอกสารขอซื้อ</h3>
                     </div>
                 </div>
-                @if ($hd->requestorder_status_id == 3)
-                    
-                @else
+                @if ($hd->requestorder_status_id == 3 || $hd->requestorder_status_id == 4 || $hd->requestorder_status_id == 5)                    
+                @elseif($hd->requestorder_status_id == 1)
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <select class="form-control" name="requestorder_status_id" id="requestorder_status_id">
-                            <option value="0">กรุณาเลือกสถานะ</option>
+                        <select class="form-control" name="requestorder_status_id" id="requestorder_status_id" required autofocus>
+                            <option value="">กรุณาเลือกสถานะ</option>
                             @foreach ($sta as $item)
                             <option value="{{$item->requestorder_status_id}}">{{$item->requestorder_status_name}}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-8">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="ระบุหมายเหตุ" name="note" id="note">
                     </div>
@@ -49,7 +48,7 @@
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">
-                            บันทึก
+                            อนุมัติ
                          </button>
                     </div>
                 </div>

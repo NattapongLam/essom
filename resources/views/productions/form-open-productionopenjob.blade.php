@@ -53,7 +53,7 @@
                                 <td>{{$item->productionnotice_dt_remark}}</td>
                                 <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>
                                 <td>
-                                    @if($item->productionopenjob_status_id == 1 || $item->productionopenjob_status_id == 3)
+                                    @if($item->productionopenjob_status_id == 1 || $item->productionopenjob_status_id == 3 || $item->productionopenjob_status_id == 5)
                                     <a href="{{route('pd-open.edit',$item->productionopenjob_hd_id)}}" 
                                         class="btn btn-sm btn-warning" >
                                         <i class="fas fa-edit"></i>

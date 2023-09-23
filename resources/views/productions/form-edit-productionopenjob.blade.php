@@ -23,37 +23,42 @@
         @method('PUT')
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="form-group">
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-open.index')}}">ใบเปิดงาน</a>/เอกสารเปิดงาน</h3>
                     </div>
                 </div>
-                {{-- <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id">
+                        <h3 class="card-title"  style="font-weight: bold; color: red;">สถานะ : {{$hd->productionopenjob_status_name}}</h3>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group">
+                        <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id" required autofocus>
                             @if($hd->productionopenjob_status_id == 1)
-                            <option value="3">กรุณาเลือกสถานะ</option>
-                            @elseif($hd->productionopenjob_status_id == 3)
-                            <option value="4">กรุณาเลือกสถานะ</option>
+                            <option value="">กรุณาเลือกสถานะ</option>
+                            @elseif($hd->productionopenjob_status_id == 3 || $hd->productionopenjob_status_id == 5)
+                            <option value="">กรุณาเลือกสถานะ</option>
                             @endif                            
                             @foreach ($sta as $item)
                             <option value="{{$item->productionopenjob_status_id}}">{{$item->productionopenjob_status_name}}</option>
                             @endforeach
                         </select>
                     </div>
-                </div> --}}
-                <div class="col-12 col-md-6">
+                </div>
+                <div class="col-12 col-md-4">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="ระบุหมายเหตุ" name="note" id="note">
                     </div>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="form-group">
-                        @if($hd->productionopenjob_status_id == 1)
+                        @if($hd->productionopenjob_status_id == 1 )
                         <button type="submit" class="btn btn-block btn-primary">
                             ตรวจสอบใบเปิดงาน
                          </button>
-                        @elseif($hd->productionopenjob_status_id == 3)
+                        @elseif($hd->productionopenjob_status_id == 3 || $hd->productionopenjob_status_id == 5)
                         <button type="submit" class="btn btn-block btn-primary">
                             อนุมัติใบเปิดงาน
                          </button>

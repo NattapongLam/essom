@@ -31,8 +31,8 @@
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group">
-                        <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id">
-                            <option value="0">กรุณาเลือกสถานะ</option>
+                        <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id" required autofocus>
+                            <option value="">กรุณาเลือกสถานะ</option>
                             @foreach ($sta as $item)
                             <option value="{{$item->productionopenjob_status_id}}">{{$item->productionopenjob_status_name}}</option>
                             @endforeach

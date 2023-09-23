@@ -71,7 +71,9 @@ class ProductionOpen extends Controller
      */
     public function edit($id)
     {
-        $hd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->first();
+        $hd = ProductionOpenjobHd::leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+        ->where('productionopenjob_hd_id',$id)       
+        ->first();
         $dt = ProductionOpenjobDt::leftjoin('productionopenjob_status','productionopenjob_dt.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
         ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
         ->where('productionopenjob_dt.productionopenjob_hd_id', $id)
@@ -107,7 +109,7 @@ class ProductionOpen extends Controller
             try{
                 DB::beginTransaction();
                     $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
-                        'productionopenjob_status_id' => 3,
+                        'productionopenjob_status_id' => $request->productionopenjob_status_id,
                         'checked_by' => Auth::user()->name,
                         'checked_date' => Carbon::now(),
                         'checked_note' => $request->note
@@ -115,7 +117,7 @@ class ProductionOpen extends Controller
                     $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
                     foreach ($dt as $key => $value) {
                         $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
-                            'productionopenjob_status_id' => 3,
+                            'productionopenjob_status_id' => $request->productionopenjob_status_id,
                         ]);
                     }
                 DB::commit();
@@ -141,11 +143,11 @@ class ProductionOpen extends Controller
                 return redirect()->route('pd-open.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
             }
         }
-        else if($hd->productionopenjob_status_id == 3){
+        else if($hd->productionopenjob_status_id == 3 || $hd->productionopenjob_status_id == 5){
             try{
                 DB::beginTransaction();
                     $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
-                        'productionopenjob_status_id' => 4,
+                        'productionopenjob_status_id' => $request->productionopenjob_status_id,
                         'approved_by' => Auth::user()->name,
                         'approved_date' => Carbon::now(),
                         'approved_note' => $request->note
@@ -153,7 +155,7 @@ class ProductionOpen extends Controller
                     $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
                     foreach ($dt as $key => $value) {
                         $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
-                            'productionopenjob_status_id' =>4,
+                            'productionopenjob_status_id' =>$request->productionopenjob_status_id,
                         ]);
                     }
                 DB::commit();

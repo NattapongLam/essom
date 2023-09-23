@@ -33,8 +33,8 @@
                 @else
                 <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <select class="form-control" name="finalInspection_status_id" id="finalInspection_status_id">
-                            <option value="0">กรุณาเลือกสถานะ</option>
+                        <select class="form-control" name="finalInspection_status_id" id="finalInspection_status_id" required autofocus>
+                            <option value="">กรุณาเลือกสถานะ</option>
                             @foreach ($sta as $item)
                             <option value="{{$item->finalInspection_status_id}}">{{$item->finalInspection_status_name}}</option>
                             @endforeach

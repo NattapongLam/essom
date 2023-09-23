@@ -23,27 +23,27 @@
         @method('PUT')
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="form-group">
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-noti.index')}}">ใบแจ้งผลิต</a>/เอกสารแจ้งผลิต</h3>
                     </div>
                 </div>
-                {{-- <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="form-group">
-                        <select class="form-control" name="productionnotice_status_id" id="productionnotice_status_id">
-                            <option value="4">กรุณาเลือกสถานะ</option>
+                        <select class="form-control" name="productionnotice_status_id" id="productionnotice_status_id" required autofocus>
+                            <option value="">กรุณาเลือกสถานะ</option>
                             @foreach ($sta as $item)
                             <option value="{{$item->productionnotice_status_id}}">{{$item->productionnotice_status_name}}</option>
                             @endforeach
                         </select>
                     </div>
-                </div> --}}
+                </div>
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="ระบุหมายเหตุ" name="approved_note" id="approved_note">
                     </div>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">
                             อนุมัติแจ้งผลิต

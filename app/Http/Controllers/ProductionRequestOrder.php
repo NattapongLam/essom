@@ -108,7 +108,7 @@ class ProductionRequestOrder extends Controller
             try{
                 DB::beginTransaction();
                 $up = ProductionRequestOrderHd::where('requestorder_hd_id',$id)->update([
-                    'requestorder_status_id' => $request->requestorder_status_id,
+                    'requestorder_status_id' => 3,
                     'approved_date' => Carbon::now(),
                     'approved_by' => Auth::user()->name,
                     'approved_note' => $request->note
@@ -116,7 +116,7 @@ class ProductionRequestOrder extends Controller
                 $dt = ProductionRequestOrderDt::where('requestorder_hd_id',$id)->get();
                 foreach($dt as $key => $value){
                     $updt = ProductionRequestOrderDt::where('requestorder_dt_id',$value->requestorder_dt_id)->update([
-                    'requestorder_status_id' => $request->requestorder_status_id,
+                    'requestorder_status_id' => 3,
                     'approveddate' => Carbon::now(),
                     'approvedby' => Auth::user()->name,
                     ]);
