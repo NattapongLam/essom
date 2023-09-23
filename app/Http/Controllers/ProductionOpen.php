@@ -121,6 +121,7 @@ class ProductionOpen extends Controller
                         ]);
                     }
                 DB::commit();
+                $sta = DB::table('productionopenjob_status')->where('productionopenjob_status_id',$request->productionopenjob_status_id)->first();
                 define('LINE_API', "https://notify-api.line.me/api/notify");
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
@@ -131,7 +132,7 @@ class ProductionOpen extends Controller
                 ."สินค้า : ".$hd->ms_product_name."\n"
                 ."Spec Page : ".$hd->ms_specpage_name."\n"
                 ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
-                ."ผู้ตรวจสอบ : ".Auth::user()->name."\n",
+                ."ผู้ตรวจสอบ : ".Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name ."\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );
@@ -159,6 +160,7 @@ class ProductionOpen extends Controller
                         ]);
                     }
                 DB::commit();
+                $sta = DB::table('productionopenjob_status')->where('productionopenjob_status_id',$request->productionopenjob_status_id)->first();
                 define('LINE_API', "https://notify-api.line.me/api/notify");
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
@@ -169,7 +171,7 @@ class ProductionOpen extends Controller
                 ."สินค้า : ".$hd->ms_product_name."\n"
                 ."Spec Page : ".$hd->ms_specpage_name."\n"
                 ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
-                ."ผู้อนุมัติ : ".Auth::user()->name."\n",
+                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );
