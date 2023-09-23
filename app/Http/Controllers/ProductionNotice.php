@@ -100,7 +100,7 @@ class ProductionNotice extends Controller
         try{
             DB::beginTransaction();
                 $uphd = ProductionNoticeHd::where('productionnotice_hd_id',$id)->update([
-                    'productionnotice_status_id' => $request->productionnotice_status_id,
+                    'productionnotice_status_id' => 4,
                     'approved_by' => Auth::user()->name,
                     'approved_date' => Carbon::now(),
                     'approved_note' => $request->approved_note
@@ -110,7 +110,7 @@ class ProductionNotice extends Controller
                 $dt = ProductionNoticeDt::where('productionnotice_hd_id',$id)->get();
                 foreach ($dt as $key => $value) {
                     $updt = ProductionNoticeDt::where('productionnotice_dt_id',$value->productionnotice_dt_id)->update([
-                        'productionnotice_status_id' => $request->productionnotice_status_id
+                        'productionnotice_status_id' => 4
                     ]);
                 }
             DB::commit();

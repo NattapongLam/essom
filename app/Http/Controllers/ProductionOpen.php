@@ -107,7 +107,7 @@ class ProductionOpen extends Controller
             try{
                 DB::beginTransaction();
                     $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
-                        'productionopenjob_status_id' => $request->productionopenjob_status_id,
+                        'productionopenjob_status_id' => 3,
                         'checked_by' => Auth::user()->name,
                         'checked_date' => Carbon::now(),
                         'checked_note' => $request->note
@@ -115,7 +115,7 @@ class ProductionOpen extends Controller
                     $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
                     foreach ($dt as $key => $value) {
                         $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
-                            'productionopenjob_status_id' => $request->productionopenjob_status_id,
+                            'productionopenjob_status_id' => 3,
                         ]);
                     }
                 DB::commit();
@@ -141,11 +141,11 @@ class ProductionOpen extends Controller
                 return redirect()->route('pd-open.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
             }
         }
-        else{
+        else if($hd->productionopenjob_status_id == 3){
             try{
                 DB::beginTransaction();
                     $uphd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->update([
-                        'productionopenjob_status_id' => $request->productionopenjob_status_id,
+                        'productionopenjob_status_id' => 4,
                         'approved_by' => Auth::user()->name,
                         'approved_date' => Carbon::now(),
                         'approved_note' => $request->note
@@ -153,7 +153,7 @@ class ProductionOpen extends Controller
                     $dt = ProductionOpenjobDt::where('productionopenjob_hd_id',$id)->get();
                     foreach ($dt as $key => $value) {
                         $updt = ProductionOpenjobDt::where('productionopenjob_dt_id',$value->productionopenjob_dt_id)->update([
-                            'productionopenjob_status_id' =>$request->productionopenjob_status_id,
+                            'productionopenjob_status_id' =>4,
                         ]);
                     }
                 DB::commit();

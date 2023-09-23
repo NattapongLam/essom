@@ -28,12 +28,12 @@
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-open.index')}}">ใบเปิดงาน</a>/เอกสารเปิดงาน</h3>
                     </div>
                 </div>
-                <div class="col-12 col-md-3">
+                {{-- <div class="col-12 col-md-3">
                     <div class="form-group">
                         <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id">
                             @if($hd->productionopenjob_status_id == 1)
                             <option value="3">กรุณาเลือกสถานะ</option>
-                            @else
+                            @elseif($hd->productionopenjob_status_id == 3)
                             <option value="4">กรุณาเลือกสถานะ</option>
                             @endif                            
                             @foreach ($sta as $item)
@@ -41,17 +41,24 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="col-12 col-md-3">
+                </div> --}}
+                <div class="col-12 col-md-6">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="ระบุหมายเหตุ" name="note" id="note">
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group">
+                        @if($hd->productionopenjob_status_id == 1)
                         <button type="submit" class="btn btn-block btn-primary">
-                            บันทึก
+                            ตรวจสอบใบเปิดงาน
                          </button>
+                        @elseif($hd->productionopenjob_status_id == 3)
+                        <button type="submit" class="btn btn-block btn-primary">
+                            อนุมัติใบเปิดงาน
+                         </button>
+                        @endif    
+                        
                     </div>
                 </div>
             </div><hr>
