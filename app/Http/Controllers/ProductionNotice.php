@@ -118,7 +118,7 @@ class ProductionNotice extends Controller
             $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
             $params = array(
             "message"  => "แจ้งเตือนเอกสารแจ้งผลิต"."\n"
-            ."กำหนดส่ง : ".$hd->productionnotice_hd_duedate."\n"
+            ."กำหนดส่ง : ".date("d-m-Y",strtotime($hd->productionnotice_hd_duedate))."\n"
             ."เลขที่ : ".$hd->productionnotice_hd_docuno."\n"
             ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
             ."สินค้า : ".$hd->ms_product_name."\n"

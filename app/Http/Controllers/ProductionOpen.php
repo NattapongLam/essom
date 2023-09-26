@@ -165,7 +165,7 @@ class ProductionOpen extends Controller
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนเอกสารเปิดงาน"."\n"
-                ."วันที่เริ่ม - จบ : ".$hd->productionopenjob_hd_startdate." - ".$hd->productionopenjob_hd_enddate."\n"
+                ."วันที่เริ่ม - จบ : ".date("d-m-Y",strtotime($hd->productionopenjob_hd_startdate))." - ".date("d-m-Y",strtotime($hd->productionopenjob_hd_enddate))."\n"
                 ."เลขที่ : ".$hd->productionopenjob_hd_docuno."\n"
                 ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
                 ."สินค้า : ".$hd->ms_product_name."\n"
