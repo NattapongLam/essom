@@ -28,7 +28,9 @@ class ProductionNotice extends Controller
         $hd = DB::table('productionnotice_hd')
         ->leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->leftjoin('productionnotice_status','productionnotice_hd.productionnotice_status_id','=','productionnotice_status.productionnotice_status_id')
-        ->where('productionnotice_hd.productionnotice_status_id','<>',2)->get();
+        ->where('productionnotice_hd.productionnotice_status_id','<>',2)
+        ->orderBy('productionnotice_hd.productionnotice_status_id','asc')
+        ->get();
         return view('productions.form-open-productionnotice',compact('hd'));
     }
 

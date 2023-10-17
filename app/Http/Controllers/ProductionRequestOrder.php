@@ -29,6 +29,7 @@ class ProductionRequestOrder extends Controller
         ->leftjoin('ms_department','requestorder_hd.ms_department_id','=','ms_department.ms_department_id')
         ->select('requestorder_hd.*','requestorder_status.requestorder_status_name','ms_department.ms_department_name')
         ->where('requestorder_hd.requestorder_status_id','<>',2)
+        ->orderBy('requestorder_hd.requestorder_status_id','asc')
         ->get();
         return view('productions.form-open-productionrequestorder',compact('hd'));
     }

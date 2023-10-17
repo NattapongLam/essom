@@ -27,7 +27,9 @@ class ProductionOpen extends Controller
     {
         $hd = DB::table('productionopenjob_hd')
         ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1,3,4,5,11,12])->get();
+        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1,3,4,5,11,12])
+        ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
+        ->get();
         return view('productions.form-open-productionopenjob',compact('hd'));
     }
 

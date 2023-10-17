@@ -39,7 +39,10 @@ class FinalInspection extends Controller
      */
     public function create()
     {
-        //
+        $hd = DB::table('productionopenjob_hd')
+        //->where('productionopenjob_status_id',11)
+        ->get();
+        return view('productions.form-create-finalinspection',compact('hd'));
     }
 
     /**

@@ -5,7 +5,16 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารตรวจสอบขั้นตอนสุดท้าย</h3><br><hr>
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="card-title" style="font-weight: bold">เอกสารตรวจสอบขั้นตอนสุดท้าย</h3>&nbsp;&nbsp;
+                    <a href="{{route('fl-inst.create')}}" class="btn btn-sm btn-success">
+                        <i class="fas fa-file">&nbsp;รายการรอตรวจ</i>                      
+                    </a>
+                </div>
+                <div class="col-3"></div>
+                <div class="col-3"></div>
+            </div><hr>           
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>

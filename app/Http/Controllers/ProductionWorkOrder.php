@@ -28,6 +28,7 @@ class ProductionWorkOrder extends Controller
         $hd = DB::table('workorder_hd')
         ->leftjoin('workorder_status','workorder_hd.workorder_status_id','=','workorder_status.workorder_status_id')
         ->where('workorder_hd.workorder_status_id','<>',2)
+        ->orderBy('workorder_hd.workorder_status_id','asc')
         ->get();
         return view('productions.form-open-productionworkorder',compact('hd'));
     }

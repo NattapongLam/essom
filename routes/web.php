@@ -69,3 +69,4 @@ Route::resource('/ncr-report' , App\Http\Controllers\NcrReport::class);
 Route::post('/cancelDocsNcr' , [App\Http\Controllers\NcrReport::class , 'cancelDocsNcr']);
 Route::resource('/car-report' , App\Http\Controllers\CarReport::class);
 Route::post('/cancelDocsCar' , [App\Http\Controllers\CarReport::class , 'cancelDocsCar']);
+Route::resource('/fl-form' , App\Http\Controllers\FinalInspectionForm::class);
