@@ -151,7 +151,7 @@ $(document).ready(function() {
                 type: 'time-date-sort'
             }],
             order: [
-                [2, "desc"]
+                [7, "desc"]
             ],
             fixedHeader: {
 				header:false,

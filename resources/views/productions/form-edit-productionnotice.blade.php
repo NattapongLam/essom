@@ -46,7 +46,7 @@
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">
-                            อนุมัติแจ้งผลิต
+                            บันทึกเอกสาร
                          </button>
                     </div>
                 </div>
