@@ -101,20 +101,21 @@ class ProductionNotice extends Controller
     {
         try{
             DB::beginTransaction();
-                $uphd = ProductionNoticeHd::where('productionnotice_hd_id',$id)->update([
-                    'productionnotice_status_id' => $request->productionnotice_status_id,
-                    'approved_by' => Auth::user()->name,
-                    'approved_date' => Carbon::now(),
-                    'approved_note' => $request->approved_note
+            $uphd = ProductionNoticeHd::where('productionnotice_hd_id',$id)->update([
+                'productionnotice_status_id' => $request->productionnotice_status_id,
+                'approved_by' => Auth::user()->name,
+                'approved_date' => Carbon::now(),
+                'approved_note' => $request->approved_note
+            ]);
+            $hd = ProductionNoticeHd::leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
+            ->where('productionnotice_hd.productionnotice_hd_id',$id)->first();
+            $dt = ProductionNoticeDt::where('productionnotice_hd_id',$id)->get();
+            foreach ($dt as $key => $value) {
+                $updt = ProductionNoticeDt::where('productionnotice_dt_id',$value->productionnotice_dt_id)->update([
+                    'productionnotice_status_id' => $request->productionnotice_status_id
                 ]);
-                $hd = ProductionNoticeHd::leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
-                ->where('productionnotice_hd.productionnotice_hd_id',$id)->first();
-                $dt = ProductionNoticeDt::where('productionnotice_hd_id',$id)->get();
-                foreach ($dt as $key => $value) {
-                    $updt = ProductionNoticeDt::where('productionnotice_dt_id',$value->productionnotice_dt_id)->update([
-                        'productionnotice_status_id' => $request->productionnotice_status_id
-                    ]);
-                }
+            }
+            $sta = DB::table('productionnotice_status')->where('productionnotice_status_id',$request->productionnotice_status_id)->first();    
             DB::commit();
             define('LINE_API', "https://notify-api.line.me/api/notify");
             $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
@@ -125,7 +126,7 @@ class ProductionNotice extends Controller
             ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
             ."สินค้า : ".$hd->ms_product_name."\n"
             ."Spec Page : ".$hd->ms_specpage_name."\n"
-            ."ผู้อนุมัติแจ้งผลิต : ".Auth::user()->name."\n",
+            ."ผู้อนุมัติแจ้งผลิต : ".Auth::user()->name ." (" . $sta->productionnotice_status_name . ")" ."\n",
             "stickerPkg"     => 446,
             "stickerId"      => 1988,
             );
