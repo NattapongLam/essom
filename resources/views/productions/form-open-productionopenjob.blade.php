@@ -184,7 +184,7 @@ $.ajax({
                 <td>${item.productionopenjob_status_name}</td>  
                 <td>${item.ms_department_name}</td>  
                 <td>${key+1}</td> 
-                <td>${item.productionopenjob_dt_duedate}</td>  
+                <td>${item.duedate}</td>  
                 <td>${item.ms_product_code}</td>  
                 <td>${item.ms_product_name}</td>  
                 <td>${item.ms_product_unit}</td>  
