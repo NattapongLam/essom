@@ -93,8 +93,7 @@
                             <th>สถานะ</th>
                             <th>แผนก</th>
                             <th>ลำดับ</th>
-                            <th>วันที่ต้องการ</th>                                  
-                            <th>รหัสสินค้า</th>    
+                            <th>วันที่ต้องการ</th>                                    
                             <th>ชื่อสินค้า</th>  
                             <th>หน่วยนับ</th>     
                             <th>จำนวน</th>      
@@ -184,8 +183,7 @@ $.ajax({
                 <td>${item.productionopenjob_status_name}</td>  
                 <td>${item.ms_department_name}</td>  
                 <td>${key+1}</td> 
-                <td>${item.duedate}</td>  
-                <td>${item.ms_product_code}</td>  
+                <td>${item.duedate}</td>                
                 <td>${item.ms_product_name}</td>  
                 <td>${item.ms_product_unit}</td>  
                 <td>${item.ms_product_qty}</td>  

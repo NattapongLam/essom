@@ -227,7 +227,7 @@
                                         @foreach ($dt as $item)
                                             <tr>
                                                 <td>{{$item->productionopenjob_dt_listno}}</td>
-                                                <td>{{$item->ms_product_name}} ({{$item->ms_product_code}})</td>
+                                                <td>{{$item->ms_product_name}}</td>
                                                 <td>{{$item->assembleqty}}/{{$item->ms_product_unit}}</td>
                                                 <td>{{number_format($item->estimatecost,2)}}</td>
                                                 <td>{{number_format($item->actualcost,2)}}</td>
