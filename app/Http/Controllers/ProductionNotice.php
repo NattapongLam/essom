@@ -80,13 +80,14 @@ class ProductionNotice extends Controller
         ->first();
         $dt = ProductionNoticeDt::leftjoin('ms_specpage','productionnotice_dt.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->where('productionnotice_dt.productionnotice_hd_id',$id)
-        ->where('productionnotice_dt.productionnotice_dt_flag',true)
-        
+        ->where('productionnotice_dt.productionnotice_dt_flag',true)       
         ->get();
         $op = ProductionNoticeOp::where('productionnotice_hd_id',$id)
         ->where('productionnotice_op_flag',true)
         ->get();
-        $sta = ProductionNoticeStatus::whereIn('productionnotice_status_id',[2,4,5])->get();
+        $sta = ProductionNoticeStatus::whereIn('productionnotice_status_id',[2,4,5])
+        ->orderBy('productionnotice_status_name','DESC')
+        ->get();
         return view('productions.form-edit-productionnotice', compact('hd','dt','sta','op'));
     }
 
