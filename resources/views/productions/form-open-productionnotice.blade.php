@@ -205,7 +205,7 @@ $.ajax({
              <tr>
                 <td>${key+1}</td>
                 <td>${item.productionnotice_dt_duedate}</td>  
-                <td>${item.ms_product_seminame}/${item.ms_product_semicode}</td>  
+                <td>${item.ms_product_seminame}</td>  
                 <td>${item.ms_product_semiqty}/${item.ms_product_semiunit}</td>  
                 <td>${item.productionnotice_dt_remark}</td>  
                 <td>
@@ -235,7 +235,7 @@ $.ajax({
             }
             op_list += `    
              <tr>
-                <td>${item.productionnotice_op_name}/${item.productionnotice_op_code}</td>
+                <td>${item.productionnotice_op_name}</td>
                 <td>${item.productionnotice_op_qty}/${item.productionnotice_op_unit}</td>  
                 <td>${item.productionnotice_op_remark}</td>  
                 <td>${item.productionnotice_op_elect}</td>  

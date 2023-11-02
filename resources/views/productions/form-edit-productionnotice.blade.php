@@ -181,7 +181,7 @@
                                         <tr>
                                             <td>{{$item->productionnotice_dt_listno}}</td>
                                             <td>{{\Carbon\Carbon::parse($item->productionnotice_dt_duedate)->format('d/m/Y')}}</td>
-                                            <td>{{$item->ms_product_seminame}} ({{$item->ms_product_semicode}})</td>
+                                            <td>{{$item->ms_product_seminame}}</td>
                                             <td>{{$item->ms_product_semiqty}} / {{$item->ms_product_semiunit}}</td>
                                             <td>{{$item->productionnotice_dt_remark}}</td>
                                             <td>
@@ -209,7 +209,7 @@
                                 <tbody>
                                     @foreach ($op as $item)
                                         <tr>
-                                            <td>{{$item->productionnotice_op_name}} ({{$item->productionnotice_op_code}})</td>
+                                            <td>{{$item->productionnotice_op_name}}</td>
                                             <td>{{$item->productionnotice_op_qty}} / {{$item->productionnotice_op_unit}}</td>
                                             <td>{{$item->productionnotice_op_remark}}</td>
                                             <td>{{$item->productionnotice_op_elect}}</td>
