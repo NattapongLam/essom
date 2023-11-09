@@ -245,7 +245,7 @@
                                             <td>{{$item->finalInspection_part_listno}}</td>
                                             <td>{{$item->finalInspection_part_remark}}</td>
                                             <td>
-                                                <a href="{{asset($hd->finalInspection_part_filename)}}" target=”_blank”>
+                                                <a href="{{asset($item->finalInspection_part_filename)}}" target=”_blank”>
                                                     <i class="fas fa-file-pdf"></i>
                                                 </a>
                                             </td>
