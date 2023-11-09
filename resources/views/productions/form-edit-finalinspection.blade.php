@@ -82,13 +82,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="finalInspection_hd_shipto">Ship to</label>
                         <input type="text" class="form-control" value="{{$hd->finalInspection_hd_shipto}}" readonly>
                     </div>
                 </div>
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="finalInspection_hd_dimensions">Shipping dimensions (cm.)</label>
                         <input type="text" class="form-control" value="{{$hd->finalInspection_hd_dimensions}}" readonly>
@@ -106,6 +106,14 @@
                         <input type="text" class="form-control" value="{{$hd->ms_finalspec_hd_code}} {{$hd->ms_finalspec_hd_rev}}" readonly>
                     </div>
                 </div>
+                <div class="col-12 col-md-1">
+                    <div class="form-group">
+                        <label for="ms_finalspec_hd_code">Docuno</label>
+                        <a href="{{asset($hd->finalInspection_hd_filename)}}" target=”_blank” class="form-control">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
+                </div>              
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
