@@ -8,9 +8,9 @@
             <div class="row">
                 <div class="col-6">
                     <h3 class="card-title" style="font-weight: bold">เอกสารตรวจสอบขั้นตอนสุดท้าย</h3>&nbsp;&nbsp;
-                    <a href="{{route('fl-inst.create')}}" class="btn btn-sm btn-success">
+                    {{-- <a href="{{route('fl-inst.create')}}" class="btn btn-sm btn-success">
                         <i class="fas fa-file">&nbsp;รายการรอตรวจ</i>                      
-                    </a>
+                    </a> --}}
                 </div>
                 <div class="col-3"></div>
                 <div class="col-3"></div>

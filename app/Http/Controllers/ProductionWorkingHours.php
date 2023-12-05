@@ -30,7 +30,7 @@ class ProductionWorkingHours extends Controller
         $hd = DB::table('workinghours_hd')
         ->leftjoin('workinghours_status','workinghours_hd.workinghours_status_id','=','workinghours_status.workinghours_status_id')
         ->leftjoin('ms_department','workinghours_hd.ms_department_id','=','ms_department.ms_department_id')
-        ->select('workinghours_hd.*','ms_department.ms_department_name')
+        ->select('workinghours_hd.*','ms_department.ms_department_name','workinghours_status.workinghours_status_name')
         ->where('workinghours_hd.workinghours_status_id','<>',2)
         ->get();
         return view('productions.form-open-productionworkinghours',compact('hd'));
@@ -53,7 +53,8 @@ class ProductionWorkingHours extends Controller
         $docs = 'MAN-' . date('Ymd').'-'. str_pad(1, 4, '0', STR_PAD_LEFT);
         $docs_number = 1;
         }
-        $dep = DepartmentList::get();
+        $emp = DB::table('ms_employee')->where('ms_employee_code',Auth::user()->code)->first();
+        $dep = DepartmentList::where('ms_department_id',$emp->ms_department_id)->first();
         $typ = WorkingHoursType::get();
         $jobdoc = DB::table('vw_workinghours_job')->get();
         $lar = EmployeeList::where('ms_department_id',2)->get();
@@ -66,8 +67,9 @@ class ProductionWorkingHours extends Controller
         $del = EmployeeList::where('ms_department_id',11)->get();
         $sto = EmployeeList::where('ms_department_id',12)->get();
         $des = EmployeeList::where('ms_department_id',14)->get();
-        $eng = EmployeeList::where('ms_department_id',15)->get();
-        return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc','lar','sm1','sm2','ele','mac','pai','ser','del','sto','des','eng'));
+        $eng = EmployeeList::where('ms_department_id',15)->get();    
+        $job = DB::table('vw_jobmandaylist')->get(); 
+        return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc','lar','sm1','sm2','ele','mac','pai','ser','del','sto','des','eng','emp','job'));
     }
 
     /**
@@ -80,7 +82,7 @@ class ProductionWorkingHours extends Controller
     {
         $request->validate([
             'ms_department_id' => ['required'],
-            'productionopenjob_dt_id' => ['required'],
+            // 'productionopenjob_dt_id' => ['required'],
         ]);
         $doc = DB::table('vw_workinghours_job')->where('productionopenjob_dt_id',$request->productionopenjob_dt_id)->first();
         $hd = [
@@ -88,36 +90,42 @@ class ProductionWorkingHours extends Controller
             'workinghours_hd_docuno' => $request->workinghours_hd_docuno,
             'workinghours_hd_number' => $request->workinghours_hd_number,
             'ms_department_id' => $request->ms_department_id,
-            'productionopenjob_hd_docuno' => $doc->productionopenjob_hd_docuno,
-            'productionopenjob_dt_id' => $request->productionopenjob_dt_id,
-            'ms_product_name' => $doc->ms_product_name,
-            'ms_customer_name' => $doc->ms_customer_name,
+            //'productionopenjob_hd_docuno' => $doc->productionopenjob_hd_docuno,
+            'productionopenjob_dt_id' => 0,
+            //'ms_product_name' => $doc->ms_product_name,
+            //'ms_customer_name' => $doc->ms_customer_name,
             'workinghours_hd_remark' => $request->workinghours_hd_remark,
-            'other_hours' => $request->other_hours,
+            'other_hours' => 0,
             'created_at' => Carbon::now(),
             'created_person' => Auth::user()->name,
             'workinghours_status_id' => 1,
-            'workinghours_hd_type' => $doc->types
+            //'workinghours_hd_type' => $doc->types
         ];
         try{
 
             DB::beginTransaction();
             $insertHD = ProductionWorkingHoursHd::create($hd);
-            foreach($request->emp_id as $key => $value){
-                $emp = EmployeeList::where('ms_employee_id',$value)->first();
+            foreach($request->selected as $key => $value){
+                $emp = EmployeeList::where('ms_employee_code',Auth::user()->code)->first();
                 if($emp){
-                    $dt[] = [
-                        'workinghours_hd_id' => $insertHD->workinghours_hd_id,
-                        'workinghours_dt_listno' => $key + 1,
-                        'ms_employee_id' => $value,
-                        'ms_employee_code' => $emp->ms_employee_code,
-                        'ms_employee_fullname' => $emp->ms_employee_fullname,
-                        'workinghours_dt_hours' =>  $request->emp_qty[$key],
-                        'workinghours_dt_flag' => true,
-                        'created_at' => $insertHD->created_at,
-                        'created_person' => $insertHD->created_person,
-                        'workinghours_status_id' => $insertHD->workinghours_status_id,
-                    ];
+                    // dd($emp);
+                    if($request->selected[$key] == true){
+                        $dt[] = [
+                            'workinghours_hd_id' => $insertHD->workinghours_hd_id,
+                            'workinghours_dt_listno' => $key + 1,
+                            'ms_employee_id' => $emp->ms_employee_id,
+                            'ms_employee_code' => $emp->ms_employee_code,
+                            'ms_employee_fullname' => $emp->ms_employee_fullname,
+                            'workinghours_dt_hours' =>  $request->workinghours_dt_hours[$key],
+                            'workinghours_dt_flag' => true,
+                            'created_at' => $insertHD->created_at,
+                            'created_person' => $insertHD->created_person,
+                            'workinghours_status_id' => $insertHD->workinghours_status_id,
+                            'workinghours_dt_other' =>  $request->workinghours_dt_other[$key],
+                            'productionopenjob_hd_docuno' => $request->productionopenjob_hd_docuno[$key],
+                            'workinghours_type_name' => $request->workinghours_type_name[$key]
+                        ];
+                    }                    
                 }
             }
             $insertDT = ProductionWorkingHoursDt::insert($dt);
@@ -196,7 +204,8 @@ class ProductionWorkingHours extends Controller
                     $updt = ProductionWorkingHoursDt::where('workinghours_dt_id',$value)->update([
                         'updated_at' => Carbon::now(),
                         'created_person' => Auth::user()->name,
-                        'workinghours_dt_hours' => $request->dt_qty[$key]
+                        'workinghours_dt_hours' => $request->dt_qty[$key],
+                        'workinghours_dt_other' => $request->ot_qty[$key]
                     ]);
                 }
                 DB::commit();

@@ -7,12 +7,17 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารบันทึกชั่วโมงการทำงาน</h3>&nbsp;
-            <a href="{{route('pd-woho.create')}}" 
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h3 class="card-title" style="font-weight: bold">เอกสารบันทึกชั่วโมงการทำงาน</h3>
+                </div>
+                <div class="col-12 col-md-6" style="text-align: right">
+                    <a href="{{route('pd-woho.create')}}" 
                 class="btn btn-sm btn-success" >
-                <i class="fas fa-file"></i>
+                <i class="fas fa-file"> เพิ่มรายการ</i>
             </a>
-            <br><hr>
+                </div>
+            </div>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>
@@ -20,9 +25,9 @@
                         <th>สถานะ</th>
                         <th>วันที่</th>
                         <th>เลขที่</th>
-                        <th>เลขที่อ้างอิง</th>
+                        <th>ผู้บันทึก</th>
                         <th>แผนก</th>
-                        <th>ชั่วโมงอื่นๆ</th>
+                        {{-- <th>จำนวนชั่วโมง</th> --}}
                         <th>หมายเหตุ</th>
                         {{-- <th>ผู้บันทึก</th> --}}
                         <th></th>
@@ -31,9 +36,9 @@
                         <th>สถานะ</th>
                         <th>วันที่</th>
                         <th>เลขที่</th>
-                        <th>เลขที่อ้างอิง</th>
+                        <th>ผู้บันทึก</th>
                         <th>แผนก</th>
-                        <th>ชั่วโมงอื่นๆ</th>
+                        {{-- <th>จำนวนชั่วโมง</th> --}}
                         <th>หมายเหตุ</th>
                         {{-- <th>ผู้บันทึก</th> --}}
                         <th></th>
@@ -45,9 +50,9 @@
                         <td>{{$item->workinghours_status_name}}</td>
                         <td>{{\Carbon\Carbon::parse($item->workinghours_hd_date)->format('d/m/Y')}}</td>
                         <td>{{$item->workinghours_hd_docuno}}</td>
-                        <td>{{$item->productionopenjob_hd_docuno}}</td>
+                        <td>{{$item->created_person}}</td>
                         <td>{{$item->ms_department_name}}</td>
-                        <td>{{number_format($item->other_hours,2)}}</td>
+                        {{-- <td>{{number_format($item->employee_hours,2)}}</td> --}}
                         <td>{{$item->workinghours_hd_remark}}</td>
                         {{-- <td>{{$item->created_person}}</td> --}}
                         <td>
@@ -92,9 +97,10 @@
                         <thead>
                         <tr>
                             <th>ลำดับ</th>
-                            <th>รหัสพนักงาน</th>
-                            <th>ชื่อ - นามสกุล</th>                                  
-                            <th>จำนวนชั่วโมง</th>                      
+                            <th>ประเภทงาน</th>
+                            <th>เลขที่งาน</th>                                  
+                            <th>ชั่วโมง</th>     
+                            <th>อื่นๆ</th>                  
                         </tr>
                         </thead>
                         <tbody id="tb_list">
@@ -174,9 +180,10 @@ $.ajax({
             el_list += `    
              <tr>
                 <td>${item.workinghours_dt_listno}</td>  
-                <td>${item.ms_employee_code}</td>  
-                <td>${item.ms_employee_fullname}</td>  
+                <td>${item.workinghours_type_name}</td>  
+                <td>${item.productionopenjob_hd_docuno}</td>  
                 <td>${parseFloat(item.workinghours_dt_hours).toFixed(2)}</td> 
+                <td>${parseFloat(item.workinghours_dt_other).toFixed(2)}</td> 
             </tr>
         `
         })      

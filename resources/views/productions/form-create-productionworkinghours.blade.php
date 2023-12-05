@@ -21,28 +21,33 @@
         <form method="POST" class="form-horizontal" action="{{ route('pd-woho.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
+            <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-woho.index')}}">เอกสารบันทึกชั่วโมงการทำงาน</h3></a><br>
             <div class="row">
                 <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-woho.index')}}">เอกสารบันทึกชั่วโมงการทำงาน</h3></a>
+                    <div class="form-group row">
+                        <label for="workinghours_hd_date" class="col-sm-3 col-form-label">วันที่</label>
+                        <div class="col-sm-9">
+                          <input type="date" class="form-control" name="workinghours_hd_date" id="workinghours_hd_date" class="form-control" value="{{date('Y-m-d')}}" autofocus readonly>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group row">
-                        <label for="workinghours_hd_date" class="col-sm-2 col-form-label">วันที่</label>
-                        <div class="col-sm-10">
-                          <input type="date" class="form-control" name="workinghours_hd_date" id="workinghours_hd_date" class="form-control" value="{{date('Y-m-d')}}" autofocus readonly>
-                        </div>
-                      </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="form-group row">
-                        <label for="workinghours_hd_docuno" class="col-sm-2 col-form-label">เลขที่</label>
-                        <div class="col-sm-10">
+                        <label for="workinghours_hd_docuno" class="col-sm-3 col-form-label">เลขที่</label>
+                        <div class="col-sm-9">
                           <input type="text" class="form-control" name="workinghours_hd_docuno" id="workinghours_hd_docuno" class="form-control" value="{{$docs}}"readonly>
                           <input type="hidden" name="workinghours_hd_number" id="workinghours_hd_number" value="{{$docs_number}}">
                         </div>
-                      </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="form-group row">
+                        <label for="ms_department_id" class="col-sm-3 col-form-label">แผนก</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" name="ms_department_name" id="ms_department_name" class="form-control" value="{{$dep->ms_department_name}}"readonly>
+                        <input type="hidden" name="ms_department_id" id="ms_department_id" value="{{$emp->ms_department_id}}">
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group">
@@ -52,8 +57,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 col-md-3">
+            {{-- <div class="row"> --}}
+                {{-- <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="ms_department_id">แผนก</label>
                         <select class="form-control select2 @error('ms_department_id') is-invalid @enderror" style="width: 100%;" name="ms_department_id" id="ms_department_id">
@@ -68,7 +73,7 @@
                             </div>
                             @enderror
                     </div>
-                </div>
+                </div> --}}
                 {{-- <div class="col-12 col-md-3">
                     <div class="form-group">
                         <label for="workinghours_type">ประเภท</label>
@@ -80,7 +85,7 @@
                           </select>
                     </div>
                 </div> --}}
-                <div class="col-12 col-md-6">
+                {{-- <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="productionopenjob_dt_id">เลขที่เปิดงาน</label>
                         <select class="form-control select2 @error('productionopenjob_dt_id') is-invalid @enderror" style="width: 100%;" id="productionopenjob_dt_id" name="productionopenjob_dt_id">
@@ -103,8 +108,8 @@
                         <label for="other_hours">ชั่วโมงอื่นๆ</label>
                         <input class="form-control" name="other_hours" id="other_hours" type="text" value="{{old('other_hours',0)}}">
                     </div>
-                </div>
-            </div>
+                </div> --}}
+            {{-- </div> --}}
             <div class="row">
                 <div class="col-12 col-md-12">
                 <div class="form-group">
@@ -114,6 +119,47 @@
                 </div>
             </div>
             <div class="row">             
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>เลือก</th>
+                                    <th>ลำดับ</th>
+                                    <th>เลขที่งาน</th>
+                                    {{-- <th>ชื่อ - นามสกุล</th> --}}
+                                    <th>ชั่วโมงทำงาน</th>
+                                    <th>ชั่วโมงอื่นๆ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($job as $key => $item)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="checkboxPrimary1" name="selected[]">
+                                        </td>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$item->productionopenjob_hd_docuno}}</td>
+                                        {{-- <td>{{Auth::user()->name}}</td> --}}
+                                        <td>
+                                            <input class="form-control" type="text" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0">
+                                            <input type="hidden" id="productionopenjob_hd_docuno[]" name="productionopenjob_hd_docuno[]" value="{{$item->productionopenjob_hd_docuno}}">
+                                            <input type="hidden" id="workinghours_type_name[]" name="workinghours_type_name[]" value="{{$item->workinghours_type_name}}">
+                                            {{-- <input type="hidden" id="emp_id[]" name="emp_id[]" value="{{$emp->ms_employee_id}}">
+                                            <input type="hidden" id="ms_employee_code[]" name="ms_employee_code[]" value="{{$emp->ms_employee_code}}">
+                                            <input type="hidden" id="ms_employee_fullname[]" name="ms_employee_fullname[]" value="{{$emp->ms_employee_fullname}}"> --}}
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" id="workinghours_dt_other[]" name="workinghours_dt_other[]" value="0">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="row">             
                 <div class="col-12">
                 <div class="table-responsive">
                 <table class="table table-bordered">
@@ -131,8 +177,8 @@
                 </table>
                 </div>
                 </div>
-            </div><hr>
-            <div class="row">             
+            </div><hr> --}}
+            {{-- <div class="row">             
                 <div class="col-12">
                     <div class="card card-primary card-outline card-outline-tabs">
                       <div class="card-header p-0 border-bottom-0">
@@ -420,7 +466,7 @@
                       </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         </form>
     </div>

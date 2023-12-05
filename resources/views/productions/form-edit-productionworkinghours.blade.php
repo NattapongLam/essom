@@ -22,19 +22,12 @@
         @csrf
         @method('PUT')
         <div class="card-body">
+            <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-woho.index')}}">เอกสารบันทึกชั่วโมงการทำงาน</h3></a><br>
             <div class="row">
                 <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-woho.index')}}">เอกสารบันทึกชั่วโมงการทำงาน</h3></a>
-                    </div>
-                </div>
-                @if ($hd->workinghours_status_id == 3)
-                    
-                @else
-                <div class="col-12 col-md-3">
                     <div class="form-group row">
-                        <label for="workinghours_hd_date" class="col-sm-2 col-form-label">วันที่</label>
-                        <div class="col-sm-10">
+                        <label for="workinghours_hd_date" class="col-sm-3 col-form-label">วันที่</label>
+                        <div class="col-sm-9">
                           <input type="text" class="form-control" name="workinghours_hd_date" 
                           id="workinghours_hd_date" class="form-control" value="{{\Carbon\Carbon::parse($hd->workinghours_hd_date)->format('d/m/Y')}}" 
                           autofocus readonly>
@@ -43,25 +36,16 @@
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group row">
-                        <label for="workinghours_hd_docuno" class="col-sm-2 col-form-label">เลขที่</label>
-                        <div class="col-sm-10">
+                        <label for="workinghours_hd_docuno" class="col-sm-3 col-form-label">เลขที่</label>
+                        <div class="col-sm-9">
                           <input type="text" class="form-control" name="workinghours_hd_docuno" id="workinghours_hd_docuno" class="form-control" value="{{$hd->workinghours_hd_docuno}}"readonly>
                         </div>
                       </div>
                 </div>
                 <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary">
-                            บันทึก
-                         </button>
-                    </div>
-                </div>
-                @endif              
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label for="ms_department_id">แผนก</label>
+                    <div class="form-group row">
+                        <label for="ms_department_id" class="col-sm-3 col-form-label">แผนก</label>
+                        <div class="col-sm-9">
                         <select class="form-control select2 @error('ms_department_id') is-invalid @enderror" style="width: 100%;" name="ms_department_id" id="ms_department_id">
                             <option value="">กรุณาเลือก</option>
                             @foreach ($dep as $item)
@@ -75,8 +59,22 @@
                               {{$message}}
                             </div>
                             @enderror
+                        </div>
                     </div>
                 </div>
+                @if ($hd->workinghours_status_id == 3)                   
+                @else                             
+                <div class="col-12 col-md-3">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-primary">
+                            บันทึก
+                         </button>
+                    </div>
+                </div>
+                @endif              
+            </div>
+            {{-- <div class="row">
+                
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="productionopenjob_dt_id">เลขที่เปิดงาน</label>
@@ -101,7 +99,7 @@
                         <input class="form-control" name="other_hours" id="other_hours" type="text" value="{{old('other_hours',number_format($hd->other_hours,2))}}">
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-12 col-md-12">
                 <div class="form-group">
@@ -117,10 +115,10 @@
                 <thead>
                     <tr style="background-color:#F5F5F5">
                         <th class="text-center">ลำดับ</th>
-                        <th class="text-center">รหัสพนักงาน</th>
-                        <th class="text-center">ชื่อ - นามสกุล</th>   
+                        <th class="text-center">เลขที่งาน</th>
+                        {{-- <th class="text-center">ชื่อ - นามสกุล</th>    --}}
                         <th class="text-center">จำนวนชั่วโมง</th>                    
-                        <th class="text-center"></th>
+                        <th class="text-center">อื่นๆ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -130,10 +128,13 @@
                             {{$item->workinghours_dt_listno}}
                             <input type="hidden" value="{{$item->workinghours_dt_id}}" name="dt_id[]">
                         </td>
-                        <td class="text-center">{{$item->ms_employee_code}}</td>
-                        <td class="text-center">{{$item->ms_employee_fullname}}</td>
+                        <td class="text-center">{{$item->productionopenjob_hd_docuno}}</td>
+                        {{-- <td class="text-center">{{$item->ms_employee_fullname}}</td> --}}
                         <td class="text-center">
                             <input type="text" class="form-control" name="dt_qty[]" value="{{number_format($item->workinghours_dt_hours,2)}}">
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="form-control" name="ot_qty[]" value="{{number_format($item->workinghours_dt_other,2)}}">
                         </td>
                     </tr>
                     @endforeach
