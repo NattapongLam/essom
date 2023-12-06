@@ -116,12 +116,12 @@ class ProductionWorkingHours extends Controller
                             'ms_employee_id' => $emp->ms_employee_id,
                             'ms_employee_code' => $emp->ms_employee_code,
                             'ms_employee_fullname' => $emp->ms_employee_fullname,
-                            'workinghours_dt_hours' =>  $request->workinghours_dt_hours[$key],
+                            'workinghours_dt_hours' =>  $request->workinghours_dt_hours[$key] . "." . $request->workinghours_dt_time[$key],
                             'workinghours_dt_flag' => true,
                             'created_at' => $insertHD->created_at,
                             'created_person' => $insertHD->created_person,
                             'workinghours_status_id' => $insertHD->workinghours_status_id,
-                            'workinghours_dt_other' =>  $request->workinghours_dt_other[$key],
+                            'workinghours_dt_other' =>  $request->workinghours_dt_other[$key] . "." . $request->other_time[$key],
                             'productionopenjob_hd_docuno' => $request->productionopenjob_hd_docuno[$key],
                             'workinghours_type_name' => $request->workinghours_type_name[$key]
                         ];

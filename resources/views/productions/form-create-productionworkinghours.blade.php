@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
 <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css" rel="stylesheet" type="text/css" />
 <div class="mt-4"><br>
 <div class="row">
     @if(session('success'))
@@ -121,6 +122,7 @@
             <div class="row">             
                 <div class="col-12">
                     <div class="table-responsive">
+                        <div style="overflow-x:auto;">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -136,13 +138,17 @@
                                 @foreach ($job as $key => $item)
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkboxPrimary1" name="selected[]">
+                                            <input type="checkbox" id="checkboxPrimary1" name="selected[]" style="width:20px;">
                                         </td>
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->productionopenjob_hd_docuno}}</td>
                                         {{-- <td>{{Auth::user()->name}}</td> --}}
                                         <td>
-                                            <input class="form-control" type="text" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0">
+                                            <input class="form-control" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;">
+                                            <select class="form-control" style="width:70px;" id="workinghours_dt_time[]" name="workinghours_dt_time[]">
+                                                <option value="0">.00</option>
+                                                <option value="30">.30</option>
+                                            </select>                                            
                                             <input type="hidden" id="productionopenjob_hd_docuno[]" name="productionopenjob_hd_docuno[]" value="{{$item->productionopenjob_hd_docuno}}">
                                             <input type="hidden" id="workinghours_type_name[]" name="workinghours_type_name[]" value="{{$item->workinghours_type_name}}">
                                             {{-- <input type="hidden" id="emp_id[]" name="emp_id[]" value="{{$emp->ms_employee_id}}">
@@ -150,12 +156,17 @@
                                             <input type="hidden" id="ms_employee_fullname[]" name="ms_employee_fullname[]" value="{{$emp->ms_employee_fullname}}"> --}}
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" id="workinghours_dt_other[]" name="workinghours_dt_other[]" value="0">
+                                            <input class="form-control" type="number" id="workinghours_dt_other[]" name="workinghours_dt_other[]" value="0" style="width:70px;">
+                                            <select class="form-control" style="width:70px;" id="other_time[]" name="other_time[]">
+                                                <option value="0">.00</option>
+                                                <option value="30">.30</option>
+                                            </select>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -476,6 +487,7 @@
 @endsection
 @push('scriptjs')
 <script src="{{ asset('/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 <script>
 $(function () {
     $('.select2').select2()
