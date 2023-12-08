@@ -77,9 +77,10 @@ class ProductionOpen extends Controller
         ->where('productionopenjob_hd_id',$id)       
         ->first();
         $dt = ProductionOpenjobDt::leftjoin('productionopenjob_status','productionopenjob_dt.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
+        ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')       
         ->where('productionopenjob_dt.productionopenjob_hd_id', $id)
         ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
+        ->orderBy('productionopenjob_dt.productionopenjob_dt_listno','ASC')
         ->get();  
         if ($hd->productionopenjob_status_id == 1) {
             $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[2,3,5])->get();
@@ -205,6 +206,7 @@ class ProductionOpen extends Controller
         ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
         ->where('productionopenjob_dt.productionopenjob_hd_id', $request->refid)
         ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
+        ->orderBy('productionopenjob_dt.productionopenjob_dt_listno','ASC')
         ->get(); 
         return response()->json(
             [

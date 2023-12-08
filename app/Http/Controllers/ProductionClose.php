@@ -78,6 +78,7 @@ class ProductionClose extends Controller
         ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
         ->where('productionopenjob_dt.productionopenjob_hd_id', $id)
         ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
+        ->orderBy('productionopenjob_dt.productionopenjob_dt_listno','ASC')
         ->get();  
         if ($hd->productionopenjob_status_id == 9) {
             $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[13])->get();
@@ -210,6 +211,7 @@ class ProductionClose extends Controller
         ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
         ->where('productionopenjob_dt.productionopenjob_hd_id', $request->refid)
         ->where('productionopenjob_dt.productionopenjob_dt_flag',true)
+        ->orderBy('productionopenjob_dt.productionopenjob_dt_listno','ASC')
         ->get(); 
         return response()->json(
             [
