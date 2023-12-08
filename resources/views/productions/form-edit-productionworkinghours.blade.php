@@ -116,9 +116,9 @@
                     <tr style="background-color:#F5F5F5">
                         <th class="text-center">ลำดับ</th>
                         <th class="text-center">เลขที่งาน</th>
-                        {{-- <th class="text-center">ชื่อ - นามสกุล</th>    --}}
+                        <th class="text-center">ชื่อ - นามสกุล</th>   
                         <th class="text-center">จำนวนชั่วโมง</th>                    
-                        <th class="text-center">อื่นๆ</th>
+                        {{-- <th class="text-center">อื่นๆ</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -129,13 +129,13 @@
                             <input type="hidden" value="{{$item->workinghours_dt_id}}" name="dt_id[]">
                         </td>
                         <td class="text-center">{{$item->productionopenjob_hd_docuno}}</td>
-                        {{-- <td class="text-center">{{$item->ms_employee_fullname}}</td> --}}
+                        <td class="text-center">{{$item->ms_employee_fullname}}</td>
                         <td class="text-center">
                             <input type="text" class="form-control" name="dt_qty[]" value="{{number_format($item->workinghours_dt_hours,2)}}">
                         </td>
-                        <td class="text-center">
+                        {{-- <td class="text-center">
                             <input type="text" class="form-control" name="ot_qty[]" value="{{number_format($item->workinghours_dt_other,2)}}">
-                        </td>
+                        </td> --}}
                     </tr>
                     @endforeach
                     

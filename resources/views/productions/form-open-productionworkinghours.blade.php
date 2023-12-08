@@ -98,9 +98,9 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th>ประเภทงาน</th>
-                            <th>เลขที่งาน</th>                                  
-                            <th>ชั่วโมง</th>     
-                            <th>อื่นๆ</th>                  
+                            <th>เลขที่งาน</th>  
+                            <th>พนักงาน</th>                                 
+                            <th>ชั่วโมง</th>                                                  
                         </tr>
                         </thead>
                         <tbody id="tb_list">
@@ -181,9 +181,9 @@ $.ajax({
              <tr>
                 <td>${item.workinghours_dt_listno}</td>  
                 <td>${item.workinghours_type_name}</td>  
-                <td>${item.productionopenjob_hd_docuno}</td>  
-                <td>${parseFloat(item.workinghours_dt_hours).toFixed(2)}</td> 
-                <td>${parseFloat(item.workinghours_dt_other).toFixed(2)}</td> 
+                <td>${item.productionopenjob_hd_docuno}</td>
+                <td>${item.ms_employee_fullname}</td>   
+                <td>${parseFloat(item.workinghours_dt_hours).toFixed(2)}</td>                
             </tr>
         `
         })      

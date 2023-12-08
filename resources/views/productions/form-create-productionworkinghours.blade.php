@@ -28,29 +28,55 @@
                     <div class="form-group row">
                         <label for="workinghours_hd_date" class="col-sm-3 col-form-label">วันที่</label>
                         <div class="col-sm-9">
-                          <input type="date" class="form-control" name="workinghours_hd_date" id="workinghours_hd_date" class="form-control" value="{{date('Y-m-d')}}" autofocus readonly>
+                          <input type="date" class="form-control" name="workinghours_hd_date" id="workinghours_hd_date" class="form-control" value="{{date('Y-m-d')}}" autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <div class="form-group row">
+                        <label for="workinghours_hd_docuno" class="col-sm-3 col-form-label">พนักงาน</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 @error('ms_employee_id') is-invalid @enderror" style="width: 100%;" name="ms_employee_id" id="ms_employee_id">
+                                <option value="">กรุณาเลือก</option>
+                                @foreach ($emps as $item)
+                                <option value="{{$item->ms_employee_id}}"
+                                    {{ old('ms_employee_id', $emp->ms_employee_id) == $item->ms_employee_id ? 'selected' : null }}>
+                                    {{$item->ms_employee_code}}/{{$item->ms_employee_fullname}}</option>
+                                @endforeach
+                            </select>
+                                @error('ms_employee_id')
+                                <div id="ms_employee_id_validation" class="invalid-feedback">
+                                  {{$message}}
+                                </div>
+                                @enderror   
+                          <input type="hidden" class="form-control" name="workinghours_hd_docuno" id="workinghours_hd_docuno" class="form-control" value="{{$docs}}"readonly>
+                          <input type="hidden" name="workinghours_hd_number" id="workinghours_hd_number" value="{{$docs_number}}">
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
                     <div class="form-group row">
-                        <label for="workinghours_hd_docuno" class="col-sm-3 col-form-label">เลขที่</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" name="workinghours_hd_docuno" id="workinghours_hd_docuno" class="form-control" value="{{$docs}}"readonly>
-                          <input type="hidden" name="workinghours_hd_number" id="workinghours_hd_number" value="{{$docs_number}}">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="form-group row">
                         <label for="ms_department_id" class="col-sm-3 col-form-label">แผนก</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" name="ms_department_name" id="ms_department_name" class="form-control" value="{{$dep->ms_department_name}}"readonly>
-                        <input type="hidden" name="ms_department_id" id="ms_department_id" value="{{$emp->ms_department_id}}">
+                            <select class="form-control select2 @error('ms_department_id') is-invalid @enderror" style="width: 100%;" name="ms_department_id" id="ms_department_id">
+                                <option value="">กรุณาเลือก</option>
+                                @foreach ($dep as $item)
+                                <option value="{{$item->ms_department_id}}"
+                                    {{ old('ms_department_id', $emp->ms_department_id) == $item->ms_department_id ? 'selected' : null }}>
+                                    {{$item->ms_department_name}}</option>
+                                @endforeach
+                            </select>
+                                @error('ms_department_id')
+                                <div id="ms_department_id_validation" class="invalid-feedback">
+                                  {{$message}}
+                                </div>
+                                @enderror   
+                        {{-- <input type="hidden" class="form-control" name="ms_department_name" id="ms_department_name" class="form-control" value="{{$dep->ms_department_name}}"readonly>
+                        <input type="hidden" name="ms_department_id" id="ms_department_id" value="{{$emp->ms_department_id}}"> --}}
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-1">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">
                             บันทึก
@@ -131,7 +157,7 @@
                                     <th>เลขที่งาน</th>
                                     {{-- <th>ชื่อ - นามสกุล</th> --}}
                                     <th>ชั่วโมงทำงาน</th>
-                                    <th>ชั่วโมงอื่นๆ</th>
+                                    {{-- <th>ชั่วโมงอื่นๆ</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -155,13 +181,13 @@
                                             <input type="hidden" id="ms_employee_code[]" name="ms_employee_code[]" value="{{$emp->ms_employee_code}}">
                                             <input type="hidden" id="ms_employee_fullname[]" name="ms_employee_fullname[]" value="{{$emp->ms_employee_fullname}}"> --}}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <input class="form-control" type="number" id="workinghours_dt_other[]" name="workinghours_dt_other[]" value="0" style="width:70px;">
                                             <select class="form-control" style="width:70px;" id="other_time[]" name="other_time[]">
                                                 <option value="0">.00</option>
                                                 <option value="30">.30</option>
                                             </select>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

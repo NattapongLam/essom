@@ -53,9 +53,10 @@ class ProductionLadingOrder extends Controller
         $docs_number = 1;
         }
         $dep = DepartmentList::get();
-        $jobdoc = DB::table('vw_ladingorder_job')->get();
+        $jobdoc = DB::table('productionopenjob_hd')->where('productionopenjob_status_id',4)->get();
         $stc = DB::table('vw_ms_product1')->get();
-        return view('productions.form-create-productionladingorder',compact('docs','docs_number','dep','jobdoc','stc'));
+        $emp = DB::table('ms_employee')->where('ms_employee_code',Auth::user()->code)->first();
+        return view('productions.form-create-productionladingorder',compact('docs','docs_number','dep','jobdoc','stc','emp'));
     }
 
     /**
@@ -70,17 +71,17 @@ class ProductionLadingOrder extends Controller
             'ms_department_id' => ['required'],
             'productionopenjob_dt_id' => ['required'],
         ]);
-        $doc = DB::table('vw_ladingorder_job')->where('productionopenjob_dt_id',$request->productionopenjob_dt_id)->first();
+        //$doc = DB::table('vw_ladingorder_job')->where('productionopenjob_dt_id',$request->productionopenjob_dt_id)->first();
         $hd = [
             'ladingorder_hd_date' => $request->ladingorder_hd_date,
             'ladingorder_hd_docuno' => $request->ladingorder_hd_docuno,
             'ladingorder_hd_number' => $request->ladingorder_hd_number,
             'ms_department_id' => $request->ms_department_id,
-            'productionopenjob_hd_docuno' => $doc->productionopenjob_hd_docuno,
-            'productionopenjob_dt_id' => $request->productionopenjob_dt_id,
-            'ms_product_name' => $doc->ms_product_name,
-            'ms_product_qty' => $doc->ms_product_qty,
-            'productionnotice_dt_duedate' => $doc->productionnotice_dt_duedate,
+            'productionopenjob_hd_docuno' => $request->productionopenjob_hd_docuno,
+            'productionopenjob_dt_id' => 0,
+            //'ms_product_name' => $doc->ms_product_name,
+            'ms_product_qty' => 0,
+            //'productionnotice_dt_duedate' => $doc->productionnotice_dt_duedate,
             'ladingorder_hd_note' => $request->ladingorder_hd_note,
             'created_at' => Carbon::now(),
             'created_person' => Auth::user()->name,

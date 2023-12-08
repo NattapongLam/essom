@@ -21,30 +21,46 @@
         <form method="POST" class="form-horizontal" action="{{ route('pd-ladi.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-ladi.index')}}">เอกสารใบเบิกวัสดุอุปกรณ์</h3></a>
-                    </div>
-                </div>
+            <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-ladi.index')}}">เอกสารใบเบิกวัสดุอุปกรณ์</h3></a><br>
+            <div class="row">              
                 <div class="col-12 col-md-3">
                     <div class="form-group row">
-                        <label for="ladingorder_hd_date" class="col-sm-2 col-form-label">วันที่</label>
-                        <div class="col-sm-10">
+                        <label for="ladingorder_hd_date" class="col-sm-3 col-form-label">วันที่</label>
+                        <div class="col-sm-9">
                           <input type="date" class="form-control" name="ladingorder_hd_date" id="ladingorder_hd_date" class="form-control" value="{{date('Y-m-d')}}" autofocus readonly>
                         </div>
                       </div>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <div class="form-group row">
-                        <label for="ladingorder_hd_docuno" class="col-sm-2 col-form-label">เลขที่</label>
-                        <div class="col-sm-10">
+                        <label for="ladingorder_hd_docuno" class="col-sm-3 col-form-label">เลขที่</label>
+                        <div class="col-sm-9">
                           <input type="text" class="form-control" name="ladingorder_hd_docuno" id="ladingorder_hd_docuno" class="form-control" value="{{$docs}}"readonly>
                           <input type="hidden" name="ladingorder_hd_number" id="ladingorder_hd_number" value="{{$docs_number}}">
                         </div>
                       </div>
                 </div>
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-3">
+                    <div class="form-group row">
+                        <label for="productionopenjob_hd_docuno" class="col-sm-3 col-form-label">เลขที่งาน</label>
+                        <div class="col-sm-9">
+                        <select class="form-control select2 @error('productionopenjob_hd_docuno') is-invalid @enderror" style="width: 100%;" id="productionopenjob_hd_docuno" name="productionopenjob_hd_docuno">
+                        <option value="">กรุณาเลือกเลขที่เปิดงาน</option>
+                        @foreach ($jobdoc as $jobdoc)
+                            <option value="{{ $jobdoc->productionopenjob_hd_docuno }}"
+                                {{ old('productionopenjob_hd_docuno') == $jobdoc->productionopenjob_hd_docuno ? 'selected' : null }}>
+                                {{ $jobdoc->productionopenjob_hd_docuno }}</option>
+                        @endforeach
+                        </select>
+                        @error('productionopenjob_hd_docuno')
+                            <div id="productionopenjob_hd_docuno_docuno_validation" class="invalid-feedback">
+                              {{$message}}
+                            </div>
+                        @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">
                             บันทึก
@@ -54,12 +70,16 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label for="ms_department_id">แผนก</label>
+                    <div class="form-group row">
+                        <label for="ms_department_id" class="col-sm-3 col-form-label">แผนก</label>
+                        <div class="col-sm-9">
                         <select class="form-control select2 @error('ms_department_id') is-invalid @enderror" style="width: 100%;" name="ms_department_id" id="ms_department_id">
                             <option value="">กรุณาเลือก</option>
                             @foreach ($dep as $item)
-                            <option value="{{$item->ms_department_id}}">{{$item->ms_department_name}}</option>
+                            <option value="{{$item->ms_department_id}}" 
+                                {{ old('ms_department_id') == $emp->ms_department_id ? 'selected' : null }}>
+                                {{$item->ms_department_name}}
+                            </option>
                             @endforeach
                         </select>
                             @error('ms_department_id')
@@ -67,33 +87,21 @@
                               {{$message}}
                             </div>
                             @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-9">
-                    <div class="form-group">
-                        <label for="productionopenjob_dt_id">เลขที่เปิดงาน</label>
-                        <select class="form-control select2 @error('productionopenjob_dt_id') is-invalid @enderror" style="width: 100%;" id="productionopenjob_dt_id" name="productionopenjob_dt_id">
-                        <option value="">กรุณาเลือกเลขที่เปิดงาน</option>
-                        @foreach ($jobdoc as $jobdoc)
-                            <option value="{{ $jobdoc->productionopenjob_dt_id }}"
-                                {{ old('productionopenjob_dt_id') == $jobdoc->productionopenjob_dt_id ? 'selected' : null }}>
-                                {{ $jobdoc->productionopenjob_hd_docuno }} {{ $jobdoc->ms_product_name }} {{ $jobdoc->ms_customer_name }}</option>
-                        @endforeach
-                        </select>
-                        @error('productionopenjob_dt_id')
-                            <div id="productionopenjob_dt_id_docuno_validation" class="invalid-feedback">
-                              {{$message}}
-                            </div>
-                        @enderror
+                    <div class="form-group row">
+                        <label for="ladingorder_hd_note" class="col-sm-1 col-form-label">หมายเหตุ</label>
+                        <div class="col-sm-11">
+                        <input class="form-control" name="ladingorder_hd_note" id="ladingorder_hd_note" type="text">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-12">
-                <div class="form-group">
-                    <label for="ladingorder_hd_note">หมายเหตุ</label>
-                    <input class="form-control" name="ladingorder_hd_note" id="ladingorder_hd_note" type="text">
-                </div>
+                
                 </div>
             </div>
             <div class="row">             

@@ -6,10 +6,10 @@
     <div class="card">
         <div class="card-body">
             <h3 class="card-title" style="font-weight: bold">เอกสารใบเบิกวัสดุอุปกรณ์</h3>&nbsp;
-            <a href="{{route('pd-ladi.create')}}" 
+            {{-- <a href="{{route('pd-ladi.create')}}" 
                 class="btn btn-sm btn-success" >
                 <i class="fas fa-file"></i>
-            </a>
+            </a> --}}
             <br><hr>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
