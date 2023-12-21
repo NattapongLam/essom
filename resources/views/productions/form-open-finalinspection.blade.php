@@ -95,11 +95,11 @@
                     <div class="card-header p-0 border-bottom-0">
                       <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">1.การตรวจสอบในกระบวนการผลิต</a>
+                          <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">เอกสารตรวจสอบขั้นตอนสุดท้าย</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                           <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">2.การตรวจสอบขั้นสุดท้าย</a>
-                        </li>  
+                        </li>   --}}
                       </ul>
                     </div>
                     <div class="card-body">
@@ -109,17 +109,17 @@
                               <table class="table table-bordered">
                                   <thead>
                                       <tr>
-                                          <th>รายละเอียด</th>
-                                          <th>ค่าที่ได้</th>
+                                          <th>ไฟล์</th>
+                                          {{-- <th>ค่าที่ได้</th>
                                           <th>เช็ค</th>
-                                          <th>หมายเหตุ</th>
+                                          <th>หมายเหตุ</th> --}}
                                       </tr>
                                   </thead>
                                   <tbody id="tb1_list"></tbody>
                               </table>
                               </div>
                         </div>
-                        <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                        {{-- <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                           <div class="table-responsive">
                               <table class="table table-bordered">
                                   <thead>
@@ -133,7 +133,7 @@
                                   <tbody id="tb2_list"></tbody>
                               </table>
                           </div>
-                        </div>                    
+                        </div>                     --}}
                       </div>
                     </div>
                   </div>                             
@@ -204,23 +204,14 @@ $.ajax({
         console.log(data);
         let el1_list = ''; 
         let el2_list = ''; 
-        $.each(data.dt1, function(key , item) {
-            if(item.finalInspection_dt1_qty == null){
-                item.finalInspection_dt1_qty = ''
-            }else{
-                item.finalInspection_dt1_qty = item.finalInspection_dt1_qty
-            }
-            if(item.finalInspection_dt1_description == null){
-                item.finalInspection_dt1_description = ''
-            }else{
-                item.finalInspection_dt1_description = item.finalInspection_dt1_description
-            }
+        $.each(data.dt3, function(key , item) {
             el1_list += `    
              <tr>
-                <td>${item.finalInspection_dt1_remark}</td>  
-                <td>${item.finalInspection_dt1_qty}</td>  
-                <td>${item.finalInspection_dt1_checked}</td>  
-                <td>${item.finalInspection_dt1_description}</td>  
+                <td>
+                    <a href="${item.finalInspection_part_filename}" target=”_blank”>
+                    ${item.finalInspection_part_filename}
+                    </a>
+                </td>                 
             </tr>
         `
         })      

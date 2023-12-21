@@ -160,11 +160,16 @@ class FinalInspection extends Controller
         ->where('finalInspection_hd_id', $request->refid)
         ->where('finalInspection_dt2_flag',true)
         ->get();
+        $dt3 = DB::table('finalInspection_part')
+        ->where('finalInspection_hd_id', $request->refid)
+        ->where('finalInspection_part_flag',true)
+        ->get(); 
         return response()->json(
         [
             'status' => true,
             'dt1' => $dt1,
-            'dt2' => $dt2
+            'dt2' => $dt2,
+            'dt3' => $dt3
         ]);
     }
 }
