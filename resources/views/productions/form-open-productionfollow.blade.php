@@ -28,10 +28,16 @@
                         <th style="width: 30%">
                             Project Name
                         </th>
-                        <th style="width: 20%">
+                        <th style="width: 20%" class="text-center">
                             Team Members
                         </th>
-                        <th>
+                        <th style="width: 20%" class="text-center">
+                            Time Forecast
+                        </th>
+                        <th style="width: 20%" class="text-center">
+                            Time ManDay
+                        </th>
+                        <th class="text-center">
                             Project Progress
                         </th>
                         <th style="width: 10%" class="text-center">
@@ -60,10 +66,17 @@
                                     {{$item->ms_customer_name}}
                                 </small>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{$item->created_person}}
                             </td>
-                            <td class="project_progress">
+                            <td class="text-center">
+                                {{number_format($item->totaltime,0)}}
+                            </td>
+                            <td class="text-center">
+                                {{number_format($item->mantime,0)}}
+                            </td>
+                            <td class="project_progress" >
+                                @if ($item->timeper <= 100)
                                 <div class="progress progress-sm">
                                     <div class="progress-bar bg-green" role="progressbar" aria-valuenow="{{$item->timeper}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$item->timeper}}%">
                                     </div>
@@ -71,6 +84,16 @@
                                 <small>
                                     {{number_format($item->timeper,2)}}% Complete
                                 </small>
+                                @else
+                                <div class="progress progress-sm">
+                                    <div class="progress-bar bg-red" role="progressbar" aria-valuenow="{{$item->timeper}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$item->timeper}}%">
+                                    </div>
+                                </div>
+                                <small>
+                                    {{number_format($item->timeper,2)}}% Complete
+                                </small>
+                                @endif
+                                
                             </td>
                             <td class="project-state">
                                 <span class="badge badge-success">
