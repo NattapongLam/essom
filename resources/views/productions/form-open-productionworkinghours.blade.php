@@ -7,55 +7,66 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
+            <form method="GET" class="form-horizontal">
+                @csrf
             <div class="row">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-2">
                     <h3 class="card-title" style="font-weight: bold">เอกสารบันทึกชั่วโมงการทำงาน</h3>
                 </div>
-                <div class="col-12 col-md-6" style="text-align: right">
+                <div class="col-12 col-md-2">
+                    <div class="form-group row">
+                        <label for="datestart" class="col-sm-3 col-form-label">วันที่</label>
+                        <div class="col-sm-9">
+                          <input type="date" class="form-control" name="datestart" id="datestart" class="form-control" value="{{$datestart}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group row">
+                        <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                        <div class="col-sm-9">
+                          <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <button class="btn btn-info" type="submit">ค้นหา</button>
+                </div>
+                <div class="col-12 col-md-4" style="text-align: right">
                     <a href="{{route('pd-woho.create')}}" 
                 class="btn btn-sm btn-success" >
                 <i class="fas fa-file"> เพิ่มรายการ</i>
-            </a>
+                </a>
                 </div>
+            </form>
             </div>
             <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="tb_job">
+            <table class="table table-bordered table-hover table-sm" id="tb_job">
                 <thead>
                     <tr>
-                        <th>สถานะ</th>
-                        <th>วันที่</th>
-                        <th>เลขที่</th>
-                        <th>ผู้บันทึก</th>
-                        <th>แผนก</th>
+                        <th class="text-center">สถานะ</th>
+                        <th class="text-center">วันที่</th>
+                        <th class="text-center">เลขที่</th>
+                        <th class="text-center">ผู้บันทึก</th>
+                        <th class="text-center">แผนก</th>
                         {{-- <th>จำนวนชั่วโมง</th> --}}
                         <th>หมายเหตุ</th>
                         {{-- <th>ผู้บันทึก</th> --}}
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>สถานะ</th>
-                        <th>วันที่</th>
-                        <th>เลขที่</th>
-                        <th>ผู้บันทึก</th>
-                        <th>แผนก</th>
-                        {{-- <th>จำนวนชั่วโมง</th> --}}
-                        <th>หมายเหตุ</th>
-                        {{-- <th>ผู้บันทึก</th> --}}
-                        <th></th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($hd as $item)
                     <tr>
-                        <td>{{$item->workinghours_status_name}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->workinghours_hd_date)->format('d/m/Y')}}</td>
-                        <td>{{$item->workinghours_hd_docuno}}</td>
-                        <td>{{$item->created_person}}</td>
-                        <td>{{$item->ms_department_name}}</td>
+                        <td class="text-center">{{$item->workinghours_status_name}}</td>
+                        <td class="text-center">{{\Carbon\Carbon::parse($item->workinghours_hd_date)->format('d/m/Y')}}</td>
+                        <td class="text-center">{{$item->workinghours_hd_docuno}}</td>
+                        <td class="text-center">{{$item->created_person}}</td>
+                        <td class="text-center">{{$item->ms_department_name}}</td>
                         {{-- <td>{{number_format($item->employee_hours,2)}}</td> --}}
                         <td>{{$item->workinghours_hd_remark}}</td>
                         {{-- <td>{{$item->created_person}}</td> --}}
-                        <td>
+                        <td class="text-center">
                             @if($item->workinghours_status_id == 1)
                             <a href="{{route('pd-woho.edit',$item->workinghours_hd_id)}}" 
                                 class="btn btn-sm btn-warning" >
@@ -133,35 +144,14 @@ $(document).ready(function() {
                 type: 'time-date-sort'
             }],
             order: [
-                [2, "desc"]
+                [1, "desc"]
             ],
             fixedHeader: {
                 header:false,
                 footer:false
             },
         pagingType: "full_numbers",
-        bSort: true,
-            initComplete: function() {
-      this.api().columns().every(function() {
-        var column = this;
-        var select = $('<select class="form-control select2"><option value=""></option></select>')
-          .appendTo($(column.header()).empty())
-          .on('change', function() {
-            var val = $.fn.dataTable.util.escapeRegex(
-              $(this).val()
-            );
-
-            column
-              .search(val ? '^' + val + '$' : '', true, false)
-              .draw();
-          });
-
-        column.data().unique().sort().each(function(d, j) {
-          select.append('<option value="' + d + '">' + d + '</option>')
-        });
-      });
-    }
-    
+        bSort: true, 
     })
 }); 
 getDataWoho = (id) => {

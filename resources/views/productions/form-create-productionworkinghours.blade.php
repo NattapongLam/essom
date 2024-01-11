@@ -164,7 +164,11 @@
                                 @foreach ($job as $key => $item)
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="checkboxPrimary1" name="selected[]" style="width:20px;">
+                                            <select class="form-control" name="selected[]" style="width:80px;">
+                                                <option value="0">ระบุ</option>
+                                                <option value="1">เลือก</option>
+                                            </select>
+                                            {{-- <input type="checkbox" id="checkboxPrimary1" name="selected[]" style="width:20px;"> --}}
                                         </td>
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->productionopenjob_hd_docuno}}</td>

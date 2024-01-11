@@ -25,15 +25,28 @@ class ProductionWorkingHours extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-3 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('workinghours_hd')
         ->leftjoin('workinghours_status','workinghours_hd.workinghours_status_id','=','workinghours_status.workinghours_status_id')
         ->leftjoin('ms_department','workinghours_hd.ms_department_id','=','ms_department.ms_department_id')
         ->select('workinghours_hd.*','ms_department.ms_department_name','workinghours_status.workinghours_status_name')
         ->where('workinghours_hd.workinghours_status_id','<>',2)
+        ->whereBetween('workinghours_hd.workinghours_hd_date',[$datestart,$dateend])
         ->get();
-        return view('productions.form-open-productionworkinghours',compact('hd'));
+        return view('productions.form-open-productionworkinghours',compact('hd','dateend','datestart'));
     }
 
     /**
@@ -108,9 +121,10 @@ class ProductionWorkingHours extends Controller
             $insertHD = ProductionWorkingHoursHd::create($hd);
             foreach($request->selected as $key => $value){
                 $emp = EmployeeList::where('ms_employee_id',$request->ms_employee_id)->first();
-                if($emp){
-                    // dd($emp);
-                    if($request->selected[$key] == true){
+                if($emp){                
+                    // dd($request->selected);
+                    if($request->selected[$key] == "1"){    
+                        //dd($request->productionopenjob_hd_docuno[$key]);                    
                         $dt[] = [
                             'workinghours_hd_id' => $insertHD->workinghours_hd_id,
                             'workinghours_dt_listno' => $key + 1,
@@ -199,7 +213,7 @@ class ProductionWorkingHours extends Controller
                 $uphd = ProductionWorkingHoursHd::where('workinghours_hd_id',$id)->update([
                     'ms_department_id' => $request->ms_department_id,
                     'workinghours_hd_remark' => $request->workinghours_hd_remark,
-                    'other_hours' => $request->other_hours,
+                    'other_hours' => 0,
                     'updated_at' => Carbon::now(),
                     'created_person' => Auth::user()->name,
                 ]);

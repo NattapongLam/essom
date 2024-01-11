@@ -23,16 +23,29 @@ class ProductionLadingOrder extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-3 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('ladingorder_hd')
         ->leftjoin('ladingorder_status','ladingorder_hd.ladingorder_status_id','=','ladingorder_status.ladingorder_status_id')
         ->leftjoin('ms_department','ladingorder_hd.ms_department_id','=','ms_department.ms_department_id')
         ->select('ladingorder_hd.*','ladingorder_status.ladingorder_status_name','ms_department.ms_department_name')
         ->where('ladingorder_hd.ladingorder_status_id','<>',2)
+        ->whereBetween('ladingorder_hd.ladingorder_hd_date',[$datestart,$dateend])
         ->orderBy('ladingorder_hd.ladingorder_status_id','asc')
         ->get();
-        return view('productions.form-open-productionladingorder',compact('hd'));
+        return view('productions.form-open-productionladingorder',compact('hd','dateend','datestart'));
     }
 
     /**

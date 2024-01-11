@@ -23,15 +23,28 @@ class ProductionNotice extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('productionnotice_hd')
         ->leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
         ->leftjoin('productionnotice_status','productionnotice_hd.productionnotice_status_id','=','productionnotice_status.productionnotice_status_id')
         ->where('productionnotice_hd.productionnotice_status_id','<>',2)
         ->orderBy('productionnotice_hd.productionnotice_hd_duedate','asc')
+        ->whereBetween('productionnotice_hd.productionnotice_hd_date',[$datestart,$dateend])
         ->get();
-        return view('productions.form-open-productionnotice',compact('hd'));
+        return view('productions.form-open-productionnotice',compact('hd','datestart','dateend'));
     }
 
     /**

@@ -5,68 +5,84 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารใบเบิกวัสดุอุปกรณ์</h3>&nbsp;
+            <form method="GET" class="form-horizontal">
+                @csrf
+                <div class="row">
+                    <div class="col-12 col-md-2">
+                        <h3 class="card-title" style="font-weight: bold">เอกสารใบเบิกวัสดุอุปกรณ์</h3>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="form-group row">
+                            <label for="datestart" class="col-sm-3 col-form-label">วันที่</label>
+                            <div class="col-sm-9">
+                              <input type="date" class="form-control" name="datestart" id="datestart" class="form-control" value="{{$datestart}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="form-group row">
+                            <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                            <div class="col-sm-9">
+                              <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button class="btn btn-info" type="submit">ค้นหา</button>
+                    </div>
+                </div>
+            </form>                     
             {{-- <a href="{{route('pd-ladi.create')}}" 
                 class="btn btn-sm btn-success" >
                 <i class="fas fa-file"></i>
             </a> --}}
-            <br><hr>
-            <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="tb_job">
-                <thead>
-                    <tr>
-                        <td>สถานะ</td>
-                        <td>วันที่</td>
-                        <td>เลขที่ใบเบิก</td>
-                        <td>เลขที่อ้างอิง</td>
-                        <td>แผนก</td>
-                        <td>ผู้เบิก</td>
-                        <td>หมายเหตุ</td>
-                        <td>ผู้อนุมัติ</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>สถานะ</td>
-                        <td>วันที่</td>
-                        <td>เลขที่ใบเบิก</td>
-                        <td>เลขที่อ้างอิง</td>
-                        <td>แผนก</td>
-                        <td>ผู้เบิก</td>
-                        <td>หมายเหตุ</td>
-                        <td>ผู้อนุมัติ</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($hd as $item)
-                        <tr>
-                            <td>{{$item->ladingorder_status_name}}</td>
-                            <td>{{\Carbon\Carbon::parse($item->ladingorder_hd_date)->format('d/m/Y')}}</td>
-                            <td>{{$item->ladingorder_hd_docuno}}</td>
-                            <td>{{$item->productionopenjob_hd_docuno}}</td>
-                            <td>{{$item->ms_department_name}}</td>
-                            <td>{{$item->created_person}}</td>
-                            <td>{{$item->ladingorder_hd_note}}</td>
-                            <td>{{$item->approved_by}}</td>
-                            <td>
-                                @if($item->ladingorder_status_id == 1 || $item->ladingorder_status_id == 5)
-                                <a href="{{route('pd-ladi.edit',$item->ladingorder_hd_id)}}" 
-                                    class="btn btn-sm btn-warning" >
-                                    <i class="fas fa-edit"></i>
-                                  </a>                           
-                                @else
-                                <a href="javascript:void(0)" 
-                                class="btn btn-primary btn-sm" 
-                                data-toggle="modal" data-target="#modal"
-                                onclick="getDataLadi('{{ $item->ladingorder_hd_id }}')">
-                                <i class="fas fa-eye"></i></a>                          
-                                @endif  
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-sm" id="tb_job">
+                        <thead>
+                            <tr>
+                                <td class="text-center">สถานะ</td>
+                                <td class="text-center">วันที่</td>
+                                <td class="text-center">เลขที่ใบเบิก</td>
+                                <td class="text-center">เลขที่อ้างอิง</td>
+                                <td class="text-center">แผนก</td>
+                                <td class="text-center">ผู้เบิก</td>
+                                <td>หมายเหตุ</td>
+                                <td class="text-center">ผู้อนุมัติ</td>
+                                <td class="text-center"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($hd as $item)
+                                <tr>
+                                    <td class="text-center">{{$item->ladingorder_status_name}}</td>
+                                    <td class="text-center">{{\Carbon\Carbon::parse($item->ladingorder_hd_date)->format('d/m/Y')}}</td>
+                                    <td class="text-center">{{$item->ladingorder_hd_docuno}}</td>
+                                    <td class="text-center">{{$item->productionopenjob_hd_docuno}}</td>
+                                    <td class="text-center">{{$item->ms_department_name}}</td>
+                                    <td class="text-center">{{$item->created_person}}</td>
+                                    <td>{{$item->ladingorder_hd_note}}</td>
+                                    <td class="text-center">{{$item->approved_by}}</td>
+                                    <td class="text-center">
+                                        @if($item->ladingorder_status_id == 1 || $item->ladingorder_status_id == 5)
+                                        <a href="{{route('pd-ladi.edit',$item->ladingorder_hd_id)}}" 
+                                            class="btn btn-sm btn-warning" >
+                                            <i class="fas fa-edit"></i>
+                                          </a>                           
+                                        @else
+                                        <a href="javascript:void(0)" 
+                                        class="btn btn-primary btn-sm" 
+                                        data-toggle="modal" data-target="#modal"
+                                        onclick="getDataLadi('{{ $item->ladingorder_hd_id }}')">
+                                        <i class="fas fa-eye"></i></a>                          
+                                        @endif  
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    </div>
+            </div>          
         </div>
     </div>
     </div>
@@ -132,28 +148,7 @@ $(document).ready(function() {
                 footer:false
             },
         pagingType: "full_numbers",
-        bSort: true,
-            initComplete: function() {
-      this.api().columns().every(function() {
-        var column = this;
-        var select = $('<select class="form-control select2"><option value=""></option></select>')
-          .appendTo($(column.header()).empty())
-          .on('change', function() {
-            var val = $.fn.dataTable.util.escapeRegex(
-              $(this).val()
-            );
-
-            column
-              .search(val ? '^' + val + '$' : '', true, false)
-              .draw();
-          });
-
-        column.data().unique().sort().each(function(d, j) {
-          select.append('<option value="' + d + '">' + d + '</option>')
-        });
-      });
-    }
-    
+        bSort: true,   
     })
 });    
 getDataLadi = (id) => {

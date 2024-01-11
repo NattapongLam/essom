@@ -5,60 +5,78 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารแจ้งผลิต</h3><br><hr>
-            <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="tb_job">
-                <thead>
-                    <tr>
-                        <th>สถานะ</th>
-                        <th>วันที่</th>
-                        <th>เลขที่ใบแจ้งผลิต</th>
-                        <th>กำหนดส่ง</th>
-                        <th>ลูกค้า</th>
-                        <th>ผู้อนุมัติ</th>
-                        <th>หมายเหตุ</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>สถานะ</th>
-                        <th>วันที่</th>
-                        <th>เลขที่ใบแจ้งผลิต</th>
-                        <th>กำหนดส่ง</th>
-                        <th>ลูกค้า</th>
-                        <th>ผู้อนุมัติ</th>
-                        <th>หมายเหตุ</th>
-                        <th></th>
-                    </tr>
-                </thead>   
-                <tbody>
-                    @foreach ($hd as $item)
-                    <tr>
-                        <td>{{$item->productionnotice_status_name}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->productionnotice_hd_date)->format('d/m/Y')}}</td>
-                        <td>{{$item->productionnotice_hd_docuno}}</td>
-                        <td>{{\Carbon\Carbon::parse($item->productionnotice_hd_duedate)->format('d/m/Y')}}</td>
-                        <td>{{$item->ms_customer_name}}</td>
-                        <td>{{$item->approved_by}}</td>
-                        <td>{{$item->productionnotice_hd_remark}} / {{$item->approved_note}}</td>
-                        <td>
-                            @if($item->productionnotice_status_id == 1)
-                            <a href="{{route('pd-noti.edit',$item->productionnotice_hd_id)}}" 
-                                class="btn btn-sm btn-warning" >
-                                <i class="fas fa-edit"></i>
-                              </a>                           
-                            @else
-                            <a href="javascript:void(0)" 
-                            class="btn btn-primary btn-sm" 
-                            data-toggle="modal" data-target="#modal"
-                            onclick="getData('{{ $item->productionnotice_hd_id }}')">
-                            <i class="fas fa-eye"></i></a>                          
-                            @endif                                                         
-                        </td>
-                    </tr> 
-                    @endforeach                   
-                </tbody>          
-            </table>
+            <form method="GET" class="form-horizontal">
+                @csrf
+            <div class="row">
+                <div class="col-12 col-md-2">
+                    <h3 class="card-title" style="font-weight: bold">เอกสารแจ้งผลิต</h3>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group row">
+                        <label for="datestart" class="col-sm-3 col-form-label">วันที่</label>
+                        <div class="col-sm-9">
+                          <input type="date" class="form-control" name="datestart" id="datestart" class="form-control" value="{{$datestart}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="form-group row">
+                        <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                        <div class="col-sm-9">
+                          <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <button class="btn btn-info" type="submit">ค้นหา</button>
+                </div>
             </div>
+            </form>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-sm" id="tb_job">
+                        <thead>
+                            <tr>
+                                <th class="text-center">สถานะ</th>
+                                <th class="text-center">วันที่</th>
+                                <th class="text-center">เลขที่ใบแจ้งผลิต</th>
+                                <th class="text-center">กำหนดส่ง</th>
+                                <th class="text-center">ลูกค้า</th>
+                                <th class="text-center">ผู้อนุมัติ</th>
+                                <th class="text-center">หมายเหตุ</th>
+                                <th></th>
+                            </tr>
+                        </thead>   
+                        <tbody>
+                            @foreach ($hd as $item)
+                            <tr>
+                                <td class="text-center">{{$item->productionnotice_status_name}}</td>
+                                <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_date)->format('d/m/Y')}}</td>
+                                <td class="text-center">{{$item->productionnotice_hd_docuno}}</td>
+                                <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_duedate)->format('d/m/Y')}}</td>
+                                <td class="text-center">{{$item->ms_customer_name}}</td>
+                                <td class="text-center">{{$item->approved_by}}</td>
+                                <td class="text-center">{{$item->productionnotice_hd_remark}} / {{$item->approved_note}}</td>
+                                <td class="text-center">
+                                    @if($item->productionnotice_status_id == 1)
+                                    <a href="{{route('pd-noti.edit',$item->productionnotice_hd_id)}}" 
+                                        class="btn btn-sm btn-warning" >
+                                        <i class="fas fa-edit"></i>
+                                      </a>                           
+                                    @else
+                                    <a href="javascript:void(0)" 
+                                    class="btn btn-primary btn-sm" 
+                                    data-toggle="modal" data-target="#modal"
+                                    onclick="getData('{{ $item->productionnotice_hd_id }}')">
+                                    <i class="fas fa-eye"></i></a>                          
+                                    @endif                                                         
+                                </td>
+                            </tr> 
+                            @endforeach                   
+                        </tbody>          
+                    </table>
+                </div>
+            </div>       
         </div>
         <div wire:loading wire:target="save" wire:loading.class="overlay" wire:loading.flex>
             <div class="d-flex justify-content-center align-items-center">
@@ -158,28 +176,7 @@ $(document).ready(function() {
 				footer:false
 			},
         pagingType: "full_numbers",
-        bSort: true,
-            initComplete: function() {
-      this.api().columns().every(function() {
-        var column = this;
-        var select = $('<select class="form-control select2"><option value=""></option></select>')
-          .appendTo($(column.header()).empty())
-          .on('change', function() {
-            var val = $.fn.dataTable.util.escapeRegex(
-              $(this).val()
-            );
-
-            column
-              .search(val ? '^' + val + '$' : '', true, false)
-              .draw();
-          });
-
-        column.data().unique().sort().each(function(d, j) {
-          select.append('<option value="' + d + '">' + d + '</option>')
-        });
-      });
-    }
-    
+        bSort: true,   
     })
 });
 getData = (id) => {
