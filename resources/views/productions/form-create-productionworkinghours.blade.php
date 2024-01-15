@@ -149,12 +149,13 @@
                 <div class="col-12">
                     <div class="table-responsive">
                         <div style="overflow-x:auto;">
-                        <table class="table table-bordered">
+                        <table id="tb_job" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>เลือก</th>
                                     <th>ลำดับ</th>
                                     <th>เลขที่งาน</th>
+                                    <th>สินค้า</th>
                                     {{-- <th>ชื่อ - นามสกุล</th> --}}
                                     <th>ชั่วโมงทำงาน</th>
                                     {{-- <th>ชั่วโมงอื่นๆ</th> --}}
@@ -172,6 +173,7 @@
                                         </td>
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->productionopenjob_hd_docuno}}</td>
+                                        <td>{{$item->ms_product_name}}</td>
                                         {{-- <td>{{Auth::user()->name}}</td> --}}
                                         <td>
                                             <input class="form-control" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;">
@@ -549,5 +551,31 @@ addTolist = (id) => {
 removeTolist = (reftr) => {
 $('.' + reftr).remove()
 }
+$(document).ready(function() {
+ $('#tb_job').DataTable({
+            "pageLength": 40,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            // columnDefs: [{
+            //     targets: 1,
+            //     type: 'time-date-sort'
+            // }],
+            order: [
+                [0, "desc"]
+            ],
+            fixedHeader: {
+                header:false,
+                footer:false
+            },
+        pagingType: "full_numbers",
+        bSort: true, 
+    })
+}); 
 </script>
 @endpush        
