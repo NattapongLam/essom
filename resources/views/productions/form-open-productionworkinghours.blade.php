@@ -44,8 +44,9 @@
             <table class="table table-bordered table-hover table-sm" id="tb_job">
                 <thead>
                     <tr>
-                        <th class="text-center">สถานะ</th>
+                        <th class="text-center">#</th>
                         <th class="text-center">วันที่</th>
+                        <th class="text-center">สถานะ</th>                       
                         <th class="text-center">เลขที่</th>
                         <th class="text-center">ผู้บันทึก</th>
                         <th class="text-center">แผนก</th>
@@ -58,8 +59,9 @@
                 <tbody>
                     @foreach ($hd as $item)
                     <tr>
-                        <td class="text-center">{{$item->workinghours_status_name}}</td>
+                        <td class="text-center">{{$item->workinghours_hd_id}}</td>
                         <td class="text-center">{{\Carbon\Carbon::parse($item->workinghours_hd_date)->format('d/m/Y')}}</td>
+                        <td class="text-center">{{$item->workinghours_status_name}}</td>                       
                         <td class="text-center">{{$item->workinghours_hd_docuno}}</td>
                         <td class="text-center">{{$item->created_person}}</td>
                         <td class="text-center">{{$item->ms_department_name}}</td>
@@ -139,12 +141,12 @@ $(document).ready(function() {
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
-            columnDefs: [{
-                targets: 1,
-                type: 'time-date-sort'
-            }],
+            // columnDefs: [{
+            //     targets: 1,
+            //     type: 'time-date-sort'
+            // }],
             order: [
-                [1, "desc"]
+                [0, "desc"]
             ],
             fixedHeader: {
                 header:false,
