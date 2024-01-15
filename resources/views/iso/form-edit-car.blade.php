@@ -3,10 +3,13 @@
 <div class="mt-4"><br>
 <div class="row">  
     <div class="col-12">
+        <form id="frm_sub" method="POST" class="form-horizontal" action="{{ route('car-report.update', $hd->iso_car_id) }}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
         <div class="card">
             <div class="card-header">        
                 <h3 class="card-title" style="font-weight: bold">ใบ CAR</h3>      
-            </div>
+            </div>            
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 col-md-12">
@@ -300,6 +303,7 @@
                 </div>
                 @endif
             </div>
+        </form>
         </div>
     </div>
 </div>
