@@ -162,7 +162,27 @@
                             @endforeach 
                         </select>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-3">
+                        <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
+                        <select class="form-control select2" name="problem_add1">
+                            <option value="{{$hd->problem_add}}">{{$hd->problem_add}}</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                            @endforeach 
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
+                        <select class="form-control select2" name="problem_add2">
+                            <option value="{{$hd->problem_add}}">{{$hd->problem_add}}</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                            @endforeach 
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-12">
                         <label for="cause_remark">สาเหตุของปัญหา</label>
                         <input class="form-control" value="{{$hd->cause_remark}}" name="cause_remark">
                     </div>

@@ -154,7 +154,11 @@ class CarReport extends Controller
                     'troublemaker_dateto' => Carbon::now(),
                     'troublemaker_byto' => Auth::user()->name,
                     'iso_status_id' => 6,
-                    'updated_at' => Carbon::now()
+                    'updated_at' => Carbon::now(),
+                    'problem_date' => $request->problem_date,
+                    'problem_add' => $request->problem_add,
+                    'problem_add1' => $request->problem_add1,
+                    'problem_add2' => $request->problem_add2,
                 ]);
             }
             elseif($hd->iso_status_id == 6){
@@ -163,6 +167,8 @@ class CarReport extends Controller
                     'updated_at' => Carbon::now(),
                     'problem_date' => $request->problem_date,
                     'problem_add' => $request->problem_add,
+                    'problem_add1' => $request->problem_add1,
+                    'problem_add2' => $request->problem_add2,
                     'cause_remark' => $request->cause_remark,
                     'prevent_remark' => $request->prevent_remark,
                     'follow_remark' => $request->follow_remark,
