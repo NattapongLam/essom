@@ -82,7 +82,7 @@ class ProductionWorkingHours extends Controller
         $sto = EmployeeList::where('ms_department_id',12)->get();
         $des = EmployeeList::where('ms_department_id',14)->get();
         $eng = EmployeeList::where('ms_department_id',15)->get();    
-        $job = DB::table('vw_jobmandaylist')->get(); 
+        $job = DB::table('vw_jobmandaylistv1')->get(); 
         return view('productions.form-create-productionworkinghours',compact('docs', 'docs_number','dep','typ','jobdoc','lar','sm1','sm2','ele','mac','pai','ser','del','sto','des','eng','emp','job','emps'));
     }
 
@@ -119,12 +119,11 @@ class ProductionWorkingHours extends Controller
 
             DB::beginTransaction();
             $insertHD = ProductionWorkingHoursHd::create($hd);
-            foreach($request->selected as $key => $value){
+            foreach($request->job_id as $key => $value){               
                 $emp = EmployeeList::where('ms_employee_id',$request->ms_employee_id)->first();
-                if($emp){                
-                    // dd($request->selected);
-                    if($request->selected[$key] == "1"){    
-                        //dd($request->productionopenjob_hd_docuno[$key]);                    
+                if($emp){ 
+                    $job = DB::table('vw_jobmandaylistv1')->where('id',$value)->first();  
+                    if($job){
                         $dt[] = [
                             'workinghours_hd_id' => $insertHD->workinghours_hd_id,
                             'workinghours_dt_listno' => $key + 1,
@@ -137,11 +136,11 @@ class ProductionWorkingHours extends Controller
                             'created_person' => $insertHD->created_person,
                             'workinghours_status_id' => $insertHD->workinghours_status_id,
                             'workinghours_dt_other' =>  0,
-                            'productionopenjob_hd_docuno' => $request->productionopenjob_hd_docuno[$key],
-                            'workinghours_type_name' => $request->workinghours_type_name[$key]
+                            'productionopenjob_hd_docuno' => $job->productionopenjob_hd_docuno,
+                            'workinghours_type_name' => $job->workinghours_type_name
                         ];
-                    }                    
-                }
+                    }                                                        
+                }                    
             }
             $insertDT = ProductionWorkingHoursDt::insert($dt);
             DB::commit();
@@ -259,7 +258,7 @@ class ProductionWorkingHours extends Controller
     }
     public function getEmployee(Request $request)
     {
-        $emp = EmployeeList::where('ms_employee_id',$request->id)->first();
+        $emp = DB::table('vw_jobmandaylistv1')->where('id',$request->id)->first();
         return response()->json([
             'emp' => $emp,
         ]);

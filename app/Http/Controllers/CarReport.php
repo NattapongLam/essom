@@ -160,6 +160,16 @@ class CarReport extends Controller
                     'problem_add1' => $request->problem_add1,
                     'problem_add2' => $request->problem_add2,
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนกรรมการลงนามเปิดเอกสาร CAR"."\n"
+                ."วันที่กรรมการลงนามเปิดเอกสาร : ".Auth::user()->name."\n"
+                ."กรรมการลงนามเปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }
             elseif($hd->iso_status_id == 6){
                 $up = IsoCar::where('iso_car_id',$id)->update([ 
@@ -176,6 +186,16 @@ class CarReport extends Controller
                     'iso_car_by' => $request->iso_car_by,
                     'iso_car_bydate' => $request->iso_car_bydate
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR"."\n"
+                ."วันที่แก้ไข/ป้องกัน : ".Auth::user()->name."\n"
+                ."ผู้แก้ไข/ป้องกัน : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }
             elseif($hd->iso_status_id == 7){
                 $up = IsoCar::where('iso_car_id',$id)->update([  
@@ -185,6 +205,16 @@ class CarReport extends Controller
                     'opinion_date' => Carbon::now(),
                     'opinion_by' => Auth::user()->name,
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนกรรมการลงนามแก้ไข/ป้องกันเอกสาร CAR"."\n"
+                ."วันที่กรรมการลงนามแก้ไข/ป้องกัน : ".Auth::user()->name."\n"
+                ."กรรมการลงนามแก้ไข/ป้องกัน : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }
             elseif($hd->iso_status_id == 8){
                 $up = IsoCar::where('iso_car_id',$id)->update([ 
@@ -195,6 +225,16 @@ class CarReport extends Controller
                     'close_by' => $request->close_by,
                     'close_date' => $request->close_date
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนปิดเอกสาร CAR"."\n"
+                ."วันที่ปิดเอกสาร : ".Auth::user()->name."\n"
+                ."ผู้ปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }
             elseif($hd->iso_status_id == 9){
                 $up = IsoCar::where('iso_car_id',$id)->update([ 
@@ -203,6 +243,16 @@ class CarReport extends Controller
                     'followup_by' => Carbon::now(),
                     'followup_date' => Auth::user()->name,
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR"."\n"
+                ."วันที่กรรมการลงนามปิดเอกสาร : ".Auth::user()->name."\n"
+                ."กรรมการลงนามปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }
             DB::commit();
             return redirect()->route('car-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
@@ -234,5 +284,28 @@ class CarReport extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);     
+    }
+
+    function notify_message($params, $token)
+    {
+        $queryData = array(
+            'message'          => $params["message"],
+            'stickerPackageId' => $params["stickerPkg"],
+            'stickerId'        => $params["stickerId"],
+        );
+        $queryData = http_build_query($queryData, '', '&');
+        $headerOptions = array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+                    . "Authorization: Bearer " . $token . "\r\n"
+                    . "Content-Length: " . strlen($queryData) . "\r\n",
+                'content' => $queryData,
+            ),
+        );
+        $context = stream_context_create($headerOptions);
+        $result = file_get_contents(LINE_API, FALSE, $context);
+        $res = json_decode($result);
+        return $res;
     }
 }

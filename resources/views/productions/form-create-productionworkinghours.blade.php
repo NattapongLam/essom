@@ -145,6 +145,25 @@
                 </div>
                 </div>
             </div>
+              <div class="row">             
+                <div class="col-12">
+                <div class="table-responsive">
+                <table class="table table-bordered">
+                <thead>
+                    <tr style="background-color:#F5F5F5">
+                        <th class="text-center">ลำดับ</th>
+                        <th>เลขที่งาน</th>
+                        <th>สินค้า</th> 
+                        <th class="text-center">จำนวนชั่วโมง</th>                    
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody id="tb_employeelist">
+                </tbody>
+                </table>
+                </div>
+                </div>
+            </div><hr>
             <div class="row">             
                 <div class="col-12">
                     <div class="table-responsive">
@@ -157,36 +176,30 @@
                                     <th>เลขที่งาน</th>
                                     <th>สินค้า</th>
                                     {{-- <th>ชื่อ - นามสกุล</th> --}}
-                                    <th>ชั่วโมงทำงาน</th>
+                                    {{-- <th>ชั่วโมงทำงาน</th> --}}
                                     {{-- <th>ชั่วโมงอื่นๆ</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($job as $key => $item)
                                     <tr>
-                                        <td>
-                                            <select class="form-control" name="selected[]" style="width:80px;">
-                                                <option value="0">ระบุ</option>
-                                                <option value="1">เลือก</option>
-                                            </select>
-                                            {{-- <input type="checkbox" id="checkboxPrimary1" name="selected[]" style="width:20px;"> --}}
-                                        </td>
+                                        <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->id}})"> </td>
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->productionopenjob_hd_docuno}}</td>
                                         <td>{{$item->ms_product_name}}</td>
                                         {{-- <td>{{Auth::user()->name}}</td> --}}
-                                        <td>
-                                            <input class="form-control" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;">
+                                        {{-- <td> --}}
+                                            {{-- <input class="form-control" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;">
                                             <select class="form-control" style="width:70px;" id="workinghours_dt_time[]" name="workinghours_dt_time[]">
                                                 <option value="0">.00</option>
                                                 <option value="30">.30</option>
                                             </select>                                            
                                             <input type="hidden" id="productionopenjob_hd_docuno[]" name="productionopenjob_hd_docuno[]" value="{{$item->productionopenjob_hd_docuno}}">
-                                            <input type="hidden" id="workinghours_type_name[]" name="workinghours_type_name[]" value="{{$item->workinghours_type_name}}">
+                                            <input type="hidden" id="workinghours_type_name[]" name="workinghours_type_name[]" value="{{$item->workinghours_type_name}}"> --}}
                                             {{-- <input type="hidden" id="emp_id[]" name="emp_id[]" value="{{$emp->ms_employee_id}}">
                                             <input type="hidden" id="ms_employee_code[]" name="ms_employee_code[]" value="{{$emp->ms_employee_code}}">
                                             <input type="hidden" id="ms_employee_fullname[]" name="ms_employee_fullname[]" value="{{$emp->ms_employee_fullname}}"> --}}
-                                        </td>
+                                        {{-- </td> --}}
                                         {{-- <td>
                                             <input class="form-control" type="number" id="workinghours_dt_other[]" name="workinghours_dt_other[]" value="0" style="width:70px;">
                                             <select class="form-control" style="width:70px;" id="other_time[]" name="other_time[]">
@@ -537,12 +550,19 @@ addTolist = (id) => {
             success: function(data) {               
             $numbertd = $('#tb_employeelist tr').length + 1;
             $('#tb_employeelist').append(`
-            <tr style="background-color:#F8F8FF" class="${data.emp.ms_employee_id}">                 
-            <td class="text-center"><input type="hidden" name="emp_id[]" value="${data.emp.ms_employee_id}">${$numbertd}</td>   
-            <td class="text-center">${data.emp.ms_employee_code}</td>
-            <td class="text-center">${data.emp.ms_employee_fullname}</td>
-            <td class="text-center"><input type="text" class="form-control" name="emp_qty[]" value="0"></td>                          
-            <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeTolist('${data.emp.ms_employee_id}')"><i class="fas fa-trash"></i></button></td>
+            <tr style="background-color:#F8F8FF" class="${data.emp.id}">                 
+            <td class="text-center"><input type="hidden" name="productionopenjob_hd_docuno[]" value="${data.emp.id}">${$numbertd}</td>   
+            <td class="text-center">${data.emp.productionopenjob_hd_docuno}</td>
+            <td class="text-center">${data.emp.ms_product_name}</td>
+            <td class="text-center">
+                <input type="hidden" id="job_id[]" name="job_id[]" value="${data.emp.id}">
+                <input class="form-control" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;">
+                <select class="form-control" style="width:70px;" id="workinghours_dt_time[]" name="workinghours_dt_time[]">
+                    <option value="0">.00</option>
+                    <option value="30">.30</option>
+                </select>
+            </td>                          
+            <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeTolist('${data.emp.id}')"><i class="fas fa-trash"></i></button></td>
             </tr>
             `)                                                 
             }

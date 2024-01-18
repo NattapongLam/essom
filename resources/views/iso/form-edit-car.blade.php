@@ -8,7 +8,23 @@
         @method('PUT')
         <div class="card">
             <div class="card-header">        
-                <h3 class="card-title" style="font-weight: bold">ใบ CAR</h3>      
+                <h3 class="card-title" style="font-weight: bold">ใบ CAR เอกสารแนบ : 
+                    @if ($hd->iso_car_filename1)
+                    <a href="{{asset($hd->iso_car_filename1)}}" target=”_blank”>
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                    @endif
+                    @if ($hd->iso_car_filename2)
+                    <a href="{{asset($hd->iso_car_filename2)}}" target=”_blank”>
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                    @endif
+                    @if ($hd->iso_car_filename3)
+                    <a href="{{asset($hd->iso_car_filename3)}}" target=”_blank”>
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                    @endif                   
+                </h3>      
             </div>            
             <div class="card-body">
                 <div class="row">
@@ -158,14 +174,15 @@
                         <select class="form-control select2" name="problem_add">
                             <option value="{{$hd->problem_add}}">{{$hd->problem_add}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">
+                                    {{$item->ms_employee_fullname}}</option>
                             @endforeach 
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
                         <select class="form-control select2" name="problem_add1">
-                            <option value="{{$hd->problem_add}}">{{$hd->problem_add}}</option>
+                            <option value="{{$hd->problem_add1}}">{{$hd->problem_add1}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
                             @endforeach 
@@ -174,7 +191,7 @@
                     <div class="col-12 col-md-3">
                         <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
                         <select class="form-control select2" name="problem_add2">
-                            <option value="{{$hd->problem_add}}">{{$hd->problem_add}}</option>
+                            <option value="{{$hd->problem_add2}}">{{$hd->problem_add2}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
                             @endforeach 
