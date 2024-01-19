@@ -152,7 +152,7 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-info toastrDefaultSuccess">
-                            ลงนาม
+                            กรรมการลงนาม (ผู้พบปัญหา)
                         </button>
                     </div>
                 </div>
@@ -239,7 +239,7 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-success toastrDefaultSuccess">
-                            บันทึก
+                            บันทึกการแก้ไข/ป้องกัน
                         </button>
                     </div>
                 </div>
@@ -273,7 +273,7 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-info toastrDefaultSuccess">
-                            ลงนาม
+                            ลงนามการแก้ไข/ป้องกัน
                         </button>
                     </div>
                 </div>
@@ -327,14 +327,14 @@
                 <div class="row">
                 <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-success toastrDefaultSuccess">
-                        ปิดเอกสาร
+                        ปิดเอกสาร CAR
                     </button>
                 </div>
                 </div>
                 @elseif($hd->iso_status_id == 9)
                 <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-info toastrDefaultSuccess">
-                        กรรมการปิดเอกสาร
+                        ลงนามปิดเอกสาร
                     </button>
                 </div>
                 </div>
