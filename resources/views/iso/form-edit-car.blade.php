@@ -173,6 +173,7 @@
                         <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
                         <select class="form-control select2" name="problem_add">
                             <option value="{{$hd->problem_add}}">{{$hd->problem_add}}</option>
+                            <option value="0">ไม่ระบุ</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">
                                     {{$item->ms_employee_fullname}}</option>
@@ -183,6 +184,7 @@
                         <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
                         <select class="form-control select2" name="problem_add1">
                             <option value="{{$hd->problem_add1}}">{{$hd->problem_add1}}</option>
+                            <option value="0">ไม่ระบุ</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
                             @endforeach 
@@ -192,6 +194,7 @@
                         <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
                         <select class="form-control select2" name="problem_add2">
                             <option value="{{$hd->problem_add2}}">{{$hd->problem_add2}}</option>
+                            <option value="0">ไม่ระบุ</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
                             @endforeach 

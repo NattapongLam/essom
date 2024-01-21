@@ -50,9 +50,8 @@
                         <th class="text-center">เลขที่</th>
                         <th class="text-center">ผู้บันทึก</th>
                         <th class="text-center">แผนก</th>
-                        {{-- <th>จำนวนชั่วโมง</th> --}}
+                        <th>พนักงาน</th>
                         <th>หมายเหตุ</th>
-                        {{-- <th>ผู้บันทึก</th> --}}
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -65,9 +64,8 @@
                         <td class="text-center">{{$item->workinghours_hd_docuno}}</td>
                         <td class="text-center">{{$item->created_person}}</td>
                         <td class="text-center">{{$item->ms_department_name}}</td>
-                        {{-- <td>{{number_format($item->employee_hours,2)}}</td> --}}
-                        <td>{{$item->workinghours_hd_remark}}</td>
-                        {{-- <td>{{$item->created_person}}</td> --}}
+                        <td>{{$item->ms_employee_fullname}}</td>
+                        <td>{{$item->workinghours_hd_remark}}</td>                  
                         <td class="text-center">
                             @if($item->workinghours_status_id == 1)
                             <a href="{{route('pd-woho.edit',$item->workinghours_hd_id)}}" 
