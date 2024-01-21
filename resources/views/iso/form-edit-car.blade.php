@@ -254,7 +254,7 @@
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="opinion_remark">ความเห็นของ กรรมการผู้จัดการ /รองกรรมการผู้จัดการ</label>
-                        <input class="form-control" value="{{$hd->opinion_remark}}">
+                        <input class="form-control" value="{{$hd->opinion_remark}}" name="opinion_remark" id="opinion_remark">
                     </div>
                 </div>
                 <div class="row">
