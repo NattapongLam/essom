@@ -99,6 +99,17 @@ class NcrReport extends Controller
 
             DB::beginTransaction();
             $insertHD = IsoNcr::create($hd);
+            define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนเปิดเอกสาร NCR"."\n"
+                ."เลขที่ : ". $docs ."\n"
+                ."ผู้เปิดเอกสาร : ".Auth::user()->name."\n"
+                ."วันที่เปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             DB::commit();
             return redirect()->route('ncr-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
@@ -172,6 +183,17 @@ class NcrReport extends Controller
                     'iso_status_id' => 2,
                     'updated_at' => Carbon::now(),
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนเสนอแนวทาง NCR"."\n"
+                ."เลขที่ : ". $hd->iso_ncr_docuno ."\n"
+                ."วันที่เสนอแนวทาง : ".Auth::user()->name."\n"
+                ."ผู้เสนอแนวทาง : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }elseif ($hd->iso_status_id == 2) {
                 if($request->approval_status1){
                     $ck1 = 'อนุมัติตามเสนอ';
@@ -190,6 +212,17 @@ class NcrReport extends Controller
                     'iso_status_id' => 3,
                     'updated_at' => Carbon::now(),
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนอนุมัติ NCR"."\n"
+                ."เลขที่ : ". $hd->iso_ncr_docuno ."\n"
+                ."วันที่อนุมัติ : ".Auth::user()->name."\n"
+                ."ผู้อนุมัติ : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }elseif ($hd->iso_status_id == 3) {
                 $up = IsoNcr::where('iso_ncr_id',$id)->update([
                     'iso_ncr_remark' => $request->iso_ncr_remark,
@@ -199,6 +232,17 @@ class NcrReport extends Controller
                     'iso_status_id' => 4,
                     'updated_at' => Carbon::now(),
                 ]);
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนตรวจสอบ NCR"."\n"
+                ."เลขที่ : ". $hd->iso_ncr_docuno ."\n"
+                ."วันที่ตรวจสอบ : ".Auth::user()->name."\n"
+                ."ผู้ตรวจสอบ : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             }
             DB::commit();
             return redirect()->route('ncr-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
@@ -230,5 +274,28 @@ class NcrReport extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);     
+    }
+
+    function notify_message($params, $token)
+    {
+        $queryData = array(
+            'message'          => $params["message"],
+            'stickerPackageId' => $params["stickerPkg"],
+            'stickerId'        => $params["stickerId"],
+        );
+        $queryData = http_build_query($queryData, '', '&');
+        $headerOptions = array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+                    . "Authorization: Bearer " . $token . "\r\n"
+                    . "Content-Length: " . strlen($queryData) . "\r\n",
+                'content' => $queryData,
+            ),
+        );
+        $context = stream_context_create($headerOptions);
+        $result = file_get_contents(LINE_API, FALSE, $context);
+        $res = json_decode($result);
+        return $res;
     }
 }

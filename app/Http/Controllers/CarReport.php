@@ -104,6 +104,17 @@ class CarReport extends Controller
 
             DB::beginTransaction();
             $insertHD = IsoCar::create($hd);
+            define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนเปิดเอกสาร CAR"."\n"
+                ."เลขที่ : ". $docs ."\n"
+                ."ผู้เปิดเอกสาร : ".Auth::user()->name."\n"
+                ."วันที่เปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
             DB::commit();
             return redirect()->route('car-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
@@ -164,6 +175,7 @@ class CarReport extends Controller
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนกรรมการลงนามเปิดเอกสาร CAR"."\n"
+                ."เลขที่ : ".$hd->iso_car_docuno."\n"
                 ."วันที่กรรมการลงนามเปิดเอกสาร : ".Auth::user()->name."\n"
                 ."กรรมการลงนามเปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
@@ -190,6 +202,7 @@ class CarReport extends Controller
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR"."\n"
+                ."เลขที่ : ".$hd->iso_car_docuno."\n"
                 ."วันที่แก้ไข/ป้องกัน : ".Auth::user()->name."\n"
                 ."ผู้แก้ไข/ป้องกัน : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
@@ -209,6 +222,7 @@ class CarReport extends Controller
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนกรรมการลงนามแก้ไข/ป้องกันเอกสาร CAR"."\n"
+                ."เลขที่ : ".$hd->iso_car_docuno."\n"
                 ."วันที่กรรมการลงนามแก้ไข/ป้องกัน : ".Auth::user()->name."\n"
                 ."กรรมการลงนามแก้ไข/ป้องกัน : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
@@ -229,6 +243,7 @@ class CarReport extends Controller
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนปิดเอกสาร CAR"."\n"
+                ."เลขที่ : ".$hd->iso_car_docuno."\n"
                 ."วันที่ปิดเอกสาร : ".Auth::user()->name."\n"
                 ."ผู้ปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
@@ -247,6 +262,7 @@ class CarReport extends Controller
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR"."\n"
+                ."เลขที่ : ".$hd->iso_car_docuno."\n"
                 ."วันที่กรรมการลงนามปิดเอกสาร : ".Auth::user()->name."\n"
                 ."กรรมการลงนามปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
