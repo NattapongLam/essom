@@ -314,7 +314,7 @@
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="followup_by">กรรมการปิดประเด็นใน CAR ฉบับนี้</label>
-                        <select class="form-control select2">
+                        <select class="form-control select2" name="followup_by">
                             <option value="{{$hd->followup_by}}">{{$hd->followup_by}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
@@ -323,7 +323,7 @@
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="followup_date">วันที่</label>
-                        <input type="date" class="form-control" value="{{$hd->followup_date}}">
+                        <input type="date" class="form-control" value="{{$hd->followup_date}}" name="followup_date">
                     </div>
                 </div><br>
                 @if($hd->iso_status_id == 8)

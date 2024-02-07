@@ -25,7 +25,8 @@ class CarReport extends Controller
      */
     public function index()
     {
-        $hd = IsoCar::leftjoin('iso_status','iso_car.iso_status_id','=','iso_status.iso_status_id')->get();
+        $hd = IsoCar::leftjoin('iso_status','iso_car.iso_status_id','=','iso_status.iso_status_id')
+        ->where('iso_car.iso_status_id','<>',5)->get();
         return view('iso.form-open-carlist',compact('hd'));
     }
 
@@ -237,7 +238,9 @@ class CarReport extends Controller
                     'followup_remark' => $request->followup_remark,
                     'iso_car_refdocuno' => $request->iso_car_refdocuno,
                     'close_by' => $request->close_by,
-                    'close_date' => $request->close_date
+                    'close_date' => $request->close_date,
+                    'followup_by' => $request->followup_by,
+                    'followup_date' => $request->followup_date,
                 ]);
                 define('LINE_API', "https://notify-api.line.me/api/notify");
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";

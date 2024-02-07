@@ -26,7 +26,8 @@ class NcrReport extends Controller
      */
     public function index()
     {
-        $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')->get();
+        $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')
+        ->where('iso_ncr.iso_status_id','<>',5)->get();
         return view('iso.form-open-ncrlist',compact('hd'));
     }
 
