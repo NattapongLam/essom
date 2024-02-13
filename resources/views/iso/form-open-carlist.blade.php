@@ -21,7 +21,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tb_job">
+                    <table class="table table-bordered table-sm" id="tb_job">
                         <thead>
                             <tr>
                                 <th>สถานะ</th>
@@ -92,7 +92,7 @@
                 type: 'time-date-sort'
             }],
             order: [
-                [2, "desc"]
+                [3, "desc"]
             ],
             fixedHeader: {
                 header:false,
