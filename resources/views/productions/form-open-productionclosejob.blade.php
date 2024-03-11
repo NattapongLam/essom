@@ -25,6 +25,7 @@
                             <th>รายละเอียด</th>
                             <th>ประมาณการต้นทุน</th>
                             <th>จำนวนที่เงินที่ใช้</th>
+                            <th>เอกสารแนบ</th>
                             <th></th>
                         </tr>
                         <tr>
@@ -39,6 +40,7 @@
                             <th>รายละเอียด</th>
                             <th>ประมาณการต้นทุน</th>
                             <th>จำนวนที่เงินที่ใช้</th>
+                            <th>เอกสารแนบ</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -59,6 +61,13 @@
                                 <td>{{$item->productionnotice_dt_remark}}</td>
                                 <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>
                                 <td>{{number_format($item->productionopenjob_actualcost,2)}}</td>
+                                <td>
+                                    @if ($item->productionopenjob_hd_filename)
+                                    <a href="{{asset($item->productionopenjob_hd_filename)}}" target=”_blank”>
+                                        <i class="fas fa-file-pdf"></i>
+                                    </a>
+                                    @endif
+                                </td>
                                 <td>
                                     @if($item->productionopenjob_status_id == 9 || $item->productionopenjob_status_id == 13)
                                     <a href="{{route('pd-close.edit',$item->productionopenjob_hd_id)}}" 
