@@ -27,7 +27,7 @@ class ProductionClose extends Controller
     {
         $hd = DB::table('productionopenjob_hd')
         ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[9,13,14,15])
+        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[9,13,14,15,16])
         ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
         ->get();
         return view('productions.form-open-productionclosejob',compact('hd'));
@@ -81,9 +81,9 @@ class ProductionClose extends Controller
         ->orderBy('productionopenjob_dt.productionopenjob_dt_listno','ASC')
         ->get();  
         if ($hd->productionopenjob_status_id == 9) {
-            $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[13])->get();
+            $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[13,16])->get();
         } else {
-            $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[14])->get();
+            $sta = ProductionOpenjobStatus::whereIn('productionopenjob_status_id',[14,16])->get();
         }  
         $op = ProductionNoticeOp::leftjoin('productionnotice_hd','productionnotice_op.productionnotice_hd_id','=','productionnotice_hd.productionnotice_hd_id')
         ->where('productionnotice_hd.productionnotice_hd_docuno',$hd->productionnotice_hd_docuno)
