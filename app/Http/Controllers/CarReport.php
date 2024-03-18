@@ -216,7 +216,7 @@ class CarReport extends Controller
                     'iso_status_id' => 8,
                     'updated_at' => Carbon::now(),
                     'opinion_remark' => $request->opinion_remark,
-                    'opinion_date' => Carbon::now(),
+                    'opinion_date' => $request->opinion_date,
                     'opinion_by' => Auth::user()->name,
                 ]);
                 define('LINE_API', "https://notify-api.line.me/api/notify");

@@ -27,7 +27,7 @@ class ProductionClose extends Controller
     {
         $hd = DB::table('productionopenjob_hd')
         ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[9,13,14,15,16])
+        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13])
         ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
         ->get();
         return view('productions.form-open-productionclosejob',compact('hd'));
@@ -140,7 +140,7 @@ class ProductionClose extends Controller
                 ."สินค้า : ".$hd->ms_product_name."\n"
                 ."Spec Page : ".$hd->ms_specpage_name."\n"
                 ."ประมาณการต้นทุน : ".$hd->productionopenjob_actualcost."\n"
-                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n",
+                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. " -"  .$request->note. "\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );
@@ -180,7 +180,7 @@ class ProductionClose extends Controller
                 ."สินค้า : ".$hd->ms_product_name."\n"
                 ."Spec Page : ".$hd->ms_specpage_name."\n"
                 ."ประมาณการต้นทุน : ".$hd->productionopenjob_actualcost."\n"
-                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n",
+                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. " -"  .$request->note. "\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );
