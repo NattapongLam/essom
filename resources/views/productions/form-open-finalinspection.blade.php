@@ -52,7 +52,7 @@
                             <td>{{\Carbon\Carbon::parse($item->finalInspection_hd_date)->format('d/m/Y')}}</td>
                             <td>{{$item->finalInspection_hd_docuno}}</td>
                             <td>{{$item->productionopenjob_hd_docuno}}</td>
-                            <td>{{$item->ms_product_code}}</td>
+                            <td>{{$item->ms_product_name}}</td>
                             <td>{{$item->ms_customer_name}}</td>
                             <td>{{$item->ms_finalspec_hd_code}} {{$item->ms_finalspec_hd_rev}}</td>
                             <td>{{$item->serialno}}</td>
