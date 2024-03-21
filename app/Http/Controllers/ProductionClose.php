@@ -27,7 +27,7 @@ class ProductionClose extends Controller
     {
         $hd = DB::table('productionopenjob_hd')
         ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13])
+        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13,9,14,])
         ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
         ->get();
         return view('productions.form-open-productionclosejob',compact('hd'));
