@@ -80,7 +80,7 @@ class FinalInspection extends Controller
             ->where('finalInspection_hd_id', $ck->finalInspection_hd_id)
             ->where('finalInspection_part_flag',true)
             ->get(); 
-            $sta = FinalInspectionStatus::whereIn('finalInspection_status_id',[2,3])->get();
+            $sta = FinalInspectionStatus::whereIn('finalInspection_status_id',[2,3,5])->get();
             return view('productions.form-edit-finalinspection', compact('hd','dt1','dt2','sta','dt3'));
         }      
     }
