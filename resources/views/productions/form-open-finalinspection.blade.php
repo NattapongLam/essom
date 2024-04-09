@@ -160,7 +160,7 @@ $(document).ready(function() {
                 type: 'time-date-sort'
             }],
             order: [
-                [2, "desc"]
+                [3, "asc"]
             ],
             fixedHeader: {
                 header:false,
