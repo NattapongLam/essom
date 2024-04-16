@@ -23,14 +23,27 @@ class ProductionWorkOrder extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('workorder_hd')
         ->leftjoin('workorder_status','workorder_hd.workorder_status_id','=','workorder_status.workorder_status_id')
         ->where('workorder_hd.workorder_status_id','<>',2)
+        ->whereBetween('workorder_hd.workorder_hd_date',[$datestart,$dateend])
         ->orderBy('workorder_hd.workorder_status_id','asc')
         ->get();
-        return view('productions.form-open-productionworkorder',compact('hd'));
+        return view('productions.form-open-productionworkorder',compact('hd','dateend','datestart'));
     }
 
     /**

@@ -21,12 +21,25 @@ class DeliveryOrder extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('deliveryorder_hd')
         ->leftjoin('deliveryorder_status','deliveryorder_hd.deliveryorder_status_id','=','deliveryorder_status.deliveryorder_status_id')
+        ->whereBetween('deliveryorder_hd.deliveryorder_hd_date',[$datestart,$dateend])
         ->get();
-        return view('sales.form-open-deliveryorder',compact('hd'));
+        return view('sales.form-open-deliveryorder',compact('hd','dateend','datestart'));
     }
 
     /**

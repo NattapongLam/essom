@@ -22,12 +22,25 @@ class ProductionReturnOrder extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('returnorder_hd')
         ->leftjoin('returnorder_status','returnorder_hd.returnorder_status_id','=','returnorder_status.returnorder_status_id')
+        ->whereBetween('returnorder_hd.returnorder_hd_date',[$datestart,$dateend])
         ->get();
-        return view('productions.form-open-productionreturnorder',compact('hd'));
+        return view('productions.form-open-productionreturnorder',compact('hd','dateend','datestart'));
     }
 
     /**

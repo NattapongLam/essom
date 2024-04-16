@@ -30,8 +30,9 @@
                 <div class="col-12 col-md-2">
                     <button class="btn btn-info" type="submit">ค้นหา</button>
                 </div>
-            </div>
+            </div>           
             </form>
+            <hr>
             <div class="row">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-sm" id="tb_job">

@@ -23,13 +23,34 @@ class FinalInspection extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $hd = DB::table('finalInspection_hd')
-        ->leftjoin('finalInspection_status','finalInspection_hd.finalInspection_status_id','=','finalInspection_status.finalInspection_status_id')
-        ->leftjoin('ms_finalspec_hd','finalInspection_hd.ms_finalspec_hd_id','=','ms_finalspec_hd.ms_finalspec_hd_id')
-        ->get();
-        return view('productions.form-open-finalinspection',compact('hd'));
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
+        if($request->ck_sta){
+            $hd = DB::table('finalInspection_hd')
+            ->leftjoin('finalInspection_status','finalInspection_hd.finalInspection_status_id','=','finalInspection_status.finalInspection_status_id')
+            ->leftjoin('ms_finalspec_hd','finalInspection_hd.ms_finalspec_hd_id','=','ms_finalspec_hd.ms_finalspec_hd_id')
+            ->where('finalInspection_hd.finalInspection_status_id',4)
+            ->get();
+        }else {
+            $hd = DB::table('finalInspection_hd')
+            ->leftjoin('finalInspection_status','finalInspection_hd.finalInspection_status_id','=','finalInspection_status.finalInspection_status_id')
+            ->leftjoin('ms_finalspec_hd','finalInspection_hd.ms_finalspec_hd_id','=','ms_finalspec_hd.ms_finalspec_hd_id')
+            ->whereBetween('finalInspection_hd.finalInspection_hd_date',[$datestart,$dateend])
+            ->get();
+        }
+        return view('productions.form-open-finalinspection',compact('hd','dateend','datestart'));
     }
 
     /**

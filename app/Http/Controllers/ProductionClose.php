@@ -23,14 +23,36 @@ class ProductionClose extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $hd = DB::table('productionopenjob_hd')
-        ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13,9,14,])
-        ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
-        ->get();
-        return view('productions.form-open-productionclosejob',compact('hd'));
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
+        if($request->ck_sta){
+            $hd = DB::table('productionopenjob_hd')
+            ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13,9])
+            ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
+            ->get();
+
+        }else {
+            $hd = DB::table('productionopenjob_hd')
+            ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13,9,14,])
+            ->whereBetween('productionopenjob_hd.productionopenjob_hd_date',[$datestart,$dateend])
+            ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
+            ->get();
+        }       
+        return view('productions.form-open-productionclosejob',compact('hd','dateend','datestart'));
     }
 
     /**

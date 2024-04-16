@@ -5,7 +5,34 @@
     <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title" style="font-weight: bold">เอกสารนำส่งสินค้า</h3><br><hr>
+            <form method="GET" class="form-horizontal">
+                @csrf
+            <div class="row">
+            <div class="col-12 col-md-2">
+                <h3 class="card-title" style="font-weight: bold">เอกสารนำส่งสินค้า</h3>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="form-group row">
+                    <label for="datestart" class="col-sm-3 col-form-label">วันที่</label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control" name="datestart" id="datestart" class="form-control" value="{{$datestart}}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="form-group row">
+                    <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-2">
+                <button class="btn btn-info" type="submit">ค้นหา</button>
+            </div>
+            </div>
+            </form>
+            <hr>
             <div class="table-responsive">
             <table class="table table-bordered table-hover" id="tb_job">
                 <thead>
@@ -22,7 +49,7 @@
                         <th>วันที่จัดส่ง</th>
                         <th></th>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th>สถานะ</th>
                         <th>วันที่</th>
                         <th>กำหนดส่ง</th>
@@ -34,7 +61,7 @@
                         <th>ผู้จัดส่ง</th>
                         <th>วันที่จัดส่ง</th>
                         <th></th>
-                    </tr>
+                    </tr> --}}
                 </thead>
                 <tbody>
                     @foreach ($hd as $item)
@@ -131,26 +158,26 @@
                 },
             pagingType: "full_numbers",
             bSort: true,
-                initComplete: function() {
-          this.api().columns().every(function() {
-            var column = this;
-            var select = $('<select class="form-control select2"><option value=""></option></select>')
-              .appendTo($(column.header()).empty())
-              .on('change', function() {
-                var val = $.fn.dataTable.util.escapeRegex(
-                  $(this).val()
-                );
+        // initComplete: function() {
+        //   this.api().columns().every(function() {
+        //     var column = this;
+        //     var select = $('<select class="form-control select2"><option value=""></option></select>')
+        //       .appendTo($(column.header()).empty())
+        //       .on('change', function() {
+        //         var val = $.fn.dataTable.util.escapeRegex(
+        //           $(this).val()
+        //         );
     
-                column
-                  .search(val ? '^' + val + '$' : '', true, false)
-                  .draw();
-              });
+        //         column
+        //           .search(val ? '^' + val + '$' : '', true, false)
+        //           .draw();
+        //       });
     
-            column.data().unique().sort().each(function(d, j) {
-              select.append('<option value="' + d + '">' + d + '</option>')
-            });
-          });
-        }
+        //     column.data().unique().sort().each(function(d, j) {
+        //       select.append('<option value="' + d + '">' + d + '</option>')
+        //     });
+        //   });
+        // }
         
         })
     });  

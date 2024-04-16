@@ -22,16 +22,29 @@ class ProductionRequestOrder extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
         $hd = DB::table('requestorder_hd')
         ->leftjoin('requestorder_status','requestorder_hd.requestorder_status_id','=','requestorder_status.requestorder_status_id')
         ->leftjoin('ms_department','requestorder_hd.ms_department_id','=','ms_department.ms_department_id')
         ->select('requestorder_hd.*','requestorder_status.requestorder_status_name','ms_department.ms_department_name')
         ->where('requestorder_hd.requestorder_status_id','<>',2)
+        ->whereBetween('requestorder_hd.requestorder_hd_date',[$datestart,$dateend])
         ->orderBy('requestorder_hd.requestorder_status_id','asc')
         ->get();
-        return view('productions.form-open-productionrequestorder',compact('hd'));
+        return view('productions.form-open-productionrequestorder',compact('hd','dateend','datestart'));
     }
 
     /**
