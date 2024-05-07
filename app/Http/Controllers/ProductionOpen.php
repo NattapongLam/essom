@@ -37,12 +37,21 @@ class ProductionOpen extends Controller
         else{
             $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
         } 
-        $hd = DB::table('productionopenjob_hd')
-        ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-        ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1,3,4,5,11,12])
-        ->whereBetween('productionopenjob_hd.productionopenjob_hd_date',[$datestart,$dateend])
-        ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
-        ->get();
+        if($request->ck_sta){
+            $hd = DB::table('productionopenjob_hd')
+            ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1])
+            ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
+            ->get();
+        }
+        else {
+            $hd = DB::table('productionopenjob_hd')
+            ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1,3,4,5,11,12])
+            ->whereBetween('productionopenjob_hd.productionopenjob_hd_date',[$datestart,$dateend])
+            ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
+            ->get();
+        }
         return view('productions.form-open-productionopenjob',compact('hd','dateend','datestart'));
     }
 

@@ -27,6 +27,14 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-1">
+                <div class="form-group row">
+                    <div class="col-sm-9">
+                        <input type="checkbox" id="checkboxPrimary1" name="ck_sta">
+                        <label for="ck_sta" class="form-label">รออนุมัติ</label>
+                    </div>
+                </div>
+            </div>
             <div class="col-12 col-md-2">
                 <button class="btn btn-info" type="submit">ค้นหา</button>
             </div>

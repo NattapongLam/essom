@@ -7,17 +7,47 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
+                <form method="GET" class="form-horizontal">
+                    @csrf
                 <div class="row">
                     <div class="col-12 col-md-2">
                         <h3 class="card-title" style="font-weight: bold">เอกสาร CAR</h3>
                     </div>
                     <div class="col-12 col-md-2">
+                        <div class="form-group row">
+                            <label for="datestart" class="col-sm-3 col-form-label">วันที่</label>
+                            <div class="col-sm-9">
+                              <input type="date" class="form-control" name="datestart" id="datestart" class="form-control" value="{{$datestart}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="form-group row">
+                            <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                            <div class="col-sm-9">
+                              <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1">
+                        <div class="form-group row">
+                            <div class="col-sm-9">
+                                <input type="checkbox" id="checkboxPrimary1" name="ck_sta">
+                                <label for="ck_sta" class="form-label">รออนุมัติ</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button class="btn btn-info" type="submit">ค้นหา</button>
+                    </div>
+                    <div class="col-12 col-md-1" style="margin-left: auto">
                         <a href="{{route('car-report.create')}}" 
                         class="btn btn-sm btn-success" >
                         <i class="fas fa-file"></i>&nbsp; สร้างเอกสาร
                         </a>
                     </div>
                 </div>
+                </form>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -32,7 +62,7 @@
                                 <th>ข้อบกพร่องที่พบ</th>
                                 <th></th>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <th>สถานะ</th>
                                 <th>วันที่</th>
                                 <th>อ้างถึง</th>
@@ -40,7 +70,7 @@
                                 <th>ผู้แก้ปัญหา</th>
                                 <th>ข้อบกพร่องที่พบ</th>
                                 <th></th>
-                            </tr>
+                            </tr> --}}
                         </thead>
                         <tbody>
                             @foreach ($hd as $item)
@@ -100,26 +130,26 @@
             },
         pagingType: "full_numbers",
         bSort: true,
-            initComplete: function() {
-      this.api().columns().every(function() {
-        var column = this;
-        var select = $('<select class="form-control select2"><option value=""></option></select>')
-          .appendTo($(column.header()).empty())
-          .on('change', function() {
-            var val = $.fn.dataTable.util.escapeRegex(
-              $(this).val()
-            );
+    // initComplete: function() {
+    //   this.api().columns().every(function() {
+    //     var column = this;
+    //     var select = $('<select class="form-control select2"><option value=""></option></select>')
+    //       .appendTo($(column.header()).empty())
+    //       .on('change', function() {
+    //         var val = $.fn.dataTable.util.escapeRegex(
+    //           $(this).val()
+    //         );
 
-            column
-              .search(val ? '^' + val + '$' : '', true, false)
-              .draw();
-          });
+    //         column
+    //           .search(val ? '^' + val + '$' : '', true, false)
+    //           .draw();
+    //       });
 
-        column.data().unique().sort().each(function(d, j) {
-          select.append('<option value="' + d + '">' + d + '</option>')
-        });
-      });
-    }
+    //     column.data().unique().sort().each(function(d, j) {
+    //       select.append('<option value="' + d + '">' + d + '</option>')
+    //     });
+    //   });
+    // }
     
     })
 });

@@ -24,11 +24,32 @@ class NcrReport extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')
-        ->where('iso_ncr.iso_status_id','<>',5)->get();
-        return view('iso.form-open-ncrlist',compact('hd'));
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
+        if($request->ck_sta){
+            $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')
+            ->whereIN('iso_ncr.iso_status_id',[2])
+            ->get();
+        }else {
+            $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')
+            ->where('iso_ncr.iso_status_id','<>',5)
+            ->whereBetween('iso_ncr.reported_date',[$datestart,$dateend])
+            ->get();
+        }
+       
+        return view('iso.form-open-ncrlist',compact('hd','dateend','datestart'));
     }
 
     /**

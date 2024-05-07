@@ -23,11 +23,31 @@ class CarReport extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $hd = IsoCar::leftjoin('iso_status','iso_car.iso_status_id','=','iso_status.iso_status_id')
-        ->where('iso_car.iso_status_id','<>',5)->get();
-        return view('iso.form-open-carlist',compact('hd'));
+        if($request->dateend){
+            $dateend = $request->dateend;
+        }
+        else{
+            $dateend = date("Y-m-d");
+        }
+        if($request->datestart){
+            $datestart = $request->datestart;
+        }
+        else{
+            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        } 
+        if($request->ck_sta){
+            $hd = IsoCar::leftjoin('iso_status','iso_car.iso_status_id','=','iso_status.iso_status_id')
+            ->whereIN('iso_car.iso_status_id',[1,7,9])
+            ->get();
+        }else {
+            $hd = IsoCar::leftjoin('iso_status','iso_car.iso_status_id','=','iso_status.iso_status_id')
+            ->where('iso_car.iso_status_id','<>',5)
+            ->whereBetween('iso_car.iso_car_date',[$datestart,$dateend])
+            ->get();
+        }
+        return view('iso.form-open-carlist',compact('hd','dateend','datestart'));
     }
 
     /**
