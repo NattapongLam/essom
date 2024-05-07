@@ -25,11 +25,12 @@ class ProductionNotice extends Controller
      */
     public function index(Request $request)
     {
+        $date = date("Y-m-d");
         if($request->dateend){
             $dateend = $request->dateend;
         }
         else{
-            $dateend = date("Y-m-d");
+            $dateend = date("Y-m-d",strtotime("1 month",strtotime($date)));
         }
         if($request->datestart){
             $datestart = $request->datestart;
