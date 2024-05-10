@@ -40,7 +40,7 @@ class ProductionOpen extends Controller
         if($request->ck_sta){
             $hd = DB::table('productionopenjob_hd')
             ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
-            ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1])
+            ->whereIn('productionopenjob_hd.productionopenjob_status_id',[3])
             ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
             ->get();
         }
