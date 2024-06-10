@@ -278,16 +278,16 @@ class CarReport extends Controller
                 $up = IsoCar::where('iso_car_id',$id)->update([ 
                     'iso_status_id' => 10,
                     'updated_at' => Carbon::now(),
-                    'followup_by' => Carbon::now(),
-                    'followup_date' => Auth::user()->name,
+                    'followup_by' => Auth::user()->name,
+                    'followup_date' => Carbon::now(),
                 ]);
                 define('LINE_API', "https://notify-api.line.me/api/notify");
                 $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
                 $params = array(
                 "message"  => "แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR"."\n"
                 ."เลขที่ : ".$hd->iso_car_docuno."\n"
-                ."วันที่กรรมการลงนามปิดเอกสาร : ".Auth::user()->name."\n"
-                ."กรรมการลงนามปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
+                ."วันที่กรรมการลงนามปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n"
+                ."กรรมการลงนามปิดเอกสาร : ".Auth::user()->name."\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );
