@@ -244,7 +244,7 @@ class CarReport extends Controller
                 $params = array(
                 "message"  => "แจ้งเตือนกรรมการลงนามแก้ไข/ป้องกันเอกสาร CAR"."\n"
                 ."เลขที่ : ".$hd->iso_car_docuno."\n"
-                ."วันที่กรรมการลงนามแก้ไข/ป้องกัน : ".Auth::user()->name."\n"
+                ."วันที่กรรมการลงนามแก้ไข/ป้องกัน : ".Auth::user()->name. " -"  .$request->opinion_remark."\n"
                 ."กรรมการลงนามแก้ไข/ป้องกัน : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,

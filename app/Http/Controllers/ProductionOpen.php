@@ -157,7 +157,8 @@ class ProductionOpen extends Controller
                 ."สินค้า : ".$hd->ms_product_name."\n"
                 ."Spec Page : ".$hd->ms_specpage_name."\n"
                 ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
-                ."ผู้ตรวจสอบ : ".Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name ."\n",
+                ."ผู้ตรวจสอบ : ".Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name ."\n"
+                ."หมายเหตุ : ".$request->note."\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );
@@ -196,7 +197,8 @@ class ProductionOpen extends Controller
                 ."สินค้า : ".$hd->ms_product_name."\n"
                 ."Spec Page : ".$hd->ms_specpage_name."\n"
                 ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
-                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n",
+                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n"
+                ."หมายเหตุ : ".$request->note."\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
                 );

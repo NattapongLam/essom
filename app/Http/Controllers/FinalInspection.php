@@ -152,6 +152,19 @@ class FinalInspection extends Controller
                     'approved_note' => $request->note
                 ]);
                 DB::commit();
+                $sta = DB::table('finalInspection_status')->where('finalInspection_status_id',$request->finalInspection_status_id)->first();
+                define('LINE_API', "https://notify-api.line.me/api/notify");
+                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                $params = array(
+                "message"  => "แจ้งเตือนเอกสารตรวจสอบขั้นตอนสุดท้าย"."\n"
+                ."เลขที่ : ".$hd->productionopenjob_hd_docuno."\n"
+                ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
+                ."สินค้า : ".$hd->ms_product_name."\n"
+                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->finalInspection_status_name. " -"  .$request->note. "\n",
+                "stickerPkg"     => 446,
+                "stickerId"      => 1988,
+                );
+                $res = $this->notify_message($params, $token);
                 return redirect()->route('fl-inst.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){
                 Log::error($e->getMessage());
@@ -192,5 +205,28 @@ class FinalInspection extends Controller
             'dt2' => $dt2,
             'dt3' => $dt3
         ]);
+    }
+
+    function notify_message($params, $token)
+    {
+        $queryData = array(
+            'message'          => $params["message"],
+            'stickerPackageId' => $params["stickerPkg"],
+            'stickerId'        => $params["stickerId"],
+        );
+        $queryData = http_build_query($queryData, '', '&');
+        $headerOptions = array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+                    . "Authorization: Bearer " . $token . "\r\n"
+                    . "Content-Length: " . strlen($queryData) . "\r\n",
+                'content' => $queryData,
+            ),
+        );
+        $context = stream_context_create($headerOptions);
+        $result = file_get_contents(LINE_API, FALSE, $context);
+        $res = json_decode($result);
+        return $res;
     }
 }

@@ -239,7 +239,7 @@ class NcrReport extends Controller
                 $params = array(
                 "message"  => "แจ้งเตือนอนุมัติ NCR"."\n"
                 ."เลขที่ : ". $hd->iso_ncr_docuno ."\n"
-                ."วันที่อนุมัติ : ".Auth::user()->name."\n"
+                ."วันที่อนุมัติ : ".Auth::user()->name. " -"  .$request->approval_remark."\n"
                 ."ผู้อนุมัติ : ".Carbon::now()->format('d/m/Y')."\n",
                 "stickerPkg"     => 446,
                 "stickerId"      => 1988,
