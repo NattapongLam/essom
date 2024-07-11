@@ -56,11 +56,11 @@
                     <div class="form-group">
                         @if($hd->productionopenjob_status_id == 1 )
                         <button type="submit" class="btn btn-block btn-primary">
-                            ตรวจสอบใบเปิดงาน
+                            บันทึก
                          </button>
                         @elseif($hd->productionopenjob_status_id == 3 || $hd->productionopenjob_status_id == 5)
                         <button type="submit" class="btn btn-block btn-primary">
-                            อนุมัติใบเปิดงาน
+                            บันทึก
                          </button>
                         @endif    
                         
