@@ -76,7 +76,7 @@
                             @foreach ($hd as $item)
                                 <tr>
                                     <td>{{$item->iso_status_name}}</td>
-                                    <td>{{\Carbon\Carbon::parse($item->iso_car_date)->format('d/m/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($item->troublemaker_date)->format('d/m/Y')}}</td>
                                     <td>{{$item->iso_car_refertype}}</td>
                                     <td>{{$item->iso_car_docuno}}</td>
                                     <td>{{$item->problem_by}}</td>
