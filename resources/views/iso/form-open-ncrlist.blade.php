@@ -82,7 +82,7 @@
                             @foreach ($hd as $item)
                                 <tr>
                                     <td>{{$item->iso_status_name}}</td>
-                                    <td>{{\Carbon\Carbon::parse($item->reported_date)->format('d/m/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($item->reported_date)->format('Y/m/d')}}</td>
                                     <td>{{$item->iso_ncr_observer}}</td>
                                     <td>{{$item->iso_ncr_docuno}}</td>
                                     <td>{{$item->iso_ncr_department}}</td>
