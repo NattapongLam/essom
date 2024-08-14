@@ -86,7 +86,7 @@ class DeliveryOrder extends Controller
         $dt = DeliveryOrderDt::where('deliveryorder_hd_id', $id)
         ->where('deliveryorder_dt_flag',true)
         ->get();  
-        $emp = EmployeeList::get();
+        $emp = EmployeeList::where('ms_employee_flag',true)->get();
         return view('sales.form-edit-deliveryorder', compact('hd','dt','emp'));
     }
 

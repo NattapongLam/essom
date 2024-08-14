@@ -165,7 +165,7 @@ class CarReport extends Controller
     public function edit($id)
     {
         $hd = IsoCar::where('iso_car_id',$id)->first();
-        $emp = EmployeeList::get();
+        $emp = EmployeeList::where('ms_employee_flag',true)->get();
         return view('iso.form-edit-car',compact('hd','emp'));
     }
 
