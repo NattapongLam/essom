@@ -67,7 +67,9 @@ class CarReport extends Controller
         $docs = date('y').'-'. str_pad(1, 5, '0', STR_PAD_LEFT);
         $docs_number = 1;
         }
-        $emp = EmployeeList::get();
+        $emp = EmployeeList::where('ms_employee_flag',true)
+        ->OrderBy('ms_department_id','asc')
+        ->get();
         return view('iso.form-create-car',compact('emp','docs','docs_number'));
     }
 
@@ -165,7 +167,9 @@ class CarReport extends Controller
     public function edit($id)
     {
         $hd = IsoCar::where('iso_car_id',$id)->first();
-        $emp = EmployeeList::where('ms_employee_flag',true)->get();
+        $emp = EmployeeList::where('ms_employee_flag',true)
+        ->OrderBy('ms_department_id','asc')
+        ->get();
         return view('iso.form-edit-car',compact('hd','emp'));
     }
 

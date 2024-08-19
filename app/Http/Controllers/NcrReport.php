@@ -161,7 +161,9 @@ class NcrReport extends Controller
     public function edit($id)
     {     
         $hd = IsoNcr::where('iso_ncr_id',$id)->first();
-        $emp = EmployeeList::where('ms_employee_flag',true)->get();
+        $emp = EmployeeList::where('ms_employee_flag',true)
+        ->OrderBy('ms_department_id','asc')
+        ->get();
         $dep = DepartmentList::get();
         return view('iso.form-edit-ncr',compact('hd','emp','dep'));
     }

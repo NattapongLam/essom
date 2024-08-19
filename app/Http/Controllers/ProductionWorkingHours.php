@@ -167,7 +167,9 @@ class ProductionWorkingHours extends Controller
         $dep = DepartmentList::get();
         $typ = WorkingHoursType::get();
         $jobdoc = DB::table('vw_workinghours_job')->get();
-        $emps = EmployeeList::where('ms_employee_flag',true)->get();
+        $emp = EmployeeList::where('ms_employee_flag',true)
+        ->OrderBy('ms_department_id','asc')
+        ->get();
         return view('productions.form-edit-productionworkinghours', compact('hd','dt','dep','typ','jobdoc','emps'));
     }
 
@@ -189,7 +191,9 @@ class ProductionWorkingHours extends Controller
         $dep = DepartmentList::get();
         $typ = WorkingHoursType::get();
         $jobdoc = DB::table('vw_workinghours_job')->get();
-        $emps = EmployeeList::where('ms_employee_flag',true)->get();
+        $emp = EmployeeList::where('ms_employee_flag',true)
+        ->OrderBy('ms_department_id','asc')
+        ->get();
         return view('productions.form-edit-productionworkinghours', compact('hd','dt','dep','typ','jobdoc','emps'));
     }
 
