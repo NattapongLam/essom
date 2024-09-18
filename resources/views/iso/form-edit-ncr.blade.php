@@ -19,7 +19,7 @@
                         <select class="form-control select2">
                             <option value="{{$hd->iso_ncr_observer}}">{{$hd->iso_ncr_observer}}</option>
                             @foreach ($emp as $item)
-                            <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                            <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach                          
                         </select>
                     </div>
@@ -67,7 +67,7 @@
                         <select class="form-control select2">
                         <option value="{{$hd->offender_by}}">{{$hd->offender_by}}</option>
                         @foreach ($emp as $item)
-                        <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                        <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                         @endforeach  
                         </select>
                     </div>
@@ -80,7 +80,7 @@
                         <select class="form-control select2">
                             <option value="{{$hd->reported_by}}">{{$hd->reported_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -161,7 +161,7 @@
                         <select class="form-control select2" name="offered_by">
                             <option value="{{$hd->offered_by}}">{{$hd->offered_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -237,7 +237,7 @@
                         <select class="form-control select2" name="approved_by">
                             <option value="{{$hd->approved_by}}">{{$hd->approved_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -278,7 +278,7 @@
                         <select class="form-control select2" name="checked_by">
                             <option value="{{$hd->checked_by}}">{{$hd->checked_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>

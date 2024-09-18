@@ -170,8 +170,9 @@ class CarReport extends Controller
     {
         $hd = IsoCar::where('iso_car_id',$id)->first();
         $emp = EmployeeList::where('ms_employee_flag',true)
-        ->OrderBy('ms_department_id','asc')
-        ->OrderBy('ms_employeegroup_id','asc')
+        ->leftjoin('ms_employeegroup','ms_employee.ms_employeegroup_id','=','ms_employeegroup.ms_employeegroup_id')
+        ->OrderBy('ms_employee.ms_employeegroup_id','asc')
+        ->OrderBy('ms_employee.ms_department_id','asc')       
         ->get();
         return view('iso.form-edit-car',compact('hd','emp'));
     }

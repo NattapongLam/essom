@@ -88,7 +88,7 @@
                         <select class="form-control select2">
                             <option value="{{$hd->problem_by}}">{{$hd->problem_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -97,7 +97,7 @@
                         <select class="form-control select2">
                             <option value="{{$hd->problem_to}}">{{$hd->problem_to}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -126,7 +126,7 @@
                         <select class="form-control select2">
                             <option value="{{$hd->troublemaker_by}}">{{$hd->troublemaker_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -139,7 +139,7 @@
                         <select class="form-control select2">
                             <option value="{{$hd->troublemaker_byto}}">{{$hd->troublemaker_byto}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -176,7 +176,7 @@
                             <option value="0">ไม่ระบุ</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">
-                                    {{$item->ms_employee_fullname}}</option>
+                                    {{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -186,7 +186,7 @@
                             <option value="{{$hd->problem_add1}}">{{$hd->problem_add1}}</option>
                             <option value="0">ไม่ระบุ</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -196,7 +196,7 @@
                             <option value="{{$hd->problem_add2}}">{{$hd->problem_add2}}</option>
                             <option value="0">ไม่ระบุ</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -229,7 +229,7 @@
                         <select class="form-control select2" name="iso_car_by">
                             <option value="{{$hd->iso_car_by}}">{{$hd->iso_car_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -263,7 +263,7 @@
                         <select class="form-control select2" name="opinion_by">
                             <option value="{{$hd->opinion_by}}">{{$hd->opinion_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -304,7 +304,7 @@
                         <select class="form-control select2" name="close_by">
                             <option value="{{$hd->close_by}}">{{$hd->close_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
@@ -317,7 +317,7 @@
                         <select class="form-control select2" name="followup_by">
                             <option value="{{$hd->followup_by}}">{{$hd->followup_by}}</option>
                             @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
