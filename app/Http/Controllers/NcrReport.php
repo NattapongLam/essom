@@ -69,7 +69,10 @@ class NcrReport extends Controller
         $docs = date('y').'-'. str_pad(1, 5, '0', STR_PAD_LEFT);
         $docs_number = 1;
         }
-        $emp = EmployeeList::where('ms_employee_flag',true)->OrderBy('ms_employeegroup_id','asc')->get();
+        $emp = EmployeeList::where('ms_employee_flag',true)
+        ->OrderBy('ms_employee.ms_employeegroup_id','asc')
+        ->OrderBy('ms_employee.ms_employee_listno','asc')
+        ->get();
         $dep = DepartmentList::get();
         return view('iso.form-create-ncr',compact('emp','dep','docs','docs_number'));
     }
@@ -165,7 +168,7 @@ class NcrReport extends Controller
         ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')
         ->leftjoin('ms_employeegroup','ms_employee.ms_employeegroup_id','=','ms_employeegroup.ms_employeegroup_id')
         ->OrderBy('ms_employee.ms_employeegroup_id','asc')
-        ->OrderBy('ms_department.ms_department_listno','asc')       
+        ->OrderBy('ms_employee.ms_employee_listno','asc')
         ->get();
         $dep = DepartmentList::get();
         return view('iso.form-edit-ncr',compact('hd','emp','dep'));

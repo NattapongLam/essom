@@ -68,9 +68,9 @@ class CarReport extends Controller
         $docs_number = 1;
         }
         $emp = EmployeeList::where('ms_employee_flag',true)
-        ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')
-        ->OrderBy('ms_department.ms_department_listno','asc')
+        ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')       
         ->OrderBy('ms_employee.ms_employeegroup_id','asc')
+        ->OrderBy('ms_department.ms_employee_listno','asc')
         ->get();
         return view('iso.form-create-car',compact('emp','docs','docs_number'));
     }
@@ -172,7 +172,7 @@ class CarReport extends Controller
         $emp = EmployeeList::where('ms_employee_flag',true)
         ->leftjoin('ms_employeegroup','ms_employee.ms_employeegroup_id','=','ms_employeegroup.ms_employeegroup_id')
         ->OrderBy('ms_employee.ms_employeegroup_id','asc')
-        ->OrderBy('ms_employee.ms_department_id','asc')       
+        ->OrderBy('ms_employee.ms_employee_listno','asc')       
         ->get();
         return view('iso.form-edit-car',compact('hd','emp'));
     }
