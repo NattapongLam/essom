@@ -34,6 +34,7 @@ Route::group([
 });
 Route::resource('/pd-noti' , App\Http\Controllers\ProductionNotice::class);
 Route::post('/getData' , [App\Http\Controllers\ProductionNotice::class , 'getData']);
+Route::post('/cancelDocsNotice' , [App\Http\Controllers\ProductionNotice::class , 'cancelDocsNotice']);
 Route::resource('/del-order' , App\Http\Controllers\DeliveryOrder::class);
 Route::post('/getDataDel' , [App\Http\Controllers\DeliveryOrder::class , 'getDataDel']);
 Route::resource('/pd-open' , App\Http\Controllers\ProductionOpen::class);

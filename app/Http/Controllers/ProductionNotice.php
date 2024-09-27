@@ -205,4 +205,16 @@ class ProductionNotice extends Controller
         $res = json_decode($result);
         return $res;
     }
+    public function cancelDocsNotice(Request $request)
+    {
+        $hd = ProductionNoticeHd::where('productionnotice_hd_id',$request->refid)->update([
+            'productionnotice_status_id' => 2,
+            'updated_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+        ]);     
+    }
 }

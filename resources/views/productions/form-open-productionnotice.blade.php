@@ -70,7 +70,14 @@
                                     data-toggle="modal" data-target="#modal"
                                     onclick="getData('{{ $item->productionnotice_hd_id }}')">
                                     <i class="fas fa-eye"></i></a>                          
-                                    @endif                                                         
+                                    @endif    
+                                    @if ($item->productionnotice_status_id == 4)
+                                        @if ($item->approved_by == auth()->user()->name)
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
+                                            onclick="confirmDel('{{ $item->productionnotice_hd_docuno }}','{{ $item->productionnotice_hd_id }}')">
+                                        <i class="fas fa-trash"></i></a>
+                                        @endif
+                                    @endif                                                     
                                 </td>
                             </tr> 
                             @endforeach                   
@@ -245,6 +252,64 @@ $.ajax({
         $('#opt_list').html(op_list);
     }
 });
+}
+confirmDel = (docs,refid) =>{       
+Swal.fire({
+    title: 'คุณแน่ใจหรือไม่ !',
+    text: `คุณต้องการลบรายการเบิกนี้หรือไม่ ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'ยืนยัน',
+    cancelButtonText: 'ยกเลิก',
+    confirmButtonClass: 'btn btn-success mt-2',
+    cancelButtonClass: 'btn btn-danger ms-2 mt-2',
+    buttonsStyling: false
+}).then(function(result) {
+    if (result.value) {
+
+        $.ajax({
+            url: `{{ url('/cancelDocsNotice') }}`,
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "docuno": docs,
+                "refid": refid
+            },
+            dataType: "json",
+            success: function(data) {
+
+                console.log(data);
+
+
+                if (data.status == true) {
+                    Swal.fire({
+                        title: 'สำเร็จ',
+                        text: 'ยกเลิกเอกสารเรียบร้อยแล้ว',
+                        icon: 'success'
+                    }).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'ไม่สำเร็จ',
+                        text: 'ยกเลิกเอกสารไม่สำเร็จ',
+                        icon: 'error'
+                    });
+                }
+               
+            }
+        });
+
+    } else if ( // Read more about handling dismissals
+        result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+            title: 'ยกเลิก',
+            text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
+            icon: 'error'
+        });
+    }
+});
+
 }
 </script>
 @endpush
