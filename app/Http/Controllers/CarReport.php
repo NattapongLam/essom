@@ -284,7 +284,7 @@ class CarReport extends Controller
             }
             elseif($hd->iso_status_id == 9){
                 $up = IsoCar::where('iso_car_id',$id)->update([ 
-                    'iso_status_id' => 10,
+                    'iso_status_id' => 9,
                     'updated_at' => Carbon::now(),
                     'followup_by' => Auth::user()->name,
                     'followup_date' => Carbon::now(),

@@ -212,6 +212,11 @@ class ProductionNotice extends Controller
             'updated_at' => Carbon::now(),
             'created_person' => Auth::user()->name,
         ]);
+        $dt =  ProductionNoticeDt::where('productionnotice_hd_id',$request->refid)->update([
+            'productionnotice_status_id' => 2,
+            'updated_at' => Carbon::now(),
+            'created_person' => Auth::user()->name,
+        ]);
         return response()->json([
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
