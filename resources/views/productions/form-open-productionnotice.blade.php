@@ -44,7 +44,8 @@
                                 <th class="text-center">กำหนดส่ง</th>
                                 <th class="text-center">ลูกค้า</th>
                                 <th class="text-center">ผู้อนุมัติ</th>
-                                <th class="text-center">หมายเหตุ</th>
+                                <th></th>
+                                <th class="text-center">หมายเหตุ</th>                               
                                 <th></th>
                             </tr>
                         </thead>   
@@ -57,7 +58,6 @@
                                 <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_duedate)->format('d/m/Y')}}</td>
                                 <td class="text-center">{{$item->ms_customer_name}}</td>
                                 <td class="text-center">{{$item->approved_by}}</td>
-                                <td class="text-center">{{$item->productionnotice_hd_remark}} / {{$item->approved_note}}</td>
                                 <td class="text-center">
                                     @if($item->productionnotice_status_id == 1)
                                     <a href="{{route('pd-noti.edit',$item->productionnotice_hd_id)}}" 
@@ -70,14 +70,17 @@
                                     data-toggle="modal" data-target="#modal"
                                     onclick="getData('{{ $item->productionnotice_hd_id }}')">
                                     <i class="fas fa-eye"></i></a>                          
-                                    @endif    
+                                    @endif                                                                                 
+                                </td>
+                                <td class="text-center">{{$item->productionnotice_hd_remark}} / {{$item->approved_note}}</td>                               
+                                <td class="text-center">
                                     @if ($item->productionnotice_status_id == 4)
-                                        @if ($item->approved_by == auth()->user()->name)
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
-                                            onclick="confirmDel('{{ $item->productionnotice_hd_docuno }}','{{ $item->productionnotice_hd_id }}')">
-                                        <i class="fas fa-trash"></i></a>
-                                        @endif
-                                    @endif                                                     
+                                    @if ($item->approved_by == auth()->user()->name)
+                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
+                                        onclick="confirmDel('{{ $item->productionnotice_hd_docuno }}','{{ $item->productionnotice_hd_id }}')">
+                                    <i class="fas fa-trash"></i></a>
+                                    @endif
+                                @endif          
                                 </td>
                             </tr> 
                             @endforeach                   
@@ -177,7 +180,7 @@ $(document).ready(function() {
                 type: 'time-date-sort'
             }],
             order: [
-                [7, "desc"]
+                [1, "desc"]
             ],
             fixedHeader: {
 				header:false,
