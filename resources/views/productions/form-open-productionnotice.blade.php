@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-12 col-md-2">
                     <div class="form-group row">
-                        <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                        <label for="dateend" class="col-sm-3 col-form-label">ถึง</label>
                         <div class="col-sm-9">
                           <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
                         </div>
@@ -180,6 +180,7 @@ $(document).ready(function() {
                 type: 'time-date-sort'
             }],
             order: [
+                [6, "desc"],
                 [1, "desc"]
             ],
             fixedHeader: {
