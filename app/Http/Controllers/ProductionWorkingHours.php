@@ -193,7 +193,7 @@ class ProductionWorkingHours extends Controller
         $jobdoc = DB::table('vw_workinghours_job')->get();
         $emp = EmployeeList::where('ms_employee_flag',true)
         ->get();
-        return view('productions.form-edit-productionworkinghours', compact('hd','dt','dep','typ','jobdoc','emps'));
+        return view('productions.form-edit-productionworkinghours', compact('hd','dt','dep','typ','jobdoc','emp'));
     }
 
     /**

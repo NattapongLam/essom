@@ -53,9 +53,9 @@
                             @foreach ($hd as $item)
                             <tr>
                                 <td class="text-center">{{$item->productionnotice_status_name}}</td>
-                                <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_date)->format('d/m/Y')}}</td>
+                                <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_date)->format('Y/m/d')}}</td>
                                 <td class="text-center">{{$item->productionnotice_hd_docuno}}</td>
-                                <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_duedate)->format('d/m/Y')}}</td>
+                                <td class="text-center">{{\Carbon\Carbon::parse($item->productionnotice_hd_duedate)->format('Y/m/d')}}</td>
                                 <td class="text-center">{{$item->ms_customer_name}}</td>
                                 <td class="text-center">{{$item->approved_by}}</td>
                                 <td class="text-center">
@@ -181,7 +181,7 @@ $(document).ready(function() {
             }],
             order: [
                 [6, "desc"],
-                [1, "desc"]
+                [3, "desc"]
             ],
             fixedHeader: {
 				header:false,
