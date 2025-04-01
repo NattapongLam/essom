@@ -147,22 +147,22 @@ class ProductionOpen extends Controller
                     }
                 DB::commit();
                 $sta = DB::table('productionopenjob_status')->where('productionopenjob_status_id',$request->productionopenjob_status_id)->first();
-                define('LINE_API', "https://notify-api.line.me/api/notify");
-                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
-                $params = array(
-                "message"  => "แจ้งเตือนเอกสารเปิดงาน"."\n"
-                ."วันที่เริ่ม - จบ : ".$hd->productionopenjob_hd_startdate." - ".$hd->productionopenjob_hd_enddate."\n"
-                ."เลขที่ : ".$hd->productionopenjob_hd_docuno."\n"
-                ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
-                ."สินค้า : ".$hd->ms_product_name."\n"
-                ."Spec Page : ".$hd->ms_specpage_name."\n"
-                ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
-                ."ผู้ตรวจสอบ : ".Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name ."\n"
-                ."หมายเหตุ : ".$request->note."\n",
-                "stickerPkg"     => 446,
-                "stickerId"      => 1988,
-                );
-                $res = $this->notify_message($params, $token);
+                // define('LINE_API', "https://notify-api.line.me/api/notify");
+                // $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                // $params = array(
+                // "message"  => "แจ้งเตือนเอกสารเปิดงาน"."\n"
+                // ."วันที่เริ่ม - จบ : ".$hd->productionopenjob_hd_startdate." - ".$hd->productionopenjob_hd_enddate."\n"
+                // ."เลขที่ : ".$hd->productionopenjob_hd_docuno."\n"
+                // ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
+                // ."สินค้า : ".$hd->ms_product_name."\n"
+                // ."Spec Page : ".$hd->ms_specpage_name."\n"
+                // ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
+                // ."ผู้ตรวจสอบ : ".Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name ."\n"
+                // ."หมายเหตุ : ".$request->note."\n",
+                // "stickerPkg"     => 446,
+                // "stickerId"      => 1988,
+                // );
+                // $res = $this->notify_message($params, $token);
                 return redirect()->route('pd-open.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){
                 Log::error($e->getMessage());
@@ -187,22 +187,22 @@ class ProductionOpen extends Controller
                     }
                 DB::commit();
                 $sta = DB::table('productionopenjob_status')->where('productionopenjob_status_id',$request->productionopenjob_status_id)->first();
-                define('LINE_API', "https://notify-api.line.me/api/notify");
-                $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
-                $params = array(
-                "message"  => "แจ้งเตือนเอกสารเปิดงาน"."\n"
-                ."วันที่เริ่ม - จบ : ".date("d-m-Y",strtotime($hd->productionopenjob_hd_startdate))." - ".date("d-m-Y",strtotime($hd->productionopenjob_hd_enddate))."\n"
-                ."เลขที่ : ".$hd->productionopenjob_hd_docuno."\n"
-                ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
-                ."สินค้า : ".$hd->ms_product_name."\n"
-                ."Spec Page : ".$hd->ms_specpage_name."\n"
-                ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
-                ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n"
-                ."หมายเหตุ : ".$request->note."\n",
-                "stickerPkg"     => 446,
-                "stickerId"      => 1988,
-                );
-                $res = $this->notify_message($params, $token);
+                // define('LINE_API', "https://notify-api.line.me/api/notify");
+                // $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+                // $params = array(
+                // "message"  => "แจ้งเตือนเอกสารเปิดงาน"."\n"
+                // ."วันที่เริ่ม - จบ : ".date("d-m-Y",strtotime($hd->productionopenjob_hd_startdate))." - ".date("d-m-Y",strtotime($hd->productionopenjob_hd_enddate))."\n"
+                // ."เลขที่ : ".$hd->productionopenjob_hd_docuno."\n"
+                // ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
+                // ."สินค้า : ".$hd->ms_product_name."\n"
+                // ."Spec Page : ".$hd->ms_specpage_name."\n"
+                // ."ประมาณการต้นทุน : ".$hd->productionopenjob_estimatecost."\n"
+                // ."ผู้อนุมัติ : ".Auth::user()->name." สถานะ :" . $sta->productionopenjob_status_name. "\n"
+                // ."หมายเหตุ : ".$request->note."\n",
+                // "stickerPkg"     => 446,
+                // "stickerId"      => 1988,
+                // );
+                // $res = $this->notify_message($params, $token);
                 return redirect()->route('pd-open.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){
                 Log::error($e->getMessage());
@@ -240,26 +240,26 @@ class ProductionOpen extends Controller
             ]);
     }
 
-    function notify_message($params, $token)
-    {
-        $queryData = array(
-            'message'          => $params["message"],
-            'stickerPackageId' => $params["stickerPkg"],
-            'stickerId'        => $params["stickerId"],
-        );
-        $queryData = http_build_query($queryData, '', '&');
-        $headerOptions = array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
-                    . "Authorization: Bearer " . $token . "\r\n"
-                    . "Content-Length: " . strlen($queryData) . "\r\n",
-                'content' => $queryData,
-            ),
-        );
-        $context = stream_context_create($headerOptions);
-        $result = file_get_contents(LINE_API, FALSE, $context);
-        $res = json_decode($result);
-        return $res;
-    }
+    // function notify_message($params, $token)
+    // {
+    //     $queryData = array(
+    //         'message'          => $params["message"],
+    //         'stickerPackageId' => $params["stickerPkg"],
+    //         'stickerId'        => $params["stickerId"],
+    //     );
+    //     $queryData = http_build_query($queryData, '', '&');
+    //     $headerOptions = array(
+    //         'http' => array(
+    //             'method'  => 'POST',
+    //             'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+    //                 . "Authorization: Bearer " . $token . "\r\n"
+    //                 . "Content-Length: " . strlen($queryData) . "\r\n",
+    //             'content' => $queryData,
+    //         ),
+    //     );
+    //     $context = stream_context_create($headerOptions);
+    //     $result = file_get_contents(LINE_API, FALSE, $context);
+    //     $res = json_decode($result);
+    //     return $res;
+    // }
 }

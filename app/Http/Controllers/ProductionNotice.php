@@ -132,20 +132,20 @@ class ProductionNotice extends Controller
             }
             $sta = DB::table('productionnotice_status')->where('productionnotice_status_id',$request->productionnotice_status_id)->first();    
             DB::commit();
-            define('LINE_API', "https://notify-api.line.me/api/notify");
-            $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
-            $params = array(
-            "message"  => "แจ้งเตือนเอกสารแจ้งผลิต"."\n"
-            ."กำหนดส่ง : ".date("d-m-Y",strtotime($hd->productionnotice_hd_duedate))."\n"
-            ."เลขที่ : ".$hd->productionnotice_hd_docuno."\n"
-            ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
-            ."สินค้า : ".$hd->ms_product_name."\n"
-            ."Spec Page : ".$hd->ms_specpage_name."\n"
-            ."ผู้อนุมัติแจ้งผลิต : ".Auth::user()->name ." (" . $sta->productionnotice_status_name . ")" ."\n",
-            "stickerPkg"     => 446,
-            "stickerId"      => 1988,
-            );
-            $res = $this->notify_message($params, $token);
+            // define('LINE_API', "https://notify-api.line.me/api/notify");
+            // $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
+            // $params = array(
+            // "message"  => "แจ้งเตือนเอกสารแจ้งผลิต"."\n"
+            // ."กำหนดส่ง : ".date("d-m-Y",strtotime($hd->productionnotice_hd_duedate))."\n"
+            // ."เลขที่ : ".$hd->productionnotice_hd_docuno."\n"
+            // ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
+            // ."สินค้า : ".$hd->ms_product_name."\n"
+            // ."Spec Page : ".$hd->ms_specpage_name."\n"
+            // ."ผู้อนุมัติแจ้งผลิต : ".Auth::user()->name ." (" . $sta->productionnotice_status_name . ")" ."\n",
+            // "stickerPkg"     => 446,
+            // "stickerId"      => 1988,
+            // );
+            // $res = $this->notify_message($params, $token);
             return redirect()->route('pd-noti.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
             Log::error($e->getMessage());
@@ -183,28 +183,28 @@ class ProductionNotice extends Controller
             ]);
     }
 
-    function notify_message($params, $token)
-    {
-        $queryData = array(
-            'message'          => $params["message"],
-            'stickerPackageId' => $params["stickerPkg"],
-            'stickerId'        => $params["stickerId"],
-        );
-        $queryData = http_build_query($queryData, '', '&');
-        $headerOptions = array(
-            'http' => array(
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
-                    . "Authorization: Bearer " . $token . "\r\n"
-                    . "Content-Length: " . strlen($queryData) . "\r\n",
-                'content' => $queryData,
-            ),
-        );
-        $context = stream_context_create($headerOptions);
-        $result = file_get_contents(LINE_API, FALSE, $context);
-        $res = json_decode($result);
-        return $res;
-    }
+    // function notify_message($params, $token)
+    // {
+    //     $queryData = array(
+    //         'message'          => $params["message"],
+    //         'stickerPackageId' => $params["stickerPkg"],
+    //         'stickerId'        => $params["stickerId"],
+    //     );
+    //     $queryData = http_build_query($queryData, '', '&');
+    //     $headerOptions = array(
+    //         'http' => array(
+    //             'method'  => 'POST',
+    //             'header'  => "Content-Type: application/x-www-form-urlencoded\r\n"
+    //                 . "Authorization: Bearer " . $token . "\r\n"
+    //                 . "Content-Length: " . strlen($queryData) . "\r\n",
+    //             'content' => $queryData,
+    //         ),
+    //     );
+    //     $context = stream_context_create($headerOptions);
+    //     $result = file_get_contents(LINE_API, FALSE, $context);
+    //     $res = json_decode($result);
+    //     return $res;
+    // }
     public function cancelDocsNotice(Request $request)
     {
         $hd = ProductionNoticeHd::where('productionnotice_hd_id',$request->refid)->update([
