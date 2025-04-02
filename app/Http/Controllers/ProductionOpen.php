@@ -11,6 +11,7 @@ use App\Models\ProductionOpenjobHd;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProductionOpenjobStatus;
+use Illuminate\Support\Facades\Http;
 
 class ProductionOpen extends Controller
 {
@@ -23,6 +24,17 @@ class ProductionOpen extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function notifyTelegram($message, $token, $chatId)
+    {
+        $queryData = [
+            'chat_id' => $chatId,
+            'text' => $message,
+            'parse_mode' => 'HTML'
+        ];
+        $url = "https://api.telegram.org/bot{$token}/sendMessage";
+        $response = file_get_contents($url . "?" . http_build_query($queryData));
+        return json_decode($response);
+    }
     public function index(Request $request)
     {
         if($request->dateend){
@@ -163,6 +175,18 @@ class ProductionOpen extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
+                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนเอกสารเปิดงาน" . "\n"
+                    . "🔹 เลขที่ : ". $hd->productionopenjob_hd_docuno . "\n"
+                    . "📅 วันที่เริ่ม - จบ : " .date("d-m-Y",strtotime($hd->productionopenjob_hd_startdate))." - ".date("d-m-Y",strtotime($hd->productionopenjob_hd_enddate)). "\n"
+                    . "👤 ผู้ตรวจสอบ : " .Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name . "\n"
+                    ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
+                    ."สินค้า : ".$hd->ms_product_name."\n"
+                    ."Spec Page : ".$hd->ms_specpage_name."\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
                 return redirect()->route('pd-open.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){
                 Log::error($e->getMessage());
@@ -203,6 +227,18 @@ class ProductionOpen extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
+                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนเอกสารเปิดงาน" . "\n"
+                    . "🔹 เลขที่ : ". $hd->productionopenjob_hd_docuno . "\n"
+                    . "📅 วันที่เริ่ม - จบ : " .date("d-m-Y",strtotime($hd->productionopenjob_hd_startdate))." - ".date("d-m-Y",strtotime($hd->productionopenjob_hd_enddate)). "\n"
+                    . "👤 ผู้อนุมัติ : " .Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name . "\n"
+                    ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
+                    ."สินค้า : ".$hd->ms_product_name."\n"
+                    ."Spec Page : ".$hd->ms_specpage_name."\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
                 return redirect()->route('pd-open.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){
                 Log::error($e->getMessage());

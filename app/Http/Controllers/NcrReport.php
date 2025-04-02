@@ -12,12 +12,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 
 class NcrReport extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+    }
+    private function notifyTelegram($message, $token, $chatId)
+    {
+        $queryData = [
+            'chat_id' => $chatId,
+            'text' => $message,
+            'parse_mode' => 'HTML'
+        ];
+        $url = "https://api.telegram.org/bot{$token}/sendMessage";
+        $response = file_get_contents($url . "?" . http_build_query($queryData));
+        return json_decode($response);
     }
     /**
      * Display a listing of the resource.
@@ -47,8 +59,7 @@ class NcrReport extends Controller
             ->where('iso_ncr.iso_status_id','<>',5)
             ->whereBetween('iso_ncr.reported_date',[$datestart,$dateend])
             ->get();
-        }
-       
+        }     
         return view('iso.form-open-ncrlist',compact('hd','dateend','datestart'));
     }
 
@@ -135,6 +146,15 @@ class NcrReport extends Controller
             //     "stickerId"      => 1988,
             //     );
             //     $res = $this->notify_message($params, $token);
+            $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+            $message = "📢 แจ้งเตือนเปิดเอกสาร NCR" . "\n"
+                . "🔹 เลขที่ : ". $docs . "\n"
+                . "📅 วันที่เปิดเอกสาร : " . Carbon::now()->format('d/m/Y') . "\n"
+                . "👤 ผู้เปิดเอกสาร : " . Auth::user()->name . "\n";
+    
+            // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+            $this->notifyTelegram($message, $token, $chatId);
             DB::commit();
             return redirect()->route('ncr-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
@@ -224,6 +244,15 @@ class NcrReport extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
+                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนเสนอแนวทาง NCR" . "\n"
+                    . "🔹 เลขที่ : ". $hd->iso_ncr_docuno . "\n"
+                    . "📅 วันที่เสนอแนวทาง : " . Carbon::now()->format('d/m/Y') . "\n"
+                    . "👤 ผู้เสนอแนวทาง : " . Auth::user()->name . "\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
             }elseif ($hd->iso_status_id == 2) {
                 if($request->approval_status1){
                     $ck1 = 'อนุมัติตามเสนอ';
@@ -253,6 +282,15 @@ class NcrReport extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
+                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนอนุมัติ NCR" . "\n"
+                    . "🔹 เลขที่ : ". $hd->iso_ncr_docuno . "\n"
+                    . "📅 วันที่อนุมัติ : " . Carbon::now()->format('d/m/Y') . "\n"
+                    . "👤 ผู้อนุมัติ : " . Auth::user()->name . "\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
             }elseif ($hd->iso_status_id == 3) {
                 $up = IsoNcr::where('iso_ncr_id',$id)->update([
                     'iso_ncr_remark' => $request->iso_ncr_remark,
@@ -273,6 +311,15 @@ class NcrReport extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
+                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนตรวจสอบ NCR" . "\n"
+                    . "🔹 เลขที่ : ". $hd->iso_ncr_docuno . "\n"
+                    . "📅 วันที่ตรวจสอบ : " . Carbon::now()->format('d/m/Y') . "\n"
+                    . "👤 ผู้ตรวจสอบ : " . Auth::user()->name . "\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
             }
             DB::commit();
             return redirect()->route('ncr-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
