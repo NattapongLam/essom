@@ -183,7 +183,8 @@ class ProductionOpen extends Controller
                     . "👤 ผู้ตรวจสอบ : " .Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name . "\n"
                     ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
                     ."สินค้า : ".$hd->ms_product_name."\n"
-                    ."Spec Page : ".$hd->ms_specpage_name."\n";
+                    ."Spec Page : ".$hd->ms_specpage_name."\n"
+                     ."หมายเหตุ : ".$request->note."\n";
         
                 // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
                 $this->notifyTelegram($message, $token, $chatId);
@@ -235,7 +236,8 @@ class ProductionOpen extends Controller
                     . "👤 ผู้อนุมัติ : " .Auth::user()->name. " สถานะ :" . $sta->productionopenjob_status_name . "\n"
                     ."ลูกค้า : ".str_replace(' ','',$hd->ms_customer_name)."\n"
                     ."สินค้า : ".$hd->ms_product_name."\n"
-                    ."Spec Page : ".$hd->ms_specpage_name."\n";
+                    ."Spec Page : ".$hd->ms_specpage_name."\n"
+                    ."หมายเหตุ : ".$request->note."\n";
         
                 // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
                 $this->notifyTelegram($message, $token, $chatId);
