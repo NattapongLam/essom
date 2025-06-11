@@ -23,16 +23,11 @@
         @method('PUT')
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-3">
                     <div class="form-group">
                         <h3 class="card-title" style="font-weight: bold"><a href="{{route('pd-open.index')}}">ใบเปิดงาน</a>/เอกสารเปิดงาน</h3>
                     </div>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="form-group">
-                        <h3 class="card-title"  style="font-weight: bold; color: red;">สถานะ : {{$hd->productionopenjob_status_name}}</h3>
-                    </div>
-                </div>
+                </div>               
                 <div class="col-12 col-md-2">
                     <div class="form-group">
                         <select class="form-control" name="productionopenjob_status_id" id="productionopenjob_status_id" required autofocus>
@@ -66,7 +61,20 @@
                         
                     </div>
                 </div>
-            </div><hr>
+            </div>
+            <div class="row">
+                 <div class="col-12 col-md-3">
+                    <div class="form-group">
+                        <h3 class="card-title"  style="font-weight: bold; color: red;">สถานะ : {{$hd->productionopenjob_status_name}}</h3>
+                    </div>
+                </div>
+                 <div class="col-12 col-md-3">
+                    <div class="form-group">
+                        <h3 class="card-title"  style="font-weight: bold; color: red;">หมายเหตุ : {{$hd->approved_note}}</h3>
+                    </div>
+                </div>
+            </div>
+            <hr>
             <div class="row">
                 <div class="col-12 col-md-3">
                     <div class="form-group">

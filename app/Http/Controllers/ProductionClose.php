@@ -107,7 +107,9 @@ class ProductionClose extends Controller
      */
     public function edit($id)
     {
-        $hd = ProductionOpenjobHd::where('productionopenjob_hd_id',$id)->first();
+        $hd = ProductionOpenjobHd::leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+        ->where('productionopenjob_hd_id',$id)       
+        ->first();
         $dt = ProductionOpenjobDt::leftjoin('productionopenjob_status','productionopenjob_dt.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
         ->leftjoin('ms_department','productionopenjob_dt.ms_department_id','=','ms_department.ms_department_id')
         ->where('productionopenjob_dt.productionopenjob_hd_id', $id)
