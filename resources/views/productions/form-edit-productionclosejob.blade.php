@@ -207,6 +207,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                 <div class="col-12 col-md-12">
+                    <div class="form-group">
+                        <label for="productionnotice_hd_remark">หมายเหตุแก้ไข</label>
+                        <textarea type="text" class="form-control" readonly>{{$hd->note_editclose}}</textarea>
+                    </div>                  
+                </div>
+            </div>
             <div class="row">             
                 <div class="col-12">
                     <div class="card card-primary card-outline card-outline-tabs">
@@ -350,6 +358,55 @@
                     </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                 <div class="col-12">
+                    <div class="form-group">
+                    <label class="form-label">ประวัตการแก้ไข</label><br>
+                    <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>วันที่แก้ไข</th>
+                                <th>ผู้แก้ไข</th>
+                                <th>เลขที่งาน</th>
+                                <th>จำนวนเงินที่ใช้</th>
+                                <th>วันที่ทดสอบ</th>
+                                <th>หัวหน้างาน</th>
+                                <th>ผู้ปิดงาน</th>
+                                <th>Serial No</th>
+                                <th>Machine(MH)</th>
+                                <th>Elect(MH)</th>
+                                <th>Paint(MH)</th>
+                                <th>Assembly(MH)</th>
+                                <th>Other(MH)</th>
+                                <th>Total(MH)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($loghd as $item)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($item->update_log)->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $item->person_log }}</td>
+                                    <td>{{ $item->productionopenjob_hd_docuno}}</td>
+                                    <td>{{number_format($item->productionopenjob_actualcost,2)}}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->finaltest_date)->format('d/m/Y') }}</td>
+                                    <td>{{ $item->foreman }}</td>
+                                    <td>{{ $item->close_person }}</td>  
+                                    <td>{{ $item->serialno }}</td>
+                                    <td>{{ number_format($item->machinetime_close,2) }}</td>
+                                    <td>{{ number_format($item->electricitytime_close,2) }}</td>
+                                    <td>{{ number_format($item->painttime_close,2) }}</td>
+                                    <td>{{ number_format($item->assemblytime_close,2) }}</td>
+                                    <td>{{ number_format($item->othertime_close,2) }}</td>
+                                    <td>{{ number_format($item->totaltime_close,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    </div>
+                    </div>
+                 </div>
             </div>           
         </div>
         </form>

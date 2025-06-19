@@ -138,7 +138,8 @@ class ProductionClose extends Controller
         ->where('productionopenjob_dt_flag',true)
         ->sum('timespent');
         $docuno = DB::table('vw_productionopenjob_docuall')->where('productionopenjob_hd_docuno',$hd->productionopenjob_hd_docuno)->get();
-        return view('productions.form-edit-productionclosejob', compact('hd','dt','sta','op','total','total1','total2','docuno'));
+        $loghd = DB::table('log_openjob_hd')->where('productionopenjob_hd_id',$id)->where('docutype','ปิดงาน')->get();       
+        return view('productions.form-edit-productionclosejob', compact('hd','dt','sta','op','total','total1','total2','docuno','loghd'));
     }
 
     /**

@@ -104,9 +104,9 @@
                                 </td>
                                 <td>
                                     @if ($item->edit_qty)
-                                    {{$item->edit_qty}} ครั้ง<br>
+                                    จำนวน {{$item->edit_qty}} ครั้ง<br>
                                     @endif     
-                                    {{$item->note_editclose}}                              
+                                    {{$item->note_edit}}                          
                                 </td>
                             </tr>
                         @endforeach
