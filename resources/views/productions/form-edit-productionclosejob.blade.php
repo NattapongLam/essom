@@ -381,6 +381,7 @@
                                 <th>Assembly(MH)</th>
                                 <th>Other(MH)</th>
                                 <th>Total(MH)</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -400,6 +401,14 @@
                                     <td>{{ number_format($item->assemblytime_close,2) }}</td>
                                     <td>{{ number_format($item->othertime_close,2) }}</td>
                                     <td>{{ number_format($item->totaltime_close,2) }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" 
+                                            class="btn btn-primary btn-sm" 
+                                            data-toggle="modal" data-target="#modal"
+                                            onclick="getLogDataClose('{{ $item->log_openjob_hd_id }}')">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -414,6 +423,39 @@
     </div>
 </div>
 </div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">รายละเอียด</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">              
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th>ลำดับ</th>                              
+                            <th>รหัสสินค้า</th>    
+                            <th>ชื่อสินค้า</th>  
+                            <th>หน่วยนับ</th>     
+                            <th>จำนวน</th>          
+                            <th>ประมาณการต้นทุน</th>     
+                            <th>จำนวนที่เงินที่ใช้</th>  
+                            <th>เวลาที่ใช้</th>                               
+                        </tr>
+                        </thead>
+                        <tbody id="tb_list">
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @push('scriptjs')
 <script src="{{ asset('/assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -422,5 +464,40 @@
 $('.toastrDefaultSuccess').click(function() {
     toastr.success('บันทึกเรียบร้อย')
 });
+getLogDataClose = (id) => {
+$.ajax({
+    url: "{{ url('/getLogData-Close') }}",
+    type: "post",
+    dataType: "JSON",
+    data: {
+        refid: id,
+        _token: "{{ csrf_token() }}"      
+    },    
+    success: function(data) {
+        console.log(data);
+        let el_list = ''; 
+        $.each(data.dt, function(key , item) {
+            if(item.productionopenjob_dt_remark == null){
+                item.productionopenjob_dt_remark = ''
+            }else{
+                item.productionopenjob_dt_remark = item.productionopenjob_dt_remark
+            }
+            el_list += `    
+             <tr> 
+                <td>${key+1}</td> 
+                <td>${item.ms_product_code}</td>  
+                <td>${item.ms_product_name}</td>  
+                <td>${item.ms_product_unit}</td>  
+                <td>${parseFloat(item.assembleqty).toFixed(2)}</td>         
+                <td>${parseFloat(item.estimatecost).toFixed(2)}</td>        
+                <td>${parseFloat(item.actualcost).toFixed(2)}</td>    
+                <td>${parseFloat(item.timespent).toFixed(2)}</td> 
+            </tr>
+        `
+        })      
+        $('#tb_list').html(el_list);
+    }
+});
+}
 </script>
 @endpush

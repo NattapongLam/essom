@@ -285,6 +285,23 @@ class ProductionClose extends Controller
 
             ]);
     }
+
+    public function getLogDataClose(Request $request)
+    {
+        $dt = DB::table('log_openjob_dt')
+        ->leftjoin('productionopenjob_status','log_openjob_dt.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+        ->leftjoin('ms_department','log_openjob_dt.ms_department_id','=','ms_department.ms_department_id')
+        ->where('log_openjob_dt.log_openjob_hd_id', $request->refid)
+        ->where('log_openjob_dt.productionopenjob_dt_flag',true)
+        ->orderBy('log_openjob_dt.productionopenjob_dt_listno','ASC')
+        ->get(); 
+        return response()->json(
+            [
+                'status' => true,
+                'dt' => $dt,
+
+            ]);
+    }
     // function notify_message($params, $token)
     // {
     //     $queryData = array(

@@ -294,7 +294,18 @@
                     </div>
                     </div>
                 </div>
-            </div>           
+            </div>    
+             <div class="row">
+                 <div class="col-12">
+                    <div class="form-group">
+                    <label class="form-label">ประวัตการแก้ไข</label><br>
+                    <div class="table-responsive">
+                    <table class="table table-bordered">
+                    </table>
+                    </div>
+                    </div>
+                 </div>
+               </div>       
         </div>
         </form>
     </div>

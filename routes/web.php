@@ -56,6 +56,7 @@ Route::resource('/fl-inst' , App\Http\Controllers\FinalInspection::class);
 Route::post('/getData-Inst' , [App\Http\Controllers\FinalInspection::class , 'getDataInst']);
 Route::resource('/pd-close' , App\Http\Controllers\ProductionClose::class);
 Route::post('/getData-Close' , [App\Http\Controllers\ProductionClose::class , 'getDataClose']);
+Route::post('/getLogData-Close' , [App\Http\Controllers\ProductionClose::class , 'getLogDataClose']);
 Route::resource('/pd-calendar' , App\Http\Controllers\ProductionCalendar::class);
 Route::post('/pd-calendar/getDataProductioncalendar' , [App\Http\Controllers\ProductionCalendar::class , 'getDataProductioncalendar']);
 Route::post('/pd-popup-calendar' , [App\Http\Controllers\ProductionCalendar::class , 'popupCalendar']);
