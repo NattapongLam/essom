@@ -52,15 +52,19 @@ class ProductionOpen extends Controller
         if($request->ck_sta){
             $hd = DB::table('productionopenjob_hd')
             ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->leftjoin('openjob_editcount','productionopenjob_hd.productionopenjob_hd_docuno','=','openjob_editcount.jobno')
             ->whereIn('productionopenjob_hd.productionopenjob_status_id',[3])
+            ->where('productionopenjob_hd.productionopenjob_hd_docuno','<>','ยกเลิก')
             ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
             ->get();
         }
         else {
             $hd = DB::table('productionopenjob_hd')
             ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->leftjoin('openjob_editcount','productionopenjob_hd.productionopenjob_hd_docuno','=','openjob_editcount.jobno')
             ->whereIn('productionopenjob_hd.productionopenjob_status_id',[1,3,4,5,11,12])
             ->whereBetween('productionopenjob_hd.productionopenjob_hd_date',[$datestart,$dateend])
+            ->where('productionopenjob_hd.productionopenjob_hd_docuno','<>','ยกเลิก')
             ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
             ->get();
         }

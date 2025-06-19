@@ -54,8 +54,9 @@
                             <th>สินค้า</th>
                             <th>Spec Page</th>
                             <th>รายละเอียด</th>
-                            <th>ประมาณการต้นทุน</th>
+                            <th>ประมาณการต้นทุน</th>                           
                             <th></th>
+                            <th>แก้ไข</th>
                         </tr>
                         {{-- <tr>
                             <th>สถานะ</th>
@@ -86,7 +87,7 @@
                                 <td>{{$item->ms_product_name}} ({{$item->ms_product_qty}})</td>
                                 <td>{{$item->ms_specpage_name}}</td>
                                 <td>{{$item->productionnotice_dt_remark}}</td>
-                                <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>
+                                <td>{{number_format($item->productionopenjob_estimatecost,2)}}</td>                               
                                 <td>
                                     @if($item->productionopenjob_status_id == 1 || $item->productionopenjob_status_id == 3 || $item->productionopenjob_status_id == 5)
                                     <a href="{{route('pd-open.edit',$item->productionopenjob_hd_id)}}" 
@@ -100,6 +101,12 @@
                                     onclick="getDataOpen('{{ $item->productionopenjob_hd_id }}')">
                                     <i class="fas fa-eye"></i></a>
                                     @endif                                                                     
+                                </td>
+                                <td>
+                                    @if ($item->edit_qty)
+                                    {{$item->edit_qty}} ครั้ง<br>
+                                    @endif     
+                                    {{$item->note_editclose}}                              
                                 </td>
                             </tr>
                         @endforeach

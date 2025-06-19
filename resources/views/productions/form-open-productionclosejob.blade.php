@@ -62,6 +62,7 @@
                             <th>จำนวนที่เงินที่ใช้</th>
                             <th>เอกสารแนบ</th>
                             <th></th>
+                            <th>แก้ไข</th>
                         </tr>
                         {{-- <tr>
                             <th>สถานะ</th>
@@ -116,6 +117,12 @@
                                     onclick="getDataClose('{{ $item->productionopenjob_hd_id }}')">
                                     <i class="fas fa-eye"></i></a>                                
                                     @endif                                                                      
+                                </td>
+                                 <td>
+                                    @if ($item->edit_qty)
+                                        {{$item->edit_qty}} ครั้ง<br>
+                                    @endif  
+                                    {{$item->note_edit}}                                 
                                 </td>
                             </tr>
                         @endforeach

@@ -52,6 +52,7 @@ class ProductionClose extends Controller
         if($request->ck_sta){
             $hd = DB::table('productionopenjob_hd')
             ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->leftjoin('closejob_editcount','productionopenjob_hd.productionopenjob_hd_docuno','=','closejob_editcount.jobno')
             ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13,9])
             ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
             ->get();
@@ -59,6 +60,7 @@ class ProductionClose extends Controller
         }else {
             $hd = DB::table('productionopenjob_hd')
             ->leftjoin('productionopenjob_status','productionopenjob_hd.productionopenjob_status_id','=','productionopenjob_status.productionopenjob_status_id')
+            ->leftjoin('closejob_editcount','productionopenjob_hd.productionopenjob_hd_docuno','=','closejob_editcount.jobno')
             ->whereIn('productionopenjob_hd.productionopenjob_status_id',[13,9,14,])
             ->whereBetween('productionopenjob_hd.productionopenjob_hd_date',[$datestart,$dateend])
             ->orderBy('productionopenjob_hd.productionopenjob_status_id','asc')
