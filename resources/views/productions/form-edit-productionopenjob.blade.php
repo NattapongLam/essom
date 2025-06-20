@@ -298,7 +298,7 @@
              <div class="row">
                  <div class="col-12">
                     <div class="form-group">
-                    <label class="form-label">ประวัตการแก้ไข</label><br>
+                    <label class="form-label">เวอร์ชั่นเอกสาร</label><br>
                     <div class="table-responsive">
                     <table class="table table-bordered">
                             <thead>
