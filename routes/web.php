@@ -39,6 +39,7 @@ Route::resource('/del-order' , App\Http\Controllers\DeliveryOrder::class);
 Route::post('/getDataDel' , [App\Http\Controllers\DeliveryOrder::class , 'getDataDel']);
 Route::resource('/pd-open' , App\Http\Controllers\ProductionOpen::class);
 Route::post('/getData-Open' , [App\Http\Controllers\ProductionOpen::class , 'getDataOpen']);
+Route::post('/getLogData-Open' , [App\Http\Controllers\ProductionOpen::class , 'getLogDataOpen']);
 Route::resource('/pd-work' , App\Http\Controllers\ProductionWorkOrder::class);
 Route::post('/getData-Work' , [App\Http\Controllers\ProductionWorkOrder::class , 'getDataWork']);
 Route::resource('/pd-ladi' , App\Http\Controllers\ProductionLadingOrder::class);
