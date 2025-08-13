@@ -133,7 +133,7 @@ class ProductionOpen extends Controller
         $total = ProductionOpenjobDt::where('productionopenjob_hd_id', $id)
         ->where('productionopenjob_dt_flag',true)
         ->sum('estimatecost');
-        $loghd = DB::table('log_openjob_hd')->where('productionopenjob_hd_id',$id)->where('docutype','เปิดงาน')->get();  
+        $loghd = DB::table('log_openjob_hd')->where('productionopenjob_hd_docuno',$hd->productionopenjob_hd_docuno)->where('docutype','เปิดงาน')->get();  
         return view('productions.form-edit-productionopenjob', compact('hd','dt','sta','op','total','loghd'));
     }
 
