@@ -115,19 +115,27 @@
                 <p>Cost of Material</p>
             </a>           
         </li>
-        <li class="nav-header">ระบบคุณภาพ</li>
+        <li class="nav-header">
+            ระบบคุณภาพ
+        </li>
         <li class="nav-item">
+            <a href="{{route('documents.index')}}" class="nav-link {{\Request::routeIs('documents.index') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-bullhorn"></i>
+                <p>เอกสาร ISO</p>
+            </a>           
+        </li>
+        {{-- <li class="nav-item">
             <a href="{{route('ncr-report.index')}}" class="nav-link {{\Request::routeIs('ncr-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-bullhorn"></i>
                 <p>เอกสาร NCR</p>
             </a>           
-        </li>
-        <li class="nav-item">
+        </li> --}}
+        {{-- <li class="nav-item">
             <a href="{{route('car-report.index')}}" class="nav-link {{\Request::routeIs('car-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-bullhorn"></i>
                 <p>เอกสาร CAR</p>
             </a>           
-        </li>
+        </li> --}}
         <li class="nav-header">ตั้งค่า</li>
         <li class="nav-item">
             <a href="{{route('employee.list')}}" class="nav-link {{\Request::routeIs('employee.list') ? 'active' : ''}}">
