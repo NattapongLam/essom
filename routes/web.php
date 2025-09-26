@@ -73,4 +73,37 @@ Route::post('/cancelDocsNcr' , [App\Http\Controllers\NcrReport::class , 'cancelD
 Route::resource('/car-report' , App\Http\Controllers\CarReport::class);
 Route::post('/cancelDocsCar' , [App\Http\Controllers\CarReport::class , 'cancelDocsCar']);
 Route::resource('/fl-form' , App\Http\Controllers\FinalInspectionForm::class);
+
+// ISO 30 //
 Route::resource('/documents' , App\Http\Controllers\MainDocument::class);
+Route::resource('/assessrisk' , App\Http\Controllers\IsoAssessrisk::class);
+Route::resource('/assessrisk-swot' , App\Http\Controllers\IsoAssessrisk::class);
+Route::resource('/objcctives' , App\Http\Controllers\IsoObjcctives::class);
+Route::resource('/iso-plan' , App\Http\Controllers\IsoPlan::class);
+Route::resource('/maintenance-records' , App\Http\Controllers\IsoMaintenanceRecords::class);
+Route::resource('/machine-history' , App\Http\Controllers\IsoMachineHistory::class);
+Route::resource('/computer-history' , App\Http\Controllers\IsoComputerHistory::class);
+Route::resource('/computer-records' , App\Http\Controllers\IsoComputerRecords::class);
+Route::resource('/email-registration' , App\Http\Controllers\IsoEmailRegistration::class);
+Route::resource('/knowledge-survey' , App\Http\Controllers\IsoKnowledgesurvey::class);
+Route::resource('/knowledge-record' , App\Http\Controllers\IsoKnowledgerecord::class);
+Route::resource('/knowledge-transfer' , App\Http\Controllers\IsoKnowledgetransfer::class);
+Route::resource('/knowledge-register' , App\Http\Controllers\IsoKnowledgeregister::class);
+Route::resource('/document-register' , App\Http\Controllers\IsoDocumentregister::class);
+Route::resource('/document-distribution' , App\Http\Controllers\IsoDocumentdistribution::class);
+Route::resource('/document-correction' , App\Http\Controllers\IsoDocumentcorrection::class);
+Route::resource('/document-destruction' , App\Http\Controllers\IsoDocumentdestruction::class);
+Route::resource('/document-external' , App\Http\Controllers\IsoDocumentexternal::class);
+Route::resource('/document-reference' , App\Http\Controllers\IsoDocumentreference::class);
+Route::resource('/design-plan' , App\Http\Controllers\IsoDesignPlan::class);
+Route::resource('/design-review-a' , App\Http\Controllers\IsoDesignReviewA::class);
+Route::resource('/design-review-b' , App\Http\Controllers\IsoDesignReviewB::class);
+Route::resource('/detailed-testing' , App\Http\Controllers\IsoDetailedTesting::class);
+Route::resource('/design-edit' , App\Http\Controllers\IsoDesignEdit::class);
+Route::resource('/product-registration' , App\Http\Controllers\IsoProductRegistration::class);
+Route::resource('/quality-plan' , App\Http\Controllers\IsoQualityPlan::class);
+Route::resource('/product-selection' , App\Http\Controllers\IsoProductSelection::class);
+Route::resource('/recipient-selection' , App\Http\Controllers\IsoRecipientSelection::class);
+Route::resource('/product-list-selected' , App\Http\Controllers\IsoProductListSelected::class);
+Route::resource('/software-design' , App\Http\Controllers\IsoSoftwareDesign::class);
+// ISO 30 //
