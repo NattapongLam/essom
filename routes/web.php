@@ -32,6 +32,8 @@ Route::group([
     Route::get('/create', EmployeeFormPage::class)->name('create');
     Route::get('/update/{id}', EmployeeFormPage::class)->name('update');
 });
+
+
 Route::resource('/pd-noti' , App\Http\Controllers\ProductionNotice::class);
 Route::post('/getData' , [App\Http\Controllers\ProductionNotice::class , 'getData']);
 Route::post('/cancelDocsNotice' , [App\Http\Controllers\ProductionNotice::class , 'cancelDocsNotice']);
@@ -107,3 +109,7 @@ Route::resource('/recipient-selection' , App\Http\Controllers\IsoRecipientSelect
 Route::resource('/product-list-selected' , App\Http\Controllers\IsoProductListSelected::class);
 Route::resource('/software-design' , App\Http\Controllers\IsoSoftwareDesign::class);
 // ISO 30 //
+
+Route::resource('/isoPlan' , App\Http\Controllers\IsoPlan::class);
+Route::resource('/iso-maintenanceRecords' , App\Http\Controllers\IsoMaintenanceRecords::class);
+Route::resource('/iso-Assessrisk' , App\Http\Controllers\IsoAssessrisk::class);  

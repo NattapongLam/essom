@@ -13,7 +13,7 @@ class IsoMaintenanceRecords extends Controller
      */
     public function index()
     {
-        //
+        return view('iso.IsoMaintenanceRecords');  
     }
 
     /**
