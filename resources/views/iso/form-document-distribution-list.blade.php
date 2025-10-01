@@ -9,9 +9,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD<br>ทะเบียนควบคุมเอกสาร (Documents Control Status)</h5><p class="text-right">F7530.1<br>1 Oct. 20</p>
+                <h5>ESSOM CO.,LTD<br>ทะเบียนแจกจ่ายเอกสาร DOCUMENTS DISTRIBUTION STATUS</h5><p class="text-right">F7530.2<br>26 Aug 19</p>     
                 <p class="text-left">
-                    <a href="{{route('document-register.create')}}">เพิ่มเอกสาร</a>
+                    <a href="{{route('document-distribution.create')}}" class="btn btn-secondary">ตรวจสอบเอกสาร</a>
                 </p>              
             </div>
             <div class="card-body">             
@@ -33,7 +33,7 @@
                                 <th>Rev.</th>
                                 <th>Rev.</th>
                                 <th>Rev.</th>
-                                <th></th>
+                                <th>แจกจ่าย</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,7 +64,7 @@
                                         <td>{{$item->documentregisters_rev09}}</td>
                                         <td>{{$item->documentregisters_rev10}}</td>
                                         <td>
-                                            <a href="{{route('document-register.edit',$item->documentregisters_id)}}" class="btn btn-sm btn-warning" >
+                                            <a href="{{route('document-distribution.show',$item->documentregisters_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </td>

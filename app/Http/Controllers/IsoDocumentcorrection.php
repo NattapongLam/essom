@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Documentregister;
 
 class IsoDocumentcorrection extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,7 @@ class IsoDocumentcorrection extends Controller
      */
     public function index()
     {
-        //
+        return view('iso.form-document-correction-list');
     }
 
     /**
@@ -23,7 +28,8 @@ class IsoDocumentcorrection extends Controller
      */
     public function create()
     {
-        //
+        $hd = Documentregister::where('documentregisters_flag',true)->get();   
+        return view('iso.form-document-correction-create',compact('hd'));
     }
 
     /**

@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('content')
-@push('styles')
+{{-- @push('styles') --}}
 <!-- Sweet Alert-->
 <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-@endpush
+{{-- @endpush --}}
 <div class="mt-4"><br>
 <div class="row">  
     <div class="col-12">
