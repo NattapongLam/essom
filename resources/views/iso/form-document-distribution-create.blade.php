@@ -182,7 +182,7 @@ $(document).ready(function () {
 confirmDel = (refid) =>{       
 Swal.fire({
     title: 'คุณแน่ใจหรือไม่ !',
-    text: `คุณต้องการลบรายการเบิกนี้หรือไม่ ?`,
+    text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'ยืนยัน',
