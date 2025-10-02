@@ -91,8 +91,12 @@ Route::resource('/knowledge-transfer' , App\Http\Controllers\IsoKnowledgetransfe
 Route::resource('/knowledge-register' , App\Http\Controllers\IsoKnowledgeregister::class);
 Route::resource('/document-register' , App\Http\Controllers\IsoDocumentregister::class);
 Route::resource('/document-distribution' , App\Http\Controllers\IsoDocumentdistribution::class);
+Route::post('/cancelDistribution' , [App\Http\Controllers\IsoDocumentdistribution::class , 'cancelDistribution']);
+Route::post('/approvedDistribution' , [App\Http\Controllers\IsoDocumentdistribution::class , 'approvedDistribution']);
 Route::resource('/document-correction' , App\Http\Controllers\IsoDocumentcorrection::class);
+Route::post('/cancelCorrection' , [App\Http\Controllers\IsoDocumentcorrection::class , 'cancelCorrection']);
 Route::resource('/document-destruction' , App\Http\Controllers\IsoDocumentdestruction::class);
+Route::post('/cancelDestruction' , [App\Http\Controllers\IsoDocumentdestruction::class , 'cancelDestruction']);
 Route::resource('/document-external' , App\Http\Controllers\IsoDocumentexternal::class);
 Route::resource('/document-reference' , App\Http\Controllers\IsoDocumentreference::class);
 Route::resource('/design-plan' , App\Http\Controllers\IsoDesignPlan::class);
