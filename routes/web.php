@@ -94,6 +94,7 @@ Route::resource('/document-distribution' , App\Http\Controllers\IsoDocumentdistr
 Route::post('/cancelDistribution' , [App\Http\Controllers\IsoDocumentdistribution::class , 'cancelDistribution']);
 Route::post('/approvedDistribution' , [App\Http\Controllers\IsoDocumentdistribution::class , 'approvedDistribution']);
 Route::resource('/document-correction' , App\Http\Controllers\IsoDocumentcorrection::class);
+Route::post('/cancelCorrection' , [App\Http\Controllers\IsoDocumentcorrection::class , 'cancelCorrection']);
 Route::resource('/document-destruction' , App\Http\Controllers\IsoDocumentdestruction::class);
 Route::resource('/document-external' , App\Http\Controllers\IsoDocumentexternal::class);
 Route::resource('/document-reference' , App\Http\Controllers\IsoDocumentreference::class);

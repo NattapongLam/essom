@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Documentregister;
+use App\Models\Documentcorrection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class IsoDocumentcorrection extends Controller
 {
@@ -18,7 +23,8 @@ class IsoDocumentcorrection extends Controller
      */
     public function index()
     {
-        return view('iso.form-document-correction-list');
+        $hd = Documentcorrection::where('documentcorrections_flag',true)->get();
+        return view('iso.form-document-correction-list',compact('hd'));
     }
 
     /**
@@ -40,7 +46,67 @@ class IsoDocumentcorrection extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->checkdoc == "Edit"){
+            $request->validate([
+            'documentcorrections_type' => ['required'],
+            'documentcorrections_docuno' => ['required'],
+            'documentcorrections_date' => ['required'],
+            'documentcorrections_to' => ['required'],
+            'documentcorrections_from' => ['required'],
+            'documentcorrections_effectivedate' => ['required'],
+            ]);
+            $data = [
+                'documentcorrections_type' => $request->documentcorrections_type,
+                'documentcorrections_docuno' => $request->documentcorrections_docuno,
+                'documentcorrections_date' => $request->documentcorrections_date,
+                'documentcorrections_to' => $request->documentcorrections_to,
+                'documentcorrections_from' => $request->documentcorrections_from,
+                'documentregisters_id' => $request->documentregisters_id,
+                'documentcorrections_name' => $request->documentcorrections_name,
+                'documentcorrections_torev' => $request->documentcorrections_torev,
+                'documentcorrections_fromrev' => $request->documentcorrections_fromrev,
+                'documentcorrections_effectivedate' => $request->documentcorrections_effectivedate,
+                'documentcorrections_previous' => $request->documentcorrections_previous,       
+                'documentcorrections_revision' => $request->documentcorrections_revision,
+                'documentcorrections_note' => $request->documentcorrections_note,
+                'requested_by' => $request->requested_by,
+                'requested_date' => $request->requested_date,
+                'documentcorrections_flag' => true,
+                'created_at' => Carbon::now(),
+            ];
+            try{
+
+                DB::beginTransaction();
+                $insertHD = Documentcorrection::create($data);
+                DB::commit();
+                return redirect()->route('document-correction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('document-correction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }
+        else if($request->checkdoc == "Update"){
+            $data = [
+                'documentcorrections_auditcheck' => $request->documentcorrections_auditcheck,
+                'reviewed_by' => $request->reviewed_by,
+                'reviewed_date' => $request->reviewed_date,
+                'reviewed_comment' => $request->reviewed_comment,
+                'approved_by' => $request->approved_by,
+                'approved_date' => $request->approved_date
+            ];
+            try{
+
+                DB::beginTransaction();
+                $insertHD = Documentcorrection::create($data);
+                DB::commit();
+                return redirect()->route('document-correction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            }catch(\Exception $e){
+                Log::error($e->getMessage());
+                dd($e->getMessage());
+                return redirect()->route('document-correction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
+        }        
     }
 
     /**
@@ -51,7 +117,9 @@ class IsoDocumentcorrection extends Controller
      */
     public function show($id)
     {
-        //
+        $hd = Documentregister::where('documentregisters_flag',true)->get(); 
+        $doc = Documentcorrection::find($id);
+        return view('iso.form-document-correction-update',compact('hd','doc'));
     }
 
     /**
@@ -62,7 +130,9 @@ class IsoDocumentcorrection extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = Documentregister::where('documentregisters_flag',true)->get(); 
+        $doc = Documentcorrection::find($id);
+        return view('iso.form-document-correction-edit',compact('hd','doc'));
     }
 
     /**
@@ -74,7 +144,44 @@ class IsoDocumentcorrection extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'documentcorrections_type' => ['required'],
+            'documentcorrections_docuno' => ['required'],
+            'documentcorrections_date' => ['required'],
+            'documentcorrections_to' => ['required'],
+            'documentcorrections_from' => ['required'],
+            'documentcorrections_effectivedate' => ['required'],
+        ]);
+        $data = [
+            'documentcorrections_type' => $request->documentcorrections_type,
+            'documentcorrections_docuno' => $request->documentcorrections_docuno,
+            'documentcorrections_date' => $request->documentcorrections_date,
+            'documentcorrections_to' => $request->documentcorrections_to,
+            'documentcorrections_from' => $request->documentcorrections_from,
+            'documentregisters_id' => $request->documentregisters_id,
+            'documentcorrections_name' => $request->documentcorrections_name,
+            'documentcorrections_torev' => $request->documentcorrections_torev,
+            'documentcorrections_fromrev' => $request->documentcorrections_fromrev,
+            'documentcorrections_effectivedate' => $request->documentcorrections_effectivedate,
+            'documentcorrections_previous' => $request->documentcorrections_previous,       
+            'documentcorrections_revision' => $request->documentcorrections_revision,
+            'documentcorrections_note' => $request->documentcorrections_note,
+            'requested_by' => $request->requested_by,
+            'requested_date' => $request->requested_date,
+            'documentcorrections_flag' => true,
+            'updated_at' => Carbon::now(),
+        ];
+        try{
+
+            DB::beginTransaction();
+            $insertHD = Documentcorrection::where('documentcorrections_id',$id)->update($data);
+            DB::commit();
+            return redirect()->route('document-correction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('document-correction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
     }
 
     /**
@@ -86,5 +193,17 @@ class IsoDocumentcorrection extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function cancelCorrection(Request $request)
+    {
+        $hd = Documentcorrection::where('documentcorrections_id',$request->refid)->update([
+            'documentcorrections_flag' => 0,
+            'updated_at' => Carbon::now(),
+            'requested_by' => Auth::user()->name,
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+        ]);    
     }
 }
