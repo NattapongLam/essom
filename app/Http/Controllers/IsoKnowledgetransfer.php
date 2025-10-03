@@ -13,7 +13,7 @@ class IsoKnowledgetransfer extends Controller
      */
     public function index()
     {
-        //
+         return view("iso.knowledge-transfer");
     }
 
     /**
