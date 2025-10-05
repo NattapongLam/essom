@@ -98,6 +98,8 @@ Route::post('/cancelCorrection' , [App\Http\Controllers\IsoDocumentcorrection::c
 Route::resource('/document-destruction' , App\Http\Controllers\IsoDocumentdestruction::class);
 Route::post('/cancelDestruction' , [App\Http\Controllers\IsoDocumentdestruction::class , 'cancelDestruction']);
 Route::resource('/document-external' , App\Http\Controllers\IsoDocumentexternal::class);
+Route::post('/cancelExternalHd' , [App\Http\Controllers\IsoDocumentexternal::class , 'cancelExternalHd']);
+Route::post('/cancelExternalDt' , [App\Http\Controllers\IsoDocumentexternal::class , 'cancelExternalDt']);
 Route::resource('/document-reference' , App\Http\Controllers\IsoDocumentreference::class);
 Route::resource('/design-plan' , App\Http\Controllers\IsoDesignPlan::class);
 Route::resource('/design-review-a' , App\Http\Controllers\IsoDesignReviewA::class);
