@@ -13,7 +13,8 @@
             </div>
             <div class="card-body">   
                 <form method="POST" class="form-horizontal" action="{{ route('document-external.update',$hd->documentexternal_hd_id) }}" enctype="multipart/form-data">
-                @csrf       
+                @csrf      
+                @method('PUT') 
                 <div class="row mt-3">
                     <div class="col-12">
                         <label>ปี</label>
