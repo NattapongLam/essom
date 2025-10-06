@@ -13,7 +13,7 @@ class IsoDesignPlan extends Controller
      */
     public function index()
     {
-        //
+        return view("iso.design-plan");
     }
 
     /**
