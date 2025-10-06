@@ -9,9 +9,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>ทะเบียนรับเข้าเอกสารจากภายนอก</h5><p class="text-right">F7531.1<br>27 Sep. 23</p>
+                <h5>บริษัท เอาซอม จำกัด<br>ทะเบียนเอกสารอ้างอิง</h5><p class="text-right">F7531.2<br>9 Jun. 16</p>
                 <p class="text-left">
-                    <a href="{{route('document-external.create')}}">เพิ่มเอกสาร</a>
+                    <a href="{{route('document-reference.create')}}">เพิ่มเอกสาร</a>
                 </p>              
             </div>
             <div class="card-body">             
@@ -19,23 +19,33 @@
                     <table id="tb_job" class="table table-bordered table-sm text-center">
                         <thead>     
                             <tr>
-                                <th>ปี</th>
-                                <th>อัพเดท</th>
+                                <th>ลำดับที่</th>
+                                <th>วันที่รับเอกสาร</th>
+                                <th>หน่วยงานที่ออกเอกสาร</th>
+                                <th>ชื่อเอกสาร</th>
+                                <th>รหัสเอกสาร</th>
+                                <th>วันที่เอกสาร</th>
+                                <th>แก้ไข</th>
                                 <th>ลบ</th>
                             </tr>                    
                         </thead>
                         <tbody>  
                             @foreach ($hd as $item)
                                 <tr>
-                                    <td>{{$item->ms_year_name}}</td>
+                                    <td>{{$item->documentreferences_listno}}</td>
+                                    <td>{{$item->documentreferences_receivedate}}</td>
+                                    <td>{{$item->documentreferences_department}}</td>
+                                    <td>{{$item->documentreferences_name}}</td>
+                                    <td>{{$item->documentreferences_code}}</td>
+                                    <td>{{$item->documentreferences_date}}</td>
                                     <td>
-                                        <a href="{{route('document-external.edit',$item->documentexternal_hd_id)}}" class="btn btn-sm btn-warning" >
+                                        <a href="{{route('document-reference.edit',$item->documentreferences_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>
                                         </a>
                                     </td>
                                     <td>
                                         <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
-                                            onclick="confirmDel('{{ $item->documentexternal_hd_id }}')">
+                                            onclick="confirmDel('{{ $item->documentreferences_id }}')">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -95,7 +105,7 @@ Swal.fire({
     if (result.value) {
 
         $.ajax({
-            url: `{{ url('/cancelExternalHd') }}`,
+            url: `{{ url('/cancelReference') }}`,
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",
