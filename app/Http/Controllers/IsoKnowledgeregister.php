@@ -13,7 +13,7 @@ class IsoKnowledgeregister extends Controller
      */
     public function index()
     {
-        //
+             return view('iso.knowledge-register'); 
     }
 
     /**
