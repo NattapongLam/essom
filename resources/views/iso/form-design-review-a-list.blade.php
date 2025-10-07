@@ -40,9 +40,11 @@
                                     <td>{{$item->design_review_a_hd_designinput}}</td>
                                     <td>{{$item->reported_by}}</td>
                                     <td>
-                                        <a href="{{route('design-review-a.edit',$item->design_review_a_hd_id)}}" class="btn btn-sm btn-warning" >
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                        @if ($item->engineecing_by)
+                                            <a href="{{route('design-review-a.edit',$item->design_review_a_hd_id)}}" class="btn btn-sm btn-warning" >
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif                                       
                                     </td>
                                     <td>
                                         <a href="{{route('design-review-a.show',$item->design_review_a_hd_id)}}" class="btn btn-sm btn-primary" >
@@ -50,10 +52,12 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
-                                            onclick="confirmDel('{{ $item->design_review_a_hd_id }}')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        @if ($item->engineecing_by)
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
+                                                onclick="confirmDel('{{ $item->design_review_a_hd_id }}')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        @endif  
                                     </td>
                                 </tr>
                             @endforeach               

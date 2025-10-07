@@ -32,31 +32,38 @@
                         <label for="iso_car_refertype">อ้างอิง :</label>
                         @if($hd->iso_car_refertype == 'คำร้องเรียนจากลูกค้า/บุคคลภายนอก')
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="คำร้องเรียนจากลูกค้า/บุคคลภายนอก" checked>
-                        <label for="iso_car_refertype">คำร้องเรียนจากลูกค้า/บุคคลภายนอก</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">คำร้องเรียนจากลูกค้า/บุคคลภายนอก</label>
                         @else
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype">
-                        <label for="iso_car_refertype">คำร้องเรียนจากลูกค้า/บุคคลภายนอก</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">คำร้องเรียนจากลูกค้า/บุคคลภายนอก</label>
                         @endif
                         @if($hd->iso_car_refertype == 'รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)')
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)" checked>
-                        <label for="iso_car_refertype">รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)</label>
                         @else
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype">
-                        <label for="iso_car_refertype">รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)</label>
                         @endif
                         @if($hd->iso_car_refertype == 'การตรวจสอบภายใน')
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="การตรวจสอบภายใน" checked>
-                        <label for="iso_car_refertype">การตรวจสอบภายใน</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">การตรวจสอบภายใน</label>
                         @else
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype">
-                        <label for="iso_car_refertype">การตรวจสอบภายใน</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">การตรวจสอบภายใน</label>
+                        @endif
+                        @if($hd->iso_car_refertype == 'ปัญหาสิ่งแวดล้อม')
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="ปัญหาสิ่งแวดล้อม" checked>
+                        <label style="font-size: 14px;" for="iso_car_refertype">ปัญหาสิ่งแวดล้อม</label>
+                        @else
+                        <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype">
+                        <label style="font-size: 14px;" for="iso_car_refertype">ปัญหาสิ่งแวดล้อม</label>
                         @endif
                         @if($hd->iso_car_refertype == 'อื่นๆ')
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="อื่นๆ" checked>
-                        <label for="iso_car_refertype">อื่นๆ</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">อื่นๆ</label>
                         @else
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype">
-                        <label for="iso_car_refertype">อื่นๆ</label>
+                        <label style="font-size: 14px;" for="iso_car_refertype">อื่นๆ</label>
                         @endif
                     </div>
                 </div>
@@ -133,42 +140,9 @@
                     <div class="col-12 col-md-3">
                         <label for="troublemaker_date">วันที่ :</label>
                         <input type="date" class="form-control" value="{{$hd->troublemaker_date}}">
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <label for="troublemaker_byto">กรรมการผู้พบปัญหา :</label>
-                        <select class="form-control select2">
-                            <option value="{{$hd->troublemaker_byto}}">{{$hd->troublemaker_byto}}</option>
-                            @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
-                            @endforeach 
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <label for="troublemaker_dateto">วันที่ :</label>
-                        <input type="date" class="form-control" value="{{$hd->troublemaker_dateto}}">
-                    </div>
-                </div><br>
-                @if($hd->iso_status_id == 1)
-                <div class="row">
-                    <div class="col-12 col-md-3">
-                        <button type="submit" class="btn btn-info toastrDefaultSuccess">
-                            กรรมการลงนาม (ผู้พบปัญหา)
-                        </button>
-                    </div>
+                    </div>                   
                 </div>
-                @endif               
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title" style="font-weight: bold">การแก้ไข/ป้องกัน</h3>
-            </div>
-            <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-md-3">
-                        <label for="problem_date">กรรมการผู้แก้ปัญหา รับเรื่องวันที่</label>
-                        <input type="date" class="form-control" value="{{$hd->problem_date}}" name="problem_date">
-                    </div>
                     <div class="col-12 col-md-3">
                         <label for="problem_add">กำหนดผู้แก้ปัญหาคือ</label>
                         <select class="form-control select2" name="problem_add">
@@ -200,6 +174,42 @@
                             @endforeach 
                         </select>
                     </div>
+                    {{-- <div class="col-12 col-md-3">
+                        <label for="troublemaker_byto">กรรมการผู้พบปัญหา :</label>
+                        <select class="form-control select2">
+                            <option value="{{$hd->troublemaker_byto}}">{{$hd->troublemaker_byto}}</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
+                            @endforeach 
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="troublemaker_dateto">วันที่ :</label>
+                        <input type="date" class="form-control" value="{{$hd->troublemaker_dateto}}">
+                    </div> --}}
+                </div><br>
+                {{-- @if($hd->iso_status_id == 1)
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <button type="submit" class="btn btn-info toastrDefaultSuccess">
+                            กรรมการลงนาม (ผู้พบปัญหา)
+                        </button>
+                    </div>
+                </div>
+                @endif                --}}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title" style="font-weight: bold">การแก้ไข/ป้องกัน</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <label for="problem_date">กรรมการผู้แก้ปัญหา รับเรื่องวันที่</label>
+                        <input type="date" class="form-control" value="{{$hd->problem_date}}" name="problem_date">
+                    </div>
+                    
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
@@ -238,7 +248,7 @@
                         <input type="date" class="form-control" value="{{$hd->iso_car_bydate}}" name="iso_car_bydate">
                     </div>
                 </div><br>
-                @if($hd->iso_status_id == 6)
+                @if($hd->iso_status_id == 1)
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-success toastrDefaultSuccess">
@@ -258,7 +268,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-3">
+                    {{-- <div class="col-12 col-md-3">
                         <label for="opinion_by">ลงนาม</label>
                         <select class="form-control select2" name="opinion_by">
                             <option value="{{$hd->opinion_by}}">{{$hd->opinion_by}}</option>
@@ -266,7 +276,7 @@
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
-                    </div>
+                    </div> --}}
                     <div class="col-12 col-md-3">
                         <label for="opinion_date">วันที่</label>
                         <input type="date" class="form-control" value="{{$hd->opinion_date}}" name="opinion_date">
@@ -288,18 +298,14 @@
                 <h3 class="card-title" style="font-weight: bold">การติดตามผล</h3>
             </div>
             <div class="card-body">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-12 col-md-10">
                         <label for="followup_remark">กรรมการผู้จัดการ / รองกรรมการผู้จัดการ ผู้แก้ปัญหา ติดตามการแก้ไข</label>
                         <input class="form-control" value="{{$hd->followup_remark}}" name="followup_remark">
-                    </div>
-                    <div class="col-12 col-md-2">
-                        <label for="iso_car_refdocuno">เอกสารอ้างอิง</label>
-                        <input class="form-control" value="{{$hd->iso_car_refdocuno}}" name="iso_car_refdocuno">
-                    </div>
-                </div>
+                    </div>                    
+                </div> --}}
                 <div class="row">
-                    <div class="col-12 col-md-3">
+                    {{-- <div class="col-12 col-md-3">
                         <label for="close_by">ลงนาม</label>
                         <select class="form-control select2" name="close_by">
                             <option value="{{$hd->close_by}}">{{$hd->close_by}}</option>
@@ -311,8 +317,8 @@
                     <div class="col-12 col-md-3">
                         <label for="close_date">วันที่</label>
                         <input type="date" class="form-control" value="{{$hd->close_date}}" name="close_date">
-                    </div>
-                    <div class="col-12 col-md-3">
+                    </div> --}}
+                    <div class="col-12 col-md-4">
                         <label for="followup_by">กรรมการปิดประเด็นใน CAR ฉบับนี้</label>
                         <select class="form-control select2" name="followup_by">
                             <option value="{{$hd->followup_by}}">{{$hd->followup_by}}</option>
@@ -321,12 +327,16 @@
                             @endforeach 
                         </select>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-4">
                         <label for="followup_date">วันที่</label>
                         <input type="date" class="form-control" value="{{$hd->followup_date}}" name="followup_date">
                     </div>
+                    <div class="col-12 col-md-4">
+                        <label for="iso_car_refdocuno">เอกสารอ้างอิง</label>
+                        <input class="form-control" value="{{$hd->iso_car_refdocuno}}" name="iso_car_refdocuno">
+                    </div>
                 </div><br>
-                @if($hd->iso_status_id == 8)
+                {{-- @if($hd->iso_status_id == 8)
                 <div class="row">
                 <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-success toastrDefaultSuccess">
@@ -334,7 +344,8 @@
                     </button>
                 </div>
                 </div>
-                @elseif($hd->iso_status_id == 9)
+                @else --}}
+                @if($hd->iso_status_id == 8)
                 <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-info toastrDefaultSuccess">
                         ลงนามปิดเอกสาร
