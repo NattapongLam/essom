@@ -13,7 +13,7 @@
                     <div class="col-12 col-md-2">
                         <h3 class="card-title" style="font-weight: bold">เอกสาร NCR</h3>
                     </div>
-                    <div class="col-12 col-md-2">
+                    <div class="col-12 col-md-3">
                         <div class="form-group row">
                             <label for="datestart" class="col-sm-3 col-form-label">วันที่</label>
                             <div class="col-sm-9">
@@ -21,15 +21,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-2">
+                    <div class="col-12 col-md-3">
                         <div class="form-group row">
-                            <label for="dateend" class="col-sm-3 col-form-label">ถึงวันที่</label>
+                            <label for="dateend" class="col-sm-3 col-form-label">ถึง</label>
                             <div class="col-sm-9">
                               <input type="date" class="form-control" name="dateend" id="dateend" class="form-control" value="{{$dateend}}">
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-1">
+                    <div class="col-12 col-md-2">
                         <div class="form-group row">
                             <div class="col-sm-9">
                                 <input type="checkbox" id="checkboxPrimary1" name="ck_sta">
@@ -40,12 +40,12 @@
                     <div class="col-12 col-md-2">
                         <button class="btn btn-info" type="submit">ค้นหา</button>
                     </div>
-                    <div class="col-12 col-md-1" style="margin-left: auto">
+                    {{-- <div class="col-12 col-md-1" style="margin-left: auto">
                         <a href="{{route('ncr-report.create')}}" 
                         class="btn btn-sm btn-success" >
                         <i class="fas fa-file"></i>&nbsp; สร้างเอกสาร
                         </a>
-                    </div>                  
+                    </div>                   --}}
                 </div>
                 </form>
             </div>
