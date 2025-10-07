@@ -110,7 +110,7 @@ class IsoDocumentreference extends Controller
      */
     public function update(Request $request, $id)
     {
-         $request->validate([
+        $request->validate([
             'documentreferences_listno' => ['required'],
             'documentreferences_receivedate' => ['required'],
         ]);
