@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>knowledge-register</title>
+<title>objcctives</title>
 <style>
      :root{
       --bg:#f2f5f8;
@@ -89,7 +89,7 @@
       cursor:pointer;
     }
 input[type="text"], input[type="date"], textarea, select{
-      width:100%;
+      width:40%;
       padding:10px 12px;
       border-radius:10px;
       border:1px solid rgba(15,23,42,0.08);
@@ -260,36 +260,63 @@ th {
 </style>
 </head>
 <body>
- <div class="wrap">
-              <h2 align="center">ESSOM CO.,LTD.</h2>
-        <h2 align="center">บริษัท เอสซอม จำกัด</h2>
-         <h2 align="center">ทะเบียนความรู้องค์กร (Organization Registration)</h2>
-    <div class="form-container">
-        <table>
-            <thead>
-                <tr>
-                   <th rowspan="2"style="width: 5%;">รหัสเอกสาร</th>
-                    <th rowspan="2"style="width: 0%;">วันที่รับเอกสาร</th>
-                    <th rowspan="2" style="width: 20%;">ชื่อเรื่ององค์กรความรู้</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php for($i=1; $i<=30; $i++): ?>
-                <tr>
-                    <td><input type="text" name="document_code<?php echo $i; ?>" placeholder=""></td>
-                    <td><input type="date" name="date_<?php echo $i; ?>"></td>
-                    <td><input  type="text" name="doc_title<?php echo $i; ?>" placeholder=""></td>
-                </tr>
-                <?php endfor; ?>
-            </tbody>
-        </table>
+<div class="wrap">
+              <h2 align="center">ESSOM CO., LTD.</h2>
+        <h2 align="center">OBJECTIVES</h2>
 
-       <div class="actions">
+
+<div class="form-container">
+    <span>Section <input type="text"></span>
+    <span style="margin-left: 70px;">For period <input type="text"></span>
+
+<table>
+    <thead>
+        <tr>
+            <th rowspan="2" width="6%">No.</th>
+            <th rowspan="2" width="25%">Description of Activities</th>
+            <th rowspan="2" width="10%">Resp.<br>Person</th>
+            <th colspan="3" width="30%">Objectives</th>
+            <th rowspan="2" width="30%">Remarks / Corrective actions</th>
+        </tr>
+        <tr>
+            <th width="8%">Previous</th>
+            <th width="8%">Plan</th>
+            <th width="8%">Results</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php for($i=1; $i<=30; $i++): ?>
+        <tr>
+            <td><input style="width: 50px; height: 30px; " type="text" name="no[<?= $i ?>]"></td>
+            <td><input style="width: 200px; height: 30px; " type="text" name="description[<?= $i ?>]"></td>
+            <td><input style="width: 100px; height: 30px; " type="text" name="resp_person[<?= $i ?>]"></td>
+            <td><input style="width: 100px; height: 30px; " type="text" name="previous[<?= $i ?>]"></td>
+            <td><input style="width: 100px; height: 30px; " type="text" name="plan[<?= $i ?>]"></td>
+            <td><input style="width: 100px; height: 30px; " type="text" name="results[<?= $i ?>]"></td>
+            <td><input style="width: 300px; height: 30px; " type="text" name="remarks[<?= $i ?>]"></td>
+        </tr>
+        <?php endfor; ?>
+    </tbody>
+</table>
+<br>
+    <tr>
+        <td >Prepared by <input type="text" ame="prepared_by" style="width: 200px; height: 30px;"> <span style="margin-left: 40px;">  Date</span> <input name="prepared_date" type="date" style="width: 100px; height: 30px;"></td>
+        <td> <span style="margin-left: 50px;"> Reported by</span>  <input type="text"style="width: 200px; height: 30px; ">  <span style="margin-left: 40px;">  Date</span> <input type="date" style="width: 100px; height: 30px;"></td>
+    <tr>
+        <br><br>
+    <tr>
+        <td >Reviewd by <input type="text" name="reported_by" style="width: 200px; height: 30px;"> <span style="margin-left: 20px;">  Date</span> <input name="reported_date"  type="date" style="width: 100px; height: 30px;"></td>
+        <td> <span style="margin-left: 50px;"> Acknowledged by</span>  <input name="acknowledged_by" type="text"style="width: 180px; height: 30px; ">  <span style="margin-left: 40px;">  Date</span> <input name="acknowledged_date" type="date" style="width: 100px; height: 30px;"></td>
+    <tr>
+        <br><br>
+<tr>
+        <td >Approved by <input name="approved_by" type="text" style="width: 200px; height: 30px;"> <span > 
+<div class="actions">
               <button type="button" class="ghost" onclick="window.location.href=window.location.pathname">รีเซ็ต</button>
               <button type="submit" class="primary">บันทึกข้อมูล</button>
             </div>
-    </form>
 </div>
+</form>
 
 </body>
 </html>
