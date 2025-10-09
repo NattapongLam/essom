@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DesignReviewADt;
 use App\Models\DesignReviewAHd;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class IsoDesignReviewA extends Controller
@@ -158,7 +159,7 @@ class IsoDesignReviewA extends Controller
                 return redirect()->route('design-review-a.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
             }
         }elseif($request->docuref == "Update"){
-             $data =[
+            $data =[
                 'reviewed_by' => $request->reviewed_by,
                 'reviewed_date' => $request->reviewed_date,
                 'engineecing_by' => $request->engineecing_by,
