@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>knowledge-register</title>
+<title>email-registration</title>
 <style>
      :root{
       --bg:#f2f5f8;
@@ -176,7 +176,7 @@ font-family: "Times New Roman", Times, serif;
 background: #ffffffff;
 padding: 20px 50px;
 border-radius: 25px;box-shadow: 2px 2px 10px gray;
-width: 1100px;
+width: 1200px;
 overflow: hidden;
 margin-top: 40px;
 }
@@ -260,36 +260,45 @@ th {
 </style>
 </head>
 <body>
- <div class="wrap">
-              <h2 align="center">ESSOM CO.,LTD.</h2>
-        <h2 align="center">บริษัท เอสซอม จำกัด</h2>
-         <h2 align="center">ทะเบียนความรู้องค์กร (Organization Registration)</h2>
-    <div class="form-container">
-        <table>
+
+  <div class="wrap">
+<h2 align="center">ทะเบียนผู้ใช้ Email Account</h2>
+<div class="form-container">
+     <table>
             <thead>
                 <tr>
-                   <th rowspan="2"style="width: 5%;">รหัสเอกสาร</th>
-                    <th rowspan="2"style="width: 0%;">วันที่รับเอกสาร</th>
-                    <th rowspan="2" style="width: 20%;">ชื่อเรื่ององค์กรความรู้</th>
+                <th width="10%">Item</th>
+            <th width="40%">Email Account</th>
+            <th width="15%">Password</th>
+            <th width="10%">User</th>
+            <th width="15%">Position</th>
+            <th width="12%">Department</th>
+            <th width="12%">Approved by</th>
+            <th width="2%">Date</th>
+            <th width="30%">Remark</th>
                 </tr>
             </thead>
             <tbody>
                 <?php for($i=1; $i<=30; $i++): ?>
                 <tr>
-                    <td><input type="text" name="document_code<?php echo $i; ?>" placeholder=""></td>
-                    <td><input type="date" name="date_<?php echo $i; ?>"></td>
-                    <td><input  type="text" name="doc_title<?php echo $i; ?>" placeholder=""></td>
+                     <td><input type="text" name="item[<?= $i ?>]" placeholder=""></td>
+            <td><input type="text" name="email_account[<?= $i ?>]" placeholder=""></td>
+            <td><input type="text" name="password[<?= $i ?>]" placeholder=""></td>
+            <td><input type="text" name="user_name[<?= $i ?>]" placeholder=""></td>
+            <td><input type="text" name="position[<?= $i ?>]" placeholder=""></td>
+            <td><input type="text" name="department[<?= $i ?>]" placeholder=""></td>
+            <td><input type="text" name="approved_by[<?= $i ?>]" placeholder=""></td>
+            <td><input type="date" name="date[<?= $i ?>]"></td>
+            <td><input type="text" name="remark[<?= $i ?>]" placeholder=""></td>
+        
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
-
-       <div class="actions">
+ <div class="actions">
               <button type="button" class="ghost" onclick="window.location.href=window.location.pathname">รีเซ็ต</button>
               <button type="submit" class="primary">บันทึกข้อมูล</button>
             </div>
-    </form>
 </div>
-
 </body>
 </html>

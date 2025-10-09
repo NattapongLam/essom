@@ -9,58 +9,60 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD<br>การทบทวนการออกแบบ<br>DESIGN REVIEW</h5><p class="text-right">F8300.2A<br>19 Jan. 22</p>
+                <h5>ESSOM CO.,LTD<br>การทบทวนการออกแบบ<br>DESIGN VERIFCATION</h5><p class="text-right">F8300.2B<br>19 Jan. 22</p>
                 <p class="text-left">
-                    <a href="{{route('design-review-a.create')}}">เพิ่มเอกสาร</a>
+                    <a href="{{route('design-review-b.create')}}">เพิ่มเอกสาร</a>
                 </p>              
             </div>
             <div class="card-body">             
                 <div class="table-responsive">
                     <table id="tb_job" class="table table-bordered table-sm text-center">
-                        <thead>   
+                        <thead>      
                             <tr>
                                 <th>Product</th>  
                                 <th>Model</th>  
                                 <th>Participants</th>  
                                 <th>Subject</th>  
-                                <th>Design Input</th>  
+                                <th>Design Input</th> 
+                                <th>Design Output</th> 
                                 <th>Reported By</th>  
                                 <th>แก้ไข</th>
                                 <th>อนุมัติ</th>
                                 <th>ลบ</th>
-                            </tr>                                         
+                            </tr>                                      
                         </thead>
-                        <tbody>       
+                        <tbody>  
                             @foreach ($hd as $item)
                                 <tr>
                                     <td>{{$item->design_review_a_hd_product}}</td>
                                     <td>{{$item->design_review_a_hd_model}}</td>
                                     <td>{{$item->design_review_a_hd_participants}}</td>
-                                    <td>{{$item->design_review_a_hd_subject}}</td>
-                                    <td>{{$item->design_review_a_hd_designinput}}</td>
+                                    <td>{{$item->design_review_a_hd_subject}}</td>  
+                                    <td>{{$item->design_review_b_input}}</td> 
+                                    <td>{{$item->design_review_b_output}}</td> 
                                     <td>{{$item->reported_by}}</td>
                                     <td>
                                         @if ($item->engineecing_by == null)
-                                            <a href="{{route('design-review-a.edit',$item->design_review_a_hd_id)}}" class="btn btn-sm btn-warning" >
+                                            <a href="{{route('design-review-b.edit',$item->design_review_b_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         @endif                                       
                                     </td>
                                     <td>
-                                        <a href="{{route('design-review-a.show',$item->design_review_a_hd_id)}}" class="btn btn-sm btn-primary" >
+                                        <a href="{{route('design-review-b.show',$item->design_review_b_id)}}" class="btn btn-sm btn-primary" >
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </td>
                                     <td>
                                         @if ($item->engineecing_by == null)
                                             <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
-                                                onclick="confirmDel('{{ $item->design_review_a_hd_id }}')">
+                                                onclick="confirmDel('{{ $item->design_review_b_id }}')">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         @endif  
-                                    </td>
+                                    </td>                                 
                                 </tr>
-                            @endforeach               
+                            @endforeach                   
                         </tbody>
                     </table>
                 </div>
