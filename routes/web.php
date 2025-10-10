@@ -111,6 +111,7 @@ Route::post('/cancelReviewB' , [App\Http\Controllers\IsoDesignReviewA::class , '
 Route::resource('/detailed-testing' , App\Http\Controllers\IsoDetailedTesting::class);
 Route::post('/cancelTesting' , [App\Http\Controllers\IsoDetailedTesting::class , 'cancelTesting']);
 Route::resource('/design-edit' , App\Http\Controllers\IsoDesignEdit::class);
+Route::post('/cancelDesignedit' , [App\Http\Controllers\IsoDesignEdit::class , 'cancelDesignedit']);
 Route::resource('/product-registration' , App\Http\Controllers\IsoProductRegistration::class);
 Route::resource('/quality-plan' , App\Http\Controllers\IsoQualityPlan::class);
 Route::resource('/product-selection' , App\Http\Controllers\IsoProductSelection::class);
