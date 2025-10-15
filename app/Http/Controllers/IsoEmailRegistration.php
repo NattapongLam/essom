@@ -68,9 +68,10 @@ class IsoEmailRegistration extends Controller
         return redirect()->route('email-registration.index')
                          ->with('success', 'ลบข้อมูลเรียบร้อยแล้ว!');
     }
-public function show($id)
-{
-    $record = EmailRegistry::findOrFail($id);
-    return view('iso.email-registration-show', compact('record'));
-}
+    
+    public function show($id)
+    {
+        $record = EmailRegistry::findOrFail($id);
+        return view('iso.email-registration-show', compact('record'));
+    }
 }
