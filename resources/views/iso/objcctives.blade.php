@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>objcctives</title>
+@extends('layouts.main')
+@section('content')
+@if(session('success'))
+<script>
+    alert("{{ session('success') }}");
+</script>
+@endif
+@endif
+
 <style>
-     :root{
+    :root{
       --bg:#f2f5f8;
       --card:#ffffff;
       --muted:#6b7280;
       --accent:#0ea5a4;
     }
     *{box-sizing:border-box}
-    
+
     body{
-         margin: 40px;
+      margin: 40px;
       font-family: "Noto Sans Thai", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background:
         radial-gradient(1200px 400px at -10% 10%, rgba(14,165,164,0.06), transparent 10%),
@@ -27,17 +31,13 @@
       align-items:center;
       justify-content:center;
     }
-.highlight 
-    font-weight: bold;
-    text-decoration: underline;
-  
+
     .wrap{
       width:100%;
       max-width:980px;
       margin:20px auto;
     }
 
-    /* Card with layered shadow + reflection */
     .card{
       background: linear-gradient(180deg, var(--card), #fbfdff);
       border-radius:18px;
@@ -49,46 +49,9 @@
       border: 1px solid rgba(15,23,42,0.04);
       position:relative;
       overflow:visible;
-   
     }
 
-    .badge{
-      position:absolute;
-      right:16px;
-      top:16px;
-      font-size:12px;
-      color:var(--muted);
-      background: rgba(15,23,42,0.03);
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(15,23,42,0.02);
-    }
-    .summary{
-      margin-top:18px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(14,165,164,0.01));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(14,165,164,0.06);
-    }
-     button.primary{
-      background: linear-gradient(180deg, #258b25ff, #337725ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:700;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-    button.ghost{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(15,23,42,0.06);
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-input[type="text"], input[type="date"], textarea, select{
+    input[type="text"], input[type="date"]{
       width:40%;
       padding:10px 12px;
       border-radius:10px;
@@ -98,36 +61,47 @@ input[type="text"], input[type="date"], textarea, select{
       outline:none;
       transition: box-shadow .16s, border-color .16s, transform .08s;
     }
-     input[type="text"]:focus, textarea:focus, select:focus{
+    input[type="text"]:focus, input[type="date"]:focus{
       box-shadow: 0 6px 18px rgba(14,165,164,0.08);
       border-color: rgba(14,165,164,0.6);
       transform: translateY(-1px);
     }
-    
-    textarea{
-      min-height:110px;
-      resize:vertical;
-      padding-top:12px;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid black;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    th {
+      background-color: #e9ecef;
+      font-weight: bold;
     }
 
-    
-    .small{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-     .bold-label {
-        font-weight: bold;
+    .form-container {
+      font-family: "Times New Roman", Times, serif;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px 50px;
+      border-radius: 25px;
+      box-shadow: 2px 2px 10px gray;
+      width: 1100px;
     }
 
     .actions{
       display:flex;
       gap:12px;
       justify-content:flex-end;
-      margin-top:18px;
+      margin-top:20px;
     }
     button.primary{
-      background: linear-gradient(180deg, #258b25ff, #337725ff);
+      background: linear-gradient(180deg, #258b25, #337725);
       color:white;
       border:none;
       padding:10px 16px;
@@ -144,179 +118,84 @@ input[type="text"], input[type="date"], textarea, select{
       border-radius:10px;
       cursor:pointer;
     }
-
-    /* preview of uploaded/attached scan on left */
-    .layout{
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:22px;
-    }
-    .scan{
-      border-radius:12px;
-      overflow:hidden;
-      border:1px solid rgba(15,23,42,0.03);
-      background:linear-gradient(180deg,#f8fafb,#fff);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px;
-      box-shadow: 0 8px 30px rgba(8,20,40,0.06);
-    }
-    .scan img{
-      max-width:100%;
-      height:auto;
-      display:block;
-      border-radius:6px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-      transform: translateY(-4px);
-    }
-.form-container {
-font-family: "Times New Roman", Times, serif;
-   margin: 30px;
-background: #ffffffff;
-padding: 20px 50px;
-border-radius: 25px;box-shadow: 2px 2px 10px gray;
-width: 1100px;
-overflow: hidden;
-margin-top: 40px;
-}
-    .summary{
-      margin-top:18px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(14,165,164,0.01));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(14,165,164,0.06);
-    }
-    .field{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:8px;
-    }
-    .field b{ min-width:200px; display:inline-block; color:#0f172a; }
-
-    @media (max-width:920px){
-      .layout{ grid-template-columns: 1fr; }
-      .grid{ grid-template-columns: 1fr; }
-      .badge{ position:static; display:inline-block; margin-bottom:12px; }
-    }
-
-    .remark {
-        margin-top: 15px;
-    }
-
-    .remark textarea {
-        width: 100%;
-        height: 80px;
-        border: 1px solid #000;
-        padding: 5px;
-        resize: none;
-    }
-
-   
-
-    .sign-line {
-        border-bottom: 1px dotted #000;
-        display: inline-block;
-        width: 180px;
-    }
-    
-    .small{
-      font-size:14px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-     .bold-label {
-        font-weight: bold;
-    }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid black;
-    margin-top: 15px;
-}th, td {
-    border: 1px solid black;
-    padding: 4px;
-    text-align: center;
-    vertical-align: middle;
-}
-th {
-    background-color: #e9ecef;
-    font-weight: bold;
-}
-    .actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-      margin-top:18px;
-    }
-    .section-line {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-size: 16px;
-}
-
 </style>
-</head>
-<body>
+
 <div class="wrap">
-              <h2 align="center">ESSOM CO., LTD.</h2>
-        <h2 align="center">OBJECTIVES</h2>
+  <h2 align="center">ESSOM CO., LTD.</h2>
+  <h2 align="center">OBJECTIVES</h2>
 
+  <div class="form-container">
+    <form action="{{ route('iso-objectives.store') }}" method="POST">
+      @csrf
 
-<div class="form-container">
-    <span>Section <input type="text"></span>
-    <span style="margin-left: 70px;">For period <input type="text"></span>
+      <div>
+        <span>Section <input type="text" name="section"></span>
+        <span style="margin-left: 70px;">For period <input type="text" name="period"></span>
+      </div>
 
-<table>
-    <thead>
-        <tr>
+      <table>
+        <thead>
+          <tr>
             <th rowspan="2" width="6%">No.</th>
             <th rowspan="2" width="25%">Description of Activities</th>
             <th rowspan="2" width="10%">Resp.<br>Person</th>
             <th colspan="3" width="30%">Objectives</th>
             <th rowspan="2" width="30%">Remarks / Corrective actions</th>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <th width="8%">Previous</th>
             <th width="8%">Plan</th>
             <th width="8%">Results</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php for($i=1; $i<=30; $i++): ?>
-        <tr>
-            <td><input style="width: 50px; height: 30px; " type="text" name="no[<?= $i ?>]"></td>
-            <td><input style="width: 200px; height: 30px; " type="text" name="description[<?= $i ?>]"></td>
-            <td><input style="width: 100px; height: 30px; " type="text" name="resp_person[<?= $i ?>]"></td>
-            <td><input style="width: 100px; height: 30px; " type="text" name="previous[<?= $i ?>]"></td>
-            <td><input style="width: 100px; height: 30px; " type="text" name="plan[<?= $i ?>]"></td>
-            <td><input style="width: 100px; height: 30px; " type="text" name="results[<?= $i ?>]"></td>
-            <td><input style="width: 300px; height: 30px; " type="text" name="remarks[<?= $i ?>]"></td>
-        </tr>
-        <?php endfor; ?>
-    </tbody>
-</table>
-<br>
-    <tr>
-        <td >Prepared by <input type="text" ame="prepared_by" style="width: 200px; height: 30px;"> <span style="margin-left: 40px;">  Date</span> <input name="prepared_date" type="date" style="width: 100px; height: 30px;"></td>
-        <td> <span style="margin-left: 50px;"> Reported by</span>  <input type="text"style="width: 200px; height: 30px; ">  <span style="margin-left: 40px;">  Date</span> <input type="date" style="width: 100px; height: 30px;"></td>
-    <tr>
-        <br><br>
-    <tr>
-        <td >Reviewd by <input type="text" name="reported_by" style="width: 200px; height: 30px;"> <span style="margin-left: 20px;">  Date</span> <input name="reported_date"  type="date" style="width: 100px; height: 30px;"></td>
-        <td> <span style="margin-left: 50px;"> Acknowledged by</span>  <input name="acknowledged_by" type="text"style="width: 180px; height: 30px; ">  <span style="margin-left: 40px;">  Date</span> <input name="acknowledged_date" type="date" style="width: 100px; height: 30px;"></td>
-    <tr>
-        <br><br>
-<tr>
-        <td >Approved by <input name="approved_by" type="text" style="width: 200px; height: 30px;"> <span > 
-<div class="actions">
-              <button type="button" class="ghost" onclick="window.location.href=window.location.pathname">รีเซ็ต</button>
-              <button type="submit" class="primary">บันทึกข้อมูล</button>
-            </div>
-</div>
-</form>
+          </tr>
+        </thead>
+        <tbody>
+          @for ($i = 1; $i <= 30; $i++)
+          <tr>
+            <td><input style="width: 50px; height: 30px;" type="text" name="no[{{ $i }}]"></td>
+            <td><input style="width: 200px; height: 30px;" type="text" name="description[{{ $i }}]"></td>
+            <td><input style="width: 100px; height: 30px;" type="text" name="resp_person[{{ $i }}]"></td>
+            <td><input style="width: 100px; height: 30px;" type="text" name="previous[{{ $i }}]"></td>
+            <td><input style="width: 100px; height: 30px;" type="text" name="plan[{{ $i }}]"></td>
+            <td><input style="width: 100px; height: 30px;" type="text" name="results[{{ $i }}]"></td>
+            <td><input style="width: 300px; height: 30px;" type="text" name="remarks[{{ $i }}]"></td>
+          </tr>
+          @endfor
+        </tbody>
+      </table>
 
-</body>
-</html>
+      <br>
+
+      <div>
+        <span>Prepared by <input type="text" name="prepared_by" style="width: 200px; height: 30px;"></span>
+        <span style="margin-left: 40px;">Date <input name="prepared_date" type="date" style="width: 100px; height: 30px;"></span>
+      </div>
+
+      <div>
+        <span>Reported by <input type="text" name="reported_by" style="width: 200px; height: 30px;"></span>
+        <span style="margin-left: 40px;">Date <input name="reported_date" type="date" style="width: 100px; height: 30px;"></span>
+      </div>
+
+      <div>
+        <span>Reviewed by <input type="text" name="reviewed_by" style="width: 200px; height: 30px;"></span>
+        <span style="margin-left: 40px;">Date <input name="reviewed_date" type="date" style="width: 100px; height: 30px;"></span>
+      </div>
+
+      <div>
+        <span>Acknowledged by <input type="text" name="acknowledged_by" style="width: 180px; height: 30px;"></span>
+        <span style="margin-left: 40px;">Date <input name="acknowledged_date" type="date" style="width: 100px; height: 30px;"></span>
+      </div>
+
+      <div>
+        <span>Approved by <input name="approved_by" type="text" style="width: 200px; height: 30px;"></span>
+        <span style="margin-left: 40px;">Date <input name="approved_date" type="date" style="width: 100px; height: 30px;"></span>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary">บันทึกข้อมูล</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+@endsection
