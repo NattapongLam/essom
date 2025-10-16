@@ -118,6 +118,8 @@ Route::resource('/product-registration' , App\Http\Controllers\IsoProductRegistr
 Route::post('/cancelRegistrationHd' , [App\Http\Controllers\IsoProductRegistration::class , 'cancelRegistrationHd']);
 Route::post('/cancelRegistrationDt' , [App\Http\Controllers\IsoProductRegistration::class , 'cancelRegistrationDt']);
 Route::resource('/quality-plan' , App\Http\Controllers\IsoQualityPlan::class);
+Route::post('/cancelQualityplanHd' , [App\Http\Controllers\IsoQualityPlan::class , 'cancelQualityplanHd']);
+Route::post('/cancelQualityplanDt' , [App\Http\Controllers\IsoQualityPlan::class , 'cancelQualityplanDt']);
 Route::resource('/product-selection' , App\Http\Controllers\IsoProductSelection::class);
 Route::resource('/recipient-selection' , App\Http\Controllers\IsoRecipientSelection::class);
 Route::resource('/product-list-selected' , App\Http\Controllers\IsoProductListSelected::class);
