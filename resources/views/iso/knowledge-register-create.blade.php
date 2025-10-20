@@ -145,7 +145,7 @@ button.ghost:hover { transform: scale(1.05); }
 <div class="form-container">
     <h2>ESSOM CO.,LTD.</h2>
     <h2>บริษัท เอสซอม จำกัด</h2>
-    <h2>ทะเบียนความรู้องค์กร</h2>
+    <h2>ทะเบียนความรู้องค์กร(Organization Knowledge)</h2>
 
     <form action="{{ route('knowledge-register.store') }}" method="POST">
         @csrf
