@@ -265,7 +265,7 @@ class IsoProductSelection extends Controller
 
     public function cancelProductSelectionHd(Request $request)
     {
-        $hd = ProductSelectionHd::where('documentexternal_hd_id',$request->refid)->update([
+        $hd = ProductSelectionHd::where('product_selection_hd_id',$request->refid)->update([
             'product_selection_hd_flag' => 0,
             'updated_at' => Carbon::now(),
             'requested_by' => Auth::user()->name,
@@ -278,7 +278,7 @@ class IsoProductSelection extends Controller
 
     public function cancelProductSelectionDt(Request $request)
     {
-        $hd = ProductSelectionDt::where('documentexternal_dt_id',$request->refid)->update([
+        $hd = ProductSelectionDt::where('product_selection_dt_id',$request->refid)->update([
             'product_selection_dt_flag' => 0,
             'updated_at' => Carbon::now(),
             'person_at' => Auth::user()->name,
