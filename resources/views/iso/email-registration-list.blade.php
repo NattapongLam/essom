@@ -1,332 +1,283 @@
 @extends('layouts.main')
 @section('content')
-<div class="wrap">
-<h2 align="center">รายการ Email Account</h2>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @if(session('success'))
-<p style="color: green; text-align:center;">{{ session('success') }}</p>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'สำเร็จ!',
+        text: "{{ session('success') }}",
+        confirmButtonColor: '#1e40af'
+    });
+</script>
 @endif
 
 @if(session('error'))
-<p style="color: red; text-align:center;">{{ session('error') }}</p>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'เกิดข้อผิดพลาด!',
+        text: "{{ session('error') }}",
+        confirmButtonColor: '#dc2626'
+    });
+</script>
 @endif
+
 <style>
-.card{
-      background: linear-gradient(180deg, var(--card), #fbfdff);
-      border-radius:18px;
-      padding:20px;
-      box-shadow:
-        0 6px 18px rgba(6,20,40,0.08),
-        0 18px 40px rgba(8,25,60,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.6);
-      border: 1px solid rgba(15,23,42,0.04);
-      position:relative;
-      overflow:visible;
-   
-    }
-
-    .badge{
-      position:absolute;
-      right:16px;
-      top:16px;
-      font-size:12px;
-      color:var(--muted);
-      background: rgba(15,23,42,0.03);
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(15,23,42,0.02);
-    }
-    .summary{
-      margin-top:18px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(14,165,164,0.01));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(14,165,164,0.06);
-    }
-     button.primary{
-      background: linear-gradient(180deg, #258b25ff, #337725ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:700;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-    button.ghost{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(15,23,42,0.06);
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-input[type="text"], input[type="date"], textarea, select{
-      width:100%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid rgba(15,23,42,0.08);
-      background: linear-gradient(180deg, #fff, #fbfcff);
-      font-size:14px;
-      outline:none;
-      transition: box-shadow .16s, border-color .16s, transform .08s;
-    }
-     input[type="text"]:focus, textarea:focus, select:focus{
-      box-shadow: 0 6px 18px rgba(14,165,164,0.08);
-      border-color: rgba(14,165,164,0.6);
-      transform: translateY(-1px);
-    }
-    
-    textarea{
-      min-height:110px;
-      resize:vertical;
-      padding-top:12px;
-    }
-
-    
-    .small{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-     .bold-label {
-        font-weight: bold;
-    }
-
-    .actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-      margin-top:18px;}
-button.delete {
-  background: linear-gradient(180deg, #cb8a8aff, #b91c1c);
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 400;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-button.delete:hover {
-  background: linear-gradient(180deg, #ef4444, #dc2626);
-  transform: scale(1.05);
-}
-
-button.delete svg {
-  width: 16px;
-  height: 16px;
-  fill: white;
-}
-
-tr.fade-out {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-      button.edit{
-      background: linear-gradient(180deg, #2ea8c6ff, #80bde5ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:400;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-    button.primary{
-      background: linear-gradient(180deg, #258b25ff, #337725ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:600;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-    button.ghost{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(15,23,42,0.06);
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-
-    /* preview of uploaded/attached scan on left */
-    .layout{
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:22px;
-    }
-    .scan{
-      border-radius:12px;
-      overflow:hidden;
-      border:1px solid rgba(15,23,42,0.03);
-      background:linear-gradient(180deg,#f8fafb,#fff);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px;
-      box-shadow: 0 8px 30px rgba(8,20,40,0.06);
-    }
-    .scan img{
-      max-width:100%;
-      height:auto;
-      display:block;
-      border-radius:6px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-      transform: translateY(-4px);
-    }
 .form-container {
-font-family: "Times New Roman", Times, serif;
-   margin: 30px;
-background: #ffffffff;
-padding: 20px 50px;
-border-radius: 25px;box-shadow: 10px 10px 10px gray;
-width: 1180px;
-overflow: hidden;
-margin-top: 40px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e0;
+    margin-bottom: 25px;
+    overflow-x: auto;
 }
-    .summary{
-      margin-top:18px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(14,165,164,0.01));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(14,165,164,0.06);
-    }
-    .field{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:8px;
-    }
-    .field b{ min-width:200px; display:inline-block; color:#0f172a; }
-
-    @media (max-width:920px){
-      .layout{ grid-template-columns: 1fr; }
-      .grid{ grid-template-columns: 1fr; }
-      .badge{ position:static; display:inline-block; margin-bottom:12px; }
-    }
-
-    .remark {
-        margin-top: 15px;
-    }
-
-    .remark textarea {
-        width: 100%;
-        height: 80px;
-        border: 1px solid #000;
-        padding: 5px;
-        resize: none;
-    }
-
-   
-
-    .sign-line {
-        border-bottom: 1px dotted #000;
-        display: inline-block;
-        width: 180px;
-    }
-    
-    .small{
-      font-size:14px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-     .bold-label {
-        font-weight: bold;
-    }
+.dt-button, #printBtn, #exportExcelBtn {
+    background: linear-gradient(180deg, #cecacaff, #827c7cff);
+    color: white !important;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 5px;
+}
+.dt-button:hover, #printBtn:hover, #exportExcelBtn:hover { transform: scale(1.05); }
+h2, h3 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+h3 { font-weight: 500; }
+h4 { margin-top: 20px; margin-bottom: 10px; font-weight: 600; color: #1e3a8a; }
 table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid black;
-    margin-top: 15px;
-}th, td {
-    border: 1px solid black;
-    padding: 4px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #1e293b;
+    table-layout: fixed;
+}
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f0f0f0;
+    z-index: 2;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
     text-align: center;
     vertical-align: middle;
+    word-wrap: break-word;
 }
-th {
-    background-color: #789fc8ff;
-    font-weight: bold;
+tr:nth-child(even) { background-color: #fafafa; }
+tr:hover { background-color: #e0f2fe; transition: 0.2s; }
+td a { color: #1e40af; text-decoration: none; font-weight: 500; }
+td a:hover { text-decoration: underline; }
+button.primary, button.edit, button.delete { transition: all 0.2s ease; }
+button.primary:hover, button.edit:hover, button.delete:hover { transform: scale(1.05); }
+button.primary {
+    background: linear-gradient(180deg, #1e3a8a, #3b82f6);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
 }
-    .actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-      margin-top:18px;
-    }
-    .section-line {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-size: 16px;
+button.edit {
+    background: linear-gradient(180deg, #2563eb, #60a5fa);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
 }
-      </style>
-      <center>
-       <div class="form-container">
-<table border="1" width="100%" cellpadding="5" cellspacing="0">
+button.delete {
+    background: linear-gradient(180deg, #dc2626, #ef4444);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+input, textarea, select {
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f8fafc;
+    transition: 0.2s;
+}
+input:focus, textarea:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 4px rgba(59,130,246,0.3);
+    background-color: #ffffff;
+    outline: none;
+}
+.actions {
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+@media (max-width: 1024px){
+    table, th, td { font-size: 12px; }
+    .form-container { width: 95%; padding: 20px; }
+}
+@media (max-width: 640px){
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    tr { margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; background-color: #ffffff; }
+    td { display: flex; justify-content: space-between; padding: 6px 10px; border: none; border-bottom: 1px solid #e2e8f0; }
+    td::before { content: attr(data-label); font-weight: 600; color: #1e3a8a; width: 45%; }
+    .actions { flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px; }
+}
+</style>
+
+<div class="form-container">
+    <h2>ทะเบียนผู้ใช้ Email Account</h2>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+        <a href="{{ route('email-registration.create') }}" class="primary">เพิ่มข้อมูลใหม่</a>
+        <input type="text" id="searchInput" placeholder="🔍 ค้นหา..." style="width:220px;">
+    </div>
+
+    <button id="printBtn" class="dt-button">print</button>
+    <button id="exportExcelBtn" class="dt-button">excel</button>
+
+   <table id="activityTable" width="100%" border="1" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Item</th>
-            <th>Email Account</th>
-              <th>Password</th>
-            <th>User</th>
-            <th>Position</th>
-            <th>Department</th>
-            <th>Approved By</th>
-            <th>Date</th>
-            <th>Remark</th>
-            <th style="width: 180px; text-align: center;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($records as $record)
-        <tr>
-            <td>{{ $record->email_id }}</td>
-            <td>{{ $record->Item }}</td>
-            <td>{{ $record->email_account }}</td>
-             <td>{{ $record->password }}</td>
-            <td>{{ $record->user_name }}</td>
-            <td>{{ $record->position }}</td>
-            <td>{{ $record->department }}</td>
-            <td>{{ $record->approved_by }}</td>
-            <td>{{ $record->date }}</td>
-            <td>{{ $record->remark }}</td>
-            <td>
-         <div class="actions">
-    <a href="{{ route('email-registration.edit', $record->email_id) }}">
-        <button class="edit">แก้ไข</button>
-    </a>
-    <form action="{{ route('email-registration.destroy', $record->email_id) }}" 
-          method="POST" 
-          style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" onclick="return confirm('ลบข้อมูลใช่หรือไม่?')" class="delete">
-            ลบ
-        </button>
-           </div> 
-        </tr>
-        @endforeach
-      </div>
- </form>  
-
-<div class="actions">
-    <a href="{{ route('email-registration.create') }}">
-        <button class="primary">เพิ่ม EmailAccount ใหม่</button>
-    </a>
-       </tbody>
-</table>
-    </div>
+                <th>No</th>
+                <th>Item</th>
+                <th>Email Account</th>
+                <th>Password</th>
+                <th>User</th>
+                <th>Position</th>
+                <th>Department</th>
+                <th>Approved By</th>
+                <th>Date</th>
+                <th>Remark</th>
+                <th>ปุ่มลบ/แก้ไข</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($records as $record)
+            <tr>
+                <td>{{ $record->id }}</td>
+                <td>{{ $record->item }}</td>
+                <td>{{ $record->email_account }}</td>
+                <td>{{ $record->password }}</td>
+                <td>{{ $record->user_name }}</td>
+                <td>{{ $record->position }}</td>
+                <td>{{ $record->department }}</td>
+                <td>{{ $record->approved_by }}</td>
+                <td>{{ $record->date }}</td>
+                <td>{{ $record->remark }}</td>
+                <td>
+                    <div class="actions">
+                        <a href="{{ route('email-registration.edit', $record->id) }}">
+                            <button class="edit">แก้ไข</button>
+                        </a>
+                        <form action="{{ route('email-registration.destroy', $record->id) }}" method="POST" onsubmit="return confirm('คุณต้องการลบแผนนี้ใช่หรือไม่?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete">ลบ</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="12" style="text-align:center;">ไม่มีข้อมูล</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
-</center>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+document.getElementById('printBtn').addEventListener('click', function() {
+    const table = document.getElementById('activityTable');
+    const actionColIndex = table.rows[0].cells.length - 1;
+
+    const hiddenCells = [];
+    for (let row of table.rows) {
+        if (row.cells[actionColIndex]) {
+            hiddenCells.push(row.cells[actionColIndex]);
+            row.cells[actionColIndex].style.display = 'none';
+        }
+    }
+
+    window.print();
+
+    hiddenCells.forEach(cell => cell.style.display = '');
+});
+
+document.getElementById('exportExcelBtn').addEventListener('click', function() {
+    const table = document.getElementById('activityTable');
+    const rows = table.querySelectorAll('tr');
+    const ws_data = [];
+    rows.forEach(row => {
+        const rowData = [];
+        const cells = row.querySelectorAll('th, td');
+        for (let i = 0; i < cells.length - 1; i++) {
+            rowData.push(cells[i].innerText.trim());
+        }
+        ws_data.push(rowData);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(ws_data);
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+            const cell_address = XLSX.utils.encode_cell({r:R, c:C});
+            if (!ws[cell_address]) continue;
+            ws[cell_address].s = {
+                border: {
+                    top: {style:"thin", color:{rgb:"000000"}},
+                    bottom: {style:"thin", color:{rgb:"000000"}},
+                    left: {style:"thin", color:{rgb:"000000"}},
+                    right: {style:"thin", color:{rgb:"000000"}},
+                },
+                alignment: { vertical: "center", horizontal: "center", wrapText: true }
+            };
+            if (R === 0) {
+                ws[cell_address].s.fill = {
+                    fgColor: {rgb: "DCE6F1"} 
+                };
+                ws[cell_address].s.font = { bold: true, color: { rgb: "000000" } };
+            }
+        }
+    }
+    const colWidths = [];
+    ws_data[0].forEach((_, i) => {
+        let maxLen = Math.max(...ws_data.map(r => (r[i] ? r[i].length : 0)));
+        colWidths.push({ wch: maxLen + 2 });
+    });
+    ws['!cols'] = colWidths;
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "EmailRegistry");
+    XLSX.writeFile(wb, "Email_Registry.xlsx");
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const rows = document.querySelectorAll('#activityTable tbody tr');
+
+    searchInput.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+        rows.forEach(row => {
+            const match = [...row.cells].some(cell => cell.innerText.toLowerCase().includes(filter));
+            row.style.display = match ? '' : 'none';
+        });
+    });
+});
+</script>
 @endsection

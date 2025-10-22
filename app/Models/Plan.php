@@ -10,14 +10,32 @@ class Plan extends Model
     use HasFactory;
 
     protected $table = 'iso_plan';
-      protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'project_name',
         'responsible_section',
-        'activities',
+        'activities',              
+        'prepared_by',
+        'prepared_date',
+        'prepared_progress_review',
+        'prepared_progress_date',
+        'reported_progress_review',
+        'reported_date',
+        'reported_by',
+        'reported_progress_date',
+        'approved_by',
+        'approved_date',
+        'acknowledged_by',
+        'acknowledged_date',
     ];
 
     protected $casts = [
-        'activities' => 'array',
+        'activities' => 'array',    
+        'prepared_date' => 'date',
+        'prepared_progress_date' => 'date',
+        'reported_date' => 'date',
+        'reported_progress_date' => 'date',
+        'approved_date' => 'date',
+        'acknowledged_date' => 'date',
     ];
 }
