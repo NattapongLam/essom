@@ -13,7 +13,7 @@ class IsoComputerRecords extends Controller
      */
     public function index()
     {
-        //
+         return view("iso.computer-records");
     }
 
     /**
