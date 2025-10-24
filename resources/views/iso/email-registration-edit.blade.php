@@ -1,135 +1,191 @@
 @extends('layouts.main')
 @section('content')
-<link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'สำเร็จ!',
+    text: "{{ session('success') }}",
+    confirmButtonColor: '#1e40af'
+});
+</script>
+@endif
+
 <style>
-.form-container {
-  font-family: "Segoe UI", "Prompt", sans-serif;
-  background: linear-gradient(180deg, #e6e6e6ff, #ffffff);
-  border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
-              inset 0 1px 0 rgba(255,255,255,0.4);
-  width: 850px;
-  margin: 60px auto;
-  padding: 35px 50px;
-  position: relative;
-  overflow: hidden;
+.card, .form-container {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px 40px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e0;
+    margin-bottom: 25px;
 }
 
+body { background-color: #ffffff; }
+h2, h3 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
 
 table {
- 
-  width: 70%;
-  border-collapse: collapse;
-  border: 1px solid #d0d8e2;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  border-radius: 10px;
-  overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px; 
+    color: #1e293b;
+    background-color: #ffffff;
+}
+
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 12px; 
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ffffff;
 }
 
 th {
-  background-color: #4c87e5;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 10px;
+    background-color: #1e40af;
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
-td {
-  background-color: #f9fbff;
-  padding: 6px 10px;
-  border: 1px solid #e0e6ef;
-}
+tr:nth-child(even) { background-color: #f8fafc; }
 
-input[type="text"], input[type="date"], textarea, select {
-  width: 50%;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(15,23,42,0.12);
-  background: #fff;
-  font-size: 13px;
-  outline: none;
-  transition: 0.2s;
-}
-
-input[type="text"]:focus, textarea:focus, select:focus {
-  border-color: #4c87e5;
-  box-shadow: 0 0 8px rgba(76,135,229,0.3);
-  transform: translateY(-1px);
-}
-
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-button.edit{
-      background: linear-gradient(180deg, #2ea8c6ff, #80bde5ff);
-      color:white;
- border: none;
-  padding: 8px 18px;
-  border-radius: 10px;
-  font-weight: 600;
-  box-shadow: 0 6px 18px rgba(10, 112, 130, 0.3);
-  transition: 0.2s;
-    }
-button.edit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(60,180,75,0.4);
-  background: linear-gradient(180deg, #57b957, #3da23d);
-}
-button.primary {
-  background: linear-gradient(180deg, #4cae4c, #3d8b3d);
-  color: #fff;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 10px;
-  font-weight: 600;
-  box-shadow: 0 6px 18px rgba(60,180,75,0.3);
-  transition: 0.2s;
-}
-
-button.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(60,180,75,0.4);
-  background: linear-gradient(180deg, #57b957, #3da23d);
-}
-
-@media (max-width: 768px) {
-  .form-container {
-    width: 95%;
-    padding: 20px;
-  }
-  input[type="text"], input[type="date"] {
+input, textarea, select {
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
     width: 100%;
-  }
+    box-sizing: border-box;
+    background-color: #ffffff;
+    transition: 0.2s;
 }
-      </style>
+input:focus, textarea:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 4px rgba(59,130,246,0.3);
+    outline: none;
+}
 
-<form action="{{ route('email-registration.update', $record->email_id) }}" method="POST">
-  @csrf
-  @method('PUT')
-  <center>
-    <div class="form-container">
-  <table>
-      <h2 align="center">ทะเบียน Email Account</h2>
-       <tr><th>item</th><td><input type="text" name="item" value="{{ $record->item}}"></td></tr>
-      <tr><th>Email Account</th><td><input type="text" name="email_account" value="{{ $record->email_account }}"></td></tr>
-      <tr><th>Password</th><td><input type="text" name="password" value="{{ $record->password }}"></td></tr>
-      <tr><th>User</th><td><input type="text" name="user_name" value="{{ $record->user_name }}"></td></tr>
-      <tr><th>Position</th><td><input type="text" name="position" value="{{ $record->position }}"></td></tr>
-      <tr><th>Department</th><td><input type="text" name="department" value="{{ $record->department }}"></td></tr>
-      <tr><th>Approved by</th><td><input type="text" name="approved_by" value="{{ $record->approved_by }}"></td></tr>
-      <tr><th>Date</th><td><input type="date" name="date" value="{{ $record->date }}"></td></tr>
-      <tr><th>Remark</th><td><input type="text" name="remark" value="{{ $record->remark }}"></td></tr>
-  </table>
-  <div class="actions">
-      <a href="{{ route('email-registration.index') }}" ><button  class="edit">กลับ</button> </a>
-  <button type="submit" class="primary" onclick="return confirm('ต้องการอัปเดตข้อมูลใช่หรือไม่?')">อัปเดตข้อมูล</button>
-  </div>
-    </div>
+button.primary {
+    background: linear-gradient(180deg, #1e3a8a, #3b82f6);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.primary:hover { transform: scale(1.05); }
 
-</form>
-</center>
+.actions { display:flex; gap:12px; justify-content:flex-end; margin-top:15px; }
+
+input[type="text"], input[type="date"] { height: 36px; font-size: 16px; }
+</style>
+
+<div class="form-container">
+    <h3>แก้ไขทะเบียนผู้ใช้ Email Account</h3>
+
+    <form action="{{ route('email-registration.update', $record->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <table id="activityTable">
+            <thead>
+                <tr>
+                     <th>No</th>
+                     <th>Item</th>
+                     <th>Email Account</th>
+                     <th>Password</th>
+                     <th>User</th>
+                     <th>Position</th>
+                     <th>Department</th>
+                     <th>Approved By</th>
+                     <th>Date</th>
+                     <th>Remark</th>
+                     <th>[ปุ่มลบ]</th>
+                </tr>
+            </thead>
+            <tbody>
+    <tr>
+        <td></td>
+        <td><input type="text" name="item[]" value="{{ $record->item }}" required></td>
+        <td><input type="text" name="email_account[]" value="{{ $record->email_account }}" required></td>
+        <td><input type="text" name="password[]" value="{{ $record->password }}" required></td>
+        <td><input type="text" name="user_name[]" value="{{ $record->user_name }}" required></td>
+        <td><input type="text" name="position[]" value="{{ $record->position }}" required></td>
+        <td><input type="text" name="department[]" value="{{ $record->department }}" required></td>
+        <td><input type="text" name="approved_by[]" value="{{ $record->approved_by }}" required></td>
+        <td><input type="date" name="date[]" value="{{ $record->date ? \Carbon\Carbon::parse($record->date)->format('Y-m-d') : '' }}" required></td>
+         <td><input type="text" name="remark[]"></td>
+<td>
+    <button type="button" class="delete"
+        style="background:linear-gradient(180deg,#dc2626,#ef4444);
+        color:white;border:none;padding:6px 10px;border-radius:6px;
+        cursor:pointer;">ลบ</button>
+</td>
+</tbody>
+        </table>
+
+        <div class="actions">
+            <button type="submit" class="primary">อัปเดตข้อมูล</button>
+        </div>
+    </form>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const tableBody = document.querySelector('#activityTable tbody'); 
+
+    function updateRowNumbers() {
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((row, index) => {
+            row.cells[0].textContent = index + 1;
+        });
+    }
+
+    updateRowNumbers();
+
+    const addRowBtn = document.createElement('button');
+    addRowBtn.type = "button";
+    addRowBtn.textContent = "+ เพิ่มแถว";
+    addRowBtn.className = "primary";
+    addRowBtn.style.marginTop = "10px";
+    tableBody.parentElement.insertAdjacentElement('afterend', addRowBtn);
+
+    tableBody.addEventListener("click", function(e) {
+        if (e.target.classList.contains("delete")) {
+            if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบแถวนี้?")) {
+                e.target.closest('tr').remove();
+                updateRowNumbers();
+            }
+        }
+    });
+
+    addRowBtn.addEventListener('click', function() {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td></td>
+            <td><input type="text" name="item[]"></td>
+            <td><input type="text" name="email_account[]"></td>
+            <td><input type="text" name="password[]"></td>
+            <td><input type="text" name="user_name[]"></td>
+            <td><input type="text" name="position[]"></td>
+            <td><input type="text" name="department[]"></td>
+            <td><input type="text" name="approved_by[]"></td>
+            <td><input type="date" name="date[]"></td>
+            <td><input type="text" name="remark[]"></td>
+            <td>
+                <button type="button" class="delete"
+                    style="background:linear-gradient(180deg,#dc2626,#ef4444);
+                    color:white;border:none;padding:6px 10px;border-radius:6px;
+                    cursor:pointer;">ลบ</button>
+            </td>
+        `;
+        tableBody.appendChild(newRow);
+        updateRowNumbers();
+    });
+});
+</script>
 @endsection

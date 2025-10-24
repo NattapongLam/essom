@@ -20,6 +20,7 @@ $data = $submitted ? $_POST : [];
       --accent:#0ea5a4;
     }
     *{box-sizing:border-box}
+    
     body{
       margin:0;
       font-family: "Noto Sans Thai", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
@@ -38,6 +39,7 @@ $data = $submitted ? $_POST : [];
 .highlight 
     font-weight: bold;
     text-decoration: underline;
+  
     .wrap{
       width:100%;
       max-width:980px;
@@ -264,130 +266,163 @@ margin-top: 40px;
               <div class="field"><b>ข้อคิดเห็น / สถานะ:</b> </div></div>
             </div>
           <?php endif; ?>
+<form method="post" novalidate>
+  <div class="grid">
+    <div>
+      <label>ผู้ส่ง/ผู้ประเมิน ชื่อ</label>
+      <input type="text" name="evaluator_name" placeholder="ชื่อ-นามสกุล">
+    </div>
+    <div>
+      <label>หน่วยงาน</label>
+      <input type="text" name="department" placeholder="แผนก / ฝ่าย">
+    </div>
 
-          <form method="post" novalidate>
-            <div class="grid">
-              <div>
-                <label>ผู้ส่ง/ผู้ประเมิน ชื่อ</label>
-                <input type="text" name="name"  placeholder="ชื่อ-นามสกุล">
-              </div>
-              <div>
-                <label>หน่วยงาน</label>
-                <input type="text" name="department"  placeholder="แผนก / ฝ่าย">
-              </div>
+    <div>
+      <label>ตำแหน่ง</label>
+      <input type="text" name="position" placeholder="ตำแหน่ง">
+    </div>
+    <div>
+      <label>วันที่</label>
+      <input type="date" name="record_date">
+    </div>
 
-              <div>
-                <label>ตำแหน่ง</label>
-                <input type="text" name="position"  placeholder="ตำแหน่ง">
-              </div>
-              <div>
-                <label>วันที่</label>
-                <input type="date" name="date">
-              </div>
+    <div>
+      <label>เอกสาร KM เลขที่</label>
+      <input type="text" name="doc_no" placeholder="KM-...">
+    </div>
+    <div>
+      <label>อนุมัติเมื่อวันที่</label>
+      <input type="date" name="approved_date">
+    </div>
 
-              <div>
-                <label>เอกสาร KM เลขที่</label>
-                <input type="text" name="docno"  placeholder="KM-...">
-              </div>
-              <div>
-                <label>อนุมัติเมื่อวันที่</label>
-                <input type="date" >
-              </div>
+    <div style="grid-column: 1 / -1;">
+      <label>เรื่อง</label>
+      <input type="text" name="subject">
+    </div>
+  </div>
 
-              <div style="grid-column: 1 / -1;">
-                <label>เรื่อง</label>
-                <input type="text" name="subject" >
-              </div>
-            </div>
+  <div class="row">
+    <label>2.1)สถานะการส่งต่อ-ถ่ายทอดองค์ความรู้</label>
 
-            <div class="row">
-              <label>2.1)สถานะการส่งต่อ-ถ่ายทอดองค์ความรู้</label>
-              <div class="checkbox-row" style=" align-items: left; gap: 10px;">
-    <label style=" align-items: left; gap: 5px;">
-        <input type="checkbox" name="status_sent1" value="ส่งต่อ-ถ่ายทอดแล้ว">
-         <strong>ส่งต่อ-ถ่ายทอดแล้ว</strong>
-      <span style="margin-left: 30px;"> <strong>วันที่:</strong></span> <input type="date" name="date" id="date" style="width: 100px; height: 30px;">
-</div>
-                       <div class="checkbox-row" style=" align-items: left; gap: 10px;">
-    <label style=" align-items: left; gap: 5px;">
-        <input type="checkbox" name="status_sent1" value="ยังไม่ได้ส่งต่อ-ถ่ายทอด">
-         <strong>ยังไม่ได้ส่งต่อ-ถ่ายทอด</strong>
-      <span style="margin-left: 30px;"> <strong>กำหนดวันส่งต่อความรู้ให้แล้วเสร็จวันที่:</strong></span> <input type="date" name="date" id="date" style="width: 100px; height: 30px;">
-</div>
-                           <div class="checkbox-row" style=" align-items: left; gap: 10px;">
-    <label style=" align-items: left; gap: 5px;">
-        <input type="checkbox" name="status_sent1" value="อยู่ระหว่างแผนการส่งต่อความรู้">
-         <strong>อยู่ระหว่างแผนการส่งต่อความรู้</strong>
-      <span style="margin-left: 30px;"> <strong>กำหนดเสร็จ:</strong></span> <input type="date" name="date" id="date" style="width: 100px; height: 30px;">
-</div>
-            <div class="row">
-              <label>2.2) วิธีการในการส่งต่อ-ถ่ายทอดความรู้</label>
-              <input type="text" name="method" value="">
-            </div>
-        <label>2.3) การประเมินผล</label>
-            <div class="checkbox-row">
-              <label >3.1
-    <input type="checkbox" name="eval_understand1" value="รับรู้และเข้าใจเป็นอย่างดี">
-   รับรู้และเข้าใจเป็นอย่างดี
-</label>
-<label>
-    <input type="checkbox" name="eval_understand2" value="ยังไม่เข้าใจ">
-    ยังไม่เข้าใจ
-</label>
+    <div class="checkbox-row" style="align-items: left; gap: 10px;">
+      <label style="align-items: left; gap: 5px;">
+        <input type="checkbox" name="status_sent" value="ส่งต่อ-ถ่ายทอดแล้ว">
+        <strong>ส่งต่อ-ถ่ายทอดแล้ว</strong>
+        <span style="margin-left: 30px;"> <strong>วันที่:</strong></span>
+        <input type="date" name="sent_date" style="width: 100px; height: 30px;">
+      </label>
+    </div>
 
-<label>
-    <input type="checkbox" name="eval_understand3" value="เข้าใจเป็นบางส่วน">
+    <div class="checkbox-row" style="align-items: left; gap: 10px;">
+      <label style="align-items: left; gap: 5px;">
+        <input type="checkbox" name="status_pending" value="ยังไม่ได้ส่งต่อ-ถ่ายทอด">
+        <strong>ยังไม่ได้ส่งต่อ-ถ่ายทอด</strong>
+        <span style="margin-left: 30px;"> <strong>กำหนดวันส่งต่อความรู้ให้แล้วเสร็จวันที่:</strong></span>
+        <input type="date" name="plan_send_date" style="width: 100px; height: 30px;">
+      </label>
+    </div>
+
+    <div class="checkbox-row" style="align-items: left; gap: 10px;">
+      <label style="align-items: left; gap: 5px;">
+        <input type="checkbox" name="status_planning" value="อยู่ระหว่างแผนการส่งต่อความรู้">
+        <strong>อยู่ระหว่างแผนการส่งต่อความรู้</strong>
+        <span style="margin-left: 30px;"> <strong>กำหนดเสร็จ:</strong></span>
+        <input type="date" name="plan_complete_date" style="width: 100px; height: 30px;">
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>2.2) วิธีการในการส่งต่อ-ถ่ายทอดความรู้</label>
+    <input type="text" name="transfer_method" value="">
+  </div>
+
+  <label>2.3) การประเมินผล</label>
+  <div class="checkbox-row">
+    <label>3.1
+      <input type="checkbox" name="eval_understanding_good" value="รับรู้และเข้าใจเป็นอย่างดี">
+      รับรู้และเข้าใจเป็นอย่างดี
+    </label>
+    <label>
+      <input type="checkbox" name="eval_understanding_partial" value="เข้าใจเป็นบางส่วน">
       เข้าใจเป็นบางส่วน
-</label>
-            </div>
-              <div class="checkbox-row">
-              <label >3.2
-    <input type="checkbox" name="other" value="ผ่าน">
-   ผ่าน
-</label>
-<label>
-    <input type="checkbox" name="eval_understand2" value="ไม่ผ่าน">
-  ไม่ผ่าน
-</label>
-              </div>
-              <div class="checkbox-row1">
-                <label> 3.3<input type="checkbox" name="eval_other" value="ยังประเมินไม่ได้" >ยังประเมินไม่ได้</label>
-                <label>3.4<input type="checkbox" name="eval_other1" value="ยังไม่ได้ประเมิน" > ยังไม่ได้ประเมิน</label>
-              </div>
+    </label>
+    <label>
+      <input type="checkbox" name="eval_understanding_none" value="ยังไม่เข้าใจ">
+      ยังไม่เข้าใจ
+    </label>
+  </div>
 
-<div class="">
-              <label>3.5) กรณีที่ยังไม่เข้าใจ/ไม่ผ่าน/ยังประเมินไม่ได้/ยังไม่ได้ประเมินไม่ได้ <span style="margin-left: 20px;"><strong>กำหนดวันประเมินอีกครั้ง วันที่:</strong></span> <input type="date" name="date" id="date" style="width: 100px; height: 30px;">
-</div>
-            <div class="row">
-              <label>ข้อคิดเห็น / ข้อเสนอแนะจากหัวหน้างาน:</label>
-              <textarea name="comments" placeholder="ข้อเสนอแนะ"></textarea>
-            </div>
+  <div class="checkbox-row">
+    <label>3.2
+      <input type="checkbox" name="eval_result_pass" value="ผ่าน">
+      ผ่าน
+    </label>
+    <label>
+      <input type="checkbox" name="eval_result_fail" value="ไม่ผ่าน">
+      ไม่ผ่าน
+    </label>
+  </div>
 
-            <div class="row">
-              <label>4) การทบทวนองค์ความรู้</label>
-                <label><input type="checkbox" name="review1" value="องค์ความรู้นี้ยังสามารถใช้ได้ ณ ปัจจุบัน"> องค์ความรู้นี้ยังสามารถใช้ได้ ณ ปัจจุบัน</label>
-              </div>
-              
-              <div style="margin-top:8px" class="checkbox-row">
-                <label><input type="checkbox" name="review2" value="อาจไม่เป็นปัจจุบันแล้ว / ไม่สอดคล้องกับงาน" > อาจไม่เป็นปัจจุบันแล้ว / ไม่สอดคล้องกับงาน</label>
-                <label>ควร<input type="checkbox" name="review3" value="ยกเลิกการนำไปใช้และจัดหาองค์ความรู้ใหม่แทน" > ยกเลิกการนำไปใช้และจัดหาองค์ความรู้ใหม่แทน</label>
-              </div>
+  <div class="checkbox-row1">
+    <label>3.3
+      <input type="checkbox" name="eval_not_yet" value="ยังประเมินไม่ได้">
+      ยังประเมินไม่ได้
+    </label>
+    <label>3.4
+      <input type="checkbox" name="eval_not_done" value="ยังไม่ได้ประเมิน">
+      ยังไม่ได้ประเมิน
+    </label>
+  </div>
 
-              <div style="margin-top:10px">
-                <div class="small"></div>
-                <div class="checkbox-row" style="margin-top:6px">
-                  <label><input type="checkbox" name="freq" value="ทุกๆเดือน"> ทุกๆเดือน</label>
-                  <label><input type="checkbox" name="freq" value="ทุกๆ 6 เดือน" > ทุกๆ 6 เดือน</label>
-                  <label><input type="checkbox" name="freq" value="ทุกๆ 1 ปี" > ทุกๆ 1 ปี</label>
-                  <label><input type="checkbox" name="freq" value="ไม่จำเป็นต้องทบทวนซ้ำ"> ไม่จำเป็นต้องทบทวนซ้ำ</label>
-                </div>
-              </div>
-            </div>
-            <div class="actions">
-              <button type="button" class="ghost" onclick="window.location.href=window.location.pathname">รีเซ็ต</button>
-              <button type="submit" class="primary">บันทึกข้อมูล</button>
-            </div>
-          </form>
+  <div>
+    <label>3.5) กรณีที่ยังไม่เข้าใจ/ไม่ผ่าน/ยังประเมินไม่ได้/ยังไม่ได้ประเมินไม่ได้
+      <span style="margin-left: 20px;">
+        <strong>กำหนดวันประเมินอีกครั้ง วันที่:</strong>
+      </span>
+      <input type="date" name="re_evaluate_date" style="width: 100px; height: 30px;">
+    </label>
+  </div>
+
+  <div class="row">
+    <label>ข้อคิดเห็น / ข้อเสนอแนะจากหัวหน้างาน:</label>
+    <textarea name="supervisor_comments" placeholder="ข้อเสนอแนะ"></textarea>
+  </div>
+
+  <div class="row">
+    <label>4) การทบทวนองค์ความรู้</label>
+    <label>
+      <input type="checkbox" name="review_current" value="องค์ความรู้นี้ยังสามารถใช้ได้ ณ ปัจจุบัน">
+      องค์ความรู้นี้ยังสามารถใช้ได้ ณ ปัจจุบัน
+    </label>
+  </div>
+
+  <div style="margin-top:8px" class="checkbox-row">
+    <label>
+      <input type="checkbox" name="review_outdated" value="อาจไม่เป็นปัจจุบันแล้ว / ไม่สอดคล้องกับงาน">
+      อาจไม่เป็นปัจจุบันแล้ว / ไม่สอดคล้องกับงาน
+    </label>
+    <label>
+      ควร
+      <input type="checkbox" name="review_replace" value="ยกเลิกการนำไปใช้และจัดหาองค์ความรู้ใหม่แทน">
+      ยกเลิกการนำไปใช้และจัดหาองค์ความรู้ใหม่แทน
+    </label>
+  </div>
+
+  <div style="margin-top:10px">
+    <div class="checkbox-row" style="margin-top:6px">
+      <label><input type="checkbox" name="review_freq_monthly" value="ทุกๆเดือน"> ทุกๆเดือน</label>
+      <label><input type="checkbox" name="review_freq_6months" value="ทุกๆ 6 เดือน"> ทุกๆ 6 เดือน</label>
+      <label><input type="checkbox" name="review_freq_yearly" value="ทุกๆ 1 ปี"> ทุกๆ 1 ปี</label>
+      <label><input type="checkbox" name="review_freq_none" value="ไม่จำเป็นต้องทบทวนซ้ำ"> ไม่จำเป็นต้องทบทวนซ้ำ</label>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="ghost" onclick="window.location.href=window.location.pathname">รีเซ็ต</button>
+    <button type="submit" class="primary">บันทึกข้อมูล</button>
+  </div>
+</form>
 
         </div>
       </div>

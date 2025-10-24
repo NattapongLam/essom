@@ -26,6 +26,7 @@ class CreateDocumentdistributionsTable extends Migration
             $table->boolean('documentdistributions_flag')->default(true); 
             $table->string('approved_at')->nullable();
             $table->string('approved_note')->nullable();
+            $table->string('ms_department_name')->nullable();
             $table->timestamps();
         });
     }

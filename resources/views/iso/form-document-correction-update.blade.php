@@ -182,7 +182,7 @@
                 </div>
                 @endif                               
                 <br>
-                @if ($hd->approved_by == null)
+                @if ($doc->approved_by == null)
                 <div class="col-12 col-md-1">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">

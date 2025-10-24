@@ -9,11 +9,10 @@ class EmailRegistry extends Model
 {
     use HasFactory;
 
-    protected $table = 'email_registry';
-    protected $primaryKey = 'email_id';
-    public $timestamps = false;
-
+    protected $table = 'iso_email_registration';
+    protected $primaryKey = 'id';
     protected $fillable = [
+        'item',
         'email_account',
         'password',
         'user_name',
@@ -21,12 +20,11 @@ class EmailRegistry extends Model
         'department',
         'approved_by',
         'date',
-        'remark',
-        'item'
+        'remark'
     ];
 
     public function getRouteKeyName()
     {
-        return 'email_id';
+        return 'id';
     }
 }

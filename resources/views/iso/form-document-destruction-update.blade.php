@@ -79,8 +79,8 @@
                         </div>
                         <div class="col-4 text-center">
                             <label>ผู้อนุมัติ</label>
-                            <input class="form-control" type="text" name="approved_by"><br>
-                            <input class="form-control" type="date" name="approved_date">
+                            <input class="form-control" type="text" name="approved_by" readonly><br>
+                            <input class="form-control" type="date" name="approved_date" readonly>
                         </div>
                     @endif                   
                 </div> 

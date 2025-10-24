@@ -31,6 +31,7 @@ class CreateDetailedTestingsTable extends Migration
             $table->date('signature_date')->nullable();
             $table->boolean('detailed_testings_flag')->default(true); 
             $table->string('person_at');
+            $table->string('detailed_testings_file')->nullable();
             $table->timestamps();
         });
     }

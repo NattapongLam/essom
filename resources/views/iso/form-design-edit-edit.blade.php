@@ -44,6 +44,17 @@
                     </div>
                </div>
                <div class="row mt-3">
+                    <div class="col-3">
+                        <label for="design_edits_file">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="design_edits_file" >
+                    </div>
+                    @if ($hd->design_edits_file)
+                        <a href="{{asset($hd->design_edits_file)}}" target=”_blank”>
+                            <i class="fas fa-file"></i>
+                        </a> 
+                    @endif
+                </div>
+               <div class="row mt-3">
                     <div class="col-9">
                         <label>Requested By</label>
                         <select class="form-control select2" name="requested_by" required>
@@ -58,7 +69,7 @@
                     </div>
                     <div class="col-3">
                         <label>Date</label>
-                        <input class="form-control" type="date" name="requested_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                        <input class="form-control" type="date" name="requested_date" value="{{$hd->requested_date}}" required>
                     </div>
                </div> 
                 <div class="row mt-3">
@@ -76,7 +87,7 @@
                     </div>
                     <div class="col-3">
                         <label>Date</label>
-                        <input class="form-control" type="date" name="supervisor_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                        <input class="form-control" type="date" name="supervisor_date" value="{{$hd->supervisor_date}}" required>
                     </div>
                </div>
                 <div class="row mt-3">

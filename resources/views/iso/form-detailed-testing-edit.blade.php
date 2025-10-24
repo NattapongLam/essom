@@ -61,6 +61,17 @@
                     </div>
                 </div>
                 <div class="row mt-3">
+                    <div class="col-3">
+                        <label for="detailed_testings_file">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="detailed_testings_file" >
+                    </div>
+                    @if ($hd->detailed_testings_file)
+                        <a href="{{asset($hd->detailed_testings_file)}}" target=”_blank”>
+                            <i class="fas fa-file"></i>
+                        </a> 
+                    @endif
+                </div>
+                <div class="row mt-3">
                     <div class="col-12">
                         <label>3.2 Sample calculations by</label>
                         <select class="form-control select2" name="detailed_testings_sample">

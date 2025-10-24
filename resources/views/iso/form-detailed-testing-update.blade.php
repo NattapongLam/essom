@@ -60,6 +60,13 @@
                         <textarea class="form-control" rows="10" name="detailed_testings_data" required>{{$hd->detailed_testings_data}}</textarea>
                     </div>
                 </div>
+                  <div class="row mt-3">
+                    @if ($hd->detailed_testings_file)
+                        <a href="{{asset($hd->detailed_testings_file)}}" target=”_blank”>
+                            <i class="fas fa-file"></i>
+                        </a> 
+                    @endif
+                </div>
                 <div class="row mt-3">
                     <div class="col-12">
                         <label>3.2 Sample calculations by</label>

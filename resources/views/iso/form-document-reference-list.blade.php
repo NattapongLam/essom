@@ -9,7 +9,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>บริษัท เอาซอม จำกัด<br>ทะเบียนเอกสารอ้างอิง</h5><p class="text-right">F7531.2<br>9 Jun. 16</p>
+                <h5>บริษัท เอสซอม จำกัด<br>ทะเบียนเอกสารอ้างอิง</h5><p class="text-right">F7531.2<br>9 Jun. 16</p>
                 <p class="text-left">
                     <a href="{{route('document-reference.create')}}">เพิ่มเอกสาร</a>
                 </p>              
@@ -25,6 +25,7 @@
                                 <th>ชื่อเอกสาร</th>
                                 <th>รหัสเอกสาร</th>
                                 <th>วันที่เอกสาร</th>
+                                <th>ไฟล์แนบ</th>
                                 <th>แก้ไข</th>
                                 <th>ลบ</th>
                             </tr>                    
@@ -38,6 +39,13 @@
                                     <td>{{$item->documentreferences_name}}</td>
                                     <td>{{$item->documentreferences_code}}</td>
                                     <td>{{$item->documentreferences_date}}</td>
+                                    <td>
+                                        @if ($item->documentreferences_file)
+                                            <a href="{{asset($item->documentreferences_file)}}" target=”_blank”>
+                                                <i class="fas fa-file"></i>
+                                            </a>
+                                        @endif  
+                                    </td>
                                     <td>
                                         <a href="{{route('document-reference.edit',$item->documentreferences_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>

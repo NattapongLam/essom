@@ -44,6 +44,13 @@
                     </div>
                </div>
                <div class="row mt-3">
+                    @if ($hd->design_edits_file)
+                        <a href="{{asset($hd->design_edits_file)}}" target=”_blank”>
+                            <i class="fas fa-file"></i>
+                        </a> 
+                    @endif
+               </div>
+               <div class="row mt-3">
                     <div class="col-9">
                         <label>Requested By</label>
                         <select class="form-control select2" name="requested_by" required>

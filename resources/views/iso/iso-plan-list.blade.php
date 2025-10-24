@@ -1,365 +1,365 @@
 @extends('layouts.main')
 @section('content')
-  <style>
-.card{
-      background: linear-gradient(180deg, var(--card), #fbfdff);
-      border-radius:18px;
-      padding:20px;
-      box-shadow:
-        0 6px 18px rgba(6,20,40,0.08),
-        0 18px 40px rgba(8,25,60,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.6);
-      border: 1px solid rgba(15,23,42,0.04);
-      position:relative;
-      overflow:visible;
-   
-    }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    .badge{
-      position:absolute;
-      right:16px;
-      top:16px;
-      font-size:12px;
-      color:var(--muted);
-      background: rgba(15,23,42,0.03);
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(15,23,42,0.02);
-    }
-    .summary{
-      margin-top:18px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(14,165,164,0.01));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(14,165,164,0.06);
-    }
-     button.primary{
-      background: linear-gradient(180deg, #258b25ff, #337725ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:700;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-    button.ghost{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(15,23,42,0.06);
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-
-input {
-  width: 100%;
-  border: 1px solid #ccc; /* เพิ่มเส้นกรอบ */
-  border-radius: 4px; /* มุมโค้ง */
-  outline: none;
-  background: transparent;
-  text-align: center;
-  font-size: 14px;
-  padding: 6px;
-  box-sizing: border-box;
-}
-
-input:focus {
-  background-color: #f8faff;
-  border-bottom: 2px solid #3b82f6; /* blue line when active */
-}
-    textarea{
-      min-height:110px;
-      resize:vertical;
-      padding-top:12px;
-    }
-
-    
-    .small{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-     .bold-label {
-        font-weight: bold;
-    }
-
-    .actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-      margin-top:18px;}
-button.delete {
-  background: linear-gradient(180deg, #cb8a8aff, #b91c1c);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-button.delete:hover {
-  background: linear-gradient(180deg, #ef4444, #dc2626);
-  transform: scale(1.05);
-}
-
-button.delete svg {
-  width: 16px;
-  height: 16px;
-  fill: white;
-}
-
-tr.fade-out {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-      button.edit{
-      background: linear-gradient(180deg, #2ea8c6ff, #80bde5ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:700;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-    button.primary{
-      background: linear-gradient(180deg, #258b25ff, #337725ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:700;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer;
-    }
-       button.edit{
-      background: linear-gradient(180deg, #2ea8c6ff, #80bde5ff);
-      color:white;
-      border:none;
-      padding:10px 16px;
-      border-radius:10px;
-      font-weight:400;
-      box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-      cursor:pointer; }
-    button.ghost{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid rgba(15,23,42,0.06);
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-
-    /* preview of uploaded/attached scan on left */
-    .layout{
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:22px;
-    }
-    .scan{
-      border-radius:12px;
-      overflow:hidden;
-      border:1px solid rgba(15,23,42,0.03);
-      background:linear-gradient(180deg,#f8fafb,#fff);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px;
-      box-shadow: 0 8px 30px rgba(8,20,40,0.06);
-    }
-    .scan img{
-      max-width:100%;
-      height:auto;
-      display:block;
-      border-radius:6px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-      transform: translateY(-4px);
-    }
-.form-container {
-font-family: "Times New Roman", Times, serif;
-   margin: 30px;
-background: #ffffffff;
-padding: 20px 50px;
-border-radius: 25px;box-shadow: 10px 10px 10px gray;
-width: 1200px;
-overflow: hidden;
-margin-top: 40px;
-}
-    .summary{
-      margin-top:18px;
-      background: linear-gradient(180deg, rgba(14,165,164,0.03), rgba(14,165,164,0.01));
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(14,165,164,0.06);
-    }
-    .field{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin-bottom:8px;
-    }
-    .field b{ min-width:200px; display:inline-block; color:#0f172a; }
-
-    @media (max-width:920px){
-      .layout{ grid-template-columns: 1fr; }
-      .grid{ grid-template-columns: 1fr; }
-      .badge{ position:static; display:inline-block; margin-bottom:12px; }
-    }
-
-    .remark {
-        margin-top: 15px;
-    }
-
-    .remark textarea {
-        width: 100%;
-        height: 80px;
-        border: 1px solid #000;
-        padding: 5px;
-        resize: none;
-    }
-
-   
-
-    .sign-line {
-        border-bottom: 1px dotted #000;
-        display: inline-block;
-        width: 180px;
-    }
-    
-    .small{
-      font-size:14px;
-      color:var(--muted);
-      margin-top:6px;
-    }
-     .bold-label {
-        font-weight: bold;
-    }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid black;
-    margin-top: 15px;
-}th, td {
-    border: 1px solid black;
-    padding: 4px;
-    text-align: center;
-    vertical-align: middle;
-}
-th {
-    background-color: #789fc8ff;
-    font-weight: bold;
-}
-    .actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-      margin-top:18px;
-    }
-    .section-line {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-size: 16px;
-}
-      </style>
-
-<h2 align="center">ESSOM CO.,LTD.</h2>
-<h2 align="center">PLAN </h2>
 @if(session('success'))
-    <p style="color: green; text-align:center;">{{ session('success') }}</p>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'สำเร็จ!',
+        text: "{{ session('success') }}",
+        confirmButtonColor: '#1e40af'
+    });
+</script>
 @endif
 
 @if(session('error'))
-    <p style="color: red; text-align:center;">{{ session('error') }}</p>
+<script>
+    
+    Swal.fire({
+        icon: 'error',
+        title: 'เกิดข้อผิดพลาด!',
+        text: "{{ session('error') }}",
+        confirmButtonColor: '#dc2626'
+    });
+</script>
 @endif
- <div  class="form-container">
-<table border="0" width="100%" cellpadding="0" cellspacing="0">
-    <thead>
-         <table id="activityTable" width="100%" border="1" cellpadding="0" cellspacing="0">
+
+<style>
+.form-container {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e0;
+    margin-bottom: 25px;
+    overflow-x: auto;
+    
+}
+.dt-button, #printBtn, #exportExcelBtn {
+    background: linear-gradient(180deg, #cecacaff, #827c7cff);
+    color: white !important;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 5px;
+}
+
+.dt-button:hover, #printBtn:hover, #exportExcelBtn:hover {
+    transform: scale(1.05);
+}
+h2, h3 { 
+    text-align: center; 
+    font-weight: 700; 
+    color: #0f172a; 
+    margin-bottom: 8px; 
+}
+h3 { font-weight: 500; }
+h4 { 
+    margin-top: 20px; 
+    margin-bottom: 10px; 
+    font-weight: 600; 
+    color: #1e3a8a; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #1e293b;
+    table-layout: fixed;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f0f0f0;
+    z-index: 2;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+tr:nth-child(even) { background-color: #fafafa; }
+tr:hover { background-color: #e0f2fe; transition: 0.2s; }
+
+td a { 
+    color: #1e40af; 
+    text-decoration: none; 
+    font-weight: 500; 
+}
+td a:hover { text-decoration: underline; }
+
+button.primary, button.edit, button.delete {
+    transition: all 0.2s ease;
+}
+button.primary:hover, button.edit:hover, button.delete:hover {
+    transform: scale(1.05);
+}
+button.primary {
+    background: linear-gradient(180deg, #1e3a8a, #3b82f6);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.primary:hover { transform: scale(1.05); }
+
+button.edit {
+    background: linear-gradient(180deg, #2563eb, #60a5fa);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.edit:hover { transform: scale(1.05); }
+
+button.delete {
+    background: linear-gradient(180deg, #dc2626, #ef4444);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.delete:hover { transform: scale(1.05); }
+
+input, textarea, select {
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f8fafc;
+    transition: 0.2s;
+}
+input:focus, textarea:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 4px rgba(59,130,246,0.3);
+    background-color: #ffffff;
+    outline: none;
+}
+
+.actions {
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1024px){
+    table, th, td { font-size: 12px; }
+    .form-container { width: 95%; padding: 20px; }
+}
+@media (max-width: 640px){
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    tr { margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; background-color: #ffffff; }
+    td { display: flex; justify-content: space-between; padding: 6px 10px; border: none; border-bottom: 1px solid #e2e8f0; }
+    td::before { content: attr(data-label); font-weight: 600; color: #1e3a8a; width: 45%; }
+    .actions { flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px; }
+}
+</style>
+
+<div class="form-container">
+    <h2>ESSOM CO.,LTD.</h2>
+    <h2>PLAN</h2>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+        <a href="{{ route('iso-plan.create') }}" class="primary">เพิ่มข้อมูลใหม่</a>
+        <input type="text" id="searchInput" placeholder="🔍 ค้นหา..." style="width:220px;">
+    </div>
+     <button id="printBtn" class="dt-button">print</button>
+     <button id="exportExcelBtn" class="dt-button">excel</button>
+    
+    <div style="overflow-x:auto; max-height:70vh;">
+        <table id="activityTable">
+            <thead>
+                <tr>
+                    <th rowspan="2">No.</th>
+                    <th rowspan="2">Project</th>
+                    <th rowspan="2">Responsible Section / Person</th>
+                    <th rowspan="2">Description of Activities</th>
+                    <th rowspan="2">Resp. Person</th>
+                    <th colspan="2">Date</th>
+                    <th rowspan="2">Status</th>
+                    <th rowspan="2">Remarks</th>
+                    <th rowspan="2">Prepared by</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">Progress Review</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">Reviewed by</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">Reported by</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">Approved by</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">Acknowledged by</th>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">[ปุ่มลบ/แก้ไข]</th>
+                </tr>
+                <tr>
+                    <th>Start</th>
+                    <th>Finish</th>
+                </tr>
+            </thead>
+            <tbody>
+@php $no = 1; @endphp
+@forelse($records as $index => $plan)
+    @php $activities = json_decode($plan->activities, true) ?? []; @endphp
+    @foreach($activities as $act)
         <tr>
-            <th width="4%" rowspan="2" align="center">No.</th>
-            <th width="10%" rowspan="2" align="center">Project :</th>
-            <th width="15%" rowspan="2" align="center">Responsible Section / Person :</th>
-            <th width="20%" rowspan="2" align="center">Description of Activities</th>
-            <th width="10%" rowspan="2" align="center">Resp.<br>Person</th>
-            <th colspan="2" align="center">Date</th>
-            <th width="8%" align="center" >STATUS</th>
-            <th width="15%" rowspan="2" align="center">Progress Report/Remarks</th>
-            <th width="10%" rowspan="2" align="center">[ปุ่มลบ]</th>
-        </tr>
-        <tr>
-            <th width="9%" align="center">Start</th>
-            <th width="9%" align="center">Finish</th>
-            <th align="center">Result</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($plans as $plan)
-            @php
-                $activities = json_decode($plan->activities, true) ?? [];
-            @endphp
-            <tr>
-                <td>{{ $plan->id }}</td>
-                <td>{{ $plan->project_name }}</td>
-                <td>{{ $plan->responsible_section }}</td>
-                <td>
-                    @foreach($activities as $act)
-                        {{ $act['description'] ?? '' }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($activities as $act)
-                        {{ $act['responsible_person'] ?? '' }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($activities as $act)
-                        {{ $act['date_start'] ?? '' }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($activities as $act)
-                        {{ $act['date_end'] ?? '' }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($activities as $act)
-                        {{ $act['status'] ?? '' }}
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($activities as $act)
-                        {{ $act['remark'] ?? '' }}
-                    @endforeach
-                </td>
-                <td>
-     <div class="actions"> 
-                    <a href="{{ route('iso-plan.edit', $plan->id) }}" ><button class="edit">แก้ไข</button></a>
-                    |
-                    <form action="{{ route('iso-plan.destroy', $plan->id) }}" method="POST" style="display:inline;">
+            <td data-label="No.">{{ $no++ }}</td>
+            <td data-label="Project">{{ $plan->project_name ?? '-' }}</td>
+            <td data-label="Responsible Section / Person">{{ $plan->responsible_section ?? '-' }}</td>
+            <td data-label="Description of Activities">{{ $act['description'] ?? '-' }}</td>
+            <td data-label="Resp. Person">{{ $act['resp_person1'] ?? '-' }}</td>
+            <td data-label="Start">{{ isset($act['date_start']) ? explode(' ', $act['date_start'])[0] : '-' }}</td>
+            <td data-label="Finish">{{ isset($act['date_end']) ? explode(' ', $act['date_end'])[0] : '-' }}</td>
+            <td data-label="Status">{{ $act['status'] ?? '-' }}</td>
+            <td data-label="Remarks">{{ $act['remark'] ?? '-' }}</td>
+            <td data-label="Prepared by">{{ $plan->prepared_by ?? '-' }}</td>
+            <td data-label="Date">{{ isset($plan->prepared_date) ? explode(' ', $plan->prepared_date)[0] : '-' }}</td>
+            <td data-label="Progress Review">{{ $plan->prepared_progress_review ?? '-' }}</td>
+            <td data-label="Date">{{ isset($plan->prepared_progress_date) ? explode(' ', $plan->prepared_progress_date)[0] : '-' }}</td>
+            <td data-label="Reviewed by">{{ $plan->reported_progress_review ?? '-' }}</td>
+            <td data-label="Date">{{ isset($plan->reported_date) ? explode(' ', $plan->reported_date)[0] : '-' }}</td>
+            <td data-label="Reported by">{{ $plan->reported_by ?? '-' }}</td>
+            <td data-label="Date">{{ isset($plan->reported_progress_date) ? explode(' ', $plan->reported_progress_date)[0] : '-' }}</td>
+            <td data-label="Approved by">{{ $plan->approved_by ?? '-' }}</td>
+            <td data-label="Date">{{ isset($plan->approved_date) ? explode(' ', $plan->approved_date)[0] : '-' }}</td>
+            <td data-label="Acknowledged by">{{ $plan->acknowledged_by ?? '-' }}</td>
+            <td data-label="Date">{{ isset($plan->acknowledged_date) ? explode(' ', $plan->acknowledged_date)[0] : '-' }}</td>
+            <td data-label="[ปุ่มลบ/แก้ไข]">
+                <div class="actions">
+                    <a href="{{ route('iso-plan.edit', $plan->id) }}"><button class="edit">แก้ไข</button></a>
+                    <form action="{{ route('iso-plan.destroy', $plan->id) }}" method="POST" onsubmit="return confirm('คุณต้องการลบแผนนี้ใช่หรือไม่?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="delete" onclick="return confirm('แน่ใจว่าจะลบ?')">ลบ</button>
-                        </div>
+                        <button type="submit" class="delete">ลบ</button>
                     </form>
-                
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-<div class="actions">
-    <a href="{{ route('iso-plan.create') }}" class="">
-        <button class="primary">+ เพิ่มPlan </button>
-    </a>
+                </div>
+            </td>
+        </tr>
+    @endforeach
+@empty
+    <tr>
+        <td colspan="23" style="text-align:center;">ไม่มีข้อมูล</td>
+    </tr>
+@endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+document.getElementById('printBtn').addEventListener('click', function() {
+    const table = document.getElementById('activityTable');
+
+    const headerCells = table.querySelectorAll('thead tr:first-child th, thead tr:nth-child(2) th');
+    let actionColIndex = -1;
+    headerCells.forEach((th, index) => {
+        if (th.getAttribute('rowspan') === '2' && th.innerText.includes('ปุ่มลบ/แก้ไข')) {
+            actionColIndex = index;
+        }
+    });
+
+    if (actionColIndex !== -1) {
+        const rows = table.querySelectorAll('tr');
+        const removedCells = [];
+        rows.forEach(row => {
+            const cells = row.children;
+            if (cells[actionColIndex]) {
+                removedCells.push(cells[actionColIndex]);
+                cells[actionColIndex].style.display = 'none';
+            }
+        });
+        window.print();
+        removedCells.forEach(cell => {
+            cell.style.display = '';
+        });
+    } else {
+        window.print();
+    }
+});
+
+document.getElementById('exportExcelBtn').addEventListener('click', function() {
+    const table = document.getElementById('activityTable');
+    const rows = table.querySelectorAll('tr');
+
+    let wb = XLSX.utils.book_new();
+    let ws_data = [];
+    const headerCells = table.querySelectorAll('thead tr:first-child th, thead tr:nth-child(2) th');
+    let actionColIndex = -1;
+    headerCells.forEach((th, index) => {
+        if (th.getAttribute('rowspan') === '2' && th.innerText.includes('ปุ่มลบ/แก้ไข')) {
+            actionColIndex = index;
+        }
+    });
+
+    rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll('th, td').forEach((cell, idx) => {
+            if (idx !== actionColIndex) { 
+                rowData.push(cell.innerText.trim());
+            }
+        });
+        ws_data.push(rowData);
+    });
+
+    let ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+    const colWidths = [];
+    const maxCols = Math.max(...ws_data.map(r => r.length));
+    for(let i=0;i<maxCols;i++){
+        let maxLength = Math.max(...ws_data.map(r => (r[i] ? r[i].length : 0)));
+        colWidths.push({ wch: maxLength + 5 });
+    }
+    ws['!cols'] = colWidths;
+
+    XLSX.utils.book_append_sheet(wb, ws, "Plan");
+    XLSX.writeFile(wb, "ISO_Plan.xlsx");
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const table = document.getElementById('activityTable');
+    const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    searchInput.addEventListener('input', function() {
+        const filter = this.value.toLowerCase();
+
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+
+            for (let j = 0; j < cells.length - 1; j++) { 
+                if (cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = match ? '' : 'none';
+        }
+    });
+});
+</script>
 @endsection

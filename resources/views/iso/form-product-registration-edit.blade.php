@@ -38,6 +38,12 @@
                                 <th style="width: 8%">Rev.02</th>
                                 <th style="width: 8%">Rev.03</th>
                                 <th style="width: 8%">Rev.04</th>
+                                <th style="width: 8%">Rev.05</th>
+                                <th style="width: 8%">Rev.06</th>
+                                <th style="width: 8%">Rev.07</th>
+                                <th style="width: 8%">Rev.08</th>
+                                <th style="width: 8%">Rev.09</th>
+                                <th style="width: 8%">Rev.10</th>
                                 <th style="width: 3%">ลบ</th>
                             </tr>
                         </thead>
@@ -68,6 +74,24 @@
                                     </td>
                                     <td>
                                         <input type="text" class="form-control" name="product_registration_dt_rev04[]" value="{{$item->product_registration_dt_rev04}}">
+                                    </td>
+                                      <td>
+                                        <input type="text" class="form-control" name="product_registration_dt_rev05[]" value="{{$item->product_registration_dt_rev05}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="product_registration_dt_rev06[]" value="{{$item->product_registration_dt_rev06}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="product_registration_dt_rev07[]" value="{{$item->product_registration_dt_rev07}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="product_registration_dt_rev08[]" value="{{$item->product_registration_dt_rev08}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="product_registration_dt_rev09[]" value="{{$item->product_registration_dt_rev09}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="product_registration_dt_rev10[]" value="{{$item->product_registration_dt_rev10}}">
                                     </td>
                                     <td>
                                         <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
@@ -130,6 +154,24 @@ function addRow() {
         </td>
         <td>
             <input type="text" class="form-control" placeholder="Rev.04" name="product_registration_dt_rev04[]">
+        </td>
+         <td>
+            <input type="text" class="form-control" placeholder="Rev.00" name="product_registration_dt_rev05[]">
+        </td>
+        <td>
+            <input type="text" class="form-control" placeholder="Rev.01" name="product_registration_dt_rev06[]">
+        </td>
+        <td>
+            <input type="text" class="form-control" placeholder="Rev.02" name="product_registration_dt_rev07[]">
+        </td>
+        <td>
+            <input type="text" class="form-control" placeholder="Rev.03" name="product_registration_dt_rev08[]">
+        </td>
+        <td>
+            <input type="text" class="form-control" placeholder="Rev.04" name="product_registration_dt_rev09[]">
+        </td>
+        <td>
+            <input type="text" class="form-control" placeholder="Rev.04" name="product_registration_dt_rev10[]">
         </td>
         <td class="text-center">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">ลบ</button>

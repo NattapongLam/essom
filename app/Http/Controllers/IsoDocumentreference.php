@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Documentreference;
 use Illuminate\Support\Facades\DB;
@@ -66,6 +67,9 @@ class IsoDocumentreference extends Controller
                 'documentreferences_flag' => true,
                 'created_at'=> Carbon::now(),
         ];
+        if ($request->hasFile('documentreferences_file')) {
+            $data['documentreferences_file'] = $request->file('documentreferences_file')->storeAs('img/documentreferences', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentreferences_file')->extension());
+        }
         try{
             DB::beginTransaction();
             $insertHD = Documentreference::create($data);
@@ -125,6 +129,9 @@ class IsoDocumentreference extends Controller
                 'documentreferences_flag' => true,
                 'updated_at'=> Carbon::now(),
         ];
+        if ($request->hasFile('documentreferences_file')) {
+            $data['documentreferences_file'] = $request->file('documentreferences_file')->storeAs('img/documentreferences', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentreferences_file')->extension());
+        }
         try{
             DB::beginTransaction();
             $insertHD = Documentreference::where('documentreferences_id',$id)->update($data);

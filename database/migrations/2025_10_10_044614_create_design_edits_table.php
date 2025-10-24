@@ -34,6 +34,7 @@ class CreateDesignEditsTable extends Migration
             $table->date('seniorengineer_date')->nullable();
             $table->boolean('design_edits_flag')->default(true); 
             $table->string('person_at');
+            $table->string('design_edits_file')->nullable();
             $table->timestamps();
         });
     }

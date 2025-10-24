@@ -41,6 +41,12 @@
                         <textarea class="form-control" rows="5" name="design_edits_reasons" required></textarea>
                     </div>
                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <label for="design_edits_file">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="design_edits_file" >
+                    </div>
+                </div>
                <div class="row mt-3">
                     <div class="col-9">
                         <label>Requested By</label>
@@ -55,7 +61,7 @@
                     </div>
                     <div class="col-3">
                         <label>Date</label>
-                        <input class="form-control" type="date" name="requested_date" value="{{ $hd->requested_date }}" required>
+                        <input class="form-control" type="date" name="requested_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
                     </div>
                </div> 
                 <div class="row mt-3">
@@ -72,7 +78,7 @@
                     </div>
                     <div class="col-3">
                         <label>Date</label>
-                        <input class="form-control" type="date" name="supervisor_date" value="{{ $hd->supervisor_date  }}" required>
+                        <input class="form-control" type="date" name="supervisor_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
                     </div>
                </div>
                 <div class="row mt-3">

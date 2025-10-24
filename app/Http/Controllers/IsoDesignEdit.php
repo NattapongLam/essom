@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\DesignEdit;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -68,6 +69,9 @@ class IsoDesignEdit extends Controller
             'person_at' => Auth::user()->name,   
             'created_at' => Carbon::now(),
         ];
+        if ($request->hasFile('design_edits_file')) {
+            $data['design_edits_file'] = $request->file('design_edits_file')->storeAs('img/design_edits', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('design_edits_file')->extension());
+        }
         try
         {
             DB::beginTransaction();
@@ -140,6 +144,9 @@ class IsoDesignEdit extends Controller
                 'person_at' => Auth::user()->name,   
                 'created_at' => Carbon::now(),
             ];
+            if ($request->hasFile('design_edits_file')) {
+                $data['design_edits_file'] = $request->file('design_edits_file')->storeAs('img/design_edits', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('design_edits_file')->extension());
+            }
             try
             {
                 DB::beginTransaction();
