@@ -57,7 +57,7 @@ class IsoDocumentdistribution extends Controller
     {
         $request->validate([
             'documentregisters_id' => ['required'],
-            'ms_employee_id' => ['required'],
+            'ms_department_name' => ['required'],
             'documentdistributions_type' => ['required'],
             'documentdistributions_date' => ['required'],
         ]);      
@@ -74,6 +74,7 @@ class IsoDocumentdistribution extends Controller
                     'created_at' => Carbon::now(),
                     'documentdistributions_type' => $request->documentdistributions_type[$key],
                     'documentdistributions_date' => $request->documentdistributions_date[$key],
+                    'ms_department_name' => $request->ms_department_name[$key],
                 ]);
             }
             DB::commit();
@@ -99,7 +100,8 @@ class IsoDocumentdistribution extends Controller
         ->where('documentdistributions.documentdistributions_flag',true)
         ->where('documentdistributions.documentregisters_id',$id)
         ->get();
-        return view('iso.form-document-distribution-create',compact('hd','emp','list'));
+        $dep = DB::table('ms_department')->where('ms_department_flag',true)->get();
+        return view('iso.form-document-distribution-create',compact('hd','emp','list','dep'));
     }
 
     /**

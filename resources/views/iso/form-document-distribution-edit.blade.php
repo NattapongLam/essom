@@ -9,16 +9,15 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD<br>ทะเบียนแจกจ่ายเอกสาร DOCUMENTS DISTRIBUTION STATUS</h5><p class="text-right">F7530.2<br></p>     
-                <p class="text-left">
-                    <a href="{{route('document-distribution.create')}}" class="btn btn-secondary">ตรวจสอบเอกสาร</a>
-                </p>              
+                <h5>ESSOM CO.,LTD<br>ทะเบียนแจกจ่ายเอกสาร DOCUMENTS DISTRIBUTION STATUS</h5><p class="text-right">F7530.2<br></p>                   
             </div>
-            <div class="card-body">             
-                <div class="table-responsive">
+            <div class="card-body">   
+                 <div class="table-responsive">
                     <table id="tb_job" class="table table-bordered table-sm text-center">
                         <thead>
                             <tr>
+                                <th>สถานะ</th>
+                                <th>ที่</th>
                                 <th>Doc.</th>
                                 <th>Deseription</th>
                                 <th>Rev.</th>
@@ -35,8 +34,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                                @foreach ($hd as $item)
+                                @foreach ($list as $item)
                                     <tr>
+                                        <td>
+                                            @if ($item->documentregisters_flag)
+                                                <span class="badge bg-success">ใช้งาน</span>
+                                            @else
+                                                <span class="badge bg-danger">ไม่ใช้งาน</span>
+                                            @endif
+                                        </td>
+                                        <td>{{$item->documentregisters_listno}}</td>
                                         <td>
                                             <a href="{{asset($item->documentregisters_file)}}" target=”_blank”>
                                             {{$item->documentregisters_docuno}}
@@ -54,15 +61,16 @@
                                         <td>{{$item->documentregisters_rev09}}</td>
                                         <td>{{$item->documentregisters_rev10}}</td>
                                         <td>
-                                            <a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="confirmDoc('{{ $item->documentdistributions_id }}')">
-                                                <i class="fas fa-edit"></i>
+                                            <a href="javascript:void(0)" class="btn btn-primary btn-sm"  
+                                                onclick="confirmApp('{{ $item->documentdistributions_id }}')">
+                                             <i class="fas fa-edit"></i>
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
                         </tbody>
                     </table>
-                </div>
+                </div>          
             </div>
         </div>
     </div>
@@ -73,36 +81,10 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
-$(document).ready(function() {
- $('#tb_job').DataTable({
-            "pageLength": 50,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-            columnDefs: [{
-                targets: 1,
-                type: 'time-date-sort'
-            }],
-            order: [
-                [1, "asc"]
-            ],
-            fixedHeader: {
-                header:false,
-                footer:false
-            },
-        pagingType: "full_numbers",
-        bSort: true,    
-    })
-});
-confirmDoc = (refid) =>{       
+confirmApp = (refid) =>{       
 Swal.fire({
     title: 'คุณแน่ใจหรือไม่ !',
-    text: `คุณต้องการรับทราบการแจกจ่ายเอกสารนี้หรือไม่ ?`,
+    text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'ยืนยัน',
@@ -129,7 +111,7 @@ Swal.fire({
                 if (data.status == true) {
                     Swal.fire({
                         title: 'สำเร็จ',
-                        text: 'รับทราบเรียบร้อยแล้ว',
+                        text: 'ยกเลิกเอกสารเรียบร้อยแล้ว',
                         icon: 'success'
                     }).then(function() {
                         location.reload();
@@ -137,7 +119,7 @@ Swal.fire({
                 } else {
                     Swal.fire({
                         title: 'ไม่สำเร็จ',
-                        text: 'รับทราบเอกสารไม่สำเร็จ',
+                        text: 'ยกเลิกเอกสารไม่สำเร็จ',
                         icon: 'error'
                     });
                 }

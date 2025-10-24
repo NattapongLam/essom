@@ -24,6 +24,7 @@
                                 <th>Drawing No.</th>
                                 <th>Requested By</th>
                                 <th>Supervisor</th>
+                                <th>ไฟล์แนบ</th>
                                 <th>แก้ไข</th>
                                 <th>อนุมัติ</th>
                                 <th>ลบ</th>
@@ -37,6 +38,13 @@
                                     <td>{{ $item->design_edits_drawing}}</td>
                                     <td>{{ $item->requested_by}}</td>
                                     <td>{{ $item->supervisor_by}}</td>
+                                    <td>
+                                        @if ($item->design_edits_file)
+                                        <a href="{{asset($item->design_edits_file)}}" target=”_blank”>
+                                            <i class="fas fa-file"></i>
+                                        </a>     
+                                        @endif                                       
+                                    </td>
                                     <td>
                                         <a href="{{route('design-edit.edit',$item->design_edits_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>

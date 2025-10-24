@@ -9,7 +9,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>บริษัท เอาซอม จำกัด<br>ทะเบียนเอกสารอ้างอิง</h5><p class="text-right">F7531.2<br>9 Jun. 16</p>              
+                <h5>บริษัท เอสซอม จำกัด<br>ทะเบียนเอกสารอ้างอิง</h5><p class="text-right">F7531.2<br>9 Jun. 16</p>              
             </div>
             <div class="card-body">    
                 <form method="POST" class="form-horizontal" action="{{ route('document-reference.update',$hd->documentreferences_id) }}" enctype="multipart/form-data">
@@ -42,6 +42,17 @@
                         <label>ชื่อเอกสาร</label>
                         <input type="text" class="form-control" name="documentreferences_name"  value="{{ $hd->documentreferences_name}}">
                     </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <label for="documentreferences_file">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="documentreferences_file" >
+                    </div> 
+                    @if ($hd->documentreferences_file)
+                        <a href="{{asset($hd->documentreferences_file)}}" target=”_blank”>
+                            <i class="fas fa-file"></i>
+                        </a>
+                    @endif  
                 </div>
                 <br>
                 <div class="col-12 col-md-1">

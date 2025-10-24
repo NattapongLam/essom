@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\DetailedTesting;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,9 @@ class IsoDetailedTesting extends Controller
             'created_at' => Carbon::now(),
             'person_at' =>  Auth::user()->name,    
         ];
+        if ($request->hasFile('detailed_testings_file')) {
+            $data['detailed_testings_file'] = $request->file('detailed_testings_file')->storeAs('img/detailedtestings', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('detailed_testings_file')->extension());
+        }
         try
         {
             DB::beginTransaction();
@@ -132,6 +136,9 @@ class IsoDetailedTesting extends Controller
             'updated_at' => Carbon::now(),
             'person_at' =>  Auth::user()->name,    
         ];
+        if ($request->hasFile('detailed_testings_file')) {
+            $data['detailed_testings_file'] = $request->file('detailed_testings_file')->storeAs('img/detailedtestings', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('detailed_testings_file')->extension());
+        }
         try
         {
             DB::beginTransaction();

@@ -99,7 +99,7 @@ $(document).ready(function() {
                 type: 'time-date-sort'
             }],
             order: [
-                [1, "asc"]
+                [0, "asc"]
             ],
             fixedHeader: {
                 header:false,

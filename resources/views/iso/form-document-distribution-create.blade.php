@@ -35,6 +35,7 @@
                     <thead class="table-light">
                     <tr>
                         <th style="width: 50px;">No.</th>
+                        <th>Department</th>
                         <th>Receiver</th>
                         <th>Position</th>
                         <th>Type</th>
@@ -63,6 +64,14 @@
                         <td>
                             {{ $rowCount }}
                             <input type="hidden" value="{{ $rowCount }}" name="documentdistributions_listno[]">
+                        </td>
+                        <td>
+                            <select class="form-control" name="ms_department_name[]">
+                                <option value="">กรุณาเลือก</option>
+                                @foreach ($dep as $item)
+                                    <option value="{{$item->ms_department_name}}">{{$item->ms_department_name}}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
                             <select class="form-control receiver-select" name="ms_employee_id[]">
@@ -120,6 +129,14 @@
       ${rowCount + 1}
     <input type="hidden" value="${rowCount + 1}" name="documentdistributions_listno[]">
       </td>
+        <td>
+                            <select class="form-control" name="ms_department_name[]">
+                                <option value="">กรุณาเลือก</option>
+                                @foreach ($dep as $item)
+                                    <option value="{{$item->ms_department_name}}">{{$item->ms_department_name}}</option>
+                                @endforeach
+                            </select>
+                        </td>
       <td>
                             <select class="form-control receiver-select" name="ms_employee_id[]">
                                 <option value="">กรุณาเลือก</option>

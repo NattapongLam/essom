@@ -75,7 +75,7 @@
           <!-- small box -->
           <div class="small-box bg-primary">
             <div class="inner text-center">
-              <h6><strong>Objcctives</strong></h6>
+              <h6><strong>Objective</strong></h6>
               <p>F6200.1</p>
             </div>
             <div class="icon">
@@ -234,7 +234,7 @@
           <div class="small-box bg-red">
             <div class="inner  text-center">
              <h6><strong>ทะเบียนควบคุมเอกสาร</strong></h6>
-              <p>F7530.1</p>
+              <p>F7530.1 (Master List)</p>              
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
@@ -393,7 +393,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner text-center">
-              <h6><strong>ทะเบียนแบบผลิตภันฑ์</strong></h6>
+              <h6><strong>ทะเบียนแบบผลิตภัณฑ์</strong></h6>
               <p>F8300.7</p>
             </div>
             <div class="icon">

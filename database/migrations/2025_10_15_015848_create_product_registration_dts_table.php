@@ -25,6 +25,13 @@ class CreateProductRegistrationDtsTable extends Migration
             $table->string('product_registration_dt_rev02')->nullable();
             $table->string('product_registration_dt_rev03')->nullable();
             $table->string('product_registration_dt_rev04')->nullable();
+            $table->string('product_registration_dt_rev05')->nullable();
+            $table->string('product_registration_dt_rev06')->nullable();
+            $table->string('product_registration_dt_rev07')->nullable();
+            $table->string('product_registration_dt_rev08')->nullable();
+            $table->string('product_registration_dt_rev09')->nullable();
+            $table->string('product_registration_dt_rev10')->nullable();
+            $table->string('product_registration_dt_file')->nullable();
             $table->boolean('product_registration_dt_flag')->default(true); 
             $table->string('person_at');
             $table->timestamps();
