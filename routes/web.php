@@ -83,6 +83,7 @@ Route::resource('/iso-plan' , App\Http\Controllers\IsoPlan::class);
 Route::resource('/maintenance-records' , App\Http\Controllers\IsoMaintenanceRecords::class);
 Route::resource('/machine-history' , App\Http\Controllers\IsoMachineHistory::class);
 Route::resource('/computer-history' , App\Http\Controllers\IsoComputerHistory::class);
+Route::get('/computer-history/{id}/popup', [App\Http\Controllers\IsoComputerHistory::class, 'popup']);
 Route::resource('/computer-records' , App\Http\Controllers\IsoComputerRecords::class);
 Route::resource('/email-registration' , App\Http\Controllers\IsoEmailRegistration::class);
 Route::resource('/knowledge-survey' , App\Http\Controllers\IsoKnowledgesurvey::class);
