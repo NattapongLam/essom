@@ -8,67 +8,42 @@ use App\Models\DesignPlan;
 class IsoDesignPlan extends Controller
 {
     public function index()
-    {
-        $plans = DesignPlan::all();
+{
+    $plans = DesignPlan::all()->map(function($plan) {
+        // เก็บเฉพาะฟิลด์ที่มีค่า
+        $visibleFields = [];
 
-        if ($plans->isEmpty()) {
-            $plans = collect([(object)[
-                'id' => '',
-                'design_request_date' => '',
-                'product_name' => '',
-                'product_model' => '',
-                'product_description' => '',
-                'reason_cost_price' => '',
-                'reason_catalog_picture' => '',
-                'reason_drawing' => '',
-                'reason_prototype' => '',
-                'reason_other' => '',
-                'design_input_1' => '',
-                'design_input_2' => '',
-                'design_input_3' => '',
-                'design_input_4' => '',
-                'design_input_5' => '',
-                'design_input_6' => '',
-                'design_input_7' => '',
-                'design_input_8' => '',
-                'ref_brand1' => '',
-                'ref_model1' => '',
-                'ref_brand2' => '',
-                'ref_model2' => '',
-                'requested_by' => '',
-                'requested_date' => '',
-                'reviewed_by' => '',
-                'reviewed_date' => '',
-                'approved_by_request' => '',
-                'approved_date_request' => '',
-                'engineer_desing' => '',
-                'senior_engineer' => '',
-                'plan_calc' => '',
-                'act_calc' => '',
-                'plan_review' => '',
-                'act_review' => '',
-                'participants' => '',
-                'plan_verify' => '',
-                'act_verify' => '',
-                'plan_proto' => '',
-                'act_proto' => '',
-                'plan_valid' => '',
-                'act_valid' => '',
-                'plan_final' => '',
-                'act_final' => '',
-                'planned_by' => '',
-                'planned_date_engineering' => '',
-                'planned_marketing' => '',
-                'planned_date_marketing' => '',
-                'planned_plant' => '',
-                'planned_date_plant' => '',
-                'approved_by' => '',
-                'approved_date' => '',
-            ]]);
+        // ฟิลด์หลัก
+        $fields = [
+            'design_request_date','product_name','product_model','product_description',
+            'reason_cost_price','reason_catalog_picture','reason_drawing','reason_prototype','reason_other',
+            'design_input_1','design_input_2','design_input_3','design_input_4','design_input_5','design_input_6','design_input_7','design_input_8',
+            'ref_brand1','ref_model1','ref_brand2','ref_model2',
+            'requested_by','reviewed_by','approved_by_request',
+            'engineer_desing','senior_engineer'
+        ];
+
+        foreach($fields as $f) {
+    if(in_array($f, ['reason_cost_price','reason_catalog_picture','reason_drawing','reason_prototype'])) {
+        if($plan->$f == 1) {
+            $visibleFields[$f] = 1;
         }
-
-        return view('iso.design-plan-list', compact('plans'));
+    } else {
+        if(!empty($plan->$f)) {
+            $visibleFields[$f] = $plan->$f;
+            }
+        }
     }
+        $plan->visibleFields = $visibleFields;
+        return $plan;
+    });
+
+    if($plans->isEmpty()){
+        $plans = collect([]);
+    }
+
+    return view('iso.design-plan-list', compact('plans'));
+}
 
     public function create()
     {
@@ -108,7 +83,7 @@ class IsoDesignPlan extends Controller
             'approved_by','approved_date'
         ]);
 
-
+        // Checkbox
         $checkboxFields = ['reason_cost_price','reason_catalog_picture','reason_drawing','reason_prototype'];
         foreach ($checkboxFields as $field) {
             $data[$field] = $request->has($field) ? 1 : 0;
@@ -155,12 +130,11 @@ class IsoDesignPlan extends Controller
             'ref_brand1','ref_model1','ref_brand2','ref_model2',
             'requested_by','requested_date','reviewed_by','reviewed_date',
             'approved_by_request','approved_date_request',
-            'engineer_desing','senior_egineer',
+            'engineer_desing','senior_engineer',
             'plan_calc','act_calc','plan_review','act_review','participants','plan_verify','act_verify','plan_proto','act_proto','plan_valid','act_valid','plan_final','act_final',
             'planned_by','planned_date_engineering','planned_marketing','planned_date_marketing','planned_plant','planned_date_plant',
             'approved_by','approved_date'
         ]);
-
 
         $checkboxFields = ['reason_cost_price','reason_catalog_picture','reason_drawing','reason_prototype'];
         foreach ($checkboxFields as $field) {
