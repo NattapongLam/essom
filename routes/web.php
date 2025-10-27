@@ -128,4 +128,6 @@ Route::resource('/product-list-selected' , App\Http\Controllers\IsoProductListSe
 Route::post('/cancelProductListSelectedHd' , [App\Http\Controllers\IsoProductListSelected::class , 'cancelProductListSelectedHd']);
 Route::post('/cancelProductListSelectedDt' , [App\Http\Controllers\IsoProductListSelected::class , 'cancelProductListSelectedDt']);
 Route::resource('/software-design' , App\Http\Controllers\IsoSoftwareDesign::class);
+Route::post('/cancelSoftwareDesignHd' , [App\Http\Controllers\IsoSoftwareDesign::class , 'cancelSoftwareDesignHd']);
+Route::post('/cancelSoftwareDesignDt' , [App\Http\Controllers\IsoSoftwareDesign::class , 'cancelSoftwareDesignDt']);
 // ISO 30 //
