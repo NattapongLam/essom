@@ -46,7 +46,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label for="email">อีเมล์</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" 
                             name="email" 
                             id="email" 
                             placeholder="อีเมล์"
