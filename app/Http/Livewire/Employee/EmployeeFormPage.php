@@ -88,7 +88,7 @@ class EmployeeFormPage extends Component
     {
         if($this->code){            
             $emp = EmployeeList::where('ms_employee_code',$this->code)->first();
-            $this->email = $emp->ms_employee_email;
+            $this->email = $emp->ms_employee_code .'@essom.local';
             $this->name = $emp->ms_employee_fullname;
             $pas = DB::table('users_win')->where('users_name',$this->code)->first();
             if($pas){
