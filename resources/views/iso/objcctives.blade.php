@@ -1,12 +1,15 @@
 @extends('layouts.main')
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if(session('success'))
 <script>
-    alert("{{ session('success') }}");
+Swal.fire({
+    icon: 'success',
+    title: 'สำเร็จ!',
+    text: "{{ session('success') }}",
+    confirmButtonColor: '#1e40af'
+});
 </script>
-@endif
-@endif
-
 <style>
     :root{
       --bg:#f2f5f8;
@@ -136,63 +139,58 @@
       <table>
         <thead>
           <tr>
-            <th rowspan="2" width="6%">No.</th>
-            <th rowspan="2" width="25%">Description of Activities</th>
-            <th rowspan="2" width="10%">Resp.<br>Person</th>
-            <th colspan="3" width="30%">Objectives</th>
-            <th rowspan="2" width="30%">Remarks / Corrective actions</th>
-          </tr>
-          <tr>
-            <th width="8%">Previous</th>
-            <th width="8%">Plan</th>
-            <th width="8%">Results</th>
-          </tr>
+            <th rowspan="2">NO.</th>
+        <th rowspan="2">SECTION</th>
+        <th rowspan="2">FOR PERIOD.</th>
+        <th rowspan="2">DESCRIPTION OF ACTIVITIES</th>
+        <th rowspan="2">RESP. PERSON</th>
+        <th colspan="3">OBJECTIVE</th>
+        <th rowspan="2">REMARKS/CORRECTIVE ACTION</th>
+        <th rowspan="2">Prepared by</th>
+        <th rowspan="2">date</th>
+        <th rowspan="2">Reported by</th>
+        <th rowspan="2">date</th>
+        <th rowspan="2">Reviewed by</th>
+        <th rowspan="2">date</th>
+        <th rowspan="2">Acknowledged by</th>
+        <th rowspan="2">date</th>
+        <th rowspan="2">Approvedby</th>
+        <th rowspan="2">date</th>
+                <th>[ปุ่มลบ/แก้ไข]</th>
+            </tr>
+             <tr>
+                <td width="3%" align="center">Previous</td>
+                <td width="3%" align="center">Plan</td>
+                <td width="3%" align="center">Results</td>
+               </tr>
         </thead>
         <tbody>
-          @for ($i = 1; $i <= 30; $i++)
+          @for ($i = 1; $i <= 5; $i++)
           <tr>
-            <td><input style="width: 50px; height: 30px;" type="text" name="no[{{ $i }}]"></td>
-            <td><input style="width: 200px; height: 30px;" type="text" name="description[{{ $i }}]"></td>
-            <td><input style="width: 100px; height: 30px;" type="text" name="resp_person[{{ $i }}]"></td>
-            <td><input style="width: 100px; height: 30px;" type="text" name="previous[{{ $i }}]"></td>
-            <td><input style="width: 100px; height: 30px;" type="text" name="plan[{{ $i }}]"></td>
-            <td><input style="width: 100px; height: 30px;" type="text" name="results[{{ $i }}]"></td>
-            <td><input style="width: 300px; height: 30px;" type="text" name="remarks[{{ $i }}]"></td>
+          <td><input style="width: 50px; height: 30px;" type="text" name="no[{{ $i }}]"></td>
+<td><input style="width: 200px; height: 30px;" type="text" name="description[{{ $i }}]"></td>
+<td><input style="width: 100px; height: 30px;" type="text" name="resp_person[{{ $i }}]"></td>
+<td><input style="width: 100px; height: 30px;" type="text" name="previous[{{ $i }}]"></td>
+<td><input style="width: 100px; height: 30px;" type="text" name="plan[{{ $i }}]"></td>
+<td><input style="width: 100px; height: 30px;" type="text" name="results[{{ $i }}]"></td>
+<td><input style="width: 300px; height: 30px;" type="text" name="remarks[{{ $i }}]"></td>
+<td><input style="width: 200px; height: 30px;" type="text" name="prepared_by[{{ $i }}]"></td>
+<td><input style="width: 150px; height: 30px;" type="date" name="prepared_date[{{ $i }}]"></td>
+<td><input style="width: 200px; height: 30px;" type="text" name="reported_by[{{ $i }}]"></td>
+<td><input style="width: 150px; height: 30px;" type="date" name="reported_date[{{ $i }}]"></td>
+<td><input style="width: 200px; height: 30px;" type="text" name="reviewed_by[{{ $i }}]"></td>
+<td><input style="width: 150px; height: 30px;" type="date" name="reviewed_date[{{ $i }}]"></td>
+<td><input style="width: 200px; height: 30px;" type="text" name="acknowledged_by[{{ $i }}]"></td>
+<td><input style="width: 150px; height: 30px;" type="date" name="acknowledged_date[{{ $i }}]"></td>
+<td><input style="width: 200px; height: 30px;" type="text" name="approved_by[{{ $i }}]"></td>
+<td><input style="width: 150px; height: 30px;" type="date" name="approved_date[{{ $i }}]"></td>
+
           </tr>
           @endfor
         </tbody>
       </table>
 
       <br>
-
-      <div>
-        <span>Prepared by <input type="text" name="prepared_by" style="width: 200px; height: 30px;"></span>
-        <span style="margin-left: 40px;">Date <input name="prepared_date" type="date" style="width: 100px; height: 30px;"></span>
-      </div>
-
-      <div>
-        <span>Reported by <input type="text" name="reported_by" style="width: 200px; height: 30px;"></span>
-        <span style="margin-left: 40px;">Date <input name="reported_date" type="date" style="width: 100px; height: 30px;"></span>
-      </div>
-
-      <div>
-        <span>Reviewed by <input type="text" name="reviewed_by" style="width: 200px; height: 30px;"></span>
-        <span style="margin-left: 40px;">Date <input name="reviewed_date" type="date" style="width: 100px; height: 30px;"></span>
-      </div>
-
-      <div>
-        <span>Acknowledged by <input type="text" name="acknowledged_by" style="width: 180px; height: 30px;"></span>
-        <span style="margin-left: 40px;">Date <input name="acknowledged_date" type="date" style="width: 100px; height: 30px;"></span>
-      </div>
-
-      <div>
-        <span>Approved by <input name="approved_by" type="text" style="width: 200px; height: 30px;"></span>
-        <span style="margin-left: 40px;">Date <input name="approved_date" type="date" style="width: 100px; height: 30px;"></span>
-      </div>
-
-      <div class="actions">
-        <button type="submit" class="primary">บันทึกข้อมูล</button>
-      </div>
 
     </form>
   </div>

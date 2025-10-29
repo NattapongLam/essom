@@ -8,58 +8,62 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5>ESSOM CO.,LTD<br>แบบคำขอแก้ไขแบบ แผนการออกแบบผลิตภัณฑ์ <br>DESIGN REQUEST AND DESIGN PLANNING</h5>
-                    <p class="text-right">F7529.1<br>1 Oct. 20</p>
+                    <h5>ESSOM CO.,LTD<br>คำขอแก้ไขแบบการประเมินความเสี่ยงและโอกาส</h5>
+                    <p class="text-right mb-0">F6120.1<br>15 Feb 22</p>
                     <p class="text-left">
-                        <a href="{{ route('design-plan.create') }}">เพิ่มเอกสาร</a>
-                    </p>              
-                </div>
 
+                        <a href="{{ route('assessrisk.create') }}" >เพิ่มข้อมูลใหม่</a>
+                   </p>              
+                </div>
                 <div class="card-body">             
                     <div class="table-responsive">
                         <table id="tb_job" class="table table-bordered table-sm text-center">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>ชื่อผลิตภัณฑ์</th>
-                                    <th>รุ่นผลิตภัณฑ์</th>
-                                    <th>วันที่ร้องขอ</th>
-                                    <th>แก้ไข</th>
-                                    <th>ลบ</th>
+                                    <th>กระบวนการ / ระเบียบ</th>
+                                    <th>เสนอโดย</th>
+                                    <th>วันที่</th>
+                                    <th>ประเด็นความเสี่ยง</th>
+                                     <th>แก้ไข</th>
+                                     <th>ลบ</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($plans as $plan)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $plan->product_name }}</td>
-                                    <td>{{ $plan->product_model }}</td>
-                                    <td>{{ $plan->design_request_date }}</td>
-                                    <td>
-                                        <a href="{{ route('design-plan.edit', $plan->id) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('design-plan.destroy', $plan->id) }}" method="POST" onsubmit="return confirm('ยืนยันการลบข้อมูลนี้?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="7" style="text-align:center;">ไม่มีข้อมูล</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
+    @foreach($risks as $i => $risk)
+    <tr>
+        <td>{{ $i+1 }}</td>
+        <td>{{ $risk->process_ref }}</td>
+        <td>{{ $risk->proposed_by }}</td>
+        <td>{{ $risk->proposed_date }}</td>
+        <td>
+            {{ $risk->risk_issue }}<br>
+            {{ $risk->risk_cause }}<br>
+            {{ $risk->risk_impact }}<br>
+            {{ $risk->risk_accept_reason }}
+        </td>
+        <td>
+            <a href="{{ route('assessrisk.edit', $risk->id) }}" class="btn btn-warning btn-sm">
+                <i class="fas fa-edit"></i>
+            </a>
+        </td>
+        <td>
+            <form action="{{ route('assessrisk.destroy', $risk->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('คุณต้องการลบข้อมูลนี้หรือไม่?')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
                         </table>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>

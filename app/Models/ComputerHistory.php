@@ -15,15 +15,9 @@ class ComputerHistory extends Model
         'user_name',
         'no_number', 
         'start_date',
-
-        // Computer Type
         'type_pc',
         'type_notebook',
-
-        // CPU / Spec
         'cpu_spec',
-
-        // RAM
         'ram_ddr1',
         'ram_ddr2',
         'ram_ddr3',
@@ -34,8 +28,6 @@ class ComputerHistory extends Model
         'dimm2_warranty',
         'dimm2_exp',
         'ram_other',
-
-        // Hard Disk
         'hd_ide',
         'hd_sata',
         'hd_sas',
@@ -48,8 +40,6 @@ class ComputerHistory extends Model
         'disk2_warranty',
         'disk2_exp',
         'external_disk',
-
-        // CD/DVD
         'cd_ide',
         'cd_sata',
         'cd_qty',
@@ -60,38 +50,26 @@ class ComputerHistory extends Model
         'cd2_warranty',
         'cd2_exp',
         'external_cd',
-
-        // Mainboard
         'main_board_spec',
         'mb_ide_port',
         'mb_sata_port',
         'mb_usb_port',
-
-        // VGA
         'vga_onboard',
         'vga_display',
         'vga_pci',
         'vga_pcie',
         'vga_spec',
-
-        // LAN
         'lan_onboard',
         'lan_usb',
         'lan_card',
         'lan_pci',
         'lan_pcie',
         'lan_spec',
-
-        // Power
         'psu_ide',
         'psu_sata',
         'psu_watt',
         'psu_result',
-
-        // Monitor
         'monitor_spec',
-
-        // Accessories
         'accessory',
         'mouse',
         'keyboard',
@@ -100,16 +78,10 @@ class ComputerHistory extends Model
         'card',
         'speaker',
         'accessory_other',
-
-        // Software
         'os',
         'office',
         'software_other',
-
-        // Maintenance
         'problem',
-
-        // Signature
         'check_by',
         'check_date',
         'ack_by',

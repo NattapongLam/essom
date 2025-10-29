@@ -10,9 +10,29 @@ class Objective extends Model
     use HasFactory;
 
     protected $table = 'iso_objectives';
-   protected $primaryKey = 'id';
+
     protected $fillable = [
-        'no', 'description', 'resp_person', 'previous', 'plan',
-        'results', 'remarks', 'section', 'period'
+        'section',
+        'period',
+        'activity_list',
+        'prepared_by',
+        'prepared_date',
+        'reported_by',
+        'reported_date',
+        'reviewed_by',
+        'reviewed_date',
+        'acknowledged_by',
+        'acknowledged_date',
+        'approved_by',
+        'approved_date',
+    ];
+
+    protected $casts = [
+        'activity_list' => 'array',
+        'prepared_date' => 'date',
+        'reported_date' => 'date',
+        'reviewed_date' => 'date',
+        'acknowledged_date' => 'date',
+        'approved_date' => 'date',
     ];
 }

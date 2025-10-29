@@ -20,69 +20,101 @@ class IsoObjcctives extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $activities = [];
+        try {
+            $activities = [];
+            if (!empty($request->description)) {
+                foreach ($request->description as $i => $desc) {
+                    if (empty($desc) && empty($request->resp_person[$i])) continue;
 
-        if (!empty($data['description'])) {
-            foreach ($data['description'] as $i => $desc) {
-                if (empty($desc) && empty($data['resp_person'][$i])) continue;
-
-                $activities[] = [
-                    'no' => $i + 1,
-                    'description' => $desc ?? null,
-                    'resp_person' => $data['resp_person'][$i] ?? null,
-                    'previous' => $data['previous'][$i] ?? null,
-                    'plan' => $data['plan'][$i] ?? null,
-                    'results' => $data['results'][$i] ?? null,
-                    'remarks' => $data['remarks'][$i] ?? null,
-                    'section' => $data['section'][0] ?? null,
-                    'period' => $data['period'][0] ?? null,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+                    $activities[] = [
+                        'no' => $request->no[$i] ?? $i + 1,
+                        'description' => $desc,
+                        'resp_person' => $request->resp_person[$i] ?? '',
+                        'previous' => $request->previous[$i] ?? '',
+                        'plan' => $request->plan[$i] ?? '',
+                        'results' => $request->results[$i] ?? '',
+                        'remarks' => $request->remarks[$i] ?? '',
+                    ];
+                }
             }
-        }
 
-        if (!empty($activities)) {
-            Objective::insert($activities);
-            return redirect()->route('objcctives.index')->with('success', 'Saved successfully!');
-        }
+            Objective::create([
+                'section' => $request->section[0] ?? null,
+                'period' => $request->period[0] ?? null,
+                'activity_list' => $activities, // 
+                'prepared_by' => $request->prepared_by,
+                'prepared_date' => $request->prepared_date,
+                'reported_by' => $request->reported_by,
+                'reported_date' => $request->reported_date,
+                'reviewed_by' => $request->reviewed_by,
+                'reviewed_date' => $request->reviewed_date,
+                'acknowledged_by' => $request->acknowledged_by,
+                'acknowledged_date' => $request->acknowledged_date,
+                'approved_by' => $request->approved_by,
+                'approved_date' => $request->approved_date,
+            ]);
 
-        return redirect()->back()->with('error', 'No data to save.');
+            return redirect()->route('objcctives.index')->with('success', 'บันทึกข้อมูลสำเร็จ!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+        }
     }
 
-   public function edit(Objective $objcctive)
-{
-    return view('iso.objcctives-edit', compact('objcctive'));
-}
-
-public function update(Request $request, Objective $objcctive)
-{
-    $validated = $request->validate([
-        'no' => 'required|integer',
-        'section' => 'required|string',
-        'period' => 'required|string',
-        'description' => 'required|string',
-        'resp_person' => 'nullable|string',
-        'previous' => 'nullable|string',
-        'plan' => 'nullable|string',
-        'results' => 'nullable|string',
-        'remarks' => 'nullable|string',
-    ]);
-
-    $objcctive->update($validated);
-
-    return redirect()->route('objcctives.index')->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว!');
-}
-
-    public function show(Objective $objective)
+    public function edit(Objective $objcctive)
     {
-        return view('iso.objcctives-show', compact('objective'));
+        
+        return view('iso.objcctives-edit', compact('objcctive'));
+    }
+
+    public function update(Request $request, Objective $objcctive)
+    {
+        try {
+            $activities = [];
+            if (!empty($request->description)) {
+                foreach ($request->description as $i => $desc) {
+                    if (empty($desc) && empty($request->resp_person[$i])) continue;
+
+                    $activities[] = [
+                        'no' => $request->no[$i] ?? $i + 1,
+                        'description' => $desc,
+                        'resp_person' => $request->resp_person[$i] ?? '',
+                        'previous' => $request->previous[$i] ?? '',
+                        'plan' => $request->plan[$i] ?? '',
+                        'results' => $request->results[$i] ?? '',
+                        'remarks' => $request->remarks[$i] ?? '',
+                    ];
+                }
+            }
+
+            $objcctive->update([
+                'section' => $request->section[0] ?? null,
+                'period' => $request->period[0] ?? null,
+                'activity_list' => $activities,
+                'prepared_by' => $request->prepared_by,
+                'prepared_date' => $request->prepared_date,
+                'reported_by' => $request->reported_by,
+                'reported_date' => $request->reported_date,
+                'reviewed_by' => $request->reviewed_by,
+                'reviewed_date' => $request->reviewed_date,
+                'acknowledged_by' => $request->acknowledged_by,
+                'acknowledged_date' => $request->acknowledged_date,
+                'approved_by' => $request->approved_by,
+                'approved_date' => $request->approved_date,
+            ]);
+
+            return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Objective $objcctive)
-{
-    $objcctive->delete();
-    return redirect()->route('objcctives.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว!');
-}
+    {
+        try {
+            $objcctive->delete();
+            return redirect()->route('objcctives.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+        }
+    }
 }

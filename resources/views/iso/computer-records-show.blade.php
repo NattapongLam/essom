@@ -151,8 +151,6 @@ h5 { margin-top: 20px; }
             @endforeach
         </tbody>
     </table>
-
-    <!-- ปรับ Check by / Date ให้อยู่เป็น column สวยงาม -->
     <div class="check-date-container" style="justify-content:flex-start;">
         @for($m=0;$m<12;$m++)
         <div style="min-width:120px;">
