@@ -102,7 +102,6 @@ input[readonly], textarea[readonly] { background-color: #e2e8f0; }
             <div><label>Senior Engineer</label><input type="text" value="{{ $plan->senior_engineer }}" readonly></div>
    </div>
 
-        <!-- 2.3 Due Date -->
         @php
             $dueRows = [
                 '2.3.1 Preliminary Design & Calculations' => ['plan_calc','act_calc'],
@@ -125,8 +124,6 @@ input[readonly], textarea[readonly] { background-color: #e2e8f0; }
             @endif
         </div>
         @endforeach
-
-        <!-- 2.4 Planned By -->
         <div class="row" style="display:flex; align-items:center; margin-bottom:10px;">
             <div style="flex:1; display:flex; align-items:center;">
                 <label style="width:120px;">Planned By</label>
@@ -158,8 +155,6 @@ input[readonly], textarea[readonly] { background-color: #e2e8f0; }
                 <input type="date" value="{{ $plan->planned_date_plant }}" readonly style="flex:1; padding:5px;">
             </div>
         </div>
-
-        <!-- 2.5 Approved By -->
         <div class="row" style="display:flex; align-items:center; margin-bottom:10px;">
             <div style="flex:1; display:flex; align-items:center;">
                 <label style="width:130px;">Approved By</label>

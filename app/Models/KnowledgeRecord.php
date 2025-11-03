@@ -10,8 +10,9 @@ class KnowledgeRecord extends Model
     use HasFactory;
 
     protected $table = 'knowledge_records';
-      protected $primaryKey = 'id';
-      public $timestamps = false;
+    protected $primaryKey = 'id';
+    public $timestamps = true; 
+
     protected $fillable = [
         'name',
         'department',
@@ -27,5 +28,12 @@ class KnowledgeRecord extends Model
         'transfer_date',
         'NameCF',
         'approval_date',
+    ];
+
+    protected $casts = [
+        'approval' => 'array', 
+        'request_date' => 'date',
+        'transfer_date' => 'date',
+        'approval_date' => 'date',
     ];
 }

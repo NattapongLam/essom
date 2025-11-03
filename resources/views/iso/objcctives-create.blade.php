@@ -1,210 +1,252 @@
 @extends('layouts.main')
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @if(session('success'))
-    <p style="color: green; text-align:center;">{{ session('success') }}</p>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'สำเร็จ!',
+    text: "{{ session('success') }}",
+    confirmButtonColor: '#1e40af'
+});
+</script>
 @endif
 
 @if(session('error'))
-    <p style="color: red; text-align:center;">{{ session('error') }}</p>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'เกิดข้อผิดพลาด!',
+    text: "{{ session('error') }}",
+    confirmButtonColor: '#dc2626'
+});
+</script>
 @endif
 
 <style>
-.card {
-  background: linear-gradient(180deg, var(--card), #fbfdff);
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 6px 18px rgba(6,20,40,0.08), 0 18px 40px rgba(8,25,60,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
-  border: 1px solid rgba(15,23,42,0.04);
-  position: relative;
-}
-button.primary {
-  background: linear-gradient(180deg, #258b25ff, #337725ff);
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 700;
-  box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-  cursor: pointer;
-}
-button.edit {
-  background: linear-gradient(180deg, #2ea8c6ff, #80bde5ff);
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: 700;
-  box-shadow: 0 10px 30px rgba(8,158,157,0.18);
-  cursor: pointer;
-}
-button.delete {
-  background: linear-gradient(180deg, #cb8a8aff, #b91c1c);
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-button.delete:hover {
-  background: linear-gradient(180deg, #ef4444, #dc2626);
-  transform: scale(1.05);
-}
-button.delete svg {
-  width: 14px;
-  height: 14px;
-  fill: white;
-}
-
-input {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  background: transparent;
-  text-align: center;
-  font-size: 14px;
-  padding: 6px;
-  box-sizing: border-box;
-}
-input:focus {
-  background-color: #f8faff;
-  border-bottom: 2px solid #3b82f6;
-}
-
 .form-container {
-  font-family: "Times New Roman", Times, serif;
-  margin: 30px auto;
-  background: #fff;
-  padding: 20px 50px;
-  border-radius: 25px;
-  box-shadow: 10px 10px 10px gray;
-  width: 1200px;
+    background: #fff;
+    padding: 25px 40px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
 }
-
+h2 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
 table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid black;
-  margin-top: 15px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #1e293b;
 }
 th, td {
-  border: 1px solid black;
-  padding: 4px;
-  text-align: center;
-  vertical-align: middle;
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: center;
+    vertical-align: middle;
 }
 th {
-  background-color: #789fc8ff;
-  font-weight: bold;
+    background-color: #1e40af;
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
 }
-.actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  margin-top: 18px;
+tr:nth-child(even) { background-color: #f1f5f9; }
+
+input, textarea, select {
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f8fafc;
+    transition: 0.2s;
 }
-tr.fade-out {
-  opacity: 0;
-  transition: opacity 0.3s ease;
+input:focus, textarea:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 4px rgba(59,130,246,0.3);
+    background-color: #ffffff;
+    outline: none;
+}
+
+button.primary {
+    background: linear-gradient(180deg, #1e3a8a, #3b82f6);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.primary:hover { transform: scale(1.05); }
+
+button.edit {
+    background: linear-gradient(180deg, #2563eb, #60a5fa);
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:500;
+    cursor:pointer;
+    transition: all 0.2s ease;
+}
+button.edit:hover { transform: scale(1.05); }
+
+button.delete {
+    background: linear-gradient(180deg, #dc2626, #ef4444);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+button.delete:hover { transform: scale(1.05); }
+
+.actions { display:flex; gap:12px; justify-content:flex-end; margin-top:15px; }
+
+@media (max-width: 1024px){
+    table, th, td { font-size: 12px; }
+    .form-container { width: 95%; padding: 20px; }
+}
+@media (max-width: 640px){
+    table { font-size: 11px; }
+    .actions { flex-direction: column; align-items: stretch; }
 }
 </style>
-<h2 align="center">ESSOM CO.,LTD.</h2>
-<h2 align="center"> Objective</h2>
 
 <form action="{{ route('objcctives.store') }}" method="POST">
 @csrf
-<div align="left" class="form-container ">
-            Section :
-            <input class="" type="text" name="section[]" style="width:430px;" required >
-            Period : 
-            <input  class="" type="text" name="period[]" style="width:540px;"  required >
-       
+<div class="form-container">
+    <h2>ESSOM CO.,LTD.</h2>
+    <h2>Objective</h2>
+    <br><br>
+    <center>
+        <div class="section-line">
+            <label>Section:
+                <input type="text" name="section[]" value="{{ old('section.0') }}" style="width:430px;" required>
+            </label>
+            <label>Period:
+                <input type="text" name="period[]" value="{{ old('period.0') }}" style="width:540px;" required>
+            </label>
+        </div>
+   
 
-  <table id="objectiveTable">
-    <thead>
-      <tr>
-        <th rowspan="2" width="4%">No.</th>
-        <th rowspan="2" width="15%">Description of Activities</th>
-        <th rowspan="2" width="10%">Resp.<br>Person</th>
-        <th colspan="3" width="18%">Objectives</th>
-        <th rowspan="2" width="10%">Remarks / Corrective Action</th>
-        <th rowspan="2" width="3%">[ปุ่มลบ]</th>
-      </tr>
-      <tr>
-        <th width="5%">Previous</th>
-        <th width="5%">Plan</th>
-        <th width="5%">Results</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for($i = 0; $i < 5; $i++)
-      <tr>
-        <td align="center">{{ $i + 1 }}</td>
-        <td><input type="text" name="description[]" placeholder="Description of Activities"></td>
-        <td><input type="text" name="resp_person[]"placeholder="Resp Person"></td>
-        <td><input type="text" name="previous[]" placeholder="Previous"></td>
-        <td><input type="text" name="plan[]" placeholder="Plan"></td>
-        <td><input type="text" name="results[]" placeholder="Results"></td>
-        <td><input type="text" name="remarks[]" placeholder="Remarks"></td>
-        <td>
-          <button type="button" class="delete">
-            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
-              <path d='M3 6h18M9 6V4h6v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h12z'/>
-            </svg>
-            ลบ
-          </button>
-        </td>
-      </tr>
-      @endfor
-    </tbody>
-  </table>
-        <p>&nbsp;</p>
-        
-         <button type="button"style="float: left;" class="edit" id="addRowBtn" >+ เพิ่มแถว</button>
+    <table id="objectiveTable">
+        <thead>
+            <tr>
+                <th rowspan="2">NO.</th>
+                <th rowspan="2">DESCRIPTION OF ACTIVITIES</th>
+                <th rowspan="2">RESP. PERSON</th>
+                <th colspan="3">OBJECTIVE</th>
+                <th rowspan="2">REMARKS/CORRECTIVE ACTION</th>
+                <th rowspan="2">[ปุ่มลบ]</th>
+            </tr>
+            <tr>
+                <td width="3%" align="center">Previous</td>
+                <td width="3%" align="center">Plan</td>
+                <td width="3%" align="center">Results</td>
+            </tr>
+        </thead>
+        <tbody>
+            @for($i = 0; $i < 5; $i++)
+            <tr>
+                <td>{{ $i+1 }}</td>
+                <td><input type="text" name="description[]" placeholder="Description of Activities" value="{{ old('description.'.$i) }}"></td>
+                <td><input type="text" name="resp_person[]" placeholder="Resp Person" value="{{ old('resp_person.'.$i) }}"></td>
+                <td><input type="text" name="previous[]" placeholder="Previous" value="{{ old('previous.'.$i) }}"></td>
+                <td><input type="text" name="plan[]" placeholder="Plan" value="{{ old('plan.'.$i) }}"></td>
+                <td><input type="text" name="results[]" placeholder="Results" value="{{ old('results.'.$i) }}"></td>
+                <td><input type="text" name="remarks[]" placeholder="Remarks" value="{{ old('remarks.'.$i) }}"></td>
+                <td>
+                    <input type="hidden" name="no[]" value="{{ $i+1 }}" class="rowNo">
+                    <button type="button" class="delete">ลบ</button>
+                </td>
+            </tr>
+            @endfor
+        </tbody>
+    </table>
+     </center>
+    <button type="button" class="edit" id="addRowBtn" style="margin-top:10px;">+ เพิ่มแถว</button>
+    <br><br>
 
-           <div class="actions" style="margin-top:10px; text-align:right;">
-                <button type="submit" class="primary" >บันทึกข้อมูล</button>
-            </div>
-             </div>
+    <div class="section-line">
+        <label>Prepared by:
+            <input type="text" name="prepared_by" value="{{ old('prepared_by') }}" style="width:300px;" required>
+        </label>
+        <label>Date:
+            <input type="date" name="prepared_date" value="{{ old('prepared_date') }}" style="width:200px;" required>
+        </label>
+        <label>Reported by:
+            <input type="text" name="reported_by" value="{{ old('reported_by') }}" style="width:300px;" required>
+        </label>
+        <label>Date:
+            <input type="date" name="reported_date" value="{{ old('reported_date') }}" style="width:200px;" required>
+        </label>
+    </div>
+    <br>
+    <div class="section-line">
+        <label>Reviewed by:
+            <input type="text" name="reviewed_by" value="{{ old('reviewed_by') }}" style="width:308px;" required>
+        </label>
+        <label>Date:
+            <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" style="width:200px;" required>
+        </label>
+        <label>Acknowledged by:
+            <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by') }}" style="width:263px;" required>
+        </label>
+        <label>Date:
+            <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" style="width:200px;" required>
+        </label>
+    </div>
+    <br>
+    <div class="section-line">
+        <label>Approved by:
+            <input type="text" name="approved_by" value="{{ old('approved_by') }}" style="width:302px;" required>
+        </label>
+        <label>Date:
+            <input type="date" name="approved_date" value="{{ old('approved_date') }}" style="width:200px;" required>
+        </label>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="primary">บันทึกข้อมูล</button>
+    </div>
+</div>
+</form>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("form");
-    const addRowBtn = document.getElementById('addRowBtn');
     const tableBody = document.querySelector('#objectiveTable tbody'); 
-
-    // ใช้ event delegation สำหรับปุ่ม delete
-    tableBody.addEventListener("click", function(e) {
-        if (e.target.closest(".delete")) {
-            const btn = e.target.closest(".delete");
-            const row = btn.closest('tr');
-            if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบแถวนี้?")) {
-                row.classList.add('fade-out');
-                setTimeout(() => {
-                    row.remove();
-                    updateRowNumbers();
-                }, 300);
-            }
-        }
-    });
+    const addRowBtn = document.getElementById('addRowBtn');
 
     function updateRowNumbers() {
         const rows = tableBody.querySelectorAll('tr');
         rows.forEach((row, index) => {
             row.cells[0].textContent = index + 1;
+            const hiddenInput = row.querySelector('.rowNo');
+            if(hiddenInput) hiddenInput.value = index + 1;
         });
     }
+
+    tableBody.addEventListener("click", function(e) {
+        if (e.target.closest(".delete")) {
+            const row = e.target.closest('tr');
+            if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบแถวนี้?")) {
+                row.remove();
+                updateRowNumbers();
+            }
+        }
+    });
 
     addRowBtn.addEventListener('click', () => {
         const rowCount = tableBody.rows.length + 1;
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
-            <td align="center">${rowCount}</td>
+            <td>${rowCount}</td>
             <td><input type="text" name="description[]" placeholder="Description of Activities"></td>
             <td><input type="text" name="resp_person[]" placeholder="Resp Person"></td>
             <td><input type="text" name="previous[]" placeholder="Previous"></td>
@@ -212,41 +254,12 @@ document.addEventListener("DOMContentLoaded", function() {
             <td><input type="text" name="results[]" placeholder="Results"></td>
             <td><input type="text" name="remarks[]" placeholder="Remarks"></td>
             <td>
-                <button type="button" class="delete">
-                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
-                      <path d='M3 6h18M9 6V4h6v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h12z'/>
-                    </svg>
-                    ลบ
-                </button>
+                <input type="hidden" name="no[]" value="${rowCount}" class="rowNo">
+                <button type="button" class="delete">ลบ</button>
             </td>
         `;
         tableBody.appendChild(newRow);
     });
-    form.addEventListener("submit", (event) => {
-        const rows = tableBody.querySelectorAll("tr");
-        let filledRows = 0;
-
-        rows.forEach(row => {
-            const activityInput = row.querySelector("input[name='description[]']");
-            const personInput = row.querySelector("input[name='resp_person[]']");
-            if ((activityInput && activityInput.value.trim() !== "") || 
-                (personInput && personInput.value.trim() !== "")) {
-                filledRows++;
-            }
-        });
-
-        if (filledRows < 1) {
-            event.preventDefault();
-            alert("⚠️ กรุณากรอกข้อมูลก่อนบันทึก!");
-            return;
-        }
-
-        const confirmSave = confirm("คุณต้องการบันทึกข้อมูลใช่หรือไม่?");
-        if (!confirmSave) {
-            event.preventDefault(); 
-        }
-    });
 });
-
 </script>
 @endsection

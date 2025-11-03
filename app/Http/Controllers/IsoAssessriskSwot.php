@@ -17,6 +17,7 @@ class IsoAssessriskSwot extends Controller
     {
         return view('iso.assessrisk-swot-create');
     }
+
     public function store(Request $request)
     {
         $sections = ['strength', 'weakness', 'opportunity', 'threat'];
@@ -28,7 +29,6 @@ class IsoAssessriskSwot extends Controller
 
             if ($request->has($riskField)) {
                 foreach ($request->$riskField as $key => $risk) {
-                   
                     if (empty($risk)) continue;
 
                     $sectionArray[] = [
@@ -47,7 +47,6 @@ class IsoAssessriskSwot extends Controller
             $data[$section] = $sectionArray;
         }
 
-     
         AssessriskSwot::create([
             'meeting_date'   => $request->meeting_date,
             'strength'       => json_encode($data['strength']),
@@ -64,41 +63,33 @@ class IsoAssessriskSwot extends Controller
         return redirect()->route('assessrisk-swot.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
-public function show($id)
+    public function show($id)
 {
     $record = AssessriskSwot::findOrFail($id);
 
-    $strengths = is_string($record->strength) 
-                    ? json_decode($record->strength, true) 
-                    : $record->strength ?? [];
-
-    $weaknesses = is_string($record->weakness) 
-                    ? json_decode($record->weakness, true) 
-                    : $record->weakness ?? [];
-
-    $opportunities = is_string($record->opportunity) 
-                    ? json_decode($record->opportunity, true) 
-                    : $record->opportunity ?? [];
-
-    $threats = is_string($record->threat) 
-                    ? json_decode($record->threat, true) 
-                    : $record->threat ?? [];
-
-    $report_by   = $record->report_by;
-    $report_date = $record->report_date;
-    $ack_by      = $record->ack_by;
-    $ack_date    = $record->ack_date;
+    $strengths = json_decode($record->strength ?? '[]', true);
+    $weaknesses = json_decode($record->weakness ?? '[]', true);
+    $opportunities = json_decode($record->opportunity ?? '[]', true);
+    $threats = json_decode($record->threat ?? '[]', true);
 
     return view('iso.assessrisk-swot-show', compact(
-        'record', 'strengths', 'weaknesses', 'opportunities', 'threats',
-        'report_by', 'report_date', 'ack_by', 'ack_date'
+        'record', 'strengths', 'weaknesses', 'opportunities', 'threats'
     ));
 }
     public function edit($id)
     {
         $record = AssessriskSwot::findOrFail($id);
-        return view('iso.assessrisk-swot-edit', compact('record'));
+
+        $strengths = json_decode($record->strength, true) ?? [];
+        $weaknesses = json_decode($record->weakness, true) ?? [];
+        $opportunities = json_decode($record->opportunity, true) ?? [];
+        $threats = json_decode($record->threat, true) ?? [];
+
+        return view('iso.assessrisk-swot-edit', compact(
+            'record', 'strengths', 'weaknesses', 'opportunities', 'threats'
+        ));
     }
+
     public function update(Request $request, $id)
     {
         $record = AssessriskSwot::findOrFail($id);
@@ -128,6 +119,7 @@ public function show($id)
 
             $data[$section] = $sectionArray;
         }
+
         $record->update([
             'meeting_date'   => $request->meeting_date,
             'strength'       => json_encode($data['strength']),
@@ -143,6 +135,7 @@ public function show($id)
 
         return redirect()->route('assessrisk-swot.index')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
     }
+
     public function destroy($id)
     {
         $record = AssessriskSwot::findOrFail($id);

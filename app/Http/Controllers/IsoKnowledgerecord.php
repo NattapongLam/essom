@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KnowledgeRecord;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Models\KnowledgeRecord;
 
 class IsoKnowledgerecord extends Controller
 {
     public function index()
-{
-    
-    $records = KnowledgeRecord::orderBy('request_date', 'desc')->get();
-    return view('iso.knowledge-record-list', compact('records'));
-}
+    {
+        $records = KnowledgeRecord::latest()->get();
+        return view('iso.knowledge-record-list', compact('records'));
+    }
 
     public function create()
     {
@@ -22,80 +20,85 @@ class IsoKnowledgerecord extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'request_date' => 'required|date',
             'documentKM_no' => 'required|string|max:255',
-            'OZN' => 'required|string|max:255',
-            'document_no' => 'required|string|max:255',
-            'subject' => 'required|string|max:255',
+            'document_no' => 'nullable|string|max:255',
+            'OZN' => 'nullable|string|max:255',
+            'subject' => 'nullable|string|max:255',
             'details' => 'nullable|string',
-            'attached_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:5120',
-            'approval' => 'nullable|array', 
+            'attached_file' => 'nullable|file',
+            'approval' => 'nullable|array',
             'transfer_date' => 'nullable|date',
             'NameCF' => 'nullable|string|max:255',
             'approval_date' => 'nullable|date',
         ]);
 
         if ($request->hasFile('attached_file')) {
-            $validated['attached_file'] = $request->file('attached_file')->store('attachments', 'public');
+            $file = $request->file('attached_file')->store('knowledge_files', 'public');
+            $data['attached_file'] = $file;
         }
 
-        $validated['approval'] = json_encode($request->approval ?? []);
+        if (isset($data['approval'])) {
+            $data['approval'] = json_encode($data['approval']);
+        }
 
-        KnowledgeRecord::create($validated);
+        KnowledgeRecord::create($data);
 
-        return redirect()->route('knowledge-record.index')->with('success', 'บันทึกความรู้สำเร็จ');
+        return redirect()->route('knowledge-record.index')->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
     public function edit(KnowledgeRecord $knowledgeRecord)
     {
         return view('iso.knowledge-record-create', ['record' => $knowledgeRecord]);
     }
-    
 
     public function update(Request $request, KnowledgeRecord $knowledgeRecord)
     {
-        $validated = $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'request_date' => 'required|date',
             'documentKM_no' => 'required|string|max:255',
-            'OZN' => 'required|string|max:255',
-            'document_no' => 'required|string|max:255',
-            'subject' => 'required|string|max:255',
+            'document_no' => 'nullable|string|max:255',
+            'OZN' => 'nullable|string|max:255',
+            'subject' => 'nullable|string|max:255',
             'details' => 'nullable|string',
-            'attached_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:5120',
+            'attached_file' => 'nullable|file',
             'approval' => 'nullable|array',
             'transfer_date' => 'nullable|date',
             'NameCF' => 'nullable|string|max:255',
             'approval_date' => 'nullable|date',
         ]);
-    if ($request->hasFile('attached_file')) {
-       
-        if ($knowledgeRecord->attached_file) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($knowledgeRecord->attached_file);
+
+        if ($request->hasFile('attached_file')) {
+            $file = $request->file('attached_file')->store('knowledge_files', 'public');
+            $data['attached_file'] = $file;
         }
-        $validated['attached_file'] = $request->file('attached_file')->store('attachments', 'public');
-    } else {
-        $validated['attached_file'] = $knowledgeRecord->attached_file;
+
+        if (isset($data['approval'])) {
+            $data['approval'] = json_encode($data['approval']);
+        }
+
+        $knowledgeRecord->update($data);
+
+        return redirect()->route('knowledge-record.index')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
     }
-    $validated['approval'] = json_encode($request->approval ?? []);
-
-    $knowledgeRecord->update($validated);
-
-    return redirect()->route('knowledge-record.index')->with('success', 'อัปเดตข้อมูลสำเร็จ');
-}
 
     public function destroy(KnowledgeRecord $knowledgeRecord)
     {
-        if ($knowledgeRecord->attached_file) {
-            Storage::disk('public')->delete($knowledgeRecord->attached_file);
-        }
         $knowledgeRecord->delete();
-        return redirect()->route('knowledge-record.index')->with('success', 'ลบข้อมูลสำเร็จ');
+        return redirect()->route('knowledge-record.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
+    }
+
+    // เพิ่มฟังก์ชัน show
+    public function show(KnowledgeRecord $knowledgeRecord)
+    {
+        // ส่งข้อมูลไปยัง Blade สำหรับแสดงแบบอ่านอย่างเดียว
+        return view('iso.knowledge-record-show', ['record' => $knowledgeRecord]);
     }
 }

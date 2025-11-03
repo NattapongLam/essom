@@ -1,154 +1,105 @@
 @extends('layouts.main')
 @section('content')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @if(session('success'))
-<script>
-Swal.fire({
-    icon: 'success',
-    title: 'สำเร็จ!',
-    text: "{{ session('success') }}",
-    confirmButtonColor: '#258b25'
-});
-</script>
+    <div style="background-color:#d1fae5;padding:10px;margin-bottom:15px;border-radius:6px;color:#065f46;">
+        {{ session('success') }}
+    </div>
 @endif
-
-@if(session('error'))
-<script>
-Swal.fire({
-    icon: 'error',
-    title: 'เกิดข้อผิดพลาด!',
-    text: "{{ session('error') }}",
-    confirmButtonColor: '#dc2626'
-});
-</script>
-@endif
-
-<style>
-.form-container {
-  font-family: "Segoe UI", "Prompt", sans-serif;
-  background: linear-gradient(180deg, #e6e6e6ff, #ffffff);
-  border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
-              inset 0 1px 0 rgba(255,255,255,0.4);
-  width: 850px;
-  margin: 60px auto;
-  padding: 35px 50px;
-  position: relative;
-  overflow: hidden;
-}
-.field {
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    margin-bottom:12px;
-}
-.field b{ min-width:200px; display:inline-block; color:#0f172a; }
-input[type="text"], input[type="date"], textarea {
-  width: 50%;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(15,23,42,0.12);
-  background: #fff;
-  font-size: 13px;
-  outline: none;
-}
-input[type="text"]:focus, textarea:focus, input[type="date"]:focus {
-  border-color: #4c87e5;
-  box-shadow: 0 0 8px rgba(76,135,229,0.3);
-}
-.actions {
-  display: flex;        
-  justify-content: center; 
-  gap: 10px;               
-  margin-top: 20px;         
-}
-
-button.primary {
-  background: linear-gradient(180deg, #258b25ff, #337725ff);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-weight: 700;
-  box-shadow: 0 10px 30px rgba(8, 158, 157, 0.18);
-  cursor: pointer;
-  text-align: center;
-}
-
-button.edit {
-  background: linear-gradient(180deg, #076a83ff, #80bde5ff);
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  box-shadow: 0 6px 18px rgba(140, 224, 238, 0.3);
-  transition: 0.2s;
-  cursor: pointer;
-  text-align: center;
-}
-
-button.primary:hover,
-button.edit:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-  transition: 0.2s;
-};
-</style>
 
 <h2 align="center">ESSOM CO., LTD.</h2>
-<h3 align="center">แก้ไขใบบันทึกความรู้องค์กร</h3>
+<h3 align="center">{{ isset($record) ? 'แก้ไข' : 'สร้าง' }} ใบบันทึกความรู้องค์กร</h3>
 
-<form action="{{ route('knowledge-record.update', $record->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($record) ? route('knowledge-record.update', $record->id) : route('knowledge-record.store') }}" 
+      method="POST" enctype="multipart/form-data" style="width:600px;margin:20px auto;">
     @csrf
-    @method('PUT')
+    @if(isset($record)) @method('PUT') @endif
+    <div style="margin-bottom:10px;">
+        <label>ชื่อผู้จัดทำ:</label>
+        <input type="text" name="name" value="{{ old('name', $record->name ?? '') }}" required style="width:100%;">
+    </div>
 
-    <div class="form-container">
-        <label>ชื่อ:</label>
-        <input type="text" name="name" value="{{ old('name', $record->name) }}">
-
+    <div style="margin-bottom:10px;">
         <label>หน่วยงาน:</label>
-        <input type="text" name="department" value="{{ old('department', $record->department) }}">
+        <input type="text" name="department" value="{{ old('department', $record->department ?? '') }}" required style="width:100%;">
+    </div>
 
+    <div style="margin-bottom:10px;">
         <label>ตำแหน่ง:</label>
-        <input type="text" name="position" value="{{ old('position', $record->position) }}">
+        <input type="text" name="position" value="{{ old('position', $record->position ?? '') }}" required style="width:100%;">
+    </div>
 
+    <div style="margin-bottom:10px;">
         <label>วันที่:</label>
-        <input type="date" name="request_date" value="{{ old('request_date', $record->request_date ?? '') }}">
+        <input type="date" name="request_date" value="{{ old('request_date', isset($record->request_date) ? $record->request_date->format('Y-m-d') : '') }}" required style="width:100%;">
+    </div>
 
+    <div style="margin-bottom:10px;">
         <label>เอกสาร KM เลขที่:</label>
-        <input type="text" name="documentKM_no" value="{{ old('documentKM_no', $record->documentKM_no) }}">
+        <input type="text" name="documentKM_no" value="{{ old('documentKM_no', $record->documentKM_no ?? '') }}" required style="width:100%;">
+    </div>
 
+    <div style="margin-bottom:10px;">
+        <label>เอกสาร NCR/CAR/คำร้องเลขที่:</label>
+        <input type="text" name="document_no" value="{{ old('document_no', $record->document_no ?? '') }}" style="width:100%;">
+    </div>
+    <div style="margin-bottom:10px;">
         <label>ความรู้องค์กรด้าน:</label>
-        <input type="text" name="OZN" value="{{ old('OZN', $record->OZN) }}">
+        <input type="text" name="OZN" value="{{ old('OZN', $record->OZN ?? '') }}" style="width:100%;">
+    </div>
 
-        <label>เอกสาร NCR/CAR/คำร้องเรียน เลขที่:</label>
-        <input type="text" name="document_no" value="{{ old('document_no', $record->document_no) }}">
-
+    <div style="margin-bottom:10px;">
         <label>เรื่อง:</label>
-        <input type="text" name="subject" value="{{ old('subject', $record->subject) }}">
-
+        <input type="text" name="subject" value="{{ old('subject', $record->subject ?? '') }}" style="width:100%;">
+    </div>
+    <div style="margin-bottom:10px;">
         <label>รายละเอียด:</label>
-        <textarea name="details">{{ old('details', $record->details) }}</textarea>
+        <textarea name="details" style="width:100%;height:100px;">{{ old('details', $record->details ?? '') }}</textarea>
+    </div>
 
+    <div style="margin-bottom:10px;">
         <label>ไฟล์แนบ:</label>
         <input type="file" name="attached_file">
+        @if(isset($record) && $record->attached_file)
+            <p><a href="{{ asset('storage/'.$record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
+        @endif
+    </div>
+    @php
+        $approvalValues = isset($record) ? json_decode($record->approval ?? '[]', true) : old('approval', []);
+    @endphp
+    <div style="margin-bottom:10px;">
+        <label>การอนุมัติ:</label><br>
+        @foreach(['อนุมัติ','ไม่อนุมัติ','รอพิจารณา','เก็บไว้พิจารณา'] as $value)
+            <label style="margin-right:10px;">
+                <input type="checkbox" name="approval[]" value="{{ $value }}" 
+                {{ in_array($value, $approvalValues) ? 'checked' : '' }}>
+                {{ $value }}
+            </label>
+        @endforeach
+    </div>
 
-        @php
-            $approvalValues = json_decode($record->approval ?? '[]', true);
-        @endphp
-        <div style="display: flex; gap: 10px; margin-top: 10px;">
-            @foreach(['อนุมัติ','ไม่อนุมัติ','รอพิจารณา','เก็บไว้พิจารณา'] as $value)
-                <label style="display:flex; flex-direction:column; align-items:center;">
-                    <input type="checkbox" name="approval[]" value="{{ $value }}" 
-                    {{ in_array($value, $approvalValues) ? 'checked' : '' }}>
-                    {{ $value }}
-                </label>
-            @endforeach
-        </div>
+    <div style="margin-bottom:10px;">
+        <label>กำหนดวันส่งต่อ-ถ่ายทอดความรู้:</label>
+        <input type="date" name="transfer_date" value="{{ old('transfer_date', isset($record->transfer_date) ? $record->transfer_date->format('Y-m-d') : '') }}">
+    </div>
 
-        <button type="submit" class="primary" style="margin-top: 15px;">บันทึก</button>
+    @if(isset($record))
+    <div style="margin-bottom:10px;">
+        <label>อนุมัติโดย:</label>
+        <input type="text" name="NameCF" value="{{ old('NameCF', $record->NameCF ?? '') }}" placeholder="ชื่อผู้อนุมัติ">
+    </div>
+
+    <div style="margin-bottom:10px;">
+        <label>วันที่ส่งต่อ:</label>
+        <input type="date" name="approval_date" value="{{ old('approval_date', isset($record->approval_date) ? $record->approval_date->format('Y-m-d') : '') }}">
+    </div>
+    @endif
+
+    <div style="text-align:center;">
+        <button type="submit" style="padding:8px 16px;background-color:#258b25;color:#fff;border:none;border-radius:6px;">
+            {{ isset($record) ? 'อัปเดตข้อมูล' : 'บันทึกข้อมูล' }}
+        </button>
     </div>
 </form>
+
 @endsection

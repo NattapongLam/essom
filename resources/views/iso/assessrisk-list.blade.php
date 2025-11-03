@@ -26,40 +26,42 @@
                                     <th>วันที่</th>
                                     <th>ประเด็นความเสี่ยง</th>
                                      <th>แก้ไข</th>
-                                     <th>ลบ</th>
+                                    <th>อนุมัติ</th>
+                                    <th>ลบ</th>
                                 </tr>
                             </thead>
-                            <tbody>
-    @foreach($risks as $i => $risk)
-    <tr>
-        <td>{{ $i+1 }}</td>
-        <td>{{ $risk->process_ref }}</td>
-        <td>{{ $risk->proposed_by }}</td>
-        <td>{{ $risk->proposed_date }}</td>
-        <td>
-            {{ $risk->risk_issue }}<br>
-            {{ $risk->risk_cause }}<br>
-            {{ $risk->risk_impact }}<br>
-            {{ $risk->risk_accept_reason }}
-        </td>
-        <td>
-            <a href="{{ route('assessrisk.edit', $risk->id) }}" class="btn btn-warning btn-sm">
-                <i class="fas fa-edit"></i>
-            </a>
-        </td>
-        <td>
-            <form action="{{ route('assessrisk.destroy', $risk->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm"
-                        onclick="return confirm('คุณต้องการลบข้อมูลนี้หรือไม่?')">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
+                           <tbody>
+@foreach($risks as $i => $risk)
+<tr>
+    <td>{{ $i+1 }}</td>
+    <td>{{ $risk->process_ref }}</td>
+    <td>{{ $risk->proposed_by }}</td>
+    <td>{{ $risk->proposed_date }}</td>
+    <td>
+        {{ $risk->risk_issue }}<br>
+        {{ $risk->risk_cause }}<br>
+        {{ $risk->risk_impact }}<br>
+        {{ $risk->risk_accept_reason }}
+    </td>
+    <td>
+        <a href="{{ route('assessrisk.edit', $risk->id) }}" class="btn btn-sm btn-warning">
+            <i class="fas fa-edit"></i>
+        </a>
+    </td>
+    <td>
+        <a href="{{ route('assessrisk.show', $risk->id) }}" class="btn btn-sm btn-primary">
+            <i class="fas fa-check"></i>
+        </a>
+    </td>
+    <td>
+        <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="confirmDel('{{ $risk->id }}')">
+            <i class="fas fa-trash"></i>
+        </a>
+    </td>
+</tr>
+@endforeach
 </tbody>
+
                         </table>
                     </div>
 

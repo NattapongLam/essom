@@ -22,7 +22,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';  
 
 Route::group([
     'prefix' => 'employees',
@@ -77,7 +77,7 @@ Route::resource('/fl-form' , App\Http\Controllers\FinalInspectionForm::class);
 // ISO 30 //
 Route::resource('/documents' , App\Http\Controllers\MainDocument::class);
 Route::resource('/assessrisk' , App\Http\Controllers\IsoAssessrisk::class);
-Route::resource('/assessrisk-swot' , App\Http\Controllers\IsoAssessrisk::class);
+Route::resource('/assessrisk-swot' , App\Http\Controllers\IsoAssessriskSwot::class);
 Route::resource('/objcctives' , App\Http\Controllers\IsoObjcctives::class);
 Route::resource('/iso-plan' , App\Http\Controllers\IsoPlan::class);
 Route::resource('/maintenance-records' , App\Http\Controllers\IsoMaintenanceRecords::class);
