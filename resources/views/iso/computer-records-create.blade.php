@@ -107,10 +107,10 @@ input:focus {
     <form class="form-container" method="POST" action="{{ route('computer-records.store') }}">
         @csrf
         <div class="step" id="step1">
-          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
     <div >
         <label>การบำรุงรักษาอุปกรณ์ IT (IT Preventive Maintenance) For Asset Number</label>
-        <input type="text" style="width: 0%;" name="asset_number" required>
+        <input type="text" style=" width: 25%;" name="asset_number" required>
     </div>
     <div style="flex: 1 1 150px;">
         <label>User Name</label>
