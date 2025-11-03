@@ -90,7 +90,7 @@ class IsoDesignPlan extends Controller
         }
 
         try {
-            DesignPlan::create($data);
+            DB::table('iso_design_plan')->insert($data);
             return redirect()->route('design-plan.index')->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
@@ -99,7 +99,7 @@ class IsoDesignPlan extends Controller
 
     public function edit($id)
     {
-        $plan = DesignPlan::findOrFail($id);
+        $plan = DB::table('iso_design_plan')->where('id',$id)->first();
         return view('iso.design-plan-edit', compact('plan'));
     }
 
@@ -142,8 +142,7 @@ class IsoDesignPlan extends Controller
         }
 
         try {
-            $plan = DesignPlan::findOrFail($id);
-            $plan->update($data);
+            $plan = DB::table('iso_design_plan')->where('id',$id)->update($data);
             return redirect()->route('design-plan.index')->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
@@ -152,15 +151,14 @@ class IsoDesignPlan extends Controller
 
     public function show($id)
     {
-        $plan = DesignPlan::findOrFail($id);
+        $plan = DB::table('iso_design_plan')->where('id',$id)->first();
         return view('iso.design-plan-show', compact('plan'));
     }
 
     public function destroy($id)
     {
         try {
-            $plan = DesignPlan::findOrFail($id);
-            $plan->delete();
+            $plan = DB::table('iso_design_plan')->where('id',$id)->delete();
             return redirect()->route('design-plan.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'ไม่สามารถลบได้: ' . $e->getMessage());
