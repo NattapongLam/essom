@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\DesignPlan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IsoDesignPlan extends Controller
 {
     public function index()
 {
-    $plans = DesignPlan::all()->map(function($plan) {
+    $plans = DB::table('iso_design_plan')->get()->map(function($plan) {
         // เก็บเฉพาะฟิลด์ที่มีค่า
         $visibleFields = [];
         // ฟิลด์หลัก
