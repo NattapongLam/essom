@@ -11,20 +11,16 @@ class DesignPlan extends Model
 
     protected $table = 'iso_design_plan'; 
     protected $primaryKey = 'id';
-    protected $fillable = [
-      
+    protected $fillable = [      
         'design_request_date',
         'product_name',
         'product_model',
         'product_description',
-
-     
         'reason_cost_price',
         'reason_catalog_picture',
         'reason_drawing',
         'reason_prototype',
         'reason_other',
-
         'design_input_1','design_input_2','design_input_3','design_input_4',
         'design_input_5','design_input_6','design_input_7','design_input_8',
 
