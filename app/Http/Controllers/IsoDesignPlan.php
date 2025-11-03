@@ -12,7 +12,6 @@ class IsoDesignPlan extends Controller
     $plans = DesignPlan::all()->map(function($plan) {
         // เก็บเฉพาะฟิลด์ที่มีค่า
         $visibleFields = [];
-
         // ฟิลด์หลัก
         $fields = [
             'design_request_date','product_name','product_model','product_description',
