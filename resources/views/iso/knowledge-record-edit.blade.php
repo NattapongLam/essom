@@ -86,12 +86,12 @@
     @if(isset($record))
     <div style="margin-bottom:10px;">
         <label>อนุมัติโดย:</label>
-        <input type="text" name="NameCF" value="{{ old('NameCF', $record->NameCF ?? '') }}" placeholder="ชื่อผู้อนุมัติ">
+        <input type="text" name="NameCF" value="{{ old('NameCF', $record->NameCF ?? '') }}" placeholder="ชื่อผู้อนุมัติ"  readonly>
     </div>
 
     <div style="margin-bottom:10px;">
         <label>วันที่ส่งต่อ:</label>
-        <input type="date" name="approval_date" value="{{ old('approval_date', isset($record->approval_date) ? $record->approval_date->format('Y-m-d') : '') }}">
+        <input type="date" name="approval_date" value="{{ old('approval_date', isset($record->approval_date) ? $record->approval_date->format('Y-m-d') : '') }}" readonly>
     </div>
     @endif
 

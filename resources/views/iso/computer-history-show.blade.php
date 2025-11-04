@@ -1,144 +1,40 @@
-
-<title>แสดงประวัติคอมพิวเตอร์</title>
+@extends('layouts.main')
+@section('content')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-body {
-    font-family: "Prompt", "Tahoma", sans-serif;
-    background: #f0f4f8;
-    margin: 0;
-    padding: 0;
-    color: #1e293b;
-}
-
-.form-container {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 25px;
-    max-width: 100%;
-    margin: 0 auto;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    border: 1px solid #e0e0e0;
-    box-sizing: border-box;
-}
-
-h2 {
-    text-align: center;
-    color: #0f172a;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 25px;
-}
-
-.section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.section label {
-    min-width: 120px;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-.section input[type="text"],
-.section input[type="number"],
-.section input[type="date"],
-.section textarea {
-    flex: 1 1 180px;
-    padding: 6px 10px;
-    font-size: 14px;
-    border: 1px solid #94a3b8;
-    border-radius: 6px;
-    background-color: #f8fafc;
-}
-
-.section input:disabled,
-.section textarea:disabled {
-    background-color: #e2e8f0;
-    color: #334155;
-}
-
-textarea {
-    width: 100%;
-    min-height: 120px;
-    resize: vertical;
-}
-
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.signature {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.signature .flex-row {
-    flex: 1 1 250px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-}
-
-@media print {
-    body {
-        background: #fff;
-        color: #000;
-    }
-    .form-container {
-        box-shadow: none;
-        border: 1px solid #000;
-        page-break-inside: avoid;
-    }
-    input, textarea {
-        border: 1px solid #000 !important;
-        background-color: #fff !important;
-        -webkit-print-color-adjust: exact;
-    }
-}
-
-@media (max-width: 768px) {
-    .section {
-        flex-direction: column;
-    }
-    .section label {
-        min-width: 100%;
-        margin-bottom: 3px;
-    }
-    .signature {
-        flex-direction: column;
-    }
-}
-
-button {
-  background: linear-gradient(180deg, #1e3a8a, #3b82f6);
-  color: #fff;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
-button:hover { opacity: 0.9; }
+body { font-family: "Prompt", "Tahoma", sans-serif; background: linear-gradient(135deg, #e3f2fd, #ffffff); margin: 0; padding: 0; color: #333; }
+.form-container { background: #ffffff; border-radius: 12px; padding: 20px; max-width: 100%; margin: 0 auto; box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; box-sizing: border-box; }
+h2 { text-align: center; color: #0f172a; font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+input, textarea, select { border: 1px solid #94a3b8; border-radius: 6px; padding: 6px 10px; font-size: 14px; box-sizing: border-box; background-color: #f8fafc; transition: 0.2s; }
+input:focus, textarea:focus { border-color: #010101; box-shadow: 0 0 6px rgba(59,130,246,0.3); background-color: #ffffff; outline: none; }
+.checkbox-inline { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+textarea { width: 100%; min-height: 120px; resize: vertical; }
+.section { margin-bottom: 20px; }
+.flex-row { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+.flex-row label { min-width: 120px; font-weight: 600; color: #000; }
+.flex-row input, .flex-row select, .flex-row textarea { flex: 1 1 150px; }
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px; }
+.signature { display: flex; gap: 20px; flex-wrap: wrap; }
+.signature .flex-row { flex: 1; min-width: 250px; }
+button { background: linear-gradient(180deg, #1e3a8a, #3b82f6); color: #fff; border: none; padding: 10px 25px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+button:hover { transform: scale(1.05); }
+@media (max-width: 768px) { .flex-row { flex-direction: column; align-items: flex-start; } .flex-row label { width: 100%; margin-bottom: 5px; } .signature { flex-direction: column; } }
 </style>
-
 <div class="form-container">
   <h2>แสดงประวัติคอมพิวเตอร์</h2>
 
-  <div class="section flex-row">
-    <label>1) User Name:</label>
-    <input type="text"id="user_name" value="{{ $history->user_name }}" disabled>
-    <label>No.</label>
-    <input type="text" value="{{ $history->no_number }}" disabled>
-    <label>Starting Date:</label>
-    <input type="date" value="{{ $history->start_date }}" disabled>
-  </div>
+  <form action="{{ route('computer-history.update', $history->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+ <div class="section flex-row">
+        <label>1) User Name:</label>
+        <input type="text" id="user_name" value="{{ $history->user_name }}" disabled>
+        <label>No.</label>
+        <input type="text" value="{{ $history->no_number }}" disabled>
+        <label>Starting Date:</label>
+        <input type="date" value="{{ $history->start_date }}" disabled>
+    </div>
 
   <div class="section">
     <label>2) Computer Type:</label>
@@ -345,60 +241,54 @@ button:hover { opacity: 0.9; }
     <label>Problem / Maintenance:</label>
     <textarea disabled>{{ $history->problem }}</textarea>
   </div>
-  <div class="section signature">
-    <div class="flex-row">
-      <label>Check by:</label>
-      <input type="text" value="{{ $history->check_by }}" disabled>
-      <label>Date:</label>
-      <input type="date" value="{{ $history->check_date }}" disabled>
+   <div class="section signature">
+        <div class="flex-row">
+            <label>Check by:</label>
+            <input type="text" value="{{ $history->check_by }}" disabled>
+            <label>Date:</label>
+            <input type="date" value="{{ $history->check_date }}" disabled>
+        </div>
+        <div class="flex-row">
+            <label>Acknowledged by:</label>
+            <input type="text" name="ack_by" value="{{ old('ack_by', $history->ack_by) }}">
+            <label>Date:</label>
+            <input type="date" name="ack_date" value="{{ old('ack_date', $history->ack_date) }}">
+        </div>
     </div>
-    <div class="flex-row">
-      <label>Acknowledged by:</label>
-      <input type="text" value="{{ $history->ack_by }}" disabled>
-      <label>Date:</label>
-      <input type="date" value="{{ $history->ack_date }}" disabled>
+<center>
+    <div class="actions" style="margin-top:20px;">
+        <button type="submit">บันทึก</button>
+        <a href="{{ route('computer-history.index') }}" class="secondary">กลับไปหน้ารายการ</a>
     </div>
-  </div>
+    </center>
+  </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const btn = document.getElementById("exportBtn");
-    btn.addEventListener("click", function() {
-        console.log("Export button clicked"); 
-        const wb = XLSX.utils.book_new();
-        const ws_data = [];
-
-        document.querySelectorAll(".form-container .section").forEach(section => {
-            const sectionData = [];
-
-            section.querySelectorAll("label").forEach(label => {
-                sectionData.push(label.innerText.trim());
+    if(btn){
+        btn.addEventListener("click", function() {
+            const wb = XLSX.utils.book_new();
+            const ws_data = [];
+            document.querySelectorAll(".form-container .section").forEach(section => {
+                const sectionData = [];
+                section.querySelectorAll("label").forEach(label => sectionData.push(label.innerText.trim()));
+                section.querySelectorAll("input, textarea").forEach(input => {
+                    if (input.type === "checkbox") sectionData.push(input.checked ? "✔" : "✖");
+                    else sectionData.push(input.value || "");
+                });
+                if (sectionData.length) ws_data.push(sectionData);
             });
-
-            section.querySelectorAll("input, textarea").forEach(input => {
-                if (input.type === "checkbox") {
-                    sectionData.push(input.checked ? "✔" : "✖");
-                } else {
-                    sectionData.push(input.value || "");
-                }
-            });
-
-            if (sectionData.length > 0) ws_data.push(sectionData);
+            if (!ws_data.length) { alert("ไม่พบข้อมูลสำหรับส่งออก"); return; }
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            XLSX.utils.book_append_sheet(wb, ws, "Computer History");
+            const userName = document.getElementById("user_name")?.value || "Computer_History";
+            XLSX.writeFile(wb, `${userName}_Computer_History.xlsx`);
         });
-
-        if (ws_data.length === 0) {
-            alert("ไม่พบข้อมูลสำหรับส่งออก");
-            return;
-        }
-
-        const ws = XLSX.utils.aoa_to_sheet(ws_data);
-        XLSX.utils.book_append_sheet(wb, ws, "Computer History");
-
-        const userName = document.getElementById("user_name")?.value || "Computer_History";
-        XLSX.writeFile(wb, `${userName}_Computer_History.xlsx`);
-    });
+    }
 });
 </script>
 
+@endsection

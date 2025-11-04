@@ -367,9 +367,9 @@ button:hover {
       </div>
       <div class="flex-row">
         <label>Acknowledged by:</label>
-        <input type="text" name="ack_by" value="{{ old('ack_by', $item->ack_by) }}">
+        <input type="text" name="ack_by" value="{{ old('ack_by', $item->ack_by) }}" readonly>
         <label>Date:</label>
-        <input type="date" name="ack_date" value="{{ old('ack_date', $item->ack_date) }}">
+        <input type="date" name="ack_date" value="{{ old('ack_date', $item->ack_date) }}" readonly>
       </div>
     </div>
 <div style="text-align:center; margin-top:30px;">
