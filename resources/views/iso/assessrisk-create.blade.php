@@ -13,6 +13,12 @@ Swal.fire({
 @endif
 
 <style>
+    .input_style[readonly] {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
 body { 
     font-family: 'TH Sarabun New', sans-serif; 
     font-size: 18px; 
@@ -231,17 +237,29 @@ table td input.input_style {
             </tr>
 
             <tr>
-                <td colspan="4">
-                    <b>อนุมัติ / วันที่:</b>
-                    <table class="mini-table">
-                        @foreach($risk['approved'] as $ap => $approve)
-                        <tr>
-                            <td><input type="text" name="risks[{{ $i }}][approved][{{ $ap }}][name]" value="{{ $approve['name'] }}" class="input_style"></td>
-                            <td><input type="date" name="risks[{{ $i }}][approved][{{ $ap }}][date]" value="{{ $approve['date'] }}" class="input_style"></td>
-                        </tr>
-                        @endforeach
-                    </table>
-                </td>
+              <td colspan="4">
+    <b>อนุมัติ / วันที่:</b>
+    <table class="mini-table">
+        @foreach($risk['approved'] as $ap => $approve)
+        <tr>
+            <td>
+                <input type="text" 
+                       name="risks[{{ $i }}][approved][{{ $ap }}][name]" 
+                       value="{{ $approve['name'] }}" 
+                       class="input_style" 
+                       readonly>
+            </td>
+            <td>
+                <input type="date" 
+                       name="risks[{{ $i }}][approved][{{ $ap }}][date]" 
+                       value="{{ $approve['date'] }}" 
+                       class="input_style" 
+                       readonly>
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</td>
                 <td colspan="7">
                     <table class="mini-table">
                         <tr>
