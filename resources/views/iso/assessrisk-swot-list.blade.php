@@ -20,7 +20,7 @@ Swal.fire({
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>ESSOM CO., LTD.<br>รายการ SWOT Analysis</h2>
+                    <h2>ESSOM CO., LTD.<br>คำขอแก้ไขแบบฟอร์มการวิเคราะห์ความเสี่ยงต่อธุรกิจของบริษัท</h2>
                     <p class="text-left">
                         <a href="{{ route('assessrisk-swot.create') }}" >เพิ่มข้อมูลใหม่</a>
                     </p>
@@ -42,61 +42,65 @@ Swal.fire({
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($records as $record)
-                                <tr>
-                                    <td>{{ $record->meeting_date }}</td>
-                                    <td>{{ $record->report_by }}</td>
-                                    
-                                    <td>
-                                        @php
-                                            $strengths = json_decode($record->strength, true) ?? [];
-                                            $strength_risks = array_column($strengths, 'risk');
-                                        @endphp
-                                        {{ implode(', ', $strength_risks) }}
-                                    </td>
-                                    
-                                    <td>
-                                        @php
-                                            $weaknesses = json_decode($record->weakness, true) ?? [];
-                                            $weakness_risks = array_column($weaknesses, 'risk');
-                                        @endphp
-                                        {{ implode(', ', $weakness_risks) }}
-                                    </td>
-                                    
-                                    <td>
-                                        @php
-                                            $opportunities = json_decode($record->opportunity, true) ?? [];
-                                            $opportunity_risks = array_column($opportunities, 'risk');
-                                        @endphp
-                                        {{ implode(', ', $opportunity_risks) }}
-                                    </td>
-                                    
-                                    <td>
-                                        @php
-                                            $threats = json_decode($record->threat, true) ?? [];
-                                            $threat_risks = array_column($threats, 'risk');
-                                        @endphp
-                                        {{ implode(', ', $threat_risks) }}
-                                    </td>
-                                  <td>
-    <a href="{{ route('assessrisk-swot.edit', $record->id) }}" class="btn btn-sm btn-warning">
-        <i class="fas fa-edit"></i>
-    </a>
-</td>
-<td>
-    <a href="{{ route('assessrisk-swot.show', $record->id) }}" class="btn btn-sm btn-primary">
-        <i class="fas fa-check"></i>
-    </a>
-</td>
-<td>
-    <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="confirmDel('{{ $record->id }}')">
-        <i class="fas fa-trash"></i>
-    </a>
-</td>
+@foreach($records as $record)
+<tr>
+    <td>{{ $record->meeting_date ? \Carbon\Carbon::parse($record->meeting_date)->format('Y-m-d') : '' }}</td>
+    <td>{{ $record->report_by }}</td>
+    
+    <td>
+        @php
+            $strengths = json_decode($record->strength, true);
+            if (!is_array($strengths)) $strengths = [];
+            $strength_risks = array_column($strengths, 'risk');
+        @endphp
+        {{ implode(', ', $strength_risks) }}
+    </td>
 
-                                </tr>
-                                @endforeach
-                            </tbody>
+    <td>
+        @php
+            $weaknesses = json_decode($record->weakness, true);
+            if (!is_array($weaknesses)) $weaknesses = [];
+            $weakness_risks = array_column($weaknesses, 'risk');
+        @endphp
+        {{ implode(', ', $weakness_risks) }}
+    </td>
+
+    <td>
+        @php
+            $opportunities = json_decode($record->opportunity, true);
+            if (!is_array($opportunities)) $opportunities = [];
+            $opportunity_risks = array_column($opportunities, 'risk');
+        @endphp
+        {{ implode(', ', $opportunity_risks) }}
+    </td>
+
+    <td>
+        @php
+            $threats = json_decode($record->threat, true);
+            if (!is_array($threats)) $threats = [];
+            $threat_risks = array_column($threats, 'risk');
+        @endphp
+        {{ implode(', ', $threat_risks) }}
+    </td>
+
+    <td>
+        <a href="{{ route('assessrisk-swot.edit', $record->id) }}" class="btn btn-sm btn-warning">
+            <i class="fas fa-edit"></i>
+        </a>
+    </td>
+    <td>
+        <a href="{{ route('assessrisk-swot.show', $record->id) }}" class="btn btn-sm btn-primary">
+            <i class="fas fa-check"></i>
+        </a>
+    </td>
+    <td>
+        <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="confirmDel('{{ $record->id }}')">
+            <i class="fas fa-trash"></i>
+        </a>
+    </td>
+</tr>
+@endforeach
+</tbody>
                         </table>
                     </div>
                 </div>
@@ -114,6 +118,28 @@ Swal.fire({
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
 <script>
+    function confirmDel(id) {
+    if(confirm('คุณต้องการลบข้อมูลนี้หรือไม่?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/assessrisk-swot/${id}`; 
+
+        const token = document.createElement('input');
+        token.type = 'hidden';
+        token.name = '_token';
+        token.value = '{{ csrf_token() }}';
+        form.appendChild(token);
+
+        const method = document.createElement('input');
+        method.type = 'hidden';
+        method.name = '_method';
+        method.value = 'DELETE';
+        form.appendChild(method);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 $(document).ready(function() {
     $('#swotTable').DataTable({
         "pageLength": 50,

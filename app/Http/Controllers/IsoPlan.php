@@ -68,51 +68,67 @@ class IsoPlan extends Controller
         return view('iso.iso-plan-edit', compact('plan', 'activities'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $plan = Plan::findOrFail($id);
-        $activities = $this->processActivities($request);
-
-        $updateData = [];
-
-        if ($request->filled('prepared_by')) {
-            $updateData['prepared_by'] = $request->prepared_by;
-            $updateData['prepared_date'] = $request->prepared_date;
-        }
-
-        if ($request->filled('prepared_progress_review')) {
-            $updateData['prepared_progress_review'] = $request->prepared_progress_review;
-            $updateData['prepared_progress_date'] = $request->prepared_progress_date;
-        }
-
-        if ($request->filled('reviewed_by')) {
-            $updateData['reviewed_by'] = $request->reviewed_by;
-            $updateData['reviewed_date'] = $request->reviewed_date;
-        }
-
-        // Reported
-        if ($request->filled('reported_by')) {
-            $updateData['reported_by'] = $request->reported_by;
-            $updateData['reported_date'] = $request->reported_date;
-        }
-
-        if ($request->filled('approved_by')) {
-            $updateData['approved_by'] = $request->approved_by;
-            $updateData['approved_date'] = $request->approved_date;
-        }
-        if ($request->filled('acknowledged_by')) {
-            $updateData['acknowledged_by'] = $request->acknowledged_by;
-            $updateData['acknowledged_date'] = $request->acknowledged_date;
-        }
-
-        if (!empty($activities)) {
-            $updateData['activities'] = json_encode($activities, JSON_UNESCAPED_UNICODE);
-        }
-
-        $plan->update($updateData);
-
-        return redirect()->route('iso-plan.index')->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว!');
+   public function update(Request $request, $id)
+{
+    $plan = Plan::findOrFail($id);
+    if (isset($request->prepared_by)) {
+        $plan->prepared_by = $request->prepared_by;
+        $plan->prepared_date = $request->prepared_date;
     }
+
+    $existingActivities = json_decode($plan->activities, true) ?? [];
+    $newActivities = $this->processActivities($request);
+    if (!empty($newActivities)) {
+        $activities = array_merge($existingActivities, $newActivities);
+        $plan->activities = json_encode($activities, JSON_UNESCAPED_UNICODE);
+    }
+
+    if (isset($request->prepared_progress_review)) {
+        $plan->prepared_progress_review = $request->prepared_progress_review;
+        $plan->prepared_progress_date = $request->prepared_progress_date;
+    }
+
+    if (isset($request->reviewed_by)) {
+        $plan->reviewed_by = $request->reviewed_by;
+        $plan->reviewed_date = $request->reviewed_date;
+    }
+
+    if (isset($request->reported_by)) {
+        $plan->reported_by = $request->reported_by;
+        $plan->reported_date = $request->reported_date;
+    }
+
+    if (isset($request->approved_by)) {
+        $plan->approved_by = $request->approved_by;
+        $plan->approved_date = $request->approved_date;
+    }
+
+    if (isset($request->acknowledged_by)) {
+        $plan->acknowledged_by = $request->acknowledged_by;
+        $plan->acknowledged_date = $request->acknowledged_date;
+    }
+
+    $plan->save();
+
+    if ($plan->acknowledged_by) {
+        $currentStep = 5;
+    } elseif ($plan->approved_by) {
+        $currentStep = 4;
+    } elseif ($plan->reported_by) {
+        $currentStep = 3;
+    } elseif ($plan->reviewed_by) {
+        $currentStep = 2;
+    } elseif ($plan->prepared_progress_review) {
+        $currentStep = 1;
+    } else {
+        $currentStep = 0;
+    }
+
+    return redirect()->route('iso-plan.index')
+                     ->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว')
+                     ->with('currentStep', $currentStep);
+}
+
 
     private function processActivities($request)
     {
@@ -147,10 +163,25 @@ class IsoPlan extends Controller
         return redirect()->route('iso-plan.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว!');
     }
 
-    public function show($id)
-    {
-        $plan = Plan::findOrFail($id);
-        $activities = json_decode($plan->activities, true) ?? [];
-        return view('iso.iso-plan-show', compact('plan', 'activities'));
+   public function show($id)
+{
+    $plan = Plan::findOrFail($id);
+    $activities = json_decode($plan->activities, true) ?? [];
+
+    if ($plan->acknowledged_by) {
+        $currentStep = 5;
+    } elseif ($plan->approved_by) {
+        $currentStep = 4;
+    } elseif ($plan->reported_by) {
+        $currentStep = 3;
+    } elseif ($plan->reviewed_by) {
+        $currentStep = 2;
+    } elseif ($plan->prepared_progress_review) {
+        $currentStep = 1;
+    } else {
+        $currentStep = 0;
     }
+
+    return view('iso.iso-plan-show', compact('plan', 'activities', 'currentStep'));
+}
 }

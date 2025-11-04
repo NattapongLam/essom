@@ -22,18 +22,12 @@
                                 <th>Project</th>
                                 <th>Responsible Section / Person</th>
                                 <th>Description of Activities</th>
-                                <th>Prepared by</th>
-                                <th>Date</th>
                                 <th>Progress Review</th>
-                                <th>Date</th>
                                 <th>Reviewed by</th>
-                                <th>Date</th>
                                 <th>Reported by</th>
-                                <th>Date</th>
                                 <th>Approved by</th>
-                                <th>Date</th>
                                 <th>Acknowledged by</th>
-                                <th>Date</th>
+                                <th>แก้ไข</th>
                                 <th>อนุมัติ</th>
                                 <th>ลบ</th>
                             </tr>
@@ -41,84 +35,73 @@
                         <tbody>
 @php $no = 1; @endphp
 @forelse($records as $plan)
-    @php
-        $activities = json_decode($plan->activities, true) ?? [];
-    @endphp
-
-    @if(count($activities) > 0)
-        @foreach($activities as $act)
-            <tr>
-                <td>{{ $no++ }}</td>
-                <td>{{ $plan->project_name ?? '-' }}</td>
-                <td>{{ $plan->responsible_section ?? '-' }}</td>
-                <td>
+    @php $activities = json_decode($plan->activities, true) ?? []; @endphp
+    <tr>
+        <td>{{ $no++ }}</td>
+        <td>{{ $plan->project_name ?? '-' }}</td>
+        <td>{{ $plan->responsible_section ?? '-' }}</td>
+        <td>
+            @if(count($activities) > 0)
+                @foreach($activities as $act)
                     {{ $act['description'] ?? '-' }}<br>
-                    <small>Responsible: {{ $act['responsible_person'] ?? '-' }}</small>
-                </td>
-                <td>{{ $plan->prepared_by ?? '-' }}</td>
-                <td>{{ $act['date_start'] ?? '-' }}</td>
-                <td>{{ $plan->prepared_progress_review ?? '-' }}</td>
-                <td>{{ $act['date_end'] ?? '-' }}</td>
-                <td>{{ $plan->reviewed_by ?? '-' }}</td>
-                <td>{{ isset($plan->reviewed_date) ? \Carbon\Carbon::parse($plan->reviewed_date)->format('Y-m-d') : '-' }}</td>
-                <td>{{ $plan->reported_by ?? '-' }}</td>
-                <td>{{ isset($plan->reported_date) ? \Carbon\Carbon::parse($plan->reported_date)->format('Y-m-d') : '-' }}</td>
-                <td>{{ $plan->approved_by ?? '-' }}</td>
-                <td>{{ isset($plan->approved_date) ? \Carbon\Carbon::parse($plan->approved_date)->format('Y-m-d') : '-' }}</td>
-                <td>{{ $plan->acknowledged_by ?? '-' }}</td>
-                <td>{{ isset($plan->acknowledged_date) ? \Carbon\Carbon::parse($plan->acknowledged_date)->format('Y-m-d') : '-' }}</td>
-                <td>
-                    <a href="{{ route('iso-plan.edit', $plan->id) }}" class="btn btn-sm btn-warning">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                </td>
-                <td>
-                    <form id="delete-form-{{ $plan->id }}" action="{{ route('iso-plan.destroy', $plan->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDel({{ $plan->id }})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    @else
-        <tr>
-            <td>{{ $no++ }}</td>
-            <td>{{ $plan->project_name ?? '-' }}</td>
-            <td>{{ $plan->responsible_section ?? '-' }}</td>
-            <td>-</td>
-            <td>{{ $plan->prepared_by ?? '-' }}</td>
-            <td>{{ isset($plan->prepared_date) ? \Carbon\Carbon::parse($plan->prepared_date)->format('Y-m-d') : '-' }}</td>
-            <td>{{ $plan->prepared_progress_review ?? '-' }}</td>
-            <td>{{ isset($plan->prepared_progress_date) ? \Carbon\Carbon::parse($plan->prepared_progress_date)->format('Y-m-d') : '-' }}</td>
-            <td>{{ $plan->reviewed_by ?? '-' }}</td>
-            <td>{{ isset($plan->reviewed_date) ? \Carbon\Carbon::parse($plan->reviewed_date)->format('Y-m-d') : '-' }}</td>
-            <td>{{ $plan->reported_by ?? '-' }}</td>
-            <td>{{ isset($plan->reported_date) ? \Carbon\Carbon::parse($plan->reported_date)->format('Y-m-d') : '-' }}</td>
-            <td>{{ $plan->approved_by ?? '-' }}</td>
-            <td>{{ isset($plan->approved_date) ? \Carbon\Carbon::parse($plan->approved_date)->format('Y-m-d') : '-' }}</td>
-            <td>{{ $plan->acknowledged_by ?? '-' }}</td>
-            <td>{{ isset($plan->acknowledged_date) ? \Carbon\Carbon::parse($plan->acknowledged_date)->format('Y-m-d') : '-' }}</td>
-            <td>
-                <a href="{{ route('iso-plan.edit', $plan->id) }}" class="btn btn-sm btn-warning">
-                    <i class="fas fa-edit"></i>
-                </a>
-            </td>
-            <td>
-                <form id="delete-form-{{ $plan->id }}" action="{{ route('iso-plan.destroy', $plan->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDel({{ $plan->id }})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-    @endif
+                    <small>Responsible: {{ $act['responsible_person'] ?? '-' }}</small><br>
+                @endforeach
+            @else
+                -
+            @endif
+        </td>
+        <td>
+            {{ $plan->prepared_progress_review ?? '-' }}
+            @if(isset($plan->prepared_progress_date))
+                ({{ \Carbon\Carbon::parse($plan->prepared_progress_date)->format('Y-m-d') }})
+            @endif
+        </td>
+        <td>
+            {{ $plan->reviewed_by ?? '-' }}
+            @if(isset($plan->reviewed_date))
+                ({{ \Carbon\Carbon::parse($plan->reviewed_date)->format('Y-m-d') }})
+            @endif
+        </td>
+        <td>
+            {{ $plan->reported_by ?? '-' }}
+            @if(isset($plan->reported_date))
+                ({{ \Carbon\Carbon::parse($plan->reported_date)->format('Y-m-d') }})
+            @endif
+        </td>
+        <td>
+             {{ $plan->approved_by ?? '-' }}
+            @if(isset($plan->approved_date))
+                ({{ \Carbon\Carbon::parse($plan->approved_date)->format('Y-m-d') }})
+            @endif
+        </td>
+        <td>
+             {{ $plan->acknowledged_by ?? '-' }}
+            @if(isset($plan->acknowledged_date))
+                ({{ \Carbon\Carbon::parse($plan->acknowledged_date)->format('Y-m-d') }})
+            @endif
+        </td>
+        <td>
+            <a href="{{ route('iso-plan.edit', $plan->id) }}" class="btn btn-sm btn-warning">
+                <i class="fas fa-edit"></i>
+            </a>
+        </td>
+        <td>
+            <a href="{{ route('iso-plan.show', $plan->id) }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-check"></i>
+            </a>
+        </td>
+        <td>
+            <form id="delete-form-{{ $plan->id }}" action="{{ route('iso-plan.destroy', $plan->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="button" class="btn btn-sm btn-danger" onclick="confirmDel({{ $plan->id }})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
 @empty
-    <tr><td colspan="18">ไม่พบข้อมูล</td></tr>
+    <tr><td colspan="12">ไม่พบข้อมูล</td></tr>
 @endforelse
                         </tbody>
                     </table>
