@@ -37,14 +37,13 @@
                 <td>{{ $record->asset_number }}</td>
                 <td>{{ $record->user_name }}</td>
                 <td>{{ $record->period }}</td>
-                </td>
         <td>
-            <a href="{{ route('computer-records.edit', $risk->id) }}" class="btn btn-warning btn-sm">
+            <a href="{{ route('computer-records.edit', $record->id) }}" class="btn btn-warning btn-sm">
                 <i class="fas fa-edit"></i>
             </a>
         </td>
         <td>
-            <form action="{{ route('computer-records.destroy', $risk->id) }}" method="POST" style="display:inline;">
+            <form action="{{ route('computer-records.destroy', $record->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger btn-sm"
