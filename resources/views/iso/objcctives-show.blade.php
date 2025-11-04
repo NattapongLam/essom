@@ -54,7 +54,7 @@ button.edit{
                 <th>No.</th>
                 <th>Section</th>
                 <th>Period</th>
-                <th>Description</th>
+                <th>Description of Activites</th>
                 <th>Resp. Person</th>
                 <th>Previous</th>
                 <th>Plan</th>

@@ -7,20 +7,18 @@ use App\Models\KnowledgeSurvey;
 
 class IsoKnowledgesurvey extends Controller
 {
-    // แสดง list
+
     public function index()
     {
         $surveys = KnowledgeSurvey::latest()->get();
         return view('iso.knowledge-survey-list', compact('surveys'));
     }
 
-    // ฟอร์มสร้างใหม่
     public function create()
     {
         return view('iso.knowledge-survey-create');
     }
 
-    // บันทึกข้อมูลใหม่
     public function store(Request $request)
     {
         $data = [
@@ -63,12 +61,10 @@ class IsoKnowledgesurvey extends Controller
                          ->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
-    // ฟอร์มแก้ไข
     public function edit($id)
     {
         $survey = KnowledgeSurvey::findOrFail($id);
 
-        // decode checkbox เป็น array
         $survey->q1_status = json_decode($survey->q1_status ?? '[]', true);
         $survey->q2_status = json_decode($survey->q2_status ?? '[]', true);
         $survey->q3_need = json_decode($survey->q3_need ?? '[]', true);
@@ -77,7 +73,6 @@ class IsoKnowledgesurvey extends Controller
         return view('iso.knowledge-survey-edit', compact('survey'));
     }
 
-    // อัปเดตข้อมูล
     public function update(Request $request, $id)
     {
         $survey = KnowledgeSurvey::findOrFail($id);
@@ -120,7 +115,6 @@ class IsoKnowledgesurvey extends Controller
                          ->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว');
     }
 
-    // ลบข้อมูล
     public function destroy($id)
     {
         $survey = KnowledgeSurvey::findOrFail($id);

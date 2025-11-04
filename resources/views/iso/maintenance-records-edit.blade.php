@@ -144,12 +144,6 @@ input:focus {
 <div class="form-container">
     <h2>แก้ไขบันทึกการบำรุงเครื่องจักร EQUIPMENT MAINTENANCE RECORD</h2>
 
-    <div style="margin-bottom:15px; text-align:right;">
-        <button id="printBtn" class="print-btn">
-            print
-        </button>
-    </div>
-
     <form action="{{ route('maintenance-records.update', $record_id ?? 0) }}" method="POST" class="form-container">
         @csrf
         @method('PUT')

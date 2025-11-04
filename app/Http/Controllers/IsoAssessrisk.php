@@ -328,11 +328,111 @@ class IsoAssessrisk extends Controller
         return redirect()->route('assessrisk.index')->with('success','แก้ไขข้อมูลเรียบร้อยแล้ว');
     }
 
-    // ลบ
+ 
     public function destroy($id)
     {
         $risk = Assessrisk::findOrFail($id);
         $risk->delete();
         return redirect()->route('assessrisk.index')->with('success','ลบข้อมูลเรียบร้อยแล้ว');
     }
+public function show($id)
+{
+    $risk = Assessrisk::findOrFail($id);
+
+    $risks[] = [
+        'process'      => $risk->process_ref ?? '',
+        'proposed_by'  => $risk->proposed_by ?? '',
+        'date'         => $risk->proposed_date ?? '',
+        'issues'       => [
+            $risk->risk_issue ?? '',
+            $risk->risk_cause ?? '',
+            $risk->risk_impact ?? '',
+            $risk->risk_accept_reason ?? ''
+        ],
+        'measures'     => [
+            $risk->mitigation_1 ?? '',
+            $risk->mitigation_2 ?? '',
+            $risk->mitigation_3 ?? ''
+        ],
+        'before_assess'=> [
+            [
+                'I'     => $risk->pre_i_1 ?? '',
+                'L'     => $risk->pre_l_1 ?? '',
+                'Level' => $risk->pre_level_1 ?? '',
+                'Result'=> $risk->pre_result_1 ?? '',
+                'By'    => $risk->pre_by_1 ?? '',
+                'Date'  => $risk->pre_date_1 ?? ''
+            ],
+            [
+                'I'     => $risk->pre_i_2 ?? '',
+                'L'     => $risk->pre_l_2 ?? '',
+                'Level' => $risk->pre_level_2 ?? '',
+                'Result'=> $risk->pre_result_2 ?? '',
+                'By'    => $risk->pre_by_2 ?? '',
+                'Date'  => $risk->pre_date_2 ?? ''
+            ],
+            [
+                'I'     => $risk->pre_i_3 ?? '',
+                'L'     => $risk->pre_l_3 ?? '',
+                'Level' => $risk->pre_level_3 ?? '',
+                'Result'=> $risk->pre_result_3 ?? '',
+                'By'    => $risk->pre_by_3 ?? '',
+                'Date'  => $risk->pre_date_3 ?? ''
+            ]
+        ],
+        'summary'      => [
+            $risk->summary_1 ?? '',
+            $risk->summary_2 ?? '',
+            $risk->summary_3 ?? ''
+        ],
+        'dates' => [
+            ['text' => $risk->ack_final_name_1 ?? '', 'date' => $risk->ack_final_date_1 ?? ''],
+            ['text' => $risk->ack_final_name_2 ?? '', 'date' => $risk->ack_final_date_2 ?? ''],
+            ['text' => $risk->ack_final_name_3 ?? '', 'date' => $risk->ack_final_date_3 ?? ''],
+        ],
+        'follow_up'    => [
+            $risk->followup_1 ?? '',
+            $risk->followup_2 ?? '',
+            $risk->followup_3 ?? ''
+        ],
+        'acknowledged' => [
+            ['name' => $risk->ack_name_1 ?? '', 'date' => $risk->ack_date_1 ?? ''],
+            ['name' => $risk->ack_name_2 ?? '', 'date' => $risk->ack_date_2 ?? ''],
+            ['name' => $risk->ack_name_3 ?? '', 'date' => $risk->ack_date_3 ?? ''],
+        ],
+        'approved'     => [
+            ['name' => $risk->approved_by_1 ?? '', 'date' => $risk->approved_date_1 ?? ''],
+            ['name' => $risk->approved_by_2 ?? '', 'date' => $risk->approved_date_2 ?? ''],
+            ['name' => $risk->approved_by_3 ?? '', 'date' => $risk->approved_date_3 ?? ''],
+        ],
+        'after_assess'=> [
+            [
+                'I'     => $risk->post_i_1 ?? '',
+                'L'     => $risk->post_l_1 ?? '',
+                'Level' => $risk->post_level_1 ?? '',
+                'Result'=> $risk->post_result_1 ?? '',
+                'By'    => $risk->post_by_1 ?? '',
+                'Date'  => $risk->post_date_1 ?? ''
+            ],
+            [
+                'I'     => $risk->post_i_2 ?? '',
+                'L'     => $risk->post_l_2 ?? '',
+                'Level' => $risk->post_level_2 ?? '',
+                'Result'=> $risk->post_result_2 ?? '',
+                'By'    => $risk->post_by_2 ?? '',
+                'Date'  => $risk->post_date_2 ?? ''
+            ],
+            [
+                'I'     => $risk->post_i_3 ?? '',
+                'L'     => $risk->post_l_3 ?? '',
+                'Level' => $risk->post_level_3 ?? '',
+                'Result'=> $risk->post_result_3 ?? '',
+                'By'    => $risk->post_by_3 ?? '',
+                'Date'  => $risk->post_date_3 ?? ''
+            ]
+        ]
+    ];
+
+    return view('iso.assessrisk-show', compact('risks', 'risk'));
+}
 }

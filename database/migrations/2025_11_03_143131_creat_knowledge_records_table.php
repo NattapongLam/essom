@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('subject');
             $table->text('details')->nullable();
             $table->string('attached_file')->nullable();
-            $table->string('approval')->nullable();
+            $table->json('approval')->nullable(); 
             $table->date('transfer_date')->nullable(); 
             $table->string('NameCF')->nullable(); 
             $table->date('approval_date')->nullable(); 
+            $table->timestamps(); 
         });
     }
 
