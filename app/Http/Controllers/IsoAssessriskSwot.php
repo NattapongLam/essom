@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AssessriskSwot;
+use Illuminate\Support\Facades\DB;
 
 class IsoAssessriskSwot extends Controller
 {
