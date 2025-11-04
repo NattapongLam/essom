@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AssessriskSwot;
+use Illuminate\Support\Facades\DB;
 
 class IsoAssessriskSwot extends Controller
 {
     public function index()
     {
-        $swots = AssessriskSwot::all();
+        $swots = DB::table('assessrisk_swot')->get();
         return view('iso.assessrisk-swot-list', ['records' => $swots]);
     }
 
@@ -47,7 +48,7 @@ class IsoAssessriskSwot extends Controller
             $data[$section] = $sectionArray;
         }
 
-        AssessriskSwot::create([
+        DB::table('assessrisk_swot')->insert([
             'meeting_date'   => $request->meeting_date,
             'strength'       => json_encode($data['strength']),
             'weakness'       => json_encode($data['weakness']),
@@ -64,21 +65,21 @@ class IsoAssessriskSwot extends Controller
     }
 
     public function show($id)
-{
-    $record = AssessriskSwot::findOrFail($id);
+    {
+        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
 
-    $strengths = json_decode($record->strength ?? '[]', true);
-    $weaknesses = json_decode($record->weakness ?? '[]', true);
-    $opportunities = json_decode($record->opportunity ?? '[]', true);
-    $threats = json_decode($record->threat ?? '[]', true);
+        $strengths = json_decode($record->strength ?? '[]', true);
+        $weaknesses = json_decode($record->weakness ?? '[]', true);
+        $opportunities = json_decode($record->opportunity ?? '[]', true);
+        $threats = json_decode($record->threat ?? '[]', true);
 
-    return view('iso.assessrisk-swot-show', compact(
-        'record', 'strengths', 'weaknesses', 'opportunities', 'threats'
-    ));
+        return view('iso.assessrisk-swot-show', compact(
+            'record', 'strengths', 'weaknesses', 'opportunities', 'threats'
+        ));
 }
     public function edit($id)
     {
-        $record = AssessriskSwot::findOrFail($id);
+        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
 
         $strengths = json_decode($record->strength, true) ?? [];
         $weaknesses = json_decode($record->weakness, true) ?? [];
@@ -92,7 +93,7 @@ class IsoAssessriskSwot extends Controller
 
     public function update(Request $request, $id)
     {
-        $record = AssessriskSwot::findOrFail($id);
+        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
         $sections = ['strength', 'weakness', 'opportunity', 'threat'];
         $data = [];
 
@@ -138,7 +139,7 @@ class IsoAssessriskSwot extends Controller
 
     public function destroy($id)
     {
-        $record = AssessriskSwot::findOrFail($id);
+        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
         $record->delete();
         return redirect()->route('assessrisk-swot.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
     }
