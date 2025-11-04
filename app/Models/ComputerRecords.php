@@ -12,6 +12,7 @@ class ComputerRecords extends Model
     protected $table = 'computer_records';
 
     protected $fillable = [
+        'id',
         'asset_number',
         'user_name',
         'period',
