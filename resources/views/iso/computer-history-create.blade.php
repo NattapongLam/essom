@@ -259,9 +259,9 @@ button:hover { transform: scale(1.05); }
       </div>
       <div class="flex-row">
         <label>Acknowledged by:</label>
-        <input type="text" name="ack_by" value="{{ old('ack_by', $computerHistory->ack_by ?? '') }}" {{ isset($computerHistory) ? '' : 'disabled' }}>
+        <input type="text" name="ack_by" value="{{ old('ack_by', $computerHistory->ack_by ?? '') }}" {{ isset($computerHistory) ? '' : 'disabled' }} readonly>
         <label>Date:</label>
-        <input type="date" name="ack_date" value="{{ old('ack_date', $computerHistory->ack_date ?? '') }}" {{ isset($computerHistory) ? '' : 'disabled' }}>
+        <input type="date" name="ack_date" value="{{ old('ack_date', $computerHistory->ack_date ?? '') }}" {{ isset($computerHistory) ? '' : 'disabled' }} readonly>
       </div>
     </div>
 
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
   nextBtn.addEventListener('click', ()=> showPage(currentPage+1));
 
   showPage(currentPage);
+}
 });
 </script>
-
 @endsection

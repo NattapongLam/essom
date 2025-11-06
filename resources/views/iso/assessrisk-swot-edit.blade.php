@@ -26,167 +26,28 @@ Swal.fire({
     position: relative;
     overflow: visible;
 }
-
-.form-container::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 50px; 
-    background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
-    transform: scaleY(-1); 
-    opacity: 0.5;
-}
-h3 {
-    text-align: center; 
-    color: #000; 
-    font-weight: 600; 
-    margin-bottom: 30px; 
-}
-.form-header {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: flex-end; 
-    margin-bottom: 25px; 
-    border-bottom: 2px solid #000; 
-    padding-bottom: 10px; 
-}
-.form-header .description {
-    font-size: 15px; 
-    color: #141414; 
-    width: 70%; 
-    line-height: 1.6; 
-}
-.form-header .meeting-date {
-    text-align: right; 
-}
-.form-header label {
-    font-weight: 700; 
-    color: #000; 
-}
-.form-header input[type="date"] {
-    padding: 5px 10px; 
-    border: 1px solid #000; 
-    border-radius: 5px; 
-}
-table {
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-bottom: 30px; 
-    background: #ffffff; 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-}
-th, td {
-    border: 1px solid #000; 
-    text-align: center; 
-    padding: 8px; 
-    font-size: 14px; 
-}
-th {
-    background-color: #eeeeee; 
-    color: #000; 
-    font-weight: 600; 
-}
-td input[type="text"], td input[type="date"] {
-    width: 100%; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-    padding: 5px; 
-    font-size: 14px; 
-    box-sizing: border-box; 
-}
-td input[type="text"]:focus, td input[type="date"]:focus {
-    border-color: #000; 
-    outline: none; 
-    background-color: #eef2ff; 
-}
-button, .primary {
-    background-color: #1e40af; 
-    color: white; 
-    border: none; 
-    padding: 8px 16px; 
-    font-size: 14px; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    transition: background-color 0.2s ease; 
-}
-button:hover, .primary:hover {
-    background-color: #1d4ed8; 
-}
-button.deleteRow {
-    background-color: #dc2626; 
-    color: #fff; 
-    font-weight: 500; 
-    padding: 4px 10px; 
-}
-button.deleteRow:hover {
-    background-color: #b91c1c; 
-}
-p strong, label {
-    color: #000; 
-    font-weight: 700; 
-    display: block; 
-    margin: 15px 0 10px; 
-}
-.report-section {
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 15px; 
-    justify-content: flex-start; 
-    align-items: center; 
-    background: #f1f5f9; 
-    border: 1px solid #cbd5e1; 
-    border-radius: 8px; 
-    padding: 15px; 
-    margin-top: 25px; 
-}
-.report-item {
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-}
-.report-item label {
-    font-weight: 600; 
-    color: #1e3a8a; 
-}
-.report-item input {
-    border: 1px solid #cbd5e1; 
-    border-radius: 5px; 
-    padding: 5px 8px; 
-}
-.report-item input[type="date"] {
-    min-width: 150px; 
-}
-
-.actions {
-    text-align: center; 
-    margin-top: 30px; 
-}
-.actions .primary {
-    background-color: #2563eb; 
-    font-size: 16px; 
-    font-weight: 600; 
-    padding: 10px 25px; 
-    border-radius: 8px; 
-}
-.actions .primary:hover {
-    background-color: #1d4ed8; 
-}.white-btn {
-    background-color: white;
-    color: #1e3a8a;
-    border: 1px solid #1e3a8a;
-    padding: 6px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s, color 0.2s;
-}
-.white-btn:hover {
-    background-color: #1e3a8a;
-    color: white;
-}
+h3 { text-align: center; color: #000; font-weight: 600; margin-bottom: 30px; }
+.form-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+.form-header .description { font-size: 15px; color: #141414; width: 70%; line-height: 1.6; }
+.form-header .meeting-date { text-align: right; }
+.form-header label { font-weight: 700; color: #000; }
+.form-header input[type="date"] { padding: 5px 10px; border: 1px solid #000; border-radius: 5px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+th, td { border: 1px solid #000; text-align: center; padding: 8px; font-size: 14px; }
+th { background-color: #eeeeee; color: #000; font-weight: 600; }
+td input[type="text"], td input[type="date"] { width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 5px; font-size: 14px; box-sizing: border-box; }
+td input[type="text"]:focus, td input[type="date"]:focus { border-color: #000; outline: none; background-color: #eef2ff; }
+button, .primary { background-color: #1e40af; color: white; border: none; padding: 8px 16px; font-size: 14px; border-radius: 6px; cursor: pointer; transition: background-color 0.2s ease; }
+button:hover, .primary:hover { background-color: #1d4ed8; }
+button.deleteRow { background-color: #dc2626; color: #fff; font-weight: 500; padding: 4px 10px; }
+button.deleteRow:hover { background-color: #b91c1c; }
+.report-section { display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start; align-items: center; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-top: 25px; }
+.report-item { display: flex; align-items: center; gap: 10px; }
+.report-item label { font-weight: 600; color: #1e3a8a; }
+.report-item input { border: 1px solid #cbd5e1; border-radius: 5px; padding: 5px 8px; }
+.report-item input[type="date"] { min-width: 150px; }
+.white-btn { background-color: white; color: #1e3a8a; border: 1px solid #1e3a8a; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background-color 0.2s, color 0.2s; }
+.white-btn:hover { background-color: #1e3a8a; color: white; }
 .step { display: none; }
 .step.active { display: block; }
 </style>
@@ -196,15 +57,13 @@ p strong, label {
 @method('PUT')
 
 <h3>แบบฟอร์มการวิเคราะห์ความเสี่ยงต่อธุรกิจของบริษัท (แก้ไข)</h3>
-
 <div id="step1" class="step active">
     <div class="form-header">
-        <div class="description">
-            การวิเคราะห์ความเสี่ยงด้านปัจจัยภายใน และภายนอก ที่มีผลต่อกลยุทธ์ของบริษัท ด้วย SWOT Analysis
-        </div>
-        <div class="meeting-date">
-            <label>วันที่ประชุม:</label>
-            <input type="date" name="meeting_date" value="{{ $record->meeting_date }}">
+        <div class="description">การวิเคราะห์ความเสี่ยงด้านปัจจัยภายใน และภายนอก ด้วย SWOT Analysis</div>
+        <div class="meeting-date"><label for="meetingDate">วันที่ประชุม:</label>
+          <input type="date" name="meeting_date" 
+       value="{{ $record->meeting_date ? \Carbon\Carbon::parse($record->meeting_date)->format('Y-m-d') : '' }}">
+
         </div>
     </div>
 
@@ -225,30 +84,32 @@ p strong, label {
             <th style="width:7%;">Non Accept</th>
             <th style="width:7%;">Accept</th>
         </tr>
-    </thead>
-        <tbody>
-            @foreach($strengths as $item)
-            <tr>
-                <td><input type="text" name="strength_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
-                <td><input type="text" name="strength_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
-                <td><input type="text" name="strength_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="strength_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
-                <td><input type="text" name="strength_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
-                <td><input type="text" name="strength_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
-                <td><input type="text" name="strength_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="strength_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
-                <td><button type="button" class="deleteRow">ลบ</button></td>
-            </tr>
-            @endforeach
-        </tbody>
+        <tr><th>Accept</th><th>Non Accept</th><th>Non Accept</th><th>Accept</th></tr>
+       </thead>
+       <tbody>
+       @foreach($strengths as $item)
+       <tr>
+           <td><input type="text" name="strength_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
+           <td><input type="text" name="strength_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
+           <td><input type="text" name="strength_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
+           <td><input type="text" name="strength_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
+           <td><input type="text" name="strength_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
+           <td><input type="text" name="strength_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
+           <td><input type="text" name="strength_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
+           <td><input type="text" name="strength_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
+           <td><button type="button" class="deleteRow">ลบ</button></td>
+       </tr>
+       @endforeach
+       </tbody>
     </table>
     <button type="button" class="addRow" data-table="strengthTable">เพิ่มแถว</button>
 </div>
 
 <div id="step2" class="step">
+
     <table id="weaknessTable">
         <thead>
-        <tr>
+       <tr>
             <th rowspan="2" style="width:16%;">ความเสี่ยงที่พิจารณา<br>1.2) Weaknesses (W) การวิเคราะห์จุดอ่อนของบริษัทฯ</th>
             <th colspan="2" style="width:14%;">มติในที่ประชุมทบทวน</th>
             <th rowspan="2" style="width:14%;">มาตรการในการปรับปรุง เปลี่ยนแปลงหรือควบคุม</th>
@@ -263,27 +124,27 @@ p strong, label {
             <th style="width:7%;">Non Accept</th>
             <th style="width:7%;">Accept</th>
         </tr>
-    </thead>
+        <tr><th>Accept</th><th>Non Accept</th><th>Non Accept</th><th>Accept</th></tr>
+        </thead>
         <tbody>
-            @foreach($weaknesses as $item)
-            <tr>
-                <td><input type="text" name="weakness_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="weakness_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
-                <td><button type="button" class="deleteRow">ลบ</button></td>
-            </tr>
-            @endforeach
+        @foreach($weaknesses as $item)
+        <tr>
+            <td><input type="text" name="weakness_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
+            <td><input type="text" name="weakness_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
+            <td><button type="button" class="deleteRow">ลบ</button></td>
+        </tr>
+        @endforeach
         </tbody>
     </table>
     <button type="button" class="addRow" data-table="weaknessTable">เพิ่มแถว</button>
-
     <table id="opportunityTable">
-       <thead>
+        <thead>
         <tr>
             <th rowspan="2" style="width:16%;">2)พิจารณาจากปัจจัยภายนอกที่มีผลกระทบหรือโอกาส<br>2.1) Opportunities (O) การวิเคราะห์โอกาสของบริษัทฯ</th>
             <th colspan="2" style="width:14%;">มติในที่ประชุมทบทวน</th>
@@ -299,30 +160,30 @@ p strong, label {
             <th style="width:7%;">Non Accept</th>
             <th style="width:7%;">Accept</th>
         </tr>
-    </thead>
+        <tr><th>Accept</th><th>Non Accept</th><th>Non Accept</th><th>Accept</th></tr>
+        </thead>
         <tbody>
-            @foreach($opportunities as $item)
-            <tr>
-                <td><input type="text" name="opportunity_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="opportunity_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
-                <td><button type="button" class="deleteRow">ลบ</button></td>
-            </tr>
-            @endforeach
+        @foreach($opportunities as $item)
+        <tr>
+            <td><input type="text" name="opportunity_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
+            <td><input type="text" name="opportunity_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
+            <td><button type="button" class="deleteRow">ลบ</button></td>
+        </tr>
+        @endforeach
         </tbody>
     </table>
     <button type="button" class="addRow" data-table="opportunityTable">เพิ่มแถว</button>
 </div>
-
 <div id="step3" class="step">
     <table id="threatTable">
-       <thead>
-        <tr>
+        <thead>
+         <tr>
             <th rowspan="2" style="width:16%;">2.2) Threats (T) การวิเคราะห์อุปสรรคของบริษัทฯ</th>
             <th colspan="2" style="width:14%;">มติในที่ประชุมทบทวน</th>
             <th rowspan="2" style="width:14%;">มาตรการในการปรับปรุง เปลี่ยนแปลงหรือควบคุม</th>
@@ -337,21 +198,21 @@ p strong, label {
             <th style="width:7%;">Non Accept</th>
             <th style="width:7%;">Accept</th>
         </tr>
-    </thead>
+        </thead>
         <tbody>
-            @foreach($threats as $item)
-            <tr>
-                <td><input type="text" name="threat_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
-                <td><input type="text" name="threat_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
-                <td><input type="text" name="threat_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="threat_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
-                <td><input type="text" name="threat_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
-                <td><input type="text" name="threat_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
-                <td><input type="text" name="threat_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
-                <td><input type="text" name="threat_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
-                <td><button type="button" class="deleteRow">ลบ</button></td>
-            </tr>
-            @endforeach
+        @foreach($threats as $item)
+        <tr>
+            <td><input type="text" name="threat_risk[]" value="{{ $item['risk'] ?? '' }}"></td>
+            <td><input type="text" name="threat_accept[]" value="{{ $item['accept'] ?? '' }}"></td>
+            <td><input type="text" name="threat_non_accept[]" value="{{ $item['non_accept'] ?? '' }}"></td>
+            <td><input type="text" name="threat_measure[]" value="{{ $item['measure'] ?? '' }}"></td>
+            <td><input type="text" name="threat_activity[]" value="{{ $item['activity'] ?? '' }}"></td>
+            <td><input type="text" name="threat_responsible[]" value="{{ $item['responsible'] ?? '' }}"></td>
+            <td><input type="text" name="threat_review_non_accept[]" value="{{ $item['review_non_accept'] ?? '' }}"></td>
+            <td><input type="text" name="threat_review_accept[]" value="{{ $item['review_accept'] ?? '' }}"></td>
+            <td><button type="button" class="deleteRow">ลบ</button></td>
+        </tr>
+        @endforeach
         </tbody>
     </table>
     <button type="button" class="addRow" data-table="threatTable">เพิ่มแถว</button>
@@ -362,20 +223,22 @@ p strong, label {
             <input type="text" name="report_by" value="{{ $record->report_by }}">
         </div>
         <div class="report-item">
-            <label>วันที่</label>
-            <input type="date" name="report_date" value="{{ $record->report_date }}">
-        </div>
+    <label>วันที่</label>
+    <input type="date" name="report_date" 
+           value="{{ $record->report_date ? \Carbon\Carbon::parse($record->report_date)->format('Y-m-d') : '' }}">
+</div>
+
         <div class="report-item">
             <label>รับทราบโดย</label>
-            <input type="text" name="ack_by" value="{{ $record->ack_by }}">
+            <input type="text" name="ack_by" value="{{ old('ack_by', $record->ack_by) }}" readonly>
         </div>
         <div class="report-item">
             <label>วันที่</label>
-            <input type="date" name="ack_date" value="{{ $record->ack_date }}">
+            <input type="date" name="ack_date" 
+                   value="{{ old('ack_date', \Carbon\Carbon::parse($record->ack_date)->format('Y-m-d')) }}" readonly>
         </div>
     </div>
 </div>
-
 <div id="pagination" style="text-align:center; margin-top:20px;">
     <button type="button" id="prevStep" class="white-btn">ก่อนหน้า</button>
     <span id="pageInfo" style="margin:0 10px;"></span>
@@ -386,28 +249,40 @@ p strong, label {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tables = document.querySelectorAll('table');
-    tables.forEach(table => {
-        const addBtn = document.querySelector(`button.addRow[data-table="${table.id}"]`);
+    const addBtns = document.querySelectorAll('button.addRow');
+    addBtns.forEach(addBtn => {
+        const tableId = addBtn.getAttribute('data-table');
+        const table = document.getElementById(tableId);
         const tbody = table.querySelector('tbody');
 
         function bindDelete(row) {
             const del = row.querySelector('.deleteRow');
-            del.addEventListener('click', () => {
-                if (tbody.rows.length > 1) row.remove();
-            });
+            if(del){
+                del.addEventListener('click', () => {
+                    if (tbody.rows.length > 1) row.remove();
+                });
+            }
         }
 
-        tbody.querySelectorAll('tr').forEach(r => bindDelete(r));
+        // bind delete สำหรับทุกแถวที่มีอยู่
+        tbody.querySelectorAll('tr').forEach(row => bindDelete(row));
 
         addBtn.addEventListener('click', () => {
-            const clone = tbody.rows[0].cloneNode(true);
-            clone.querySelectorAll('input').forEach(i => i.value = '');
+            const firstRow = tbody.rows[0];
+            if (!firstRow) return;
+            const clone = firstRow.cloneNode(true);
+
+            // เคลียร์ค่า input ของแถวใหม่
+            clone.querySelectorAll('input').forEach(input => {
+                if (!input.hasAttribute('readonly')) input.value = '';
+            });
+
             tbody.appendChild(clone);
             bindDelete(clone);
         });
     });
 
+    // Step navigation
     const steps = document.querySelectorAll('.step');
     let currentStep = 0;
     const prevBtn = document.getElementById('prevStep');
@@ -422,10 +297,10 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.style.display = index===steps.length-1 ? 'inline-block':'none';
         pageInfo.textContent = `หน้า ${index+1} / ${steps.length}`;
     }
+
     prevBtn.onclick = ()=>{ if(currentStep>0){ currentStep--; showStep(currentStep);} }
     nextBtn.onclick = ()=>{ if(currentStep<steps.length-1){ currentStep++; showStep(currentStep);} }
     showStep(currentStep);
 });
 </script>
-
 @endsection

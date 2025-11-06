@@ -14,7 +14,11 @@ Swal.fire({
 @endif
 
 <style>
-/* --- CSS เดิม --- */
+input[readonly], input[disabled] {
+    background-color: #e5e7eb; 
+    color: #6b7280; 
+    cursor: not-allowed;
+}
 .card, .form-container { background: #ffffff; border-radius: 18px; padding: 25px 40px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; margin-bottom: 25px; }
 body { background-color: #ffffff; }
 h2 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
@@ -90,30 +94,30 @@ input[type="text"], input[type="date"] { height: 36px; font-size: 16px; }
     Date:
     <input type="date" name="prepared_date" style="width:150px; margin-right:200px;">
     Progress Review:
-    <input type="text" name="prepared_progress_review" style="width:390px;">
+    <input type="text" name="prepared_progress_review" style="width:390px;" readonly>
     Date:
-    <input type="date" name="prepared_progress_date" style="width:150px;">
+    <input type="date" name="prepared_progress_date" style="width:150px;" readonly>
     <br><br>
 
     Reviewed by 
-    <input type="text" name="reviewed_by" style="width:380px;">
+    <input type="text" name="reviewed_by" style="width:380px;" readonly>
     Date:
-    <input type="date" name="reviewed_date" style="width:150px; margin-right:200px;">
+    <input type="date" name="reviewed_date" style="width:150px; margin-right:200px;" readonly>
 
     Reported by:
-    <input type="text" name="reported_by" style="width:400px;">
+    <input type="text" name="reported_by" style="width:400px;" readonly>
     Date:
-    <input type="date" name="reported_progress_date" style="width:150px;">
+    <input type="date" name="reported_progress_date" style="width:150px;" readonly>
     <br><br>
 
     Approved by:
-    <input type="text" name="approved_by" style="width:400px;">
+    <input type="text" name="approved_by" style="width:400px;" readonly>
     Date:
-    <input type="date" name="approved_date" style="width:150px; margin-right:200px;">
+    <input type="date" name="approved_date" style="width:150px; margin-right:200px;" readonly>
     Acknowledged by:
-    <input type="text" name="acknowledged_by" style="width:380px;">
+    <input type="text" name="acknowledged_by" style="width:380px;" readonly >
     Date:
-    <input type="date" name="acknowledged_date" style="width:150px;">
+    <input type="date" name="acknowledged_date" style="width:150px;" readonly>
 
     <div class="actions" style="margin-top:10px; text-align:right;">
         <button type="submit" class="primary">บันทึกข้อมูล</button>

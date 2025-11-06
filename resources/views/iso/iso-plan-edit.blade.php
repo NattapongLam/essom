@@ -14,7 +14,6 @@ Swal.fire({
 @endif
 
 @php
-    // ตรวจสอบ activities ว่าเป็น string หรือ array
     $activities = is_string($plan->activities) ? json_decode($plan->activities, true) : ($plan->activities ?? []);
     if (empty($activities)) {
         $activities = [
@@ -24,6 +23,11 @@ Swal.fire({
 @endphp
 
 <style>
+    input[readonly], input[disabled] {
+    background-color: #e5e7eb; 
+    color: #6b7280; 
+    cursor: not-allowed;
+}
 .card, .form-container { background:#fff; border-radius:18px; padding:25px 40px; box-shadow:0 6px 20px rgba(0,0,0,0.08); border:1px solid #e0e0e0; margin-bottom:25px; }
 body { background:#fff; }
 h2 { text-align:center; font-weight:700; color:#0f172a; margin-bottom:8px; }
@@ -92,33 +96,33 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
         <br><br>
 
         Prepared by :
-        <input type="text" name="prepared_by" value="{{ $plan->prepared_by }}" style="width:400px;">
+        <input type="text" name="prepared_by" value="{{ $plan->prepared_by }}" style="width:400px;" >
         Date :
         <input type="date" name="prepared_date" value="{{ $plan->prepared_date ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" style="width:150px; margin-right:200px;">
         Progress Review :
-        <input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review }}" style="width:390px;">
+        <input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review }}" style="width:390px;" readonly>
         Date :
-        <input type="date" name="prepared_progress_date" value="{{ $plan->prepared_progress_date ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" style="width:150px;">
+        <input type="date" name="prepared_progress_date" value="{{ $plan->prepared_progress_date ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" style="width:150px;" readonly>
         <br><br>
 Reviewed by :
-<input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}" style="width:400px;">
+<input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}" style="width:400px;" readonly>
 Date :
-<input type="date" name="reviewed_date" value="{{ $plan->reviewed_date ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}" style="width:150px; margin-right:200px;">
+<input type="date" name="reviewed_date" value="{{ $plan->reviewed_date ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}" style="width:150px; margin-right:200px;" readonly>
 
         Reported by :
-<input type="text" name="reported_by" value="{{ $plan->reported_by }}" style="width:420px;">
+<input type="text" name="reported_by" value="{{ $plan->reported_by }}" style="width:420px;" readonly>
 Date :
-<input type="date" name="reported_date" value="{{ $plan->reported_date ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" style="width:150px;">
+<input type="date" name="reported_date" value="{{ $plan->reported_date ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" style="width:150px;" readonly>
 
         <br><br>
         Approved by :
-        <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="width:400px;">
+        <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="width:400px;" readonly>
         Date :
-        <input type="date" name="approved_date" value="{{ $plan->approved_date ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" style="width:150px; margin-right:200px;">
+        <input type="date" name="approved_date" value="{{ $plan->approved_date ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" style="width:150px; margin-right:200px;" readonly>
         Acknowledged by :
-        <input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by }}" style="width:380px;">
+        <input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by }}" style="width:380px;" readonly>
         Date :
-        <input type="date" name="acknowledged_date" value="{{ $plan->acknowledged_date ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" style="width:150px;">
+        <input type="date" name="acknowledged_date" value="{{ $plan->acknowledged_date ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" style="width:150px;" readonly>
         <div class="actions">
             <button type="submit" class="primary">บันทึกข้อมูล</button>
         </div>

@@ -363,11 +363,11 @@ p strong, label {
         </div>
         <div class="report-item">
             <label>รับทราบโดย</label>
-            <input type="text" name="ack_by" style="width:200px;">
+            <input type="text" name="ack_by" style="width:200px;" readonly>
         </div>
         <div class="report-item">
             <label>วันที่</label>
-            <input type="date" name="ack_date">
+            <input type="date" name="ack_date" readonly>
         </div>
     </div>
 </div>

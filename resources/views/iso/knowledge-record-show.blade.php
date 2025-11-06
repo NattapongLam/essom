@@ -16,62 +16,72 @@ textarea{resize:vertical;min-height:120px;}
 .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px 20px;margin-bottom:15px;}
 .actions{text-align:center;margin-top:20px;}
 button.secondary{background:#6b7280;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer;}
+button.save{background:#16a34a;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer;}
 </style>
 
 <div class="form-container">
     <h2>ESSOM CO., LTD.</h2>
-    <h3>บันทึกความรู้องค์กร (แสดงผล)</h3>
+    <h3>บันทึกความรู้องค์กร (อนุมัติ)</h3>
     <hr style="margin:15px 0;">
 
-    <div class="row">
-        <div><label>จัดทำโดย</label><input type="text" value="{{ $record->name }}" disabled></div>
-        <div><label>หน่วยงาน</label><input type="text" value="{{ $record->department }}" disabled></div>
-        <div><label>ตำแหน่ง</label><input type="text" value="{{ $record->position }}" disabled></div>
-        <div><label>วันที่</label><input type="date" value="{{ $record->request_date?->format('Y-m-d') }}" disabled></div>
-    </div>
+    <form action="{{ route('knowledge-record.update', $record->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <div class="row">
-        <div><label>เอกสาร KM เลขที่</label><input type="text" value="{{ $record->documentKM_no }}" disabled></div>
-        <div><label>เอกสาร NCR / CAR / คำร้องเลขที่</label><input type="text" value="{{ $record->document_no }}" disabled></div>
-    </div>
-
-    <div class="row">
-        <div><label>ความรู้องค์กรด้าน</label><input type="text" value="{{ $record->OZN }}" disabled></div>
-        <div><label>เรื่อง</label><input type="text" value="{{ $record->subject }}" disabled></div>
-    </div>
-
-    <div>
-        <label>รายละเอียดขององค์ความรู้</label>
-        <textarea disabled>{{ $record->details }}</textarea>
-    </div>
-
-    <div class="row">
-        <div>
-            <label>เอกสารแนบ</label>
-            @if($record->attached_file)
-                <p><a href="{{ asset('storage/'.$record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
-            @else
-                <p>-</p>
-            @endif
+        <div class="row">
+            <div><label>จัดทำโดย</label><input type="text" value="{{ $record->name }}" disabled></div>
+            <div><label>หน่วยงาน</label><input type="text" value="{{ $record->department }}" disabled></div>
+            <div><label>ตำแหน่ง</label><input type="text" value="{{ $record->position }}" disabled></div>
+            <div><label>วันที่</label><input type="date" value="{{ $record->request_date?->format('Y-m-d') }}" disabled></div>
         </div>
-    </div>
 
-    <div class="row">
-        <div>
-            <label>การประเมินหัวข้อความรู้นี้โดยหัวหน้างาน</label>
-            <ul>
-                @foreach(json_decode($record->approval ?? '[]') as $item)
-                    <li>{{ $item }}</li>
-                @endforeach
-            </ul>
+        <div class="row">
+            <div><label>เอกสาร KM เลขที่</label><input type="text" value="{{ $record->documentKM_no }}" disabled></div>
+            <div><label>เอกสาร NCR / CAR / คำร้องเลขที่</label><input type="text" value="{{ $record->document_no }}" disabled></div>
         </div>
-        <div><label>กำหนดวันส่งต่อ-ถ่ายทอดความรู้</label><input type="date" value="{{ $record->transfer_date?->format('Y-m-d') }}" disabled></div>
-        <div><label>อนุมัติโดย</label><input type="text" value="{{ $record->NameCF }}" disabled></div>
-        <div><label>วันที่ส่งต่อ</label><input type="date" value="{{ $record->approval_date?->format('Y-m-d') }}" disabled></div>
-    </div>
 
-    <div class="actions">
-        <a href="{{ route('knowledge-record.index') }}" class="btn secondary">กลับไปหน้ารายการ</a>
-    </div>
+        <div class="row">
+            <div><label>ความรู้องค์กรด้าน</label><input type="text" value="{{ $record->OZN }}" disabled></div>
+            <div><label>เรื่อง</label><input type="text" value="{{ $record->subject }}" disabled></div>
+        </div>
+
+        <div>
+            <label>รายละเอียดขององค์ความรู้</label>
+            <textarea disabled>{{ $record->details }}</textarea>
+        </div>
+
+        <div class="row">
+            <div>
+                <label>เอกสารแนบ</label>
+                @if($record->attached_file)
+                    <p><a href="{{ asset('storage/'.$record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
+                @else
+                    <p>-</p>
+                @endif
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label>การประเมินหัวข้อความรู้นี้โดยหัวหน้างาน</label>
+                <ul>
+                    @foreach(json_decode($record->approval ?? '[]') as $item)
+                        <li>{{ $item }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <div><label>กำหนดวันส่งต่อ-ถ่ายทอดความรู้</label><input type="date" value="{{ $record->transfer_date?->format('Y-m-d') }}" disabled></div>
+        </div>
+
+        <div class="row">
+            <div><label>อนุมัติโดย</label><input type="text" name="NameCF" value="{{ $record->NameCF ?? '' }}"></div>
+            <div><label>วันที่ส่งต่อ</label><input type="date" name="approval_date" value="{{ $record->approval_date?->format('Y-m-d') ?? '' }}"></div>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="save">บันทึก</button>
+            <a href="{{ route('knowledge-record.index') }}" class="secondary">กลับไปหน้ารายการ</a>
+        </div>
+    </form>
 </div>
 @endsection

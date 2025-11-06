@@ -57,37 +57,25 @@ class IsoKnowledgerecord extends Controller
     }
 
     public function update(Request $request, KnowledgeRecord $knowledgeRecord)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
-            'request_date' => 'required|date',
-            'documentKM_no' => 'required|string|max:255',
-            'document_no' => 'nullable|string|max:255',
-            'OZN' => 'nullable|string|max:255',
-            'subject' => 'nullable|string|max:255',
-            'details' => 'nullable|string',
-            'attached_file' => 'nullable|file',
-            'approval' => 'nullable|array',
-            'transfer_date' => 'nullable|date',
-            'NameCF' => 'nullable|string|max:255',
-            'approval_date' => 'nullable|date',
-        ]);
+{
 
-        if ($request->hasFile('attached_file')) {
-            $file = $request->file('attached_file')->store('knowledge_files', 'public');
-            $data['attached_file'] = $file;
-        }
+    $data = $request->only(['NameCF', 'approval_date']); 
 
-        if (isset($data['approval'])) {
-            $data['approval'] = json_encode($data['approval']);
-        }
 
-        $knowledgeRecord->update($data);
-
-        return redirect()->route('knowledge-record.index')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+    if ($request->hasFile('attached_file')) {
+        $file = $request->file('attached_file')->store('knowledge_files', 'public');
+        $data['attached_file'] = $file;
     }
+
+    if ($request->has('approval')) {
+        $data['approval'] = json_encode($request->approval);
+    }
+
+    $knowledgeRecord->update($data);
+
+    return redirect()->route('knowledge-record.index')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+}
+
 
     public function destroy(KnowledgeRecord $knowledgeRecord)
     {
@@ -95,10 +83,10 @@ class IsoKnowledgerecord extends Controller
         return redirect()->route('knowledge-record.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
     }
 
-    // เพิ่มฟังก์ชัน show
+
     public function show(KnowledgeRecord $knowledgeRecord)
     {
-        // ส่งข้อมูลไปยัง Blade สำหรับแสดงแบบอ่านอย่างเดียว
+        
         return view('iso.knowledge-record-show', ['record' => $knowledgeRecord]);
     }
 }
