@@ -75,6 +75,12 @@ class IsoDocumentregister extends Controller
         if ($request->hasFile('documentregisters_file')) {
             $data['documentregisters_file'] = $request->file('documentregisters_file')->storeAs('img/documentregister', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentregisters_file')->extension());
         }
+        if ($request->hasFile('documentregisters_file1')) {
+            $data['documentregisters_file1'] = $request->file('documentregisters_file1')->storeAs('img/documentregister', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentregisters_file1')->extension());
+        }
+        if ($request->hasFile('documentregisters_file2')) {
+            $data['documentregisters_file2'] = $request->file('documentregisters_file2')->storeAs('img/documentregister', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentregisters_file2')->extension());
+        }
         try{
 
             DB::beginTransaction();
@@ -143,6 +149,12 @@ class IsoDocumentregister extends Controller
         ];
         if ($request->hasFile('documentregisters_file')) {
             $data['documentregisters_file'] = $request->file('documentregisters_file')->storeAs('img/documentregister', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentregisters_file')->extension());
+        }
+        if ($request->hasFile('documentregisters_file1')) {
+            $data['documentregisters_file1'] = $request->file('documentregisters_file1')->storeAs('img/documentregister', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentregisters_file1')->extension());
+        }
+        if ($request->hasFile('documentregisters_file2')) {
+            $data['documentregisters_file2'] = $request->file('documentregisters_file2')->storeAs('img/documentregister', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentregisters_file2')->extension());
         }
         try{
 
