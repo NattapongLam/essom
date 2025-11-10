@@ -55,10 +55,14 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
             <h2>ESSOM CO.,LTD.</h2>
             <h2>ใบ PLAN</h2>
             <br><br>
-            Project :
-            <input type="text" name="project_name" value="{{ $plan->project_name }}" style="width:450px; margin-right:200px;" required>
-            Responsible Section / Person :
-            <input type="text" name="responsible_section" value="{{ $plan->responsible_section }}" style="width:450px;" required>
+            <div class="row">
+                <div class="col-6">
+                    Project :<input type="text" name="project_name" value="{{ $plan->project_name }}" style="width:450px;" required>
+                </div>
+                <div class="col-6">
+                     Responsible Section / Person : <input type="text" name="responsible_section" value="{{ $plan->responsible_section }}" style="width:450px;" required>
+                </div>
+            </div>
         </center>
         <br>
         <table id="activityTable">
@@ -79,7 +83,17 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
                 <tr>
                     <td>{{ $i + 1 }}</td>
                     <td><input type="text" name="DA[]" value="{{ $act['description'] ?? '' }}"></td>
-                    <td><input type="text" name="RP[]" value="{{ $act['responsible_person'] ?? $act['responsible'] ?? '' }}"></td>
+                    <td>
+                        <select class="form-control receiver-select" name="RP[]">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                     {{ isset($act['responsible_person']) &&  $act['responsible_person'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
                     <td><input type="date" name="date_start[]" value="{{ $act['date_start'] ? date('Y-m-d', strtotime($act['date_start'])) : '' }}"></td>
                     <td><input type="date" name="date_end[]" value="{{ $act['date_end'] ? date('Y-m-d', strtotime($act['date_end'])) : '' }}"></td>
                     <td><input type="text" name="RS[]" value="{{ $act['status'] ?? '' }}"></td>
@@ -94,42 +108,86 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
             <button type="button" class="edit" id="addRowBtn">+ เพิ่มแถว</button>
         </div>
         <br><br>
-
-        Prepared by :
-        <input type="text" name="prepared_by" value="{{ $plan->prepared_by }}" style="width:400px;" >
-        Date :
-        <input type="date" name="prepared_date" value="{{ $plan->prepared_date ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" style="width:150px; margin-right:200px;">
+        <div class="row">
+            <div class="col-8">
+                Prepared by :
+                <input type="text" name="prepared_by" value="{{ $plan->prepared_by }}" style="width:300px;" readonly>
+            </div>
+            <div class="col-4">
+                Date :
+                <input type="date" name="prepared_date" value="{{ $plan->prepared_date ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" style="width:200px;" required>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-8">
         Progress Review :
-        <input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review }}" style="width:390px;" readonly>
-        Date :
-        <input type="date" name="prepared_progress_date" value="{{ $plan->prepared_progress_date ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" style="width:150px;" readonly>
+        <input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review }}" style="width:300px;" readonly>
+            </div>
+            <div class="col-4">
+                 Date :
+        <input type="date" name="prepared_progress_date" value="{{ $plan->prepared_progress_date ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" style="width:200px;" readonly>
+            </div>
+        </div>
         <br><br>
-Reviewed by :
-<input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}" style="width:400px;" readonly>
-Date :
-<input type="date" name="reviewed_date" value="{{ $plan->reviewed_date ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}" style="width:150px; margin-right:200px;" readonly>
-
-        Reported by :
-<input type="text" name="reported_by" value="{{ $plan->reported_by }}" style="width:420px;" readonly>
-Date :
-<input type="date" name="reported_date" value="{{ $plan->reported_date ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" style="width:150px;" readonly>
-
+        <div class="row">
+            <div class="col-8">
+                Reviewed by : <input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}" style="width:300px;" readonly>
+            </div>
+            <div class="col-4">
+                Date :
+                <input type="date" name="reviewed_date" value="{{ $plan->reviewed_date ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}" style="width:200px;" readonly>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-8">
+                Reported by : <input type="text" name="reported_by" value="{{ $plan->reported_by }}" style="width:300px;" readonly>
+            </div>
+            <div class="col-4">
+                Date :
+                <input type="date" name="reported_date" value="{{ $plan->reported_date ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" style="width:200px;" readonly>
+            </div>
+        </div>
         <br><br>
-        Approved by :
-        <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="width:400px;" readonly>
-        Date :
-        <input type="date" name="approved_date" value="{{ $plan->approved_date ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" style="width:150px; margin-right:200px;" readonly>
-        Acknowledged by :
-        <input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by }}" style="width:380px;" readonly>
-        Date :
-        <input type="date" name="acknowledged_date" value="{{ $plan->acknowledged_date ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" style="width:150px;" readonly>
+        <div class="row">
+            <div class="col-8">
+                Approved by :
+                <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="width:300px;" readonly>
+            </div>
+            <div class="col-4">
+                Date :
+                <input type="date" name="approved_date" value="{{ $plan->approved_date ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" style="width:200px;" readonly>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-8">
+                Acknowledged by :
+                <input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by }}" style="width:300px;" readonly>
+            </div>
+            <div class="col-4">
+                Date :
+        <input type="date" name="acknowledged_date" value="{{ $plan->acknowledged_date ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" style="width:200px;" readonly>
+            </div>
+        </div>
+        
+        
         <div class="actions">
             <button type="submit" class="primary">บันทึกข้อมูล</button>
         </div>
     </div>
 </form>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 const tableBody = document.querySelector('#activityTable tbody');
 const addRowBtn = document.getElementById('addRowBtn');
 
@@ -166,7 +224,14 @@ addRowBtn.addEventListener('click', ()=>{
     newRow.innerHTML=`
         <td>${rowCount}</td>
         <td><input type="text" name="DA[]" placeholder="Description"></td>
-        <td><input type="text" name="RP[]" placeholder="Person"></td>
+        <td>
+             <select class="form-control receiver-select" name="RP[]">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+            </select>
+        </td>
         <td><input type="date" name="date_start[]"></td>
         <td><input type="date" name="date_end[]"></td>
         <td><input type="text" name="RS[]" placeholder="Status"></td>
@@ -174,9 +239,13 @@ addRowBtn.addEventListener('click', ()=>{
         <td><button type="button" class="delete">ลบ</button></td>
     `;
     tableBody.appendChild(newRow);
+     $(newRow).find('.receiver-select').select2({
+            placeholder: 'กรุณาเลือกพนักงาน',
+            width: '100%'
+        });
     newRow.querySelector('.delete').addEventListener('click', ()=>deleteRow(newRow.querySelector('.delete')));
 });
 
 tableBody.querySelectorAll('.delete').forEach(btn=>btn.addEventListener('click', ()=>deleteRow(btn)));
 </script>
-@endsection
+@endpush

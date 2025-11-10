@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Plan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IsoPlan extends Controller
 {
@@ -15,7 +16,8 @@ class IsoPlan extends Controller
 
     public function create()
     {
-        return view('iso.iso-plan-create');
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.iso-plan-create', compact('emp'));
     }
 
     public function store(Request $request)
@@ -65,7 +67,8 @@ class IsoPlan extends Controller
     {
         $plan = Plan::findOrFail($id);
         $activities = json_decode($plan->activities, true) ?? [];
-        return view('iso.iso-plan-edit', compact('plan', 'activities'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.iso-plan-edit', compact('plan', 'activities','emp'));
     }
 
    public function update(Request $request, $id)
