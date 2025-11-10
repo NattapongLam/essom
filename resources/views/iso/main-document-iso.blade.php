@@ -9,9 +9,12 @@
           <div class="card-header">
                 <div class="row">
                     <h3 class="card-title" style="font-weight: bold">เอกสาร ISO</h3>
+                    <div class="col-md-4">
+                      <input type="text" id="searchBox" class="form-control" placeholder="🔍 ค้นหาเอกสาร เช่น NCR, F7132, Quality..." />
+                    </div>
                 </div>
-                <br>
-      <div class="row">
+                <br>      
+      <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -69,7 +72,7 @@
         </div>
         <!-- ./col -->
       </div>
-       <div class="row">
+      <div class="row iso-boxes">
         
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -128,7 +131,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <div class="row">
+      <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -186,7 +189,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <div class="row">
+      <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -244,7 +247,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <div class="row">
+      <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -302,7 +305,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <div class="row">
+     <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -360,7 +363,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <div class="row">
+      <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -418,7 +421,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <div class="row">
+     <div class="row iso-boxes">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -486,5 +489,14 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+document.getElementById('searchBox').addEventListener('keyup', function() {
+  const keyword = this.value.toLowerCase();
+  const boxes = document.querySelectorAll('.iso-boxes .col-lg-3');
+
+  boxes.forEach(box => {
+    const text = box.innerText.toLowerCase();
+    box.style.display = text.includes(keyword) ? '' : 'none';
+  });
+});
 </script>
 @endpush  
