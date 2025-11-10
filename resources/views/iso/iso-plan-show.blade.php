@@ -104,38 +104,71 @@ button.save:hover { transform: scale(1.05); }
         </table>
 
         <br><br>
-    Prepared by :
-<input type="text" name="prepared_by" value="{{ $plan->prepared_by ?? '' }}" style="width:430px;" {{ readonlyStep($plan, 'prepared_by') }}>
-Date :
-<input type="date" name="prepared_date" value="{{ isset($plan->prepared_date) ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" style="width:150px;" {{ readonlyStep($plan, 'prepared_date') }}>
-
-Progress Review :
-<input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review ?? '' }}" style="width:390px;" {{ readonlyStep($plan, 'prepared_progress_review', 'prepared_by') }}>
-Date :
-<input type="date" name="prepared_progress_date" value="{{ isset($plan->prepared_progress_date) ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" style="width:150px;" {{ readonlyStep($plan, 'prepared_progress_date', 'prepared_by') }}>
-
+        <div class="row">
+            <div class="col-8">
+                Prepared by :
+                <input type="text" name="prepared_by" value="{{ $plan->prepared_by ?? '' }}" style="width:300px;" {{ readonlyStep($plan, 'prepared_by') }}>
+            </div>
+            <div class="col-4">
+                Date :
+                <input type="date" name="prepared_date" value="{{ isset($plan->prepared_date) ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" style="width:200px;" {{ readonlyStep($plan, 'prepared_date') }}>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-8">
+                Progress Review :
+                <input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review ?? auth()->user()->name }}" style="width:300px;" {{ readonlyStep($plan, 'prepared_progress_review', 'prepared_by') }}>
+            </div>
+            <div class="col-4">
+                Date :
+<input type="date" name="prepared_progress_date" value="{{ isset($plan->prepared_progress_date) ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : now()->format('Y-m-d') }}" style="width:200px;" {{ readonlyStep($plan, 'prepared_progress_date', 'prepared_by') }}>
+            </div>
+        </div>
 <br><br>
-Reviewed by :
-<input type="text" name="reviewed_by" value="{{ $plan->reviewed_by ?? '' }}" style="width:400px;" {{ readonlyStep($plan, 'reviewed_by', 'prepared_progress_review') }}>
-Date :
-<input type="date" name="reviewed_date" value="{{ isset($plan->reviewed_date) ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}" style="width:150px;" {{ readonlyStep($plan, 'reviewed_date', 'prepared_progress_review') }}>
-
-Reported by :
-<input type="text" name="reported_by" value="{{ $plan->reported_by ?? '' }}" style="width:420px;" {{ readonlyStep($plan, 'reported_by', 'reviewed_by') }}>
-Date :
-<input type="date" name="reported_date" value="{{ isset($plan->reported_date) ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" style="width:150px;" {{ readonlyStep($plan, 'reported_date', 'reviewed_by') }}>
-
+<div class="row">
+    <div class="col-8">
+        Reviewed by :
+<input type="text" name="reviewed_by" value="{{ $plan->reviewed_by ?? auth()->user()->name }}" style="width:300px;" {{ readonlyStep($plan, 'reviewed_by', 'prepared_progress_review') }}>
+    </div>
+    <div class="col-4">
+        Date :
+<input type="date" name="reviewed_date" value="{{ isset($plan->reviewed_date) ? date('Y-m-d', strtotime($plan->reviewed_date)) : now()->format('Y-m-d') }}" style="width:200px;" {{ readonlyStep($plan, 'reviewed_date', 'prepared_progress_review') }}>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-8">
+        Reported by :
+        <input type="text" name="reported_by" value="{{ $plan->reported_by ?? auth()->user()->name }}" style="width:300px;" {{ readonlyStep($plan, 'reported_by', 'reviewed_by') }}>
+    </div>
+    <div class="col-4">
+        Date :
+<input type="date" name="reported_date" value="{{ isset($plan->reported_date) ? date('Y-m-d', strtotime($plan->reported_date)) : now()->format('Y-m-d') }}" style="width:200px;" {{ readonlyStep($plan, 'reported_date', 'reviewed_by') }}>
+    </div>
+</div>
 <br><br>
-Approved by :
-<input type="text" name="approved_by" value="{{ $plan->approved_by ?? '' }}" style="width:430px;" {{ readonlyStep($plan, 'approved_by', 'reported_by') }}>
-Date :
-<input type="date" name="approved_date" value="{{ isset($plan->approved_date) ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" style="width:150px;" {{ readonlyStep($plan, 'approved_date', 'reported_by') }}>
-
-Acknowledged by :
-<input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by ?? '' }}" style="width:380px;" {{ readonlyStep($plan, 'acknowledged_by', 'approved_by') }}>
-Date :
-<input type="date" name="acknowledged_date" value="{{ isset($plan->acknowledged_date) ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" style="width:150px;" {{ readonlyStep($plan, 'acknowledged_date', 'approved_by') }}>
-
+<div class="row">
+    <div class="col-8">
+        Approved by :
+<input type="text" name="approved_by" value="{{ $plan->approved_by ?? auth()->user()->name }}" style="width:300px;" {{ readonlyStep($plan, 'approved_by', 'reported_by') }}>
+    </div>
+    <div class="col-4">
+        Date :
+<input type="date" name="approved_date" value="{{ isset($plan->approved_date) ? date('Y-m-d', strtotime($plan->approved_date)) : now()->format('Y-m-d') }}" style="width:150px;" {{ readonlyStep($plan, 'approved_date', 'reported_by') }}>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-8">
+        Acknowledged by :
+<input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by ?? auth()->user()->name }}" style="width:300px;" {{ readonlyStep($plan, 'acknowledged_by', 'approved_by') }}>
+    </div>
+    <div class="col-4">
+        Date :
+<input type="date" name="acknowledged_date" value="{{ isset($plan->acknowledged_date) ? date('Y-m-d', strtotime($plan->acknowledged_date)) : now()->format('Y-m-d') }}" style="width:200px;" {{ readonlyStep($plan, 'acknowledged_date', 'approved_by') }}>
+    </div>
+</div>
         <br><br><br>
         <div style="text-align:right;">
             <button type="submit" class="save">บันทึก</button>
