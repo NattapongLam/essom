@@ -77,6 +77,7 @@ Route::resource('/fl-form' , App\Http\Controllers\FinalInspectionForm::class);
 // ISO 30 //
 Route::resource('/documents' , App\Http\Controllers\MainDocument::class);
 Route::resource('/assessrisk' , App\Http\Controllers\IsoAssessrisk::class);
+Route::post('/cancelAssessrisk' , [App\Http\Controllers\IsoAssessrisk::class , 'cancelAssessrisk']);
 Route::resource('/assessrisk-swot' , App\Http\Controllers\IsoAssessriskSwot::class);
 Route::resource('/objcctives' , App\Http\Controllers\IsoObjcctives::class);
 Route::resource('/iso-plan' , App\Http\Controllers\IsoPlan::class);

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Assessrisk;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IsoAssessrisk extends Controller
 {
 
     public function index()
     {
-        $risks = Assessrisk::latest()->get();
+        $risks = Assessrisk::where('flag',1)->latest()->get();
         return view('iso.assessrisk-list', compact('risks'));
     }
 
@@ -38,8 +40,8 @@ class IsoAssessrisk extends Controller
                 ['I'=>'','L'=>'','Level'=>'','Result'=>'','By'=>'','Date'=>'']
             ]
         ];
-
-        return view('iso.assessrisk-create', compact('risks'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.assessrisk-create', compact('risks','emp'));
     }
     public function store(Request $request)
     {
@@ -232,8 +234,8 @@ class IsoAssessrisk extends Controller
             ]
         ]
     ];
-
-    return view('iso.assessrisk-create', compact('risks', 'risk'));
+    $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+    return view('iso.assessrisk-create', compact('risks', 'risk','emp'));
 }
 
    public function update(Request $request, $id)
@@ -373,4 +375,32 @@ public function show($id)
 
     return view('iso.assessrisk-show', compact('risks', 'risk'));
 }
+    public function cancelAssessrisk(Request $request)
+    {
+        try {
+            $affected = DB::table('assessrisks')
+                ->where('id', $request->refid)
+                ->update([
+                    'flag' => 0,
+                    'updated_at' => Carbon::now(),
+                ]);
+
+            if ($affected > 0) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'ไม่พบข้อมูลที่ต้องการยกเลิก'
+                ]);
+            }
+        } catch (\Exception $ex) {
+            return response()->json([
+                'status' => false,
+                'message' => 'เกิดข้อผิดพลาด: ' . $ex->getMessage()
+            ], 500);
+        }
+    }
 }
