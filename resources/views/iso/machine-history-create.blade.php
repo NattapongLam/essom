@@ -144,7 +144,15 @@ tr:hover { background-color: #e0f2fe; transition: 0.2s; }
             <td>{{ $i + 1 }}</td>
             <td><input type="date" name="repair_date[]"></td>
             <td><input type="text" name="repair_description[]" placeholder="รายการซ่อม/เปลี่ยน"></td>
-            <td><input type="text" name="repair_person[]" placeholder="ผู้ซ่อม"></td>
+            <td>
+                <select class="form-control receiver-select" name="repair_person[]"  placeholder="กรุณาเลือกพนักงาน">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="repair_person[]" placeholder="ผู้ซ่อม"> --}}
+            </td>
             <td>
                 <button type="button" class="delete">ลบ</button>
             </td>
@@ -163,8 +171,16 @@ tr:hover { background-color: #e0f2fe; transition: 0.2s; }
 </div>
 </form>
 </div>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 document.addEventListener("DOMContentLoaded", function() {
     const tableBody = document.querySelector('#machineTable tbody');
     const addRowBtn = document.getElementById('addRowBtn');
@@ -207,4 +223,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-@endsection
+@endpush  

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MachineHistory;
+use Illuminate\Support\Facades\DB;
 
 class IsoMachineHistory extends Controller
 {
@@ -15,7 +16,8 @@ class IsoMachineHistory extends Controller
 
     public function create()
     {
-        return view('iso.machine-history-create');
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.machine-history-create', compact('emp'));
     }
 
     public function store(Request $request)
@@ -66,8 +68,8 @@ class IsoMachineHistory extends Controller
         $machine_history->repair_date = json_decode($machine_history->repair_date ?? '[]', true);
         $machine_history->repair_description = json_decode($machine_history->repair_description ?? '[]', true);
         $machine_history->repair_person = json_decode($machine_history->repair_person ?? '[]', true);
-
-        return view('iso.machine-history-edit', compact('machine_history'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.machine-history-edit', compact('machine_history','emp'));
     }
 
     public function update(Request $request, MachineHistory $machine_history)
