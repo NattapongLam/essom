@@ -217,27 +217,30 @@ button.deleteRow:hover { background-color: #b91c1c; }
     </table>
     <button type="button" class="addRow" data-table="threatTable">เพิ่มแถว</button>
 
-    <div class="report-section">
-        <div class="report-item">
-            <label>รายงานโดย</label>
-            <input type="text" name="report_by" value="{{ $record->report_by }}">
-        </div>
-        <div class="report-item">
+<div class="report-section">
+  <div class="report-item">
+    <label>รายงานโดย</label>
+    <input type="text" name="report_by" value="{{ $record->report_by }}">
+</div>
+
+<div class="report-item">
     <label>วันที่</label>
     <input type="date" name="report_date" 
            value="{{ $record->report_date ? \Carbon\Carbon::parse($record->report_date)->format('Y-m-d') : '' }}">
 </div>
 
-        <div class="report-item">
-            <label>รับทราบโดย</label>
-            <input type="text" name="ack_by" value="{{ old('ack_by', $record->ack_by) }}" readonly>
-        </div>
-        <div class="report-item">
-            <label>วันที่</label>
-            <input type="date" name="ack_date" 
-                   value="{{ old('ack_date', \Carbon\Carbon::parse($record->ack_date)->format('Y-m-d')) }}" readonly>
-        </div>
-    </div>
+<!-- รับทราบโดย -->
+<div class="report-item">
+    <label>รับทราบโดย</label>
+    <input type="text" name="ack_by" value="{{ old('ack_by', $record->ack_by) }}" readonly>
+</div>
+
+<div class="report-item">
+    <label>วันที่</label>
+    <input type="date" name="ack_date" 
+           value="{{ old('ack_date', $record->ack_date ? \Carbon\Carbon::parse($record->ack_date)->format('Y-m-d') : '') }}" readonly>
+</div>
+</div>
 </div>
 <div id="pagination" style="text-align:center; margin-top:20px;">
     <button type="button" id="prevStep" class="white-btn">ก่อนหน้า</button>

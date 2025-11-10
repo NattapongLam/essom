@@ -212,73 +212,105 @@ table td input.input_style {
             </td>
         </tr>
 <tr>
-    <td colspan="4">
-        <b>อนุมัติ / วันที่:</b>
-        <table class="mini-table">
-            @php
-               
-                $approvedList = $risk['approved'] ?? [['name'=>'','date'=>''], ['name'=>'','date'=>''], ['name'=>'','date'=>'']];
-            @endphp
+   <td colspan="4">
+    <b>อนุมัติ / วันที่:</b>
+    <table class="mini-table">
+        @php
+            $approvedList = $risk['approved'] ?? [['name'=>'','date'=>''], ['name'=>'','date'=>''], ['name'=>'','date'=>'']];
+        @endphp
 
-            @foreach($approvedList as $index => $approve)
-            <tr>
-                <td>
-                    <input 
-                        type="text" 
-                        name="risks[0][approved][{{ $index }}][name]" 
-                        value="{{ $approve['name'] ?? '' }}" 
-                        class="input_style" 
-                        placeholder="ชื่อผู้อนุมัติ">
-                </td>
-                <td>
-                    <input 
-                        type="date" 
-                        name="risks[0][approved][{{ $index }}][date]" 
-                        value="{{ $approve['date'] ?? '' }}" 
-                        class="input_style">
-                </td>
-            </tr>
-            @endforeach
-        </table>
-            <td colspan="6">
-                <table class="mini-table">
-                    <tr>
-                        <th>หลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
-                    </tr>
-                    @foreach($risk['after_assess'] ?? [] as $ai => $after)
-                    <tr>
-                        <td>ครั้งที่{{ $ai+1 }}</td>
-                        <td>{{ $after['I'] ?? '' }}</td>
-                        <td>{{ $after['L'] ?? '' }}</td>
-                        <td>{{ $after['Level'] ?? '' }}</td>
-                        <td>{{ $after['Result'] ?? '' }}</td>
-                        <td>{{ $after['By'] ?? '' }}</td>
-                        <td>{{ $after['Date'] ?? '' }}</td>
-                    </tr>
-                    @endforeach
-                </table>
+        @foreach($approvedList as $index => $approve)
+        <tr>
+            <td>
+                <input 
+                    type="text" 
+                    name="risks[0][approved][{{ $index }}][name]" 
+                    value="{{ $approve['name'] ?? '' }}" 
+                    class="input_style" 
+                    placeholder="ชื่อผู้อนุมัติ">
             </td>
+            <td>
+                <input 
+                    type="date" 
+                    name="risks[0][approved][{{ $index }}][date]" 
+                    value="{{ $approve['date'] ?? '' }}" 
+                    class="input_style">
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</td>
+
+<td colspan="6">
+    <table class="mini-table">
+        <tr>
+            <th>หลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
+        </tr>
+        @foreach($risk['after_assess'] ?? [] as $ai => $after)
+        <tr>
+            <td>ครั้งที่{{ $ai+1 }}</td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][I]" 
+                       value="{{ $after['I'] ?? '' }}" 
+                       class="input_style">
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][L]" 
+                       value="{{ $after['L'] ?? '' }}" 
+                       class="input_style">
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][Level]" 
+                       value="{{ $after['Level'] ?? '' }}" 
+                       class="input_style">
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][Result]" 
+                       value="{{ $after['Result'] ?? '' }}" 
+                       class="input_style">
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][By]" 
+                       value="{{ $after['By'] ?? '' }}" 
+                       class="input_style">
+            </td>
+            <td>
+                <input type="date" 
+                       name="risks[0][after_assess][{{ $ai }}][Date]" 
+                       value="{{ $after['Date'] ?? '' }}" 
+                       class="input_style">
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</td>
+
+
         </tr>
     </table>
 </div>
 @endforeach
 
 <div class="text-center mt-3">
-    <button type="submit" class="btn-submit">💾 บันทึก</button>
+    <button type="submit" class="btn-submit"> บันทึก</button>
     <a href="{{ route('assessrisk.index') }}" class="btn btn-secondary">ยกเลิก</a>
 </div>
 </form>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
- 
+
     document.querySelectorAll('input, textarea, select').forEach(el => {
-        el.setAttribute('readonly', true);
+        if (!el.name.startsWith('risks[0][approved]') && !el.name.startsWith('risks[0][after_assess]')) {
+            el.setAttribute('readonly', true);
+        }
     });
 
-    document.querySelectorAll('input[name^="risks[0][approved]"]').forEach(el => {
-        el.removeAttribute('readonly');
-    });
 });
 </script>
 
