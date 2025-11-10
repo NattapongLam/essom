@@ -19,17 +19,44 @@
                         <table id="tb_job" class="table table-bordered table-sm text-center">
                             <thead>
                                 <tr>
-                                    <th>NO.</th>
+                                    {{-- <th>NO.</th> --}}
                                     <th>SECTION</th>
                                     <th>FOR PERIOD.</th>
-                                    <th>DESCRIPTION OF ACTIVITIES</th>
+                                    {{-- <th>DESCRIPTION OF ACTIVITIES</th> --}}
                                     <th>แก้ไข</th>
+                                    <th>อนุมัติ</th>
                                     <th>ลบ</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($objectives as $objective)
-                                    @php
+                                    <tr>
+                                            {{-- <td>{{ $act['no'] ?? '' }}</td> --}}
+                                            <td>{{ $objective->section ?? '' }}</td>
+                                            <td>{{ $objective->period ?? '' }}</td>
+                                            {{-- <td>{{ $act['description'] ?? '' }}</td> --}}
+                                            <td>
+                                                <a href="{{ route('objcctives.edit', $objective->id) }}" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('objcctives.show', $objective->id) }}" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-check"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('objcctives.destroy', $objective->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('คุณต้องการลบข้อมูลนี้หรือไม่?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {{-- @php
                                         $activities = $objective->activity_list ?? [];
                                     @endphp
 
@@ -55,7 +82,7 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 @endforeach
                             </tbody>
                         </table>

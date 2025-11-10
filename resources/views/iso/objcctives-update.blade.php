@@ -47,7 +47,7 @@ button.delete:hover { transform: scale(1.05); }
 <form action="{{ route('objcctives.update', $objcctive->id) }}" method="POST">
 @csrf
 @method('PUT')
-<input type="hidden" name="checkdoc" value="Edit">
+<input type="hidden" name="checkdoc" value="Update">
 <div class="form-container">
     <h2>ESSOM CO.,LTD.</h2>
     <h2>Objective</h2>
@@ -71,7 +71,7 @@ button.delete:hover { transform: scale(1.05); }
                 <th rowspan="2">RESP. PERSON</th>
                 <th colspan="3">OBJECTIVE</th>
                 <th rowspan="2">REMARKS/CORRECTIVE ACTION</th>
-                <th rowspan="2">[ปุ่มลบ]</th>
+                {{-- <th rowspan="2">[ปุ่มลบ]</th> --}}
             </tr>
             <tr>
                 <td width="8%" align="center">Previous</td>
@@ -87,9 +87,9 @@ button.delete:hover { transform: scale(1.05); }
             @forelse($activities as $i => $act)
             <tr>
                 <td>{{ $i+1 }}</td>
-                <td><input type="text" name="description[]" value="{{ old('description.'.$i, $act['description']) }}"></td>
+                <td><input type="text" name="description[]" value="{{ old('description.'.$i, $act['description']) }}" readonly></td>
                 <td>
-                    <select class="form-control receiver-select" name="resp_person[]">
+                    <select class="form-control receiver-select" name="resp_person[]" disabled>
                         <option value=""></option>
                         @foreach ($emp as $item)
                              <option value="{{ $item->ms_employee_fullname }}"
@@ -99,14 +99,14 @@ button.delete:hover { transform: scale(1.05); }
                         @endforeach
                     </select>
                 </td>
-                <td><input type="text" name="previous[]" value="{{ old('previous.'.$i, $act['previous']) }}"></td>
-                <td><input type="text" name="plan[]" value="{{ old('plan.'.$i, $act['plan']) }}"></td>
-                <td><input type="text" name="results[]" value="{{ old('results.'.$i, $act['results']) }}"></td>
-                <td><input type="text" name="remarks[]" value="{{ old('remarks.'.$i, $act['remarks']) }}"></td>
-                <td>
+                <td><input type="text" name="previous[]" value="{{ old('previous.'.$i, $act['previous']) }}" readonly></td>
+                <td><input type="text" name="plan[]" value="{{ old('plan.'.$i, $act['plan']) }}" readonly></td>
+                <td><input type="text" name="results[]" value="{{ old('results.'.$i, $act['results']) }}" readonly></td>
+                <td><input type="text" name="remarks[]" value="{{ old('remarks.'.$i, $act['remarks']) }}" readonly></td>
+                {{-- <td>
                     <input type="hidden" name="no[]" value="{{ $i+1 }}" class="rowNo">
                     <button type="button" class="delete">ลบ</button>
-                </td>
+                </td> --}}
             </tr>
             @empty
             @for($i = 0; $i < 5; $i++)
@@ -127,7 +127,7 @@ button.delete:hover { transform: scale(1.05); }
             @endforelse
         </tbody>
     </table>
-    <button type="button" class="edit" id="addRowBtn" style="margin-top:10px;">+ เพิ่มแถว</button>
+    {{-- <button type="button" class="edit" id="addRowBtn" style="margin-top:10px;">+ เพิ่มแถว</button> --}}
     <br><br>
 
     <div class="section-line">
@@ -144,48 +144,88 @@ button.delete:hover { transform: scale(1.05); }
             </div>
         </div>
         <div class="row">
+            @if ($objcctive->reported_by)
             <div class="col-8">
                 <label>Reported by:
-                    <input type="text" name="reported_by" value="{{ old('reported_by', $objcctive->reported_by) }}" style="width:300px;" readonly>
+                    <input type="text" name="reported_by" value="{{$objcctive->reported_by}}" style="width:300px;" readonly>
                 </label>
             </div>
             <div class="col-4">
                 <label>Date:
-                    <input type="date" name="reported_date" value="{{ old('reported_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                    <input type="date" name="reported_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
                 </label>
             </div>
+            @else
+            <div class="col-8">
+                <label>Reported by:
+                    <input type="text" name="reported_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                </label>
+            </div>
+            <div class="col-4">
+                <label>Date:
+                    <input type="date" name="reported_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                </label>
+            </div>
+            @endif            
         </div>
     </div>
     <br>
     <div class="section-line">
         <div class="row">
-            <div class="col-8">
-                <label>Reviewed by:
-                    <input type="text" name="reviewed_by" value="{{ old('reviewed_by', $objcctive->reviewed_by) }}" style="width:300px;" readonly>
-                </label>
-            </div>
-            <div class="col-4">
-                <label>Date:
-                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
-                </label>
-            </div>
+            @if ($objcctive->reviewed_by)
+                <div class="col-8">
+                    <label>Reviewed by:
+                        <input type="text" name="reviewed_by" value="{{ old('reviewed_by', $objcctive->reviewed_by) }}" style="width:300px;" readonly>
+                    </label>
+                </div>
+                <div class="col-4">
+                    <label>Date:
+                        <input type="date" name="reviewed_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                    </label>
+                </div>  
+            @elseif($objcctive->reported_by)
+                <div class="col-8">
+                    <label>Reviewed by:
+                        <input type="text" name="reviewed_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                    </label>
+                </div>
+                <div class="col-4">
+                    <label>Date:
+                        <input type="date" name="reviewed_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                    </label>
+                </div> 
+            @endif           
         </div>
         <div class="row">
-            <div class="col-8">
-                <label>Acknowledged by:
-                    <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by', $objcctive->acknowledged_by) }}" style="width:300px;" readonly>
-                </label>
-            </div>
-            <div class="col-4">
-                <label>Date:
-                    <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
-                </label>
-            </div>
+            @if ($objcctive->acknowledged_by)
+                <div class="col-8">
+                    <label>Acknowledged by:
+                        <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by', $objcctive->acknowledged_by) }}" style="width:300px;" readonly>
+                    </label>
+                </div>
+                <div class="col-4">
+                    <label>Date:
+                        <input type="date" name="acknowledged_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                    </label>
+                </div>   
+            @elseif($objcctive->reviewed_by)
+                  <div class="col-8">
+                    <label>Acknowledged by:
+                        <input type="text" name="acknowledged_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                    </label>
+                </div>
+                <div class="col-4">
+                    <label>Date:
+                        <input type="date" name="acknowledged_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                    </label>
+                </div>   
+            @endif         
         </div>
     </div>
     <br>
-    <div class="section-line">
+    <div class="section-line">    
         <div class="row">
+            @if ($objcctive->approved_by)
             <div class="col-8">
                 <label>Approved by:
                     <input type="text" name="approved_by" value="{{ old('approved_by', $objcctive->approved_by) }}" style="width:300px;" readonly>
@@ -193,14 +233,27 @@ button.delete:hover { transform: scale(1.05); }
             </div>
             <div class="col-4">
                     <label>Date:
-                        <input type="date" name="approved_date" value="{{ old('approved_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                        <input type="date" name="approved_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
                     </label>
             </div>
+            @elseif($objcctive->acknowledged_by)
+            <div class="col-8">
+                <label>Approved by:
+                    <input type="text" name="approved_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                </label>
+            </div>
+            <div class="col-4">
+                    <label>Date:
+                        <input type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                    </label>
+            </div>
+            @endif
+           
         </div>     
     </div>
 
     <div class="actions">
-        <button type="submit" class="primary">อัปเดตข้อมูล</button>
+        <button type="submit" class="primary">อนุมัติข้อมูล</button>
     </div>
 </div>
 </form>

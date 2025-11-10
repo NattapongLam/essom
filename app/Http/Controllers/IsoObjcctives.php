@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Objective;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class IsoObjcctives extends Controller
 {
@@ -15,7 +16,8 @@ class IsoObjcctives extends Controller
 
     public function create()
     {
-        return view('iso.objcctives-create');
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.objcctives-create', compact('emp'));
     }
 
     public function store(Request $request)
@@ -62,13 +64,14 @@ class IsoObjcctives extends Controller
 
     public function edit(Objective $objcctive)
     {
-        
-        return view('iso.objcctives-edit', compact('objcctive'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.objcctives-edit', compact('objcctive','emp'));
     }
 
     public function update(Request $request, Objective $objcctive)
     {
-        try {
+        if($request->checkdoc == "Edit"){
+            try {
             $activities = [];
             if (!empty($request->description)) {
                 foreach ($request->description as $i => $desc) {
@@ -102,10 +105,34 @@ class IsoObjcctives extends Controller
                 'approved_date' => $request->approved_date,
             ]);
 
-            return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
-        }
+                return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+            }
+        }elseif($request->checkdoc ="Update"){
+            $data= [
+                'reported_by' => $request->reported_by,
+                'reported_date' => $request->reported_date,
+                'reviewed_by' => $request->reviewed_by,
+                'reviewed_date' => $request->reviewed_date,
+                'acknowledged_by' => $request->acknowledged_by,
+                'acknowledged_date' => $request->acknowledged_date,
+                'approved_by' => $request->approved_by,
+                'approved_date' => $request->approved_date
+            ];
+            //dd($data);
+            try {
+                $objcctive->update($data);
+                return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+            }
+        }        
+    }
+    public function show(Objective $objcctive)
+    {
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.objcctives-update', compact('objcctive','emp'));
     }
 
     public function destroy(Objective $objcctive)

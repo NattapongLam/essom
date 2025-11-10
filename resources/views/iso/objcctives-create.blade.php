@@ -147,9 +147,9 @@ button.delete:hover { transform: scale(1.05); }
                 <th rowspan="2">[ปุ่มลบ]</th>
             </tr>
             <tr>
-                <td width="3%" align="center">Previous</td>
-                <td width="3%" align="center">Plan</td>
-                <td width="3%" align="center">Results</td>
+                <td width="8%" align="center">Previous</td>
+                <td width="8%" align="center">Plan</td>
+                <td width="8%" align="center">Results</td>
             </tr>
         </thead>
         <tbody>
@@ -157,7 +157,14 @@ button.delete:hover { transform: scale(1.05); }
             <tr>
                 <td>{{ $i+1 }}</td>
                 <td><input type="text" name="description[]" placeholder="Description of Activities" value="{{ old('description.'.$i) }}"></td>
-                <td><input type="text" name="resp_person[]" placeholder="Resp Person" value="{{ old('resp_person.'.$i) }}"></td>
+                <td>
+                    <select class="form-control receiver-select" name="resp_person[]">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                </td>
                 <td><input type="text" name="previous[]" placeholder="Previous" value="{{ old('previous.'.$i) }}"></td>
                 <td><input type="text" name="plan[]" placeholder="Plan" value="{{ old('plan.'.$i) }}"></td>
                 <td><input type="text" name="results[]" placeholder="Results" value="{{ old('results.'.$i) }}"></td>
@@ -175,42 +182,74 @@ button.delete:hover { transform: scale(1.05); }
     <br><br>
 
     <div class="section-line">
-        <label>Prepared by:
-            <input type="text" name="prepared_by" value="{{ old('prepared_by') }}" style="width:300px;" required>
-        </label>
-        <label>Date:
-            <input type="date" name="prepared_date" value="{{ old('prepared_date') }}" style="width:200px;" required>
-        </label>
-        <label>Reported by:
-            <input type="text" name="reported_by" value="{{ old('reported_by') }}" style="width:300px;" required>
-        </label>
-        <label>Date:
-            <input type="date" name="reported_date" value="{{ old('reported_date') }}" style="width:200px;" required>
-        </label>
+        <div class="row">
+            <div class="col-8">
+                <label>Prepared by:
+                    <input type="text" name="prepared_by"  value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                </label>
+            </div>
+            <div class="col-4">
+                <label>Date:
+                    <input type="date" name="prepared_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                </label>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-8">
+                <label>Reported by:
+                    <input type="text" name="reported_by" value="{{ old('reported_by') }}" style="width:300px;" readonly>
+                </label>
+            </div>
+            <div class="col-4">
+                <label>Date:
+                    <input type="date" name="reported_date" value="{{ old('reported_date') }}" style="width:200px;" readonly>
+                </label>
+            </div>
+         </div>
     </div>
     <br>
     <div class="section-line">
-        <label>Reviewed by:
-            <input type="text" name="reviewed_by" value="{{ old('reviewed_by') }}" style="width:308px;" required>
-        </label>
-        <label>Date:
-            <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" style="width:200px;" required>
-        </label>
-        <label>Acknowledged by:
-            <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by') }}" style="width:263px;" required>
-        </label>
-        <label>Date:
-            <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" style="width:200px;" required>
-        </label>
+        <div class="row">
+            <div class="col-8">
+                 <label>Reviewed by:
+                    <input type="text" name="reviewed_by" value="{{ old('reviewed_by') }}" style="width:300px;" readonly>
+                </label>       
+            </div>
+            <div class="col-4">
+                 <label>Date:
+                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" style="width:200px;" readonly>
+                </label>
+            </div>           
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <label>Acknowledged by:
+                    <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by') }}" style="width:300px;" readonly>
+                </label>
+            </div>
+            <div class="col-4">
+                <label>Date:
+                    <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" style="width:200px;" readonly>
+                </label>
+            </div>
+        </div>
     </div>
     <br>
     <div class="section-line">
-        <label>Approved by:
-            <input type="text" name="approved_by" value="{{ old('approved_by') }}" style="width:302px;" required>
-        </label>
-        <label>Date:
-            <input type="date" name="approved_date" value="{{ old('approved_date') }}" style="width:200px;" required>
-        </label>
+        <div class="row">
+            <div class="col-8">
+                <label>Approved by:
+                    <input type="text" name="approved_by" value="{{ old('approved_by') }}" style="width:300px;" readonly>
+                </label>
+            </div>
+            <div class="col-4">
+                 <label>Date:
+                    <input type="date" name="approved_date" value="{{ old('approved_date') }}" style="width:200px;" readonly>
+                </label>
+            </div>
+        </div>
+        
+       
     </div>
 
     <div class="actions">
@@ -218,7 +257,16 @@ button.delete:hover { transform: scale(1.05); }
     </div>
 </div>
 </form>
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 document.addEventListener("DOMContentLoaded", function() {
     const tableBody = document.querySelector('#objectiveTable tbody'); 
     const addRowBtn = document.getElementById('addRowBtn');
@@ -248,7 +296,14 @@ document.addEventListener("DOMContentLoaded", function() {
         newRow.innerHTML = `
             <td>${rowCount}</td>
             <td><input type="text" name="description[]" placeholder="Description of Activities"></td>
-            <td><input type="text" name="resp_person[]" placeholder="Resp Person"></td>
+            <td>
+                <select class="form-control receiver-select" name="resp_person[]"  placeholder="กรุณาเลือกพนักงาน">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+            </td>
             <td><input type="text" name="previous[]" placeholder="Previous"></td>
             <td><input type="text" name="plan[]" placeholder="Plan"></td>
             <td><input type="text" name="results[]" placeholder="Results"></td>
@@ -259,7 +314,12 @@ document.addEventListener("DOMContentLoaded", function() {
             </td>
         `;
         tableBody.appendChild(newRow);
+        $(newRow).find('.receiver-select').select2({
+            placeholder: 'กรุณาเลือกพนักงาน',
+            width: '100%'
+        });
     });
 });
+
 </script>
-@endsection
+@endpush  
