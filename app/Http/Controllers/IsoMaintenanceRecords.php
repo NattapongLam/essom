@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MaintenanceRecord;
+use Illuminate\Support\Facades\DB;
 
 class IsoMaintenanceRecords extends Controller
 {
@@ -60,7 +61,8 @@ class IsoMaintenanceRecords extends Controller
     {
         $maintenance_items = $this->maintenanceItems();
         $machines = $this->machines();
-        return view('iso.maintenance-records-create', compact('maintenance_items', 'machines'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.maintenance-records-create', compact('maintenance_items', 'machines','emp'));
     }
 
  

@@ -109,12 +109,12 @@ input:focus {
         <table id="maintenanceTable">
             <thead>
                 <tr>
-                    <th>เครื่องจักร / รายการบำรุงรักษา</th>
+                    <th style="width: 20%">เครื่องจักร / รายการบำรุงรักษา</th>
                     @foreach($maintenance_items as $item)
-                        <th><div class="rotated-text">{{ $item }}</div></th>
+                        <th  style="width: 5%"><div class="rotated-text">{{ $item }}</div></th>
                     @endforeach
-                    <th>ผู้ตรวจ</th>
-                    <th>วันที่ตรวจ</th>
+                    <th style="width: 30%">ผู้ตรวจ</th>
+                    <th style="width: 20%">วันที่ตรวจ</th>
                 </tr>
             </thead>
  <tbody>
@@ -152,7 +152,15 @@ input:focus {
                      data-state="0"></div>
             </td>
         @endforeach
-        <td><input type="text" name="inspector[{{ $machine }}]" value=""></td>
+        <td>
+            <select class="form-control receiver-select" name="inspector[{{ $machine }}]"  placeholder="กรุณาเลือกพนักงาน">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+            {{-- <input type="text" name="inspector[{{ $machine }}]" value=""> --}}
+        </td>
         <td><input type="date" name="inspection_date[{{ $machine }}]" value=""></td>
     </tr>
 @endforeach
@@ -174,8 +182,16 @@ input:focus {
         </div>
     </form>
 </div>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.triple-checkbox').forEach(cb => {
         cb.addEventListener('click', function() {
@@ -224,4 +240,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+@endpush  

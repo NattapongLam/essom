@@ -146,7 +146,18 @@ tr.fade-out { opacity: 0; transition: opacity 0.3s ease; }
             <td>{{ $i + 1 }}</td>
             <td><input type="date" name="repair_date[]" value="{{ $machine_history->repair_date[$i] ?? '' }}"></td>
             <td><input type="text" name="repair_description[]" value="{{ $machine_history->repair_description[$i] ?? '' }}" placeholder="รายการซ่อม/เปลี่ยน"></td>
-            <td><input type="text" name="repair_person[]" value="{{ $machine_history->repair_person[$i] ?? '' }}" placeholder="ผู้ซ่อม"></td>
+            <td>
+                 <select class="form-control receiver-select" name="repair_person[]"  placeholder="กรุณาเลือกพนักงาน">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}"
+                                 {{ (isset($machine_history->repair_person[$i]) && $machine_history->repair_person[$i] == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="repair_person[]" value="{{ $machine_history->repair_person[$i] ?? '' }}" placeholder="ผู้ซ่อม"> --}}
+            </td>
             <td><button type="button" class="delete">ลบ</button></td>
         </tr>
         @endfor
@@ -164,8 +175,16 @@ tr.fade-out { opacity: 0; transition: opacity 0.3s ease; }
 </div>
 </form>
 </div>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 document.addEventListener("DOMContentLoaded", function() {
     const tableBody = document.querySelector('#machineTable tbody');
     const addRowBtn = document.getElementById('addRowBtn');
@@ -211,4 +230,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-@endsection
+@endpush 
