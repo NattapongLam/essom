@@ -196,7 +196,7 @@ table td input.input_style {
             <td colspan="6">
                 <b>การติดตาม:</b><br>
                 @foreach($risk['follow_up'] ?? [] as $follow)
-                    <input type="text" value="{{ $follow ?? '' }}" class="input_style" readonly><br>
+                    <input type="text" value="{{ $follow ?? '' }}" class="input_style"><br>
                 @endforeach
             </td>
             <td colspan="2">

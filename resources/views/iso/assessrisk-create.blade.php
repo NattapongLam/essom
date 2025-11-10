@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('content')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if(session('success'))
 <script>
 Swal.fire({
@@ -137,7 +136,7 @@ table td input.input_style {
 
 </style>
 
-<form method="POST" action="{{ route('assessrisk.store') }}">
+<form id="assessForm" method="POST" action="{{ route('assessrisk.store') }}">
     @csrf
 
     @foreach($risks as $i => $risk)
@@ -195,15 +194,19 @@ table td input.input_style {
                         @foreach($risk['dates'] as $di => $date)
                         <tr>
                            <td>
-    <input type="text" 
-           name="risks[{{ $i }}][dates][{{ $di }}][text]" 
-           value="{{ $date['text'] ?? '' }}" 
-           class="input_style">
-</td>
+                                <select class="form-control receiver-select" name="risks[{{ $i }}][dates][{{ $di }}][text]">
+                                    <option value="">กรุณาเลือก</option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}"
+                                            {{ isset($date['text']) && $date['text'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>   
                             <td> <input type="date" 
-           name="risks[{{ $i }}][dates][{{ $di }}][date]" 
-           value="{{ isset($date['date']) ? \Carbon\Carbon::parse($date['date'])->format('Y-m-d') : '' }}" 
-           class="input_style"></td>
+                            name="risks[{{ $i }}][dates][{{ $di }}][date]" 
+                            value="{{ isset($date['date']) ? \Carbon\Carbon::parse($date['date'])->format('Y-m-d') : '' }}" 
+                            class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>
@@ -214,7 +217,7 @@ table td input.input_style {
                 <td colspan="6">
                     <b>การติดตาม:</b><br>
                     @foreach($risk['follow_up'] as $fi => $follow)
-                        <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $follow }}" class="input_style"><br>
+                        <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $follow }}" class="input_style" readonly><br>
                     @endforeach
                 </td>
                 <td colspan="2">
@@ -225,11 +228,11 @@ table td input.input_style {
                             <td> <input type="text" 
            name="risks[{{ $i }}][acknowledged][{{ $ai }}][name]" 
            value="{{ $ack['name'] ?? '' }}" 
-           class="input_style"></td>
+           class="input_style" readonly></td>
                             <td><input type="date" 
            name="risks[{{ $i }}][acknowledged][{{ $ai }}][date]" 
            value="{{ isset($ack['date']) ? \Carbon\Carbon::parse($ack['date'])->format('Y-m-d') : '' }}" 
-           class="input_style"></td>
+           class="input_style" readonly></td>
                         </tr>
                         @endforeach
                     </table>
@@ -268,12 +271,12 @@ table td input.input_style {
                         @foreach($risk['after_assess'] as $ai => $after)
                         <tr>
                             <td>{{ $ai+1 }}</td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][I]" value="{{ $after['I'] }}" class="input_style"></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style"></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style"></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style"></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style"></td>
-                            <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ $after['Date'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][I]" value="{{ $after['I'] }}" class="input_style" readonly></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style" readonly></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style" readonly></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style" readonly></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style" readonly></td>
+                            <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ $after['Date'] }}" class="input_style" readonly></td>
                         </tr>
                         @endforeach
                     </table>
@@ -288,10 +291,25 @@ table td input.input_style {
         <button type="submit" class="btn-submit">บันทึกทั้งหมด</button>
     </div>
 </form>
+@endsection
+@push('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-     showStep(currentStep);
-    form.addEventListener('submit', function(e){
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
+$(document).ready(function () {
+    const form = document.getElementById('assessForm'); // ✅ ประกาศตัวแปร form ให้ชัดเจน
+
+    showStep(currentStep);
+
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
+
         Swal.fire({
             title: 'ยืนยันการบันทึกข้อมูล?',
             text: 'กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน',
@@ -305,5 +323,7 @@ table td input.input_style {
             if (result.isConfirmed) form.submit();
         });
     });
+});
 </script>
-@endsection
+@endpush  
+
