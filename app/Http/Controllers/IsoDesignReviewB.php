@@ -8,6 +8,7 @@ use App\Models\DesignReviewB;
 use App\Models\DesignReviewAHd;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class IsoDesignReviewB extends Controller
 {
@@ -37,7 +38,8 @@ class IsoDesignReviewB extends Controller
     public function create()
     {
         $hd = DesignReviewAHd::where('design_review_a_hd_flag',true)->get();    
-        return view('iso.form-design-review-b-create',compact('hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.form-design-review-b-create',compact('hd','emp'));
     }
 
     /**
@@ -63,6 +65,10 @@ class IsoDesignReviewB extends Controller
             'reported_date' => $request->reported_date,
             'design_review_b_flag' => true,
             'created_at' => Carbon::now(),
+            'reviewed_by' => $request->reviewed_by,
+            'engineecing_by' => $request->engineecing_by,
+            'reviewed_status' => "N",
+            'engineecing_status' => "N"
         ];
         try
         {
@@ -87,6 +93,7 @@ class IsoDesignReviewB extends Controller
     {
         $list = DesignReviewAHd::where('design_review_a_hd_flag',true)->get();    
         $hd = DesignReviewB::find($id);
+       
         return view('iso.form-design-review-b-update',compact('list','hd'));
     }
 
@@ -100,7 +107,8 @@ class IsoDesignReviewB extends Controller
     {
         $list = DesignReviewAHd::where('design_review_a_hd_flag',true)->get();    
         $hd = DesignReviewB::find($id);
-        return view('iso.form-design-review-b-edit',compact('list','hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.form-design-review-b-edit',compact('list','hd','emp'));
     }
 
     /**
@@ -128,6 +136,10 @@ class IsoDesignReviewB extends Controller
                 'reported_date' => $request->reported_date,
                 'design_review_b_flag' => true,
                 'updated_at' => Carbon::now(),
+                'reviewed_by' => $request->reviewed_by,
+                'engineecing_by' => $request->engineecing_by,
+                'reviewed_status' => "N",
+                'engineecing_status' => "N"
             ];
             try
             {
