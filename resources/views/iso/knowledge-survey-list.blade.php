@@ -25,7 +25,8 @@
                 <th>ชื่อผู้สำรวจ</th>
                 <th>หน่วยงาน</th>
                 <th>วันที่</th>
-                 <th>แก้ไข</th>
+                <th>แก้ไข</th>
+                <th>อนุมัติ</th>
                 <th>ลบ</th>
             </tr>
         </thead>
@@ -39,6 +40,11 @@
         <td>
             <a href="{{ route('knowledge-survey.edit', $s->id) }}" class="btn btn-sm btn-warning">
                 <i class="fas fa-edit"></i>
+            </a>
+        </td>
+         <td>
+            <a href="{{ route('knowledge-survey.show', $s->id) }}" class="btn btn-sm btn-primary">
+                <i class="fas fa-check"></i>
             </a>
         </td>
         <td>

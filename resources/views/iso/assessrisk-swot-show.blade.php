@@ -210,13 +210,23 @@ p strong, label { color: #000; font-weight: 700; display: block; margin: 15px 0 
     </table>
     <div class="report-section">
         <div class="report-item">
-            <label>รายงานโดย</label>
-            <input type="text" value="{{ $record->report_by }}" readonly>
-        </div>
-        <div class="report-item">
-            <label>วันที่</label>
-            <input type="date" value="{{ $record->report_date }}" readonly>
-        </div>
+    <label>รายงานโดย</label>
+    <input type="text" value="{{ $record->report_by }}" readonly>
+</div>
+
+<div class="report-item">
+    <label>วันที่</label>
+    @php
+        try {
+            $reportDate = $record->report_date 
+                ? \Carbon\Carbon::parse($record->report_date)->format('Y-m-d') 
+                : '';
+        } catch (\Exception $e) {
+            $reportDate = '';
+        }
+    @endphp
+    <input type="date" value="{{ $reportDate }}" readonly>
+</div>
         <div class="report-item">
             <label>รับทราบโดย</label>
             <input type="text" name="ack_by" value="{{ old('ack_by', $record->ack_by) }}">

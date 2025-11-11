@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Sweet Alert-->
+<link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 
 @if(session('success'))
 <script>
@@ -122,9 +123,9 @@ table td input.input_style {
 }
 </style>
 
-<form action="{{ route('assessrisk.update', $risks[0]['id'] ?? 0) }}" method="POST">
+{{-- <form action="{{ route('assessrisk.update', $risks[0]['id'] ?? 0) }}" method="POST">
     @csrf
-    @method('PUT')
+    @method('PUT') --}}
 
 @foreach($risks as $i => $risk)
 <div class="risk-block">
@@ -212,74 +213,169 @@ table td input.input_style {
             </td>
         </tr>
 <tr>
-    <td colspan="4">
-        <b>อนุมัติ / วันที่:</b>
-        <table class="mini-table">
-            @php
-               
-                $approvedList = $risk['approved'] ?? [['name'=>'','date'=>''], ['name'=>'','date'=>''], ['name'=>'','date'=>'']];
-            @endphp
+<td colspan="4">
+    <b>อนุมัติ / วันที่:</b>
+    <table class="mini-table">
+        @php
+            $approvedList = $risk['approved'] ?? [['name'=>'','date'=>''], ['name'=>'','date'=>''], ['name'=>'','date'=>'']];
+        @endphp
 
-            @foreach($approvedList as $index => $approve)
-            <tr>
-                <td>
-                    <input 
-                        type="text" 
-                        name="risks[0][approved][{{ $index }}][name]" 
-                        value="{{ $approve['name'] ?? '' }}" 
-                        class="input_style" 
-                        placeholder="ชื่อผู้อนุมัติ">
-                </td>
-                <td>
-                    <input 
-                        type="date" 
-                        name="risks[0][approved][{{ $index }}][date]" 
-                        value="{{ $approve['date'] ?? '' }}" 
-                        class="input_style">
-                </td>
-            </tr>
-            @endforeach
-        </table>
-            <td colspan="6">
-                <table class="mini-table">
-                    <tr>
-                        <th>หลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
-                    </tr>
-                    @foreach($risk['after_assess'] ?? [] as $ai => $after)
-                    <tr>
-                        <td>ครั้งที่{{ $ai+1 }}</td>
-                        <td>{{ $after['I'] ?? '' }}</td>
-                        <td>{{ $after['L'] ?? '' }}</td>
-                        <td>{{ $after['Level'] ?? '' }}</td>
-                        <td>{{ $after['Result'] ?? '' }}</td>
-                        <td>{{ $after['By'] ?? '' }}</td>
-                        <td>{{ $after['Date'] ?? '' }}</td>
-                    </tr>
-                    @endforeach
-                </table>
+        @foreach($approvedList as $index => $approve)
+        <tr>
+            <td>
+                <input 
+                    type="text" 
+                    name="risks[0][approved][{{ $index }}][name]" 
+                    value="{{ $approve['name'] ?? '' }}" 
+                    class="input_style" 
+                    placeholder="ชื่อผู้อนุมัติ">
             </td>
+            <td>
+                <input 
+                    type="date" 
+                    name="risks[0][approved][{{ $index }}][date]" 
+                    value="{{ $approve['date'] ?? '' }}" 
+                    class="input_style">
+            </td>
+            <td>
+                @if ($approve['name'] && $approve['status'] == "N")
+                    @if ($approve['name'] == auth()->user()->name && $approve['status'] == "N")
+                        <button type="submit" class="btn-submit"> อนุมัติ</button>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" onclick="confirmApp('{{ $risks[0]['id'] }}')">
+                            อนุมัติ
+                        </a>
+                    @else
+                    <span class="badge-warning">รออนุมัติ</span> 
+                    @endif  
+                @elseif( $approve['status'] == "Y")     
+                    <span class="badge-success">อนุมัติ</span> 
+                @endif             
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</td>
+
+<td colspan="6">
+    <table class="mini-table">
+        <tr>
+            <th>หลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
+        </tr>
+        @foreach($risk['after_assess'] ?? [] as $ai => $after)
+        <tr>
+            <td>ครั้งที่{{ $ai+1 }}</td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][I]" 
+                       value="{{ $after['I'] ?? '' }}" 
+                       class="input_style" readonly>
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][L]" 
+                       value="{{ $after['L'] ?? '' }}" 
+                       class="input_style" readonly>
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][Level]" 
+                       value="{{ $after['Level'] ?? '' }}" 
+                       class="input_style" readonly>
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][Result]" 
+                       value="{{ $after['Result'] ?? '' }}" 
+                       class="input_style" readonly>
+            </td>
+            <td>
+                <input type="text" 
+                       name="risks[0][after_assess][{{ $ai }}][By]" 
+                       value="{{ $after['By'] ?? '' }}" 
+                       class="input_style" readonly>
+            </td>
+            <td>
+                <input type="date" 
+                       name="risks[0][after_assess][{{ $ai }}][Date]" 
+                       value="{{ $after['Date'] ?? '' }}" 
+                       class="input_style" readonly>
+            </td>
+        </tr>
+        @endforeach
+    </table>
+</td>
+
+
         </tr>
     </table>
 </div>
 @endforeach
 
-<div class="text-center mt-3">
-    <button type="submit" class="btn-submit">💾 บันทึก</button>
+{{-- <div class="text-center mt-3">
+    <button type="submit" class="btn-submit"> บันทึก</button>
     <a href="{{ route('assessrisk.index') }}" class="btn btn-secondary">ยกเลิก</a>
 </div>
-</form>
-
+</form> --}}
+@endsection
+@push('scriptjs')
+<script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
- 
+
     document.querySelectorAll('input, textarea, select').forEach(el => {
-        el.setAttribute('readonly', true);
+        if (!el.name.startsWith('risks[0][approved]') && !el.name.startsWith('risks[0][after_assess]')) {
+            el.setAttribute('readonly', true);
+        }
     });
 
-    document.querySelectorAll('input[name^="risks[0][approved]"]').forEach(el => {
-        el.removeAttribute('readonly');
-    });
 });
+confirmApp = (refid) => {       
+    Swal.fire({
+        title: 'คุณแน่ใจหรือไม่ !',
+        text: `คุณต้องการอนุมัติรายการนี้หรือไม่ ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonClass: 'btn btn-success mt-2',
+        cancelButtonClass: 'btn btn-danger ms-2 mt-2',
+        buttonsStyling: false
+    }).then(function(result) {
+        if (result.value) {
+            $.ajax({
+                url: `{{ url('/approvedAssessrisk') }}`,
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "refid": refid
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.status == true) {
+                        Swal.fire({
+                            title: 'สำเร็จ',
+                            text: 'อนุมัติเอกสารเรียบร้อยแล้ว',
+                            icon: 'success'
+                        }).then(function() {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'ไม่สำเร็จ',
+                            text: 'อนุมัติเอกสารไม่สำเร็จ',
+                            icon: 'error'
+                        });
+                    }
+                }
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: 'ยกเลิก',
+                text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
+                icon: 'error'
+            });
+        }
+    });
+}
 </script>
-
-@endsection
+@endpush

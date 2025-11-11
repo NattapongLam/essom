@@ -20,7 +20,6 @@
                         <table id="tb_job" class="table table-bordered table-sm text-center">
                             <thead>
                                 <tr>
-                                    <th>No</th>
                                     <th>กระบวนการ / ระเบียบ</th>
                                     <th>เสนอโดย</th>
                                     <th>วันที่</th>
@@ -33,7 +32,6 @@
                            <tbody>
 @foreach($risks as $i => $risk)
 <tr>
-    <td>{{ $i+1 }}</td>
     <td>{{ $risk->process_ref }}</td>
     <td>{{ $risk->proposed_by }}</td>
     <td>{{ $risk->proposed_date }}</td>

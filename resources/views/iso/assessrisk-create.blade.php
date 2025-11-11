@@ -144,8 +144,8 @@ table td input.input_style {
         <div class="risk-header">
             <center><h4>การประเมินความเสี่ยงและโอกาส </h4></center><br>
             อ้างอิง กระบวนการ / ระเบียบปฏิบัติ: <input type="text" name="risks[{{ $i }}][process]" value="{{ $risk['process'] }}" class="input_style" style="width:20%;">  
-            เสนอโดย: <input type="text" name="risks[{{ $i }}][proposed_by]" value="{{ $risk['proposed_by'] }}" class="input_style" style="width:20%;">  
-            วันที่: <input type="date" name="risks[{{ $i }}][date]" value="{{ $risk['date'] }}" class="input_style" style="width:15%;">
+            เสนอโดย: <input type="text" name="risks[{{ $i }}][proposed_by]" value="{{auth()->user()->name}}" class="input_style" style="width:20%;">  
+            วันที่: <input type="date" name="risks[{{ $i }}][date]" value="{{ old('date', now()->format('Y-m-d')) }}" class="input_style" style="width:15%;">
         </div>
 
         <table>
@@ -204,9 +204,9 @@ table td input.input_style {
                                     @endforeach
                                 </select>   
                             <td> <input type="date" 
-                            name="risks[{{ $i }}][dates][{{ $di }}][date]" 
-                            value="{{ isset($date['date']) ? \Carbon\Carbon::parse($date['date'])->format('Y-m-d') : '' }}" 
-                            class="input_style"></td>
+    name="risks[{{ $i }}][dates][{{ $di }}][date]" 
+    value="{{ !empty($date['date']) ? \Carbon\Carbon::parse($date['date'])->format('Y-m-d') : '' }}" 
+    class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>
@@ -217,7 +217,7 @@ table td input.input_style {
                 <td colspan="6">
                     <b>การติดตาม:</b><br>
                     @foreach($risk['follow_up'] as $fi => $follow)
-                        <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $follow }}" class="input_style" readonly><br>
+                        <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $follow }}" class="input_style"><br>
                     @endforeach
                 </td>
                 <td colspan="2">
@@ -225,14 +225,21 @@ table td input.input_style {
                     <table class="mini-table">
                         @foreach($risk['acknowledged'] as $ai => $ack)
                         <tr>
-                            <td> <input type="text" 
-           name="risks[{{ $i }}][acknowledged][{{ $ai }}][name]" 
-           value="{{ $ack['name'] ?? '' }}" 
-           class="input_style" readonly></td>
+                            <td>
+                                 <select class="form-control receiver-select"  name="risks[{{ $i }}][acknowledged][{{ $ai }}][name]" >
+                                    <option value="">กรุณาเลือก</option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}"
+                                            {{ isset($ack['name']) && $ack['name'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
+                                    @endforeach
+                                </select> 
+                            </td>
                             <td><input type="date" 
-           name="risks[{{ $i }}][acknowledged][{{ $ai }}][date]" 
-           value="{{ isset($ack['date']) ? \Carbon\Carbon::parse($ack['date'])->format('Y-m-d') : '' }}" 
-           class="input_style" readonly></td>
+    name="risks[{{ $i }}][acknowledged][{{ $ai }}][date]" 
+    value="{{ !empty($ack['date']) ? \Carbon\Carbon::parse($ack['date'])->format('Y-m-d') : '' }}" 
+    class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>
@@ -246,18 +253,26 @@ table td input.input_style {
         @foreach($risk['approved'] as $ap => $approve)
         <tr>
             <td>
-                <input type="text" 
+                <select class="form-control receiver-select" name="risks[{{ $i }}][approved][{{ $ap }}][name]">
+                    <option value="">กรุณาเลือก</option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}"
+                            {{ isset($approve['name']) && $approve['name'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                            {{ $item->ms_employee_fullname }}
+                        </option>
+                    @endforeach
+                </select>
+                {{-- <input type="text" 
                        name="risks[{{ $i }}][approved][{{ $ap }}][name]" 
                        value="{{ $approve['name'] }}" 
                        class="input_style" 
-                       readonly>
+                       readonly> --}}
             </td>
             <td>
                 <input type="date" 
                        name="risks[{{ $i }}][approved][{{ $ap }}][date]" 
                        value="{{ $approve['date'] }}" 
-                       class="input_style" 
-                       readonly>
+                       class="input_style">
             </td>
         </tr>
         @endforeach
@@ -266,17 +281,17 @@ table td input.input_style {
                 <td colspan="7">
                     <table class="mini-table">
                         <tr>
-                            <th>ครั้งหลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
+                            <th>หลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
                         </tr>
                         @foreach($risk['after_assess'] as $ai => $after)
                         <tr>
-                            <td>{{ $ai+1 }}</td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][I]" value="{{ $after['I'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style" readonly></td>
-                            <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ $after['Date'] }}" class="input_style" readonly></td>
+                            <td>ครั้ง{{ $ai+1 }}</td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][I]" value="{{ $after['I'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style"></td>
+                            <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ $after['Date'] }}" class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>
@@ -292,23 +307,20 @@ table td input.input_style {
     </div>
 </form>
 @endsection
+
 @push('scriptjs')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $(document).ready(function () {
-    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
     $('.receiver-select').select2({
         placeholder: 'กรุณาเลือกพนักงาน',
         width: '100%'
     });
-});
-$(document).ready(function () {
-    const form = document.getElementById('assessForm'); // ✅ ประกาศตัวแปร form ให้ชัดเจน
 
-    showStep(currentStep);
+    const form = document.getElementById('assessForm');
 
     form.addEventListener('submit', function(e) {
-        e.preventDefault();
+        e.preventDefault(); 
 
         Swal.fire({
             title: 'ยืนยันการบันทึกข้อมูล?',
@@ -319,8 +331,11 @@ $(document).ready(function () {
             cancelButtonColor: '#d33',
             confirmButtonText: 'บันทึก',
             cancelButtonText: 'ยกเลิก'
-        }).then(result => {
-            if (result.isConfirmed) form.submit();
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.removeEventListener('submit', arguments.callee);
+                form.submit();
+            }
         });
     });
 });
