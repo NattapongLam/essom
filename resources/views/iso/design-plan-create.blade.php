@@ -125,20 +125,56 @@ button.primary:hover { transform: scale(1.05); }
             </div>
         </div>
         <div class="row">
-            <div><label>1.5 Requested By</label><input type="text" name="requested_by" value="{{ old('requested_by') }}"></div>
-            <div><label>Date</label><input type="date" name="requested_date" value="{{ old('requested_date') }}"></div>
-            <div><label>Reviewed By</label><input type="text" name="reviewed_by" value="{{ old('reviewed_by') }}"></div>
+            <div><label>1.5 Requested By</label><input type="text" name="requested_by" value="{{auth()->user()->name}}" readonly></div>
+            <div><label>Date</label><input type="date" name="requested_date" value="{{ old('date', now()->format('Y-m-d')) }}"></div>
+            <div><label>Reviewed By</label>
+                <select class="form-control receiver-select" name="reviewed_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="reviewed_by" value="{{ old('reviewed_by') }}"> --}}
+                <input type="hidden" name="reviewed_status" value="N">
+            </div>
             <div><label>Date</label><input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}"></div>
         </div>
         <div class="row">
-            <div><label>1.6 Approved By</label><input type="text" name="Approveds_by" value="{{ old('Approveds_by') }}"></div>
-            <div><label>Date</label><input type="date" name="Approveds_date" value="{{ old('Approveds_date') }}"></div>
+            <div><label>1.6 Approved By</label>
+                <select class="form-control receiver-select" name="approved_by_request">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="Approveds_by" value="{{ old('Approveds_by') }}"> --}}
+                <input type="hidden" name="approved_status_request" value="N">
+            </div>
+            <div><label>Date</label><input type="date" name="approved_date_request" value="{{ old('approved_date_request') }}"></div>
         </div>
 
         <label>2. Design Planning</label>
         <div class="row">
-            <div><label>2.1 Engineer</label><input type="text" name="Engineer_Desing" value="{{ old('Engineer_Desing') }}"></div>
-            <div><label>2.2 Senior Engineer</label><input type="text" name="senior_Engineer" value="{{ old('senior_Engineer') }}"></div>
+            <div><label>2.1 Engineer</label>
+                <select class="form-control receiver-select" name="engineer_desing">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="Engineer_Desing" value="{{ old('Engineer_Desing') }}"> --}}
+                <input type="hidden" name="engineer_desing_status" value="N">
+            </div>
+            <div><label>2.2 Senior Engineer</label>
+                <select class="form-control receiver-select" name="senior_engineer">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="senior_Engineer" value="{{ old('senior_Engineer') }}"> --}}
+                <input type="hidden" name="senior_engineer_status" value="N">
+            </div>
         </div>
     </div>
     <div class="section">
@@ -169,18 +205,32 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 120px;">2.4 Planned By</label>
-                <input type="text" name="planned_by" value="{{ old('planned_by') }}" style="flex: 1; padding: 5px;">
+                <select class="form-control receiver-select" name="planned_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="planned_by" value="{{ old('planned_by') }}" style="flex: 1; padding: 5px;"> --}}
+                <input type="hidden" name="planned_status" value="N">
             </div>
             <div style="flex: 1; text-align: center;">Engineering Section</div>
             <div style="flex: 1; display: flex; align-items: center;">
-                <label style="width: 50px;">Date</label>
+                <label style="width: 50px;">Date</label>                
                 <input type="date" name="planned_date_engineering" value="{{ old('planned_date_engineering') }}" style="flex: 1; padding: 5px;">
             </div>
         </div>
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 120px;"></label>
-                <input type="text" name="planned_marketing" value="{{ old('planned_marketing') }}" style="flex: 1; padding: 5px;">
+                <select class="form-control receiver-select" name="planned_marketing">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="planned_marketing" value="{{ old('planned_marketing') }}" style="flex: 1; padding: 5px;"> --}}
+                <input type="hidden" name="planned_marketing_status" value="N">
             </div>
             <div style="flex: 1; text-align: center;">Marketing Representative</div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -191,7 +241,14 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 120px;"></label>
-                <input type="text" name="planned_plant" value="{{ old('planned_plant') }}" style="flex: 1; padding: 5px;">
+                 <select class="form-control receiver-select" name="planned_plant">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="planned_plant" value="{{ old('planned_plant') }}" style="flex: 1; padding: 5px;"> --}}
+                <input type="hidden" name="planned_plant_status" value="N">
             </div>
             <div style="flex: 1; text-align: center;">Plant Representative</div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -202,7 +259,14 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 130px;">2.5 Approved By</label>
-                <input type="text" name="approved_by" value="{{ old('approved_by') }}" style="flex: 1; padding: 5px;">
+                  <select class="form-control receiver-select" name="approved_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="approved_by" value="{{ old('approved_by') }}" style="flex: 1; padding: 5px;"> --}}
+                <input type="hidden" name="approved_status" value="N">
             </div>
             <div style="flex: 1;"></div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -218,8 +282,16 @@ button.primary:hover { transform: scale(1.05); }
     </div>
 </div>
 </form>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือก',
+        width: '100%'
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('designForm');
     const sections = Array.from(form.querySelectorAll('.section'));
@@ -269,5 +341,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+@endpush
 
-@endsection
