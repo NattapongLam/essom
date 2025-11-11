@@ -41,6 +41,14 @@ class DesignPlan extends Model
         'planned_by','planned_date_engineering',
         'planned_marketing','planned_date_marketing',
         'planned_plant','planned_date_plant',
-        'approved_by','approved_date'
+        'approved_by','approved_date',
+        'reviewed_status',
+        'approved_status_request',
+        'engineer_desing_status',
+        'senior_engineer_status',
+        'planned_status',
+        'planned_marketing_status',
+        'planned_plant_status',
+        'approved_status'
     ];
 }
