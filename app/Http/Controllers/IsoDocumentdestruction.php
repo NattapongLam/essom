@@ -34,8 +34,9 @@ class IsoDocumentdestruction extends Controller
      */
     public function create()
     {
-        $hd = null;      
-        return view('iso.form-document-destruction-create',compact('hd'));
+        $hd = null;     
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();  
+        return view('iso.form-document-destruction-create',compact('hd','emp'));
     }
 
     /**
@@ -62,6 +63,10 @@ class IsoDocumentdestruction extends Controller
             'requested_date' => $request->requested_date,
             'documentdestruction_hd_flag' => true,
             'created_at' => Carbon::now(),
+            'reviewed_by' => $request->reviewed_by,
+            'approved_by' => $request->approved_by,
+            'reviewed_status' => "N",
+            'approved_status' => "N"
         ];
         try{
             DB::beginTransaction();
@@ -120,7 +125,24 @@ class IsoDocumentdestruction extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = [
+            'reviewed_by' => $request->reviewed_by,
+            'reviewed_date' => $request->reviewed_date,
+            'approved_by' => $request->approved_by,
+            'approved_date' => $request->approved_date,
+            'reviewed_status' => $request->reviewed_status,
+            'approved_status' => $request->approved_status
+        ];
+        try{
+            DB::beginTransaction();
+            $insertHD = DocumentdestructionHd::where('documentdestruction_hd_id',$id)->update($data);          
+            DB::commit();
+            return redirect()->route('document-destruction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('document-destruction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
     }
 
     /**

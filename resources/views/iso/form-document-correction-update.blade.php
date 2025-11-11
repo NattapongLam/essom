@@ -114,7 +114,7 @@
                         <input class="form-control" type="date" value="{{$doc->requested_date}}" name="requested_date" readonly>
                     </div>
                 </div>
-                @if ($doc->reviewed_by)
+                @if ($doc->reviewed_status = "Y")
                 <div class="row mt-3">
                     <div class="col-12">
                         <label>Audit Check List Revision</label>
@@ -146,6 +146,8 @@
                         <label>Date</label>
                         <input class="form-control" type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}">
                     </div>
+                    <input type="hidden" name="reviewed_status" value="Y">
+                    <input type="hidden" name="approved_status" value="Y">
                 </div>
                 @else
                 <div class="row mt-3">
@@ -179,10 +181,12 @@
                         <label>Date</label>
                         <input class="form-control" type="date" name="approved_date" readonly>
                     </div>
+                    <input type="hidden" name="reviewed_status" value="Y">
+                    <input type="hidden" name="approved_status" value="N">
                 </div>
                 @endif                               
                 <br>
-                @if ($doc->approved_by == null)
+                @if ($doc->approved_status == "N")
                 <div class="col-12 col-md-1">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">

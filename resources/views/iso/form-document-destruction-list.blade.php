@@ -35,16 +35,33 @@
                                     <td>{{$item->documentdestruction_hd_from}}</td>
                                     <td>{{$item->requested_by}}</td>
                                     <td>
-                                        <a href="{{route('document-destruction.show',$item->documentdestruction_hd_id)}}" class="btn btn-sm btn-primary" >
-                                                <i class="fas fa-edit"></i>
-                                        </a>
+                                        @if ($item->reviewed_status == "N")
+                                            @if ($item->reviewed_by == auth()->user()->name)
+                                                <a href="{{route('document-destruction.show',$item->documentdestruction_hd_id)}}" class="btn btn-sm btn-primary" >
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @else
+                                                <span class="badge-warning">รอทบทวน</span>
+                                            @endif
+                                        @elseif($item->reviewed_status == "Y")
+                                            @if ($item->approved_by == auth()->user()->name)
+                                                <a href="{{route('document-destruction.show',$item->documentdestruction_hd_id)}}" class="btn btn-sm btn-primary" >
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @else
+                                                <span class="badge-warning">รออนุมัติ</span>
+                                            @endif
+                                        @else
+                                            <span class="badge-success">อนุมัติ</span>
+                                        @endif
+                                        
                                     </td>
                                     <td>
-                                        @if ($item->reviewed_by == null)
+                                        {{-- @if ($item->reviewed_by == null) --}}
                                             <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
                                             onclick="confirmDel('{{ $item->documentdestruction_hd_id }}')">
                                             <i class="fas fa-trash"></i></a>
-                                        @endif
+                                        {{-- @endif --}}
                                     </td>
                                 </tr>
                             @endforeach
