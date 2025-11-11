@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\KnowledgeRecord;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class IsoKnowledgerecord extends Controller
 {
@@ -15,7 +19,12 @@ class IsoKnowledgerecord extends Controller
 
     public function create()
     {
-        return view('iso.knowledge-record-create');
+        $emp = DB::table('ms_employee')
+        ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')
+        ->where('ms_employee_code',Auth::user()->code)
+        ->first();
+        $list = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-record-create', compact('emp','list'));
     }
 
     public function store(Request $request)
@@ -35,12 +44,16 @@ class IsoKnowledgerecord extends Controller
             'transfer_date' => 'nullable|date',
             'NameCF' => 'nullable|string|max:255',
             'approval_date' => 'nullable|date',
+            'approval_status' => 'nullable|string|max:255',
         ]);
-
         if ($request->hasFile('attached_file')) {
-            $file = $request->file('attached_file')->store('knowledge_files', 'public');
+            $file  = $request->file('attached_file')->storeAs('img/knowledge_files', "IMG_" . Carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('attached_file')->extension());
             $data['attached_file'] = $file;
         }
+        // if ($request->hasFile('attached_file')) {
+        //     $file = $request->file('attached_file')->store('knowledge_files', 'public');
+        //     $data['attached_file'] = $file;
+        // }
 
         if (isset($data['approval'])) {
             $data['approval'] = json_encode($data['approval']);
@@ -52,14 +65,15 @@ class IsoKnowledgerecord extends Controller
     }
 
     public function edit(KnowledgeRecord $knowledgeRecord)
-    {
-        return view('iso.knowledge-record-create', ['record' => $knowledgeRecord]);
+    {      
+        $lists = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-record-create', ['record' => $knowledgeRecord,'list' => $lists]);
     }
 
     public function update(Request $request, KnowledgeRecord $knowledgeRecord)
 {
 
-    $data = $request->only(['NameCF', 'approval_date']); 
+    $data = $request->only(['NameCF', 'approval_date','approval_status','approval','transfer_date']); 
 
 
     if ($request->hasFile('attached_file')) {

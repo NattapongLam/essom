@@ -57,9 +57,17 @@ Swal.fire({
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('knowledge-record.show', $record->id) }}" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-check"></i>
-                                        </a>
+                                        @if ($record->approval_status == "N")
+                                            @if($record->NameCF == auth()->user()->name)
+                                                <a href="{{ route('knowledge-record.show', $record->id) }}" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-check"></i>
+                                                </a>                                               
+                                            @else
+                                                <span class="badge-warning">รออนุมัติ</span>
+                                            @endif                                                                                                                        
+                                        @elseif($record->approval_status == "Y")  
+                                             <span class="badge-success">อนุมัติ</span> 
+                                        @endif
                                     </td>
                                     <td>
                                         <form action="{{ route('knowledge-record.destroy', $record->id) }}" method="POST" style="display:inline;">

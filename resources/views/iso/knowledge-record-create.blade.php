@@ -43,9 +43,9 @@ button.primary:hover{transform:scale(1.05);}
         <hr style="margin:15px 0;">
 
         <div class="row">
-            <div><label>จัดทำโดย</label><input type="text" name="name" value="{{ old('name', $record->name ?? '') }}" placeholder="ชื่อผู้จัดทำ"></div>
-            <div><label>หน่วยงาน</label><input type="text" name="department" value="{{ old('department', $record->department ?? '') }}" placeholder="หน่วยงาน"></div>
-            <div><label>ตำแหน่ง</label><input type="text" name="position" value="{{ old('position', $record->position ?? '') }}" placeholder="ตำแหน่ง"></div>
+            <div><label>จัดทำโดย</label><input type="text" name="name" value="{{ old('name', $record->name ?? $emp->ms_employee_fullname) }}" placeholder="ชื่อผู้จัดทำ"></div>
+            <div><label>หน่วยงาน</label><input type="text" name="department" value="{{ old('department', $record->department ?? $emp->ms_department_name) }}" placeholder="หน่วยงาน"></div>
+            <div><label>ตำแหน่ง</label><input type="text" name="position" value="{{ old('position', $record->position ?? $emp->ms_job_name) }}" placeholder="ตำแหน่ง"></div>
             <div><label>วันที่:</label> <input type="date" name="request_date" value="{{ old('request_date', isset($record->request_date) ? $record->request_date->format('Y-m-d') : '') }}"></div>
         </div>
 
@@ -66,7 +66,7 @@ button.primary:hover{transform:scale(1.05);}
                 <label>เอกสารแนบ</label>
                 <input type="file" name="attached_file" accept=".pdf,.doc,.docx,.jpg,.png">
                 @if(isset($record) && $record->attached_file)
-                    <p><a href="{{ asset('storage/'.$record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
+                    <p><a href="{{ asset($record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
                 @endif
             </div>
         </div>
@@ -91,10 +91,23 @@ button.primary:hover{transform:scale(1.05);}
 
         <div class="row">
             <div><label>กำหนดวันส่งต่อ-ถ่ายทอดความรู้</label><input type="date" name="transfer_date" value="{{ old('transfer_date', isset($record->transfer_date) ? $record->transfer_date->format('Y-m-d') : '') }}"></div>
-            @if(isset($record))
-                <div><label>อนุมัติโดย</label><input type="text" name="NameCF" value="{{ old('NameCF', $record->NameCF ?? '') }}" placeholder="ชื่อผู้อนุมัติ"></div>
+            {{-- @if(isset($record)) --}}
+                <div>
+                    <label>อนุมัติโดย</label>
+                    <select class="form-control receiver-select" name="NameCF"  placeholder="กรุณาเลือก">
+                        <option value=""></option>
+                        @foreach ($list as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($record->NameCF) &&  $record->NameCF == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <input type="hidden" name="approval_status" value="N">
+                    {{-- <input type="text" name="NameCF" value="{{ old('NameCF', $record->NameCF ?? '') }}" placeholder="ชื่อผู้อนุมัติ"> --}}
+                </div>
                 <div><label>วันที่ส่งต่อ</label><input type="date" name="approval_date" value="{{ old('approval_date', isset($record->approval_date) ? $record->approval_date->format('Y-m-d') : '') }}"></div>
-            @endif
+            {{-- @endif --}}
         </div>
 
         <div class="actions">
@@ -102,8 +115,16 @@ button.primary:hover{transform:scale(1.05);}
         </div>
     </form>
 </div>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 // แก้ไขให้ submit ทำงานแน่นอน พร้อม SweetAlert
 const form = document.getElementById('knowledgeForm');
 form.addEventListener('submit', function(e){
@@ -126,4 +147,4 @@ form.addEventListener('submit', function(e){
     });
 });
 </script>
-@endsection
+@endpush  

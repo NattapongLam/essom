@@ -15,6 +15,9 @@ input:disabled,textarea:disabled{background-color:#e2e8f0;color:#374151;}
 textarea{resize:vertical;min-height:120px;}
 .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px 20px;margin-bottom:15px;}
 .actions{text-align:center;margin-top:20px;}
+.checkbox-group{display:flex;gap:15px;flex-wrap:wrap;}
+.checkbox label{font-weight:normal;}
+.checkbox input[type="checkbox"]{transform:scale(1.2);margin-right:6px;}
 button.secondary{background:#6b7280;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer;}
 button.save{background:#16a34a;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer;}
 </style>
@@ -54,28 +57,52 @@ button.save{background:#16a34a;color:#fff;border:none;padding:10px 22px;border-r
             <div>
                 <label>เอกสารแนบ</label>
                 @if($record->attached_file)
-                    <p><a href="{{ asset('storage/'.$record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
+                    <p><a href="{{ asset($record->attached_file) }}" target="_blank">เปิดไฟล์</a></p>
                 @else
                     <p>-</p>
                 @endif
             </div>
         </div>
 
-        <div class="row">
-            <div>
-                <label>การประเมินหัวข้อความรู้นี้โดยหัวหน้างาน</label>
-                <ul>
-                    @foreach(json_decode($record->approval ?? '[]') as $item)
-                        <li>{{ $item }}</li>
-                    @endforeach
-                </ul>
+          
+        <div class="checkbox">
+                <label style="display:block;border-bottom:1px solid #000;padding-bottom:4px;margin-bottom:10px;">
+                    หมายเหตุ: เอกสารแนบของบันทึกความรู้องค์กรที่มาจาก NCR/CAR/คำร้องให้ไปดูที่แฟ้ม NCR/CAR/คำร้องนั้นๆ
+                </label>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <label>การประเมินหัวข้อความรู้นี้โดยหัวหน้างาน</label>
+                    @php $approvalValues = json_decode($record->approval ?? '[]', true); @endphp
+                        <div class="checkbox-group">
+                            @foreach(['อนุมัติ','ไม่อนุมัติ','รอพิจารณา','เก็บไว้พิจารณา'] as $value)
+                                    <label style="display:flex;align-items:center;gap:4px;">
+                                        <input type="checkbox" name="approval[]" value="{{ $value }}" {{ in_array($value, $approvalValues ?? []) ? 'checked' : '' }}>
+                                        {{ $value }}
+                                    </label> 
+                            @endforeach
+                        </div>
+                </div>
             </div>
-            <div><label>กำหนดวันส่งต่อ-ถ่ายทอดความรู้</label><input type="date" value="{{ $record->transfer_date?->format('Y-m-d') }}" disabled></div>
-        </div>
-
         <div class="row">
-            <div><label>อนุมัติโดย</label><input type="text" name="NameCF" value="{{ $record->NameCF ?? '' }}"></div>
-            <div><label>วันที่ส่งต่อ</label><input type="date" name="approval_date" value="{{ $record->approval_date?->format('Y-m-d') ?? '' }}"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label style="width: 300px;">กำหนดวันส่งต่อ-ถ่ายทอดความรู้</label>
+                    <input class="form-control" type="date"  name="transfer_date" value="{{ $record->transfer_date?->format('Y-m-d') }}" style="width: 300px;">
+                </div>
+                
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label style="width: 300px;">อนุมัติโดย</label>
+                    <input type="text"  class="form-control" name="NameCF" value="{{ $record->NameCF ?? '' }}"  style="width: 300px;" readonly> 
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label style="width: 300px;">วันที่ส่งต่อ</label>
+                    <input type="date"  class="form-control" name="approval_date" value="{{ $record->approval_date?->format('Y-m-d') ??  now()->format('Y-m-d') }}" style="width: 300px;">
+                </div>
+            <input type="hidden" name="approval_status" value="Y">
+            </div>           
         </div>
 
         <div class="actions">
