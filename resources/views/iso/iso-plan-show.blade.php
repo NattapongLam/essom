@@ -155,7 +155,7 @@ button.save:hover { transform: scale(1.05); }
     </div>
     <div class="col-4">
         Date :
-<input type="date" name="approved_date" value="{{ isset($plan->approved_date) ? date('Y-m-d', strtotime($plan->approved_date)) : now()->format('Y-m-d') }}" style="width:150px;" {{ readonlyStep($plan, 'approved_date', 'reported_by') }}>
+<input type="date" name="approved_date" value="{{ isset($plan->approved_date) ? date('Y-m-d', strtotime($plan->approved_date)) : now()->format('Y-m-d') }}" style="width:200px;" {{ readonlyStep($plan, 'approved_date', 'reported_by') }}>
     </div>
 </div>
 <br>
