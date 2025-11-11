@@ -164,7 +164,12 @@
         <div class="row">
             <div class="col-md-6">
                 <label>อนุมัติโดย :</label>
-                <input type="text" name="approved_by" class="form-control" readonly>
+                <select class="form-control receiver-select" name="approved_by"  placeholder="กรุณาเลือก">
+                        <option value=""></option>
+                        @foreach ($list as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                </select>
             </div>
             <div class="col-md-6">
                 <label>วันที่ :</label>
@@ -178,3 +183,14 @@
 </div>
 </div>
 @endsection
+@push('scriptjs')
+<script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
+</script>
+@endpush  

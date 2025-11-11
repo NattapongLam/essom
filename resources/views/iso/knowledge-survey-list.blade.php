@@ -43,9 +43,18 @@
             </a>
         </td>
          <td>
-            <a href="{{ route('knowledge-survey.show', $s->id) }}" class="btn btn-sm btn-primary">
-                <i class="fas fa-check"></i>
-            </a>
+            @if($s->approved_status == "N")
+                @if ($s->approved_by == auth()->user()->name)
+                    <a href="{{ route('knowledge-survey.show', $s->id) }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-check"></i>
+                    </a>
+                @else
+                    <span class="badge-warning">รออนุมัติ</span> 
+                @endif
+            @elseif($s->approved_status == "Y")
+               <span class="badge-success">อนุมัติ</span>  
+            @endif
+           
         </td>
         <td>
             <form action="{{ route('knowledge-survey.destroy', $s->id) }}" method="POST" style="display:inline;">

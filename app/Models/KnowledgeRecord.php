@@ -28,6 +28,7 @@ class KnowledgeRecord extends Model
         'transfer_date',
         'NameCF',
         'approval_date',
+        'approval_status'
     ];
 
     protected $casts = [

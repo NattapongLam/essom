@@ -37,5 +37,6 @@ class KnowledgeSurvey extends Model
         'q3_reason',
         'approved_by',
         'approved_date',
+        'approved_status'
     ];
 }

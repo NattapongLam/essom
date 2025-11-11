@@ -22,7 +22,8 @@ class IsoKnowledgesurvey extends Controller
         ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')
         ->where('ms_employee_code',Auth::user()->code)
         ->first();
-        return view('iso.knowledge-survey-create', compact('emp'));
+        $list = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-survey-create', compact('emp','list'));
     }
 
     public function store(Request $request)
@@ -59,6 +60,7 @@ class IsoKnowledgesurvey extends Controller
 
             'approved_by' => $request->approved_by,
             'approved_date' => $request->approved_date,
+            'approved_status' => 'N'
         ];
 
         KnowledgeSurvey::create($data);
@@ -75,8 +77,8 @@ class IsoKnowledgesurvey extends Controller
         $survey->q2_status = json_decode($survey->q2_status ?? '[]', true);
         $survey->q3_need = json_decode($survey->q3_need ?? '[]', true);
         $survey->q3_reason = json_decode($survey->q3_reason ?? '[]', true);
-
-        return view('iso.knowledge-survey-edit', compact('survey'));
+        $list = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-survey-edit', compact('survey','list'));
     }
 
     public function update(Request $request, $id)
@@ -116,6 +118,7 @@ class IsoKnowledgesurvey extends Controller
 
             'approved_by' => $request->approved_by,
             'approved_date' => $request->approved_date,
+            'approved_status' => 'N'
         ]);
 
         return redirect()->route('knowledge-survey.index')
@@ -126,6 +129,7 @@ class IsoKnowledgesurvey extends Controller
             $survey->update([
                 'approved_by' => $request->approved_by,
                 'approved_date' => $request->approved_date,
+                'approved_status' => 'Y'
             ]);
             return redirect()->route('knowledge-survey.index')->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว');
         }
