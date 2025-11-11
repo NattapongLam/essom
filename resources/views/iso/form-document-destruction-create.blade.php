@@ -59,12 +59,22 @@
                     </div>
                     <div class="col-4 text-center">
                         <label>ผู้จัดการฝ่าย</label>
-                        <input class="form-control" type="text"><br>
+                        <select class="form-control receiver-select" name="reviewed_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select><br>
                         <input class="form-control" type="date">
                     </div>
                     <div class="col-4 text-center">
                         <label>ผู้อนุมัติ</label>
-                        <input class="form-control" type="text"><br>
+                         <select class="form-control receiver-select" name="approved_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select><br>
                         <input class="form-control" type="date">
                     </div>
                 </div> 
@@ -87,6 +97,14 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+$(document).ready(function () {
+    // init select2
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือก',
+        allowClear: true,
+        width: '100%'
+    });
+});
 // ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");

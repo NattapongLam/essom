@@ -59,7 +59,7 @@
                         <input class="form-control" type="text" value="{{$hd->requested_by}}" name="requested_by" readonly><br>
                         <input class="form-control" type="date" value="{{ $hd->requested_date }}" name="requested_date" readonly>
                     </div>
-                    @if ($hd->reviewed_by)
+                    @if ($hd->reviewed_status == "Y")
                          <div class="col-4 text-center">
                             <label>ผู้จัดการฝ่าย</label>
                             <input class="form-control" type="text" value="{{$hd->reviewed_by}}" name="reviewed_by" readonly><br>
@@ -70,7 +70,8 @@
                             <input class="form-control" type="text" name="approved_by" value="{{auth()->user()->name}}" readonly><br>
                             <input class="form-control" type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}">
                         </div>
-                       
+                        <input type="hidden" name="reviewed_status" value="Y">
+                        <input type="hidden" name="approved_status" value="Y">
                     @else
                         <div class="col-4 text-center">
                             <label>ผู้จัดการฝ่าย</label>
@@ -82,10 +83,12 @@
                             <input class="form-control" type="text" name="approved_by" readonly><br>
                             <input class="form-control" type="date" name="approved_date" readonly>
                         </div>
+                        <input type="hidden" name="reviewed_status" value="Y">
+                        <input type="hidden" name="approved_status" value="N">
                     @endif                   
                 </div> 
                 <br>
-                @if ($hd->approved_by == null)
+                @if ($hd->approved_status == "N")
                 <div class="col-12 col-md-1">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">

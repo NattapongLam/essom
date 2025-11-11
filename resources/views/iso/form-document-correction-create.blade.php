@@ -108,8 +108,14 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-6">
-                        <label>Reviewed By ผู้ช่วยผู้จัดการ/ผู้จัดการ/รองกรรมการผู้จัดการ</label>
-                        <input class="form-control" type="text" name="reviewed_by" readonly>
+                        <label>Reviewed By ผู้ช่วยผู้จัดการ/ผู้จัดการ/รองกรรมการผู้จัดการ</label>                      
+                        {{-- <input class="form-control" type="text" name="reviewed_by" readonly> --}}
+                        <select class="form-control receiver-select" name="reviewed_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-6">
                         <label>Date</label>
@@ -125,7 +131,13 @@
                 <div class="row mt-3">
                     <div class="col-6">
                         <label>Approved By</label>
-                        <input class="form-control" type="text" name="approved_by" readonly>
+                        <select class="form-control receiver-select" name="approved_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" type="text" name="approved_by" readonly> --}}
                     </div>
                     <div class="col-6">
                         <label>Date</label>
@@ -156,7 +168,7 @@
 $(document).ready(function () {
     // init select2
     $('.receiver-select').select2({
-        placeholder: 'กรุณาเลือกเอกสาร',
+        placeholder: 'กรุณาเลือก',
         allowClear: true,
         width: '100%'
     });
