@@ -46,5 +46,6 @@ class KnowledgeTransfer extends Model
         'status_sent',
         'status_pending',
         'status_planning',
+        'approved_status'
     ];
 }

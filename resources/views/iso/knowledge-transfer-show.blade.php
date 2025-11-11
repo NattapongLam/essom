@@ -175,7 +175,7 @@ button.ghost { background: #cbd5e1; color: #000; border: none; padding: 6px 14px
                             </option>
                         @endforeach
                     </select>
-                    <input type="hidden" name="approved_status" value="N">
+                    <input type="hidden" name="approved_status" value="Y">
             </div>
             <div>
                 <label>วันที่ : </label>

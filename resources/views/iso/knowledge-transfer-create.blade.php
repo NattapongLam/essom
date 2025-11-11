@@ -110,15 +110,15 @@ button.ghost {
         <div class="grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
             <div>
                 <label>ผู้ส่ง/ผู้ประเมิน ชื่อ</label>
-                <input type="text" name="evaluator_name" placeholder="ผู้ส่ง/ผู้ประเมิน ชื่อ" required>
+                <input type="text" name="evaluator_name" value="{{$emp->ms_employee_fullname}}" placeholder="ผู้ส่ง/ผู้ประเมิน ชื่อ" required>
             </div>
             <div>
                 <label>หน่วยงาน</label>
-                <input type="text" name="department" placeholder="หน่วยงาน">
+                <input type="text" name="department" value="{{$emp->ms_department_name}}" placeholder="หน่วยงาน">
             </div>
             <div>
                 <label>ตำแหน่ง</label>
-                <input type="text" name="position" placeholder="ตำแหน่ง">
+                <input type="text" name="position" value="{{$emp->ms_job_name}}" placeholder="ตำแหน่ง">
             </div>
             <div>
                 <label>วันที่</label>
@@ -225,7 +225,15 @@ button.ghost {
         <div class="grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
             <div>
                 <label>อนุมัติโดย :</label>
-                <input type="text" name="approved_by">
+                    <select class="form-control receiver-select" name="approved_by"  placeholder="กรุณาเลือก">
+                        <option value=""></option>
+                        @foreach ($list as $item)
+                            <option value="{{ $item->ms_employee_fullname }}">
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <input type="hidden" name="approved_status" value="N">
             </div>
             <div>
                 <label>วันที่ : </label>
@@ -241,3 +249,14 @@ button.ghost {
     </form>
 </div>
 @endsection
+@push('scriptjs')
+<script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
+</script>
+@endpush  

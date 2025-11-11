@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KnowledgeTransfer;
 use Illuminate\Http\Request;
+use App\Models\KnowledgeTransfer;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class IsoKnowledgeTransfer extends Controller
 {
@@ -17,7 +19,12 @@ class IsoKnowledgeTransfer extends Controller
 
     public function create()
     {
-        return view('iso.knowledge-transfer-create');
+        $emp = DB::table('ms_employee')
+        ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')
+        ->where('ms_employee_code',Auth::user()->code)
+        ->first();
+        $list = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-transfer-create', compact('emp','list'));
     }
 
     public function store(Request $request)
@@ -45,7 +52,8 @@ class IsoKnowledgeTransfer extends Controller
 
     public function edit(KnowledgeTransfer $knowledgeTransfer)
     {
-        return view('iso.knowledge-transfer-edit', compact('knowledgeTransfer'));
+        $list = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-transfer-edit', compact('knowledgeTransfer','list'));
     }
 
     public function update(Request $request, KnowledgeTransfer $knowledgeTransfer)
@@ -75,5 +83,10 @@ class IsoKnowledgeTransfer extends Controller
         $knowledgeTransfer->delete();
         return redirect()->route('knowledge-transfer.index')
                          ->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
+    }
+      function show(KnowledgeTransfer $knowledgeTransfer)
+    {
+        $list = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.knowledge-transfer-show', compact('knowledgeTransfer','list'));
     }
 }
