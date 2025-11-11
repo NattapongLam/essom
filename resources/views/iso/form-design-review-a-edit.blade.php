@@ -112,7 +112,16 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label>Reviewed By</label>
-                        <input class="form-control" type="text" name="reviewed_by" readonly>
+                         <select class="form-control receiver-select" name="reviewed_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ isset($hd->reviewed_by) &&  $hd->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" type="text" name="reviewed_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label>Date</label>
@@ -122,7 +131,16 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label>Engineecing Supervisor</label>
-                        <input class="form-control" type="text" name="engineecing_by" readonly>
+                        <select class="form-control receiver-select" name="engineecing_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ isset($hd->engineecing_by) &&  $hd->engineecing_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" type="text" name="engineecing_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label>Date</label>
@@ -148,6 +166,13 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 // ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");

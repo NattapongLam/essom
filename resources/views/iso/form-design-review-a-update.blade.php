@@ -101,7 +101,7 @@
                         <input class="form-control" type="date" name="reported_date" value="{{$hd->reported_date}}" readonly>
                     </div>
                 </div>
-                @if ($hd->reviewed_by)
+                @if ($hd->reviewed_status == "Y")
                 <div class="row mt-3">
                     <div class="col-9">
                         <label>Reviewed By</label>
@@ -121,6 +121,8 @@
                         <label>Date</label>
                         <input class="form-control" type="date" name="engineecing_date" value="{{ old('date', now()->format('Y-m-d')) }}">
                     </div>
+                    <input type="hidden" name="reviewed_status" value="Y">
+                    <input type="hidden" name="engineecing_status" value="Y">
                 </div>
                 @else
                 <div class="row mt-3">
@@ -142,7 +144,9 @@
                         <label>Date</label>
                         <input class="form-control" type="date" name="engineecing_date" readonly>
                     </div>
-                </div>   
+                </div>
+                <input type="hidden" name="reviewed_status" value="Y">
+                <input type="hidden" name="engineecing_status" value="N">   
                 @endif               
                  <br>
                 <div class="col-12 col-md-1">

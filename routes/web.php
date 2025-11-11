@@ -110,7 +110,7 @@ Route::resource('/design-review-a' , App\Http\Controllers\IsoDesignReviewA::clas
 Route::post('/cancelReviewAHd' , [App\Http\Controllers\IsoDesignReviewA::class , 'cancelReviewAHd']);
 Route::post('/cancelReviewADt' , [App\Http\Controllers\IsoDesignReviewA::class , 'cancelReviewADt']);
 Route::resource('/design-review-b' , App\Http\Controllers\IsoDesignReviewB::class);
-Route::post('/cancelReviewB' , [App\Http\Controllers\IsoDesignReviewA::class , 'cancelReviewB']);
+Route::post('/cancelReviewB' , [App\Http\Controllers\IsoDesignReviewB::class , 'cancelReviewB']);
 Route::resource('/detailed-testing' , App\Http\Controllers\IsoDetailedTesting::class);
 Route::post('/cancelTesting' , [App\Http\Controllers\IsoDetailedTesting::class , 'cancelTesting']);
 Route::resource('/design-edit' , App\Http\Controllers\IsoDesignEdit::class);

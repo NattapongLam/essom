@@ -42,24 +42,41 @@
                                     <td>{{$item->design_review_b_output}}</td> 
                                     <td>{{$item->reported_by}}</td>
                                     <td>
-                                        @if ($item->engineecing_by == null)
+                                        {{-- @if ($item->engineecing_by == null) --}}
                                             <a href="{{route('design-review-b.edit',$item->design_review_b_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                        @endif                                       
+                                        {{-- @endif                                        --}}
                                     </td>
                                     <td>
-                                        <a href="{{route('design-review-b.show',$item->design_review_b_id)}}" class="btn btn-sm btn-primary" >
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                        @if ($item->reviewed_status == "N")
+                                            @if ($item->reviewed_by == auth()->user()->name)
+                                                <a href="{{route('design-review-b.show',$item->design_review_b_id)}}" class="btn btn-sm btn-primary" >
+                                                    <i class="fas fa-edit"></i>
+                                                </a>  
+                                            @else
+                                                <span class="badge-warning">รอทบทวน</span>
+                                            @endif
+                                        @elseif($item->engineecing_status == "N")
+                                            @if ($item->engineecing_by == auth()->user()->name)
+                                                <a href="{{route('design-review-b.show',$item->design_review_b_id)}}" class="btn btn-sm btn-primary" >
+                                                    <i class="fas fa-edit"></i>
+                                                </a>  
+                                            @else
+                                                <span class="badge-warning">รออนุมัติ</span>
+                                            @endif    
+                                        @else  
+                                            <span class="badge-success">อนุมัติ</span>
+                                        @endif
+                                      
                                     </td>
                                     <td>
-                                        @if ($item->engineecing_by == null)
+                                        {{-- @if ($item->engineecing_by == null) --}}
                                             <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
                                                 onclick="confirmDel('{{ $item->design_review_b_id }}')">
                                                 <i class="fas fa-trash"></i>
                                             </a>
-                                        @endif  
+                                        {{-- @endif   --}}
                                     </td>                                 
                                 </tr>
                             @endforeach                   
@@ -117,7 +134,7 @@ Swal.fire({
     if (result.value) {
 
         $.ajax({
-            url: `{{ url('/cancelReviewAHd') }}`,
+            url: `{{ url('/cancelReviewB') }}`,
             type: "POST",
             data: {
                 "_token": "{{ csrf_token() }}",

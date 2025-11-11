@@ -35,7 +35,8 @@ class IsoDesignReviewA extends Controller
     public function create()
     {
         $hd = null;     
-        return view('iso.form-design-review-a-create',compact('hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.form-design-review-a-create',compact('hd','emp'));
     }
 
     /**
@@ -63,6 +64,10 @@ class IsoDesignReviewA extends Controller
             'reported_date' => $request->reported_date,
             'design_review_a_hd_flag' => true,
             'created_at' => Carbon::now(),
+            'reviewed_by' => $request->reviewed_by,
+            'engineecing_by' => $request->engineecing_by,
+            'reviewed_status' => "N",
+            'engineecing_status' => "N"
         ];
         try
         {
@@ -110,7 +115,8 @@ class IsoDesignReviewA extends Controller
     {
         $hd = DesignReviewAHd::find($id);  
         $dt = DesignReviewADt::where('design_review_a_dt_flag',true)->where('design_review_a_hd_id',$id)->get(); 
-        return view('iso.form-design-review-a-edit',compact('hd','dt'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.form-design-review-a-edit',compact('hd','dt','emp'));
     }
 
     /**
@@ -136,6 +142,10 @@ class IsoDesignReviewA extends Controller
                 'reported_date' => $request->reported_date,
                 'design_review_a_hd_flag' => true,
                 'updated_at' => Carbon::now(),
+                'reviewed_by' => $request->reviewed_by,
+                'engineecing_by' => $request->engineecing_by,
+                'reviewed_status' => "N",
+                'engineecing_status' => "N"
             ];
             try
             {
@@ -164,6 +174,8 @@ class IsoDesignReviewA extends Controller
                 'reviewed_date' => $request->reviewed_date,
                 'engineecing_by' => $request->engineecing_by,
                 'engineecing_date' => $request->design_review_a_hd_subject,
+                'reviewed_status' => $request->reviewed_status,
+                'engineecing_status' => $request->engineecing_status
             ];
              try
             {
