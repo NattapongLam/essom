@@ -120,19 +120,63 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row">
             <div><label>1.5 Requested By</label><input type="text" name="requested_by" value="{{ $plan->requested_by }}"></div>
             <div><label>Date</label><input type="date" name="requested_date" value="{{ $plan->requested_date }}"></div>
-            <div><label>Reviewed By</label><input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}"></div>
+            <div><label>Reviewed By</label>
+                <select class="form-control receiver-select" name="reviewed_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->reviewed_by) &&  $plan->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}"> --}}
+            </div>
             <div><label>Date</label><input type="date" name="reviewed_date" value="{{ $plan->reviewed_date }}"></div>
         </div>
 
         <div class="row">
-            <div><label>1.6 Approved By</label><input type="text" name="Approveds_by" value="{{ $plan->Approveds_by }}"></div>
-            <div><label>Date</label><input type="date" name="Approveds_date" value="{{ $plan->Approveds_date }}"></div>
+            <div><label>1.6 Approved By</label>
+                 <select class="form-control receiver-select" name="approved_by_request">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->approved_by_request) &&  $plan->approved_by_request == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="approved_by_request" value="{{ $plan->approved_by_request }}"> --}}
+            </div>
+            <div><label>Date</label><input type="date" name="approved_date_request" value="{{ $plan->approved_date_request }}"></div>
         </div>
 
         <label>2. Design Planning</label>
         <div class="row">
-            <div><label>2.1 Engineer</label><input type="text" name="Engineer_Desing" value="{{ $plan->Engineer_Desing }}"></div>
-            <div><label>2.2 Senior Engineer</label><input type="text" name="senior_Engineer" value="{{ $plan->senior_Engineer }}"></div>
+            <div><label>2.1 Engineer</label>
+                 <select class="form-control receiver-select" name="engineer_desing">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->engineer_desing) &&  $plan->engineer_desing == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="engineer_desing" value="{{ $plan->engineer_desing }}"> --}}
+            </div>
+            <div><label>2.2 Senior Engineer</label>
+                 <select class="form-control receiver-select" name="senior_engineer">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->senior_engineer) &&  $plan->senior_engineer == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="senior_engineer" value="{{ $plan->senior_engineer }}"> --}}
+            </div>
         </div>
     </div>
 
@@ -165,7 +209,16 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 120px;">2.4 Planned By</label>
-                <input type="text" name="planned_by" value="{{ $plan->planned_by }}" style="flex: 1; padding: 5px;">
+                 <select class="form-control receiver-select" name="planned_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->planned_by) &&  $plan->planned_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="planned_by" value="{{ $plan->planned_by }}" style="flex: 1; padding: 5px;"> --}}
             </div>
             <div style="flex: 1; text-align: center;">Engineering Section</div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -177,7 +230,16 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 120px;"></label>
-                <input type="text" name="planned_marketing" value="{{ $plan->planned_marketing }}" style="flex: 1; padding: 5px;">
+                   <select class="form-control receiver-select" name="planned_marketing">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->planned_marketing) &&  $plan->planned_marketing == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="planned_marketing" value="{{ $plan->planned_marketing }}" style="flex: 1; padding: 5px;"> --}}
             </div>
             <div style="flex: 1; text-align: center;">Marketing Representative</div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -189,7 +251,16 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 120px;"></label>
-                <input type="text" name="planned_plant" value="{{ $plan->planned_plant }}" style="flex: 1; padding: 5px;">
+                 <select class="form-control receiver-select" name="planned_plant">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->planned_plant) &&  $plan->planned_plant == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="planned_plant" value="{{ $plan->planned_plant }}" style="flex: 1; padding: 5px;"> --}}
             </div>
             <div style="flex: 1; text-align: center;">Plant Representative</div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -201,7 +272,16 @@ button.primary:hover { transform: scale(1.05); }
         <div class="row" style="display: flex; align-items: center; margin-bottom: 10px;">
             <div style="flex: 1; display: flex; align-items: center;">
                 <label style="width: 130px;">2.5 Approved By</label>
-                <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="flex: 1; padding: 5px;">
+                    <select class="form-control receiver-select" name="approved_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ isset($plan->approved_by) &&  $plan->approved_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                </select>
+                {{-- <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="flex: 1; padding: 5px;"> --}}
             </div>
             <div style="flex: 1;"></div>
             <div style="flex: 1; display: flex; align-items: center;">
@@ -217,8 +297,16 @@ button.primary:hover { transform: scale(1.05); }
     </div>
 </div>
 </form>
-
+@endsection
+@push('scriptjs')
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือก',
+        width: '100%'
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('designForm');
     const sections = Array.from(form.querySelectorAll('.section'));
@@ -263,5 +351,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-@endsection
+@endpush

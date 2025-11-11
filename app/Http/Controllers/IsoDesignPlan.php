@@ -47,7 +47,8 @@ class IsoDesignPlan extends Controller
 
     public function create()
     {
-        return view('iso.design-plan-create');
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get(); 
+        return view('iso.design-plan-create', compact('emp'));
     }
 
     public function store(Request $request)
@@ -68,6 +69,14 @@ class IsoDesignPlan extends Controller
             'planned_marketing' => 'nullable|string|max:255',
             'planned_plant' => 'nullable|string|max:255',
             'approved_by' => 'nullable|string|max:255',
+            'reviewed_status' => 'nullable|string|max:255',
+            'approved_status_request' => 'nullable|string|max:255',
+            'engineer_desing_status' => 'nullable|string|max:255',
+            'senior_engineer_status' => 'nullable|string|max:255',
+            'planned_status' => 'nullable|string|max:255',
+            'planned_marketing_status' => 'nullable|string|max:255',
+            'planned_plant_status' => 'nullable|string|max:255',
+            'approved_status' => 'nullable|string|max:255',
         ]);
 
         $data = $request->only([
@@ -80,7 +89,8 @@ class IsoDesignPlan extends Controller
             'engineer_desing','senior_engineer',
             'plan_calc','act_calc','plan_review','act_review','participants','plan_verify','act_verify','plan_proto','act_proto','plan_valid','act_valid','plan_final','act_final',
             'planned_by','planned_date_engineering','planned_marketing','planned_date_marketing','planned_plant','planned_date_plant',
-            'approved_by','approved_date'
+            'approved_by','approved_date','reviewed_status','approved_status_request','engineer_desing_status','senior_engineer_status',
+            'planned_status','planned_marketing_status','planned_plant_status','approved_status'
         ]);
 
         // Checkbox
@@ -100,7 +110,8 @@ class IsoDesignPlan extends Controller
     public function edit($id)
     {
         $plan = DB::table('iso_design_plan')->where('id',$id)->first();
-        return view('iso.design-plan-edit', compact('plan'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get(); 
+        return view('iso.design-plan-edit', compact('plan','emp'));
     }
 
     public function update(Request $request, $id)
