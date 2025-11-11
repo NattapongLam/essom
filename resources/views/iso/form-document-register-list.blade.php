@@ -49,8 +49,18 @@
                                         <td>{{$item->documentregisters_listno}}</td>
                                         <td>
                                             <a href="{{asset($item->documentregisters_file)}}" target=”_blank”>
-                                            {{$item->documentregisters_docuno}}
+                                                {{$item->documentregisters_docuno}}
                                             </a>
+                                            @if ($item->documentregisters_file1)
+                                                <a href="{{asset($item->documentregisters_file1)}}" target=”_blank”>
+                                                    <i class="fas fa-file"></i>
+                                                </a>
+                                            @endif
+                                            @if ($item->documentregisters_file2)
+                                                <a href="{{asset($item->documentregisters_file2)}}" target=”_blank”>
+                                                    <i class="fas fa-file"></i>
+                                                </a>
+                                            @endif
                                         </td>
                                         <td>{{$item->documentregisters_remark}}</td>
                                         <td>{{$item->documentregisters_rev01}}</td>

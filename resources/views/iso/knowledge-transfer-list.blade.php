@@ -34,6 +34,7 @@
                                 <th>อนุมัติเมื่อวันที่</th>
                                 <th>ความรู้องค์กรด้าน</th>
                                 <th>แก้ไข</th>
+                                <th>อนุมัติ</th>
                                 <th>ลบ</th>
                             </tr>
                         </thead>
@@ -52,6 +53,19 @@
                                      <a href="{{ route('knowledge-transfer.edit', $record->id) }}" class="btn btn-sm btn-warning">
                     <i class="fas fa-edit"></i>
                 </a>
+            </td>
+            <td>
+                @if ($record->approved_status == "N")
+                    @if ($record->approved_by == auth()->user()->name)
+                        <a href="{{ route('knowledge-transfer.show', $record->id) }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-check"></i>
+                        </a>
+                    @else
+                        <span class="badge-warning">รออนุมัติ</span> 
+                    @endif
+                @elseif($record->approved_status == "Y")
+                    <span class="badge-success">อนุมัติ</span> 
+                @endif
             </td>
             <td>
                 <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="confirmDel('{{ $record->id }}')">
