@@ -23,10 +23,7 @@ class DesignPlan extends Model
         'reason_other',
         'design_input_1','design_input_2','design_input_3','design_input_4',
         'design_input_5','design_input_6','design_input_7','design_input_8',
-
- 
         'ref_brand1','ref_model1','ref_brand2','ref_model2',
-
         'requested_by','requested_date',
         'reviewed_by','reviewed_date',
         'approved_by_request','approved_date_request', 
