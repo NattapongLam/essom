@@ -231,7 +231,9 @@ p strong, label {
             <td><input type="text" name="strength_non_accept[]"></td>
             <td><input type="text" name="strength_measure[]"></td>
             <td><input type="text" name="strength_activity[]"></td>
-            <td><input type="text" name="strength_responsible[]"></td>
+            <td>
+                <input type="text" name="strength_responsible[]">
+            </td>
             <td><input type="text" name="strength_review_non_accept[]"></td>
             <td><input type="text" name="strength_review_accept[]"></td>
             <td><button type="button" class="deleteRow">ลบ</button></td>
@@ -353,24 +355,38 @@ p strong, label {
 <button type="button" class="addRow" data-table="threatTable">เพิ่มแถว</button>
 <label >*หมายเหตุ : ระบุผลการปรับปรุงในวาระการประชุมทบทวนเรื่องความเสี่ยงครั้งถัดไป</label>
     <div class="report-section">
-        <div class="report-item">
-            <label>รายงานโดย</label>
-            <input type="text" name="report_by" style="width:200px;">
+        <div class="row">
+            <div class="col-8">
+                <div class="report-item">
+                    <label>รายงานโดย</label>
+                    <input type="text" name="report_by" style="width:200px;" value="{{auth()->user()->name}}" readonly>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="report-item">
+                    <label>วันที่</label>
+                    <input type="date" name="report_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                </div>
+            </div>
         </div>
-        <div class="report-item">
-            <label>วันที่</label>
-            <input type="date" name="report_date">
-        </div>
-        <div class="report-item">
-            <label>รับทราบโดย</label>
-            <input type="text" name="ack_by" style="width:200px;" readonly>
-        </div>
-        <div class="report-item">
-            <label>วันที่</label>
-            <input type="date" name="ack_date" readonly>
-        </div>
+         <div class="row">
+            <div class="col-8">
+                <div class="report-item">
+                    <label>รับทราบโดย</label>
+                    <input type="text" name="ack_by" style="width:200px;" readonly>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="report-item">
+                    <label>วันที่</label>
+                    <input type="date" name="ack_date" readonly>
+                </div>
+            </div>
+         </div>
     </div>
 </div>
+@endsection
+@push('scriptjs')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tables = document.querySelectorAll('table');
@@ -448,5 +464,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-@endsection
+@endpush  
+</form>

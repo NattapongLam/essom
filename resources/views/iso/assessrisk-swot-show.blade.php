@@ -229,12 +229,12 @@ p strong, label { color: #000; font-weight: 700; display: block; margin: 15px 0 
 </div>
         <div class="report-item">
             <label>รับทราบโดย</label>
-            <input type="text" name="ack_by" value="{{ old('ack_by', $record->ack_by) }}">
+            <input type="text" name="ack_by" value="{{auth()->user()->name}}">
         </div>
        <div class="report-item">
     <label>วันที่</label>
     <input type="date" name="ack_date" 
-           value="{{ old('ack_date', \Carbon\Carbon::parse($record->ack_date)->format('Y-m-d')) }}">
+           value="{{ old('date', now()->format('Y-m-d')) }}">
 </div>
 
     </div>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\AssessriskSwot;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class IsoAssessriskSwot extends Controller
 {
@@ -16,7 +17,8 @@ class IsoAssessriskSwot extends Controller
 
     public function create()
     {
-        return view('iso.assessrisk-swot-create');
+        $emp = DB::table('ms_employee')->where('ms_employee_flag', true)->get();
+        return view('iso.assessrisk-swot-create', compact('emp'));
     }
 
     public function store(Request $request)
