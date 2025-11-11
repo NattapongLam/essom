@@ -23,6 +23,7 @@ class Assessrisk extends Model
         'post_i_2','post_l_2','post_level_2','post_result_2','post_by_2','post_date_2',
         'post_i_3','post_l_3','post_level_3','post_result_3','post_by_3','post_date_3',
         'ack_name_1','ack_date_1','ack_name_2','ack_date_2','ack_name_3','ack_date_3',
-        'ack_final_name_1','ack_final_date_1','ack_final_name_2','ack_final_date_2','ack_final_name_3','ack_final_date_3','flag'
+        'ack_final_name_1','ack_final_date_1','ack_final_name_2','ack_final_date_2','ack_final_name_3','ack_final_date_3',
+        'flag','approved_status_1','approved_status_2','approved_status_3'
     ];
 }

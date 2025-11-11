@@ -14,23 +14,23 @@
 
         {{-- ข้อมูลพื้นฐาน --}}
         <div class="row survey-header align-items-end mb-3">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label>ผู้สำรวจ ชื่อ :</label>
-                <input type="text" name="surveyor_name" class="form-control">
+                <input type="text" name="surveyor_name" class="form-control" value="{{$emp->ms_employee_fullname}}">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label>หน่วยงาน :</label>
-                <input type="text" name="department" class="form-control">
+                <input type="text" name="department" class="form-control" value="{{$emp->ms_department_name}}">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label>ตำแหน่ง :</label>
-                <input type="text" name="position" class="form-control">
+                <input type="text" name="position" class="form-control" value="{{$emp->ms_job_name}}">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <label>วันที่ :</label>
-                <input type="date" name="survey_date" class="form-control">
+                <input type="date" name="survey_date" class="form-control"  value="{{ old('date', now()->format('Y-m-d')) }}">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label>แบบสำรวจที่ :</label>
                 <input type="text" name="survey_number" class="form-control">
             </div>
@@ -164,11 +164,11 @@
         <div class="row">
             <div class="col-md-6">
                 <label>อนุมัติโดย :</label>
-                <input type="text" name="approved_by" class="form-control">
+                <input type="text" name="approved_by" class="form-control" readonly>
             </div>
             <div class="col-md-6">
                 <label>วันที่ :</label>
-                <input type="date" name="approved_date" class="form-control">
+                <input type="date" name="approved_date" class="form-control" readonly>
             </div>
         </div>
 

@@ -133,6 +133,10 @@ class IsoAssessrisk extends Controller
                 'ack_final_date_2' => $riskData['dates'][1]['date'] ?? null,
                 'ack_final_name_3' => $riskData['dates'][2]['text'] ?? '',
                 'ack_final_date_3' => $riskData['dates'][2]['date'] ?? null,
+                'flag' => true,
+                'approved_status_1' => "N",
+                'approved_status_2' => "N",
+                'approved_status_3' => "N"
             ]);
         }
 
@@ -332,9 +336,9 @@ public function update(Request $request, $id)
         ],
 
         'approved'     => [
-            ['name'=>$risk->approved_by_1 ?? '', 'date'=>$risk->approved_date_1 ?? ''],
-            ['name'=>$risk->approved_by_2 ?? '', 'date'=>$risk->approved_date_2 ?? ''],
-            ['name'=>$risk->approved_by_3 ?? '', 'date'=>$risk->approved_date_3 ?? ''],
+            ['name'=>$risk->approved_by_1 ?? '', 'date'=>$risk->approved_date_1 ?? '' ,'status'=>$risk->approved_status_1 ?? ''],
+            ['name'=>$risk->approved_by_2 ?? '', 'date'=>$risk->approved_date_2 ?? '' ,'status'=>$risk->approved_status_2 ?? ''],
+            ['name'=>$risk->approved_by_3 ?? '', 'date'=>$risk->approved_date_3 ?? '' ,'status'=>$risk->approved_status_3 ?? ''],
         ],
 
         'dates' => [
@@ -364,6 +368,39 @@ public function update(Request $request, $id)
             ->where('id', $request->refid)
             ->delete();
 
-        return response()->json(['success' => true, 'message' => 'ลบข้อมูลเรียบร้อยแล้ว']);
+        return response()->json([ 'status' => true,'success' => true, 'message' => 'ลบข้อมูลเรียบร้อยแล้ว']);
+    }
+
+    public function approvedAssessrisk(Request $request)
+    {
+        $hd = DB::table('assessrisks')->where('id', $request->refid)->first();
+        if($hd->approved_by_1){
+            DB::table('assessrisks')
+            ->where('id', $hd->id)
+            ->where('approved_by_1',Auth::user()->name)
+            ->update([
+                'approved_date_1' => Carbon::now(),
+                'approved_status_1' => 'Y'
+            ]);
+        }
+        if($hd->approved_by_2){
+            DB::table('assessrisks')
+            ->where('id', $hd->id)
+            ->where('approved_by_2',Auth::user()->name)
+            ->update([
+                'approved_date_2' => Carbon::now(),
+                'approved_status_2' => 'Y'
+            ]);
+        }
+        if($hd->approved_by_3){
+            DB::table('assessrisks')
+            ->where('id', $hd->id)
+            ->where('approved_by_3',Auth::user()->name)
+            ->update([
+                'approved_date_3' => Carbon::now(),
+                'approved_status_3' => 'Y'
+            ]);
+        }
+        return response()->json([ 'status' => true,'success' => true, 'message' => 'อนุมัติเรียบร้อยแล้ว']);
     }
 }

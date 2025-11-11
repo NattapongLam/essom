@@ -119,7 +119,18 @@ table td input.input_style { font-size: 15px; text-align: center; }
                     <table class="mini-table">
                         @foreach($risk['acknowledged'] ?? [['name'=>'','date'=>''],['name'=>'','date'=>''],['name'=>'','date'=>'']] as $ai => $ack)
                         <tr>
-                            <td><input type="text" name="risks[{{ $i }}][acknowledged][{{ $ai }}][name]" value="{{ $ack['name'] ?? '' }}" class="input_style"></td>
+                            <td>
+                                <select class="form-control receiver-select"  name="risks[{{ $i }}][acknowledged][{{ $ai }}][name]" >
+                                    <option value="">กรุณาเลือก</option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}"
+                                            {{ isset($ack['name']) && $ack['name'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" name="risks[{{ $i }}][acknowledged][{{ $ai }}][name]" value="{{ $ack['name'] ?? '' }}" class="input_style"> --}}
+                            </td>
                             <td><input type="date" name="risks[{{ $i }}][acknowledged][{{ $ai }}][date]" value="{{ !empty($ack['date']) ? date('Y-m-d', strtotime($ack['date'])) : '' }}" class="input_style"></td>
                         </tr>
                         @endforeach
@@ -133,8 +144,19 @@ table td input.input_style { font-size: 15px; text-align: center; }
                     <table class="mini-table">
                         @foreach($risk['approved'] ?? [['name'=>'','date'=>''],['name'=>'','date'=>''],['name'=>'','date'=>'']] as $ap => $approve)
                         <tr>
-                            <td><input type="text" name="risks[{{ $i }}][approved][{{ $ap }}][name]" value="{{ $approve['name'] ?? '' }}" class="input_style" readonly></td>
-                            <td><input type="date" name="risks[{{ $i }}][approved][{{ $ap }}][date]" value="{{ !empty($approve['date']) ? date('Y-m-d', strtotime($approve['date'])) : '' }}" class="input_style" readonly></td>
+                            <td>
+                                 <select class="form-control receiver-select" name="risks[{{ $i }}][approved][{{ $ap }}][name]">
+                                    <option value="">กรุณาเลือก</option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}"
+                                            {{ isset($approve['name']) && $approve['name'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" name="risks[{{ $i }}][approved][{{ $ap }}][name]" value="{{ $approve['name'] ?? '' }}" class="input_style"> --}}
+                            </td>
+                            <td><input type="date" name="risks[{{ $i }}][approved][{{ $ap }}][date]" value="{{ !empty($approve['date']) ? date('Y-m-d', strtotime($approve['date'])) : '' }}" class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>
@@ -147,12 +169,12 @@ table td input.input_style { font-size: 15px; text-align: center; }
                         @foreach($risk['after_assess'] ?? [['I'=>'','L'=>'','Level'=>'','Result'=>'','By'=>'','Date'=>''],['I'=>'','L'=>'','Level'=>'','Result'=>'','By'=>'','Date'=>''],['I'=>'','L'=>'','Level'=>'','Result'=>'','By'=>'','Date'=>'']] as $ai => $after)
                         <tr>
                             <td>ครั้ง{{ $ai+1 }}</td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][I]" value="{{ $after['I'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style" readonly></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style" readonly></td>
-                            <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ !empty($after['Date']) ? date('Y-m-d', strtotime($after['Date'])) : '' }}" class="input_style" readonly></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][I]" value="{{ $after['I'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style"></td>
+                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style"></td>
+                            <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ !empty($after['Date']) ? date('Y-m-d', strtotime($after['Date'])) : '' }}" class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>

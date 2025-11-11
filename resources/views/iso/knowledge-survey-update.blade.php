@@ -25,7 +25,7 @@ hr { margin: 1.5rem 0; }
     <form action="{{ route('knowledge-survey.update', $survey->id) }}" method="POST">
         @csrf
         @method('PUT')
-        <input type="hidden" name="checkdoc" value="Edit">
+        <input type="hidden" name="checkdoc" value="Update">
         <div class="row survey-header align-items-end mb-3">
             <div class="col-md-4">
                 <label>ผู้สำรวจ ชื่อ :</label>
@@ -178,11 +178,11 @@ hr { margin: 1.5rem 0; }
         <div class="row">
             <div class="col-md-6">
                 <label>อนุมัติโดย :</label>
-                <input type="text" name="approved_by" class="form-control" value="{{ $survey->approved_by }}" readonly>
+                <input type="text" name="approved_by" class="form-control" value="{{auth()->user()->name}}" readonly>
             </div>
             <div class="col-md-6">
                 <label>วันที่ :</label>
-                <input type="date" name="approved_date" class="form-control" value="{{ $survey->approved_date }}" readonly>
+                <input type="date" name="approved_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" readonly>
             </div>
         </div>
 
