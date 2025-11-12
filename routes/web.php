@@ -124,6 +124,7 @@ Route::post('/cancelQualityplanDt' , [App\Http\Controllers\IsoQualityPlan::class
 Route::resource('/product-selection' , App\Http\Controllers\IsoProductSelection::class);
 Route::post('/cancelProductSelectionHd' , [App\Http\Controllers\IsoProductSelection::class , 'cancelProductSelectionHd']);
 Route::post('/cancelProductSelectionDt' , [App\Http\Controllers\IsoProductSelection::class , 'cancelProductSelectionDt']);
+Route::post('/ApprovedProductSelectionHd' , [App\Http\Controllers\IsoProductSelection::class , 'ApprovedProductSelectionHd']);
 Route::resource('/recipient-selection' , App\Http\Controllers\IsoRecipientSelection::class);
 Route::post('/cancelRecipientSelection' , [App\Http\Controllers\IsoRecipientSelection::class , 'cancelRecipientSelection']);
 Route::resource('/product-list-selected' , App\Http\Controllers\IsoProductListSelected::class);

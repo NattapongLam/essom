@@ -35,7 +35,8 @@ class IsoQualityPlan extends Controller
     public function create()
     {
         $hd = null;     
-        return view('iso.form-quality-plan-create',compact('hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.form-quality-plan-create',compact('hd','emp'));
     }
 
     /**
@@ -63,6 +64,10 @@ class IsoQualityPlan extends Controller
             'requested_by' => $request->requested_by,
             'requested_date' => $request->requested_date,
             'created_at' => Carbon::now(),
+            'reviewed_by' => $request->reviewed_by,
+            'approved_by' => $request->approved_by,
+            'reviewed_status' => "N",
+            'approved_status' => "N"
         ];
         try{
             DB::beginTransaction();
@@ -111,8 +116,9 @@ class IsoQualityPlan extends Controller
     public function edit($id)
     {
         $hd = QualityPlanHd::find($id);    
-        $dt = QualityPlanDt::where('quality_plan_hd_id',$id)->where('quality_plan_dt_flag',true)->get();    
-        return view('iso.form-quality-plan-edit',compact('hd','dt'));
+        $dt = QualityPlanDt::where('quality_plan_hd_id',$id)->where('quality_plan_dt_flag',true)->get();   
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get(); 
+        return view('iso.form-quality-plan-edit',compact('hd','dt','emp'));
     }
 
     /**
@@ -134,6 +140,10 @@ class IsoQualityPlan extends Controller
                 'requested_by' => $request->requested_by,
                 'requested_date' => $request->requested_date,
                 'updated_at' => Carbon::now(),
+                'reviewed_by' => $request->reviewed_by,
+                'approved_by' => $request->approved_by,
+                'reviewed_status' => "N",
+                'approved_status' => "N"
             ];
             try{
                 DB::beginTransaction();
@@ -176,6 +186,8 @@ class IsoQualityPlan extends Controller
                 'approved_by' => $request->approved_by,
                 'approved_date' => $request->approved_date,
                 'updated_at' => Carbon::now(),
+                'reviewed_status' => $request->reviewed_status,
+                'approved_status' => $request->approved_status
             ];
               try{
                 DB::beginTransaction();

@@ -35,8 +35,9 @@ class IsoProductSelection extends Controller
      */
     public function create()
     {
-        $hd = null;      
-        return view('iso.form-product-selection-create',compact('hd'));
+        $hd = null;
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();      
+        return view('iso.form-product-selection-create',compact('hd','emp'));
     }
 
     /**
@@ -61,6 +62,14 @@ class IsoProductSelection extends Controller
             'requested_date' => $request->requested_date,
             'product_selection_hd_flag' => true,
             'created_at' => Carbon::now(),
+            'reviewed_by' => $request->reviewed_by,
+            'approved_by1' => $request->approved_by1,
+            'assessor_by' => $request->assessor_by,
+            'approved_by2' => $request->approved_by2,
+            'reviewed_status' => "N",
+            'approved_status1' => "N",
+            'assessor_status' => "N",
+            'approved_status2' => "N"
         ];
         try{
             DB::beginTransaction();
@@ -138,7 +147,8 @@ class IsoProductSelection extends Controller
         $hd = ProductSelectionHd::find($id);    
         $dt = ProductSelectionDt::where('product_selection_hd_id',$id)->where('product_selection_dt_flag',true)->get();  
         $sub = ProductSelectionSub::where('product_selection_hd_id',$id)->get();  
-        return view('iso.form-product-selection-edit',compact('hd','dt','sub'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();      
+        return view('iso.form-product-selection-edit',compact('hd','dt','sub','emp'));
     }
 
     /**
@@ -187,24 +197,26 @@ class IsoProductSelection extends Controller
                         'updated_at'  => Carbon::now(),
                     ]);
                 }
-                foreach ($request->product_selection_dt_listno as $key => $value) {      
-                    ProductSelectionDt::insert([
-                        'product_selection_hd_id' => $insertHD->product_selection_hd_id,
-                        'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
-                        'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
-                        'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
-                        'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
-                        'product_selection_hd_grade_b' => $request->product_selection_hd_grade_b[$key],
-                        'product_selection_hd_grade_c' => $request->product_selection_hd_grade_c[$key],
-                        'product_selection_hd_results1' => $request->product_selection_hd_results1[$key],
-                        'product_selection_hd_results2' => $request->product_selection_hd_results2[$key],
-                        'product_selection_hd_results3' => $request->product_selection_hd_results3[$key],
-                        'product_selection_dt_remark' => $request->product_selection_dt_remark[$key],
-                        'product_selection_dt_flag' => true,
-                        'person_at' => Auth::user()->name,
-                        'created_at'  => Carbon::now(),
-                    ]);
-                }
+                if($request->product_selection_dt_listno){
+                    foreach ($request->product_selection_dt_listno as $key => $value) {      
+                        ProductSelectionDt::insert([
+                            'product_selection_hd_id' => $insertHD->product_selection_hd_id,
+                            'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
+                            'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
+                            'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
+                            'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
+                            'product_selection_hd_grade_b' => $request->product_selection_hd_grade_b[$key],
+                            'product_selection_hd_grade_c' => $request->product_selection_hd_grade_c[$key],
+                            'product_selection_hd_results1' => $request->product_selection_hd_results1[$key],
+                            'product_selection_hd_results2' => $request->product_selection_hd_results2[$key],
+                            'product_selection_hd_results3' => $request->product_selection_hd_results3[$key],
+                            'product_selection_dt_remark' => $request->product_selection_dt_remark[$key],
+                            'product_selection_dt_flag' => true,
+                            'person_at' => Auth::user()->name,
+                            'created_at'  => Carbon::now(),
+                        ]);
+                    }   
+                }               
                 foreach ($request->product_selection_sub_id as $key => $value) {
                     ProductSelectionSub::where('product_selection_sub_id',$value)->update([
                         'product_selection_hd_results1_1' => $request->product_selection_hd_results1_1[$key],
@@ -287,5 +299,41 @@ class IsoProductSelection extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
+    }
+    public function ApprovedProductSelectionHd(Request $request)
+    {
+        if($request->status == "reviewed"){
+            $hd = ProductSelectionHd::where('product_selection_hd_id',$request->refid)
+            ->update([
+            'reviewed_status' => "Y",
+            'reviewed_date' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }else if($request->status == "approved1"){
+            $hd = ProductSelectionHd::where('product_selection_hd_id',$request->refid)
+            ->update([
+            'approved_status1' => "Y",
+            'approved_date1' =>Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
+            ]);    
+
+        }else if($request->status == "approved2"){
+            $hd = ProductSelectionHd::where('product_selection_hd_id',$request->refid)
+            ->update([
+            'approved_status2' => "Y",
+            'approved_date2' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }
+        
     }
 }
