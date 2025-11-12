@@ -83,7 +83,7 @@
                         <input class="form-control" type="date" name="requested_date" value="{{$hd->requested_date }}" readonly>
                     </div>
                 </div> 
-                @if ($hd->reviewed_by)
+                @if ($hd->reviewed_status == "Y")
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by">ทบทวนโดย</label>
@@ -103,6 +103,8 @@
                         <label for="approved_date">วันที่</label>
                         <input class="form-control" type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
                     </div>
+                    <input type="hidden" name="reviewed_status" value="Y">
+                    <input type="hidden" name="approved_status" value="Y">
                 </div>
                 @else
                 <div class="row mt-3">
@@ -124,6 +126,8 @@
                         <label for="approved_date">วันที่</label>
                         <input class="form-control" type="date" name="approved_date" readonly>
                     </div>
+                    <input type="hidden" name="reviewed_status" value="Y">
+                    <input type="hidden" name="approved_status" value="N">
                 </div>
                 @endif                 
                 <br>
