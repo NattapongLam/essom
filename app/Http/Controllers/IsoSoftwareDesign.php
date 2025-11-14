@@ -251,6 +251,43 @@ class IsoSoftwareDesign extends Controller
     }
     public function approvedSoftwareDesign(Request $request)
     {
+        if($request->status == "reviewed1"){
+            $hd = SoftwareDesignHd::where('software_design_hd_id',$request->refid)->update([
+            'reviewed_status1' => "Y",
+            'reviewed_date1' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }elseif($request->status == "reviewed2"){
+            $hd = SoftwareDesignHd::where('software_design_hd_id',$request->refid)->update([
+            'reviewed_status2' => "Y",
+            'reviewed_date2' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+            ]);    
 
+        }elseif ($request->status == "initialapproval") {
+            $hd = SoftwareDesignHd::where('software_design_hd_id',$request->refid)->update([
+            'initialapproval_status' => "Y",
+            'initialapproval_date' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }elseif($request->status == "finalapproval"){
+            $hd = SoftwareDesignHd::where('software_design_hd_id',$request->refid)->update([
+            'finalapproval_status' => "Y",
+            'finalapproval_date' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }
     }
 }
