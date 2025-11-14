@@ -47,6 +47,7 @@
                     @foreach ($list as $item)
                                 <tr>
                                     <td>{{$item->documentdistributions_listno}}</td>
+                                    <td>{{$item->ms_department_name}}</td>
                                     <td>{{$item->ms_employee_code}}/{{$item->ms_employee_fullname}}</td>
                                     <td>{{$item->ms_job_name}}</td>
                                     <td>{{$item->documentdistributions_type}}</td>
@@ -62,10 +63,10 @@
                     @php $rowCount = count($list) + 1; @endphp
                     <tr>
                         <td>
-                            {{ $rowCount }}
-                            <input type="hidden" value="{{ $rowCount }}" name="documentdistributions_listno[]">
+                            {{ $rowCount }}                           
                         </td>
                         <td>
+                             <input type="hidden" value="{{ $rowCount }}" name="documentdistributions_listno[]">
                             <select class="form-control" name="ms_department_name[]">
                                 <option value="">กรุณาเลือก</option>
                                 @foreach ($dep as $item)
@@ -127,9 +128,10 @@
     row.innerHTML = `
       <td
       ${rowCount + 1}
-    <input type="hidden" value="${rowCount + 1}" name="documentdistributions_listno[]">
+          
       </td>
         <td>
+              <input type="hidden" value="${rowCount + 1}" name="documentdistributions_listno[]">
                             <select class="form-control" name="ms_department_name[]">
                                 <option value="">กรุณาเลือก</option>
                                 @foreach ($dep as $item)

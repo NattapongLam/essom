@@ -65,6 +65,7 @@ class IsoDocumentdistribution extends Controller
         try{
 
             DB::beginTransaction();
+            //dd($request->documentdistributions_listno);
             foreach ($request->ms_employee_id as $key => $value) {
                 $hd = Documentdistribution::insert([
                     'documentdistributions_listno' => $request->documentdistributions_listno[$key],
@@ -98,6 +99,7 @@ class IsoDocumentdistribution extends Controller
         $hd = Documentregister::find($id);
         $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
         $list = Documentdistribution::leftjoin('ms_employee','documentdistributions.ms_employee_id','=','ms_employee.ms_employee_id')
+        ->select('documentdistributions.*','ms_employee.ms_employee_code','ms_employee.ms_employee_fullname','ms_employee.ms_job_name')
         ->where('documentdistributions.documentdistributions_flag',true)
         ->where('documentdistributions.documentregisters_id',$id)
         ->get();

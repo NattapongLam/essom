@@ -399,7 +399,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by">ทบทวนโดย</label>
-                        <input class="form-control" name="reviewed_by" readonly>
+                        <select class="form-control receiver-select" name="reviewed_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="reviewed_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="reviewed_date">วันที่</label>
@@ -409,7 +415,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="approved_by1">อนุมัติโดย</label>
-                        <input class="form-control" name="approved_by1" readonly>
+                        <select class="form-control receiver-select" name="approved_by1">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="approved_by1" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="approved_date1">วันที่</label>
@@ -540,7 +552,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="assessor_by">ผู้ประเมิน</label>
-                        <input class="form-control" name="assessor_by" readonly>
+                         <select class="form-control receiver-select" name="assessor_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="assessor_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="assessor_date">วันที่</label>
@@ -550,7 +568,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="approved_by2">ผู้อนุมัติ</label>
-                        <input class="form-control" name="approved_by2" readonly>
+                         <select class="form-control receiver-select" name="approved_by2">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="approved_by2" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="approved_date2">วันที่</label>
@@ -577,6 +601,13 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 </script>
 @endpush  
     

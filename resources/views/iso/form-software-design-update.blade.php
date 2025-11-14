@@ -12,9 +12,9 @@
                 <h5>ESSOM CO.,LTD<br>การออกแบบซอฟต์แวร์,ทบทวนและทวนสอบ (SOFTWARE DESIGN,REVIEW AND VERIFICATION)</h5><p class="text-right">FS8302.1<br>4 Nov. 24</p>              
             </div>
             <div class="card-body">         
-                <form method="POST" class="form-horizontal" action="{{ route('software-design.store',$hd->software_design_hd_id) }}" enctype="multipart/form-data">
+                {{-- <form method="POST" class="form-horizontal" action="{{ route('software-design.store',$hd->software_design_hd_id) }}" enctype="multipart/form-data">
                 @csrf   
-                @method('PUT')        
+                @method('PUT')         --}}
                 <input type="hidden" name="checkdoc" value="Update">               
                 <div class="row mt-3">
                     <div class="col-12">
@@ -64,30 +64,28 @@
                         <label for="prepared_date1">Date</label>
                         <input class="form-control" type="date" name="prepared_date1" value="{{ $hd->prepared_date1 }}" readonly>
                     </div>
-                </div>
-                @if ($hd->reviewed_by1)
-                     <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="reviewed_by1">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by1" value="{{$hd->reviewed_by1}}" readonly>
                     </div>
-                    <div class="col-3">
-                        <label for="reviewed_date1">Date</label>
-                        <input class="form-control" type="date" name="reviewed_date1" value="{{ $hd->reviewed_date1}}" readonly>
-                    </div>
-                </div> 
-                @else
-                   <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="reviewed_by1">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by1" value="{{auth()->user()->name}}" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="reviewed_date1">Date</label>
-                        <input class="form-control" type="date" name="reviewed_date1" value="{{ old('date', now()->format('Y-m-d')) }}" required>
-                    </div>
-                </div>   
-                @endif               
+                        <div class="row mt-3">
+                        <div class="col-9">
+                            <label for="reviewed_by1">Reviewed by</label>
+                            @if ($hd->reviewed_status1 == "N")
+                                @if ($hd->reviewed_by1 == auth()->user()->name)
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="confirmApp('{{ $hd->software_design_hd_id }}','reviewed1')">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                @else
+                                    <span class="badge-warning">รอดำเนินการ</span>
+                                @endif
+                            @else
+                                <span class="badge-success">ดำเนินการเรียบร้อย</span>
+                            @endif         
+                            <input class="form-control" name="reviewed_by1" value="{{$hd->reviewed_by1}}" readonly>
+                        </div>
+                        <div class="col-3">
+                            <label for="reviewed_date1">Date</label>
+                            <input class="form-control" type="date" name="reviewed_date1" value="{{ $hd->reviewed_date1}}" readonly>
+                        </div>
+                    </div>               
                    <div class="row mt-3">
                     {{-- <div class="mb-2">
                         <button type="button" class="btn btn-sm btn-success" onclick="addRow()">
@@ -147,10 +145,20 @@
                         <input class="form-control" type="date" name="prepared_date2" value="{{ $hd->prepared_date2 }}" readonly>
                     </div>
                 </div>
-                @if ($hd->reviewed_by2)
-                    <div class="row mt-3">
+                <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by2">Reviewed by</label>
+                            @if ($hd->reviewed_status2 == "N")
+                                @if ($hd->reviewed_by2 == auth()->user()->name)
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="confirmApp('{{ $hd->software_design_hd_id }}','reviewed2')">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                @else
+                                    <span class="badge-warning">รอดำเนินการ</span>
+                                @endif
+                            @else
+                                <span class="badge-success">ดำเนินการเรียบร้อย</span>
+                            @endif        
                         <input class="form-control" name="reviewed_by2" value="{{$hd->reviewed_by2}}" readonly>
                     </div>
                     <div class="col-3">
@@ -158,10 +166,20 @@
                         <input class="form-control" type="date" name="reviewed_date2" value="{{ $hd->reviewed_date2}}" readonly>
                     </div>
                 </div> 
-                @if ($hd->initialapproval_by)
                      <div class="row mt-3">
                     <div class="col-9">
                         <label for="initialapproval_by">Initial Approval by</label>
+                            @if ($hd->initialapproval_status == "N")
+                                @if ($hd->initialapproval_by == auth()->user()->name)
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="confirmApp('{{ $hd->software_design_hd_id }}','initialapproval')">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                @else
+                                    <span class="badge-warning">รอดำเนินการ</span>
+                                @endif
+                            @else
+                                <span class="badge-success">ดำเนินการเรียบร้อย</span>
+                            @endif   
                         <input class="form-control" name="initialapproval_by" value="{{$hd->initialapproval_by}}" readonly>
                     </div>
                     <div class="col-3">
@@ -172,68 +190,25 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="finalapproval_by">Final Approval</label>
-                        <input class="form-control" name="finalapproval_by" value="{{auth()->user()->name}}" readonly>
+                            @if ($hd->finalapproval_status == "N")
+                                @if ($hd->finalapproval_by == auth()->user()->name)
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="confirmApp('{{ $hd->software_design_hd_id }}','finalapproval')">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                @else
+                                    <span class="badge-warning">รอดำเนินการ</span>
+                                @endif
+                            @else
+                                <span class="badge-success">ดำเนินการเรียบร้อย</span>
+                            @endif   
+                        <input class="form-control" name="finalapproval_by" value="{{ $hd->finalapproval_by }}" readonly>
                     </div>
                     <div class="col-3">
                         <label for="finalapproval_date">Date</label>
-                        <input class="form-control" type="date" name="finalapproval_date"value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                        <input class="form-control" type="date" name="finalapproval_date"value="{{$hd->finalapproval_date }}" readonly>
                     </div>
                 </div> 
-                @else
-                   <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="initialapproval_by">Initial Approval by</label>
-                        <input class="form-control" name="initialapproval_by" value="{{auth()->user()->name}}" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="initialapproval_date">Date</label>
-                        <input class="form-control" type="date" name="initialapproval_date"value="{{ old('date', now()->format('Y-m-d')) }}" required>
-                    </div>
-                </div> 
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="finalapproval_by">Final Approval</label>
-                        <input class="form-control" name="finalapproval_by" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="finalapproval_date">Date</label>
-                        <input class="form-control" type="date" name="finalapproval_date" readonly>
-                    </div>
-                </div>   
-                @endif               
-                @else
-                  <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="reviewed_by2">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by2" value="{{auth()->user()->name}}" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="reviewed_date2">Date</label>
-                        <input class="form-control" type="date" name="reviewed_date2" value="{{ old('date', now()->format('Y-m-d')) }}" required>
-                    </div>
-                </div> 
-                 <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="initialapproval_by">Initial Approval by</label>
-                        <input class="form-control" name="initialapproval_by" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="initialapproval_date">Date</label>
-                        <input class="form-control" type="date" name="initialapproval_date" readonly>
-                    </div>
-                </div> 
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="finalapproval_by">Final Approval</label>
-                        <input class="form-control" name="finalapproval_by" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="finalapproval_date">Date</label>
-                        <input class="form-control" type="date" name="finalapproval_date" readonly>
-                    </div>
-                </div>   
-                @endif                
-                <br>
+                {{-- <br>
                 <div class="col-12 col-md-1">
                     <div class="form-group">
                         <button type="submit" class="btn btn-block btn-primary">
@@ -241,7 +216,7 @@
                          </button>
                     </div>
                 </div>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>
@@ -252,6 +227,64 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+confirmApp = (refid,status) =>{       
+Swal.fire({
+    title: 'คุณแน่ใจหรือไม่ !',
+    text: `คุณต้องการอนุมัติรายการนี้หรือไม่ ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'ยืนยัน',
+    cancelButtonText: 'ยกเลิก',
+    confirmButtonClass: 'btn btn-success mt-2',
+    cancelButtonClass: 'btn btn-danger ms-2 mt-2',
+    buttonsStyling: false
+}).then(function(result) {
+    if (result.value) {
+
+        $.ajax({
+            url: `{{ url('/approvedSoftwareDesign') }}`,
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "refid": refid,
+                'status': status
+            },
+            dataType: "json",
+            success: function(data) {
+
+                console.log(data);
+
+
+                if (data.status == true) {
+                    Swal.fire({
+                        title: 'สำเร็จ',
+                        text: 'อนุมัติเอกสารเรียบร้อยแล้ว',
+                        icon: 'success'
+                    }).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'ไม่สำเร็จ',
+                        text: 'อนุมัติเอกสารไม่สำเร็จ',
+                        icon: 'error'
+                    });
+                }
+               
+            }
+        });
+
+    } else if ( // Read more about handling dismissals
+        result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+            title: 'ยกเลิก',
+            text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
+            icon: 'error'
+        });
+    }
+});
+
+}
 // ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");

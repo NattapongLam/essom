@@ -38,7 +38,7 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <label for="approved_by2">1.3 Input Data</label>
-                        <textarea class="form-control" name="software_design_hd_inputdata"></textarea>
+                        <textarea class="form-control" name="software_design_hd_input"></textarea>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -66,7 +66,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by1">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by1" readonly>
+                        <select class="form-control receiver-select" name="reviewed_by1">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="reviewed_by1" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="reviewed_date1">Date</label>
@@ -113,7 +119,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by2">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by2" readonly>
+                        <select class="form-control receiver-select" name="reviewed_by2">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="reviewed_by2" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="reviewed_date2">Date</label>
@@ -123,7 +135,13 @@
                  <div class="row mt-3">
                     <div class="col-9">
                         <label for="initialapproval_by">Initial Approval by</label>
-                        <input class="form-control" name="initialapproval_by" readonly>
+                        <select class="form-control receiver-select" name="initialapproval_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="initialapproval_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="initialapproval_date">Date</label>
@@ -133,7 +151,13 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="finalapproval_by">Final Approval</label>
-                        <input class="form-control" name="finalapproval_by" readonly>
+                        <select class="form-control receiver-select" name="finalapproval_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="finalapproval_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="finalapproval_date">Date</label>
@@ -159,6 +183,13 @@
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+$(document).ready(function () {
+    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    $('.receiver-select').select2({
+        placeholder: 'กรุณาเลือกพนักงาน',
+        width: '100%'
+    });
+});
 // ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");

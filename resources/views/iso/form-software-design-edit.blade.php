@@ -12,7 +12,7 @@
                 <h5>ESSOM CO.,LTD<br>การออกแบบซอฟต์แวร์,ทบทวนและทวนสอบ (SOFTWARE DESIGN,REVIEW AND VERIFICATION)</h5><p class="text-right">FS8302.1<br>4 Nov. 24</p>              
             </div>
             <div class="card-body">         
-                <form method="POST" class="form-horizontal" action="{{ route('software-design.store',$hd->software_design_hd_id) }}" enctype="multipart/form-data">
+                <form method="POST" class="form-horizontal" action="{{ route('software-design.update',$hd->software_design_hd_id) }}" enctype="multipart/form-data">
                 @csrf   
                 @method('PUT')        
                 <input type="hidden" name="checkdoc" value="Edit">               
@@ -40,7 +40,7 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <label for="approved_by2">1.3 Input Data</label>
-                        <textarea class="form-control" name="software_design_hd_inputdata">{{$hd->software_design_hd_inputdata}}</textarea>
+                        <textarea class="form-control" name="software_design_hd_input">{{$hd->software_design_hd_input}}</textarea>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -68,7 +68,16 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by1">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by1" readonly>
+                        <select class="form-control receiver-select" name="reviewed_by1">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ isset($hd->reviewed_by1) &&  $hd->reviewed_by1 == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="reviewed_by1" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="reviewed_date1">Date</label>
@@ -137,7 +146,16 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by2">Reviewed by</label>
-                        <input class="form-control" name="reviewed_by2" readonly>
+                        <select class="form-control receiver-select" name="reviewed_by2">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ isset($hd->reviewed_by2) &&  $hd->reviewed_by2 == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="reviewed_by2" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="reviewed_date2">Date</label>
@@ -147,7 +165,16 @@
                  <div class="row mt-3">
                     <div class="col-9">
                         <label for="initialapproval_by">Initial Approval by</label>
-                        <input class="form-control" name="initialapproval_by" readonly>
+                        <select class="form-control receiver-select" name="initialapproval_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ isset($hd->initialapproval_by) &&  $hd->initialapproval_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="initialapproval_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="initialapproval_date">Date</label>
@@ -157,7 +184,16 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="finalapproval_by">Final Approval</label>
-                        <input class="form-control" name="finalapproval_by" readonly>
+                        <select class="form-control receiver-select" name="finalapproval_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ isset($hd->finalapproval_by) &&  $hd->finalapproval_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="finalapproval_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="finalapproval_date">Date</label>
