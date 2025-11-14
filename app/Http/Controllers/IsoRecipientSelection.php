@@ -36,7 +36,8 @@ class IsoRecipientSelection extends Controller
     public function create()
     {
         $hd = null;
-        return view('iso.form-recipient-selection-create',compact('hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();    
+        return view('iso.form-recipient-selection-create',compact('hd','emp'));
     }
 
     /**
@@ -96,6 +97,14 @@ class IsoRecipientSelection extends Controller
             'requested_date' => $request->requested_date,
             'recipient_selection_hd_flag' => true,
             'created_at' =>  Carbon::now(),
+            'reviewed_by' => $request->reviewed_by,
+            'approved_by1' => $request->approved_by1,
+            'assessor_by' => $request->assessor_by,
+            'approved_by2' => $request->approved_by2,
+            'reviewed_status' => "N",
+            'approved_status1' => "N",
+            'assessor_status' => "N",
+            'approved_status2' => "N"
         ];
         if ($request->hasFile('recipient_selection_hd_file')) {
             $data['recipient_selection_hd_file'] = $request->file('recipient_selection_hd_file')->storeAs('img/recipientselection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('recipient_selection_hd_file')->extension());
@@ -148,7 +157,8 @@ class IsoRecipientSelection extends Controller
     {
         $hd = RecipientSelectionHd::find($id);
         $sub = RecipientSelectionSub::where('recipient_selection_hd_id',$id)->get();
-        return view('iso.form-recipient-selection-edit',compact('hd','sub'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();    
+        return view('iso.form-recipient-selection-edit',compact('hd','sub','emp'));
     }
 
     /**
@@ -270,7 +280,7 @@ class IsoRecipientSelection extends Controller
         //
     }
 
-    public function cancelProductSelectionHd(Request $request)
+    public function cancelRecipientSelection(Request $request)
     {
         $hd = RecipientSelectionHd::where('recipient_selection_hd_id',$request->refid)->update([
             'recipient_selection_hd_flag' => 0,
@@ -281,5 +291,40 @@ class IsoRecipientSelection extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
+    }
+    public function ApprovedRecipientSelection(Request $request)
+    {
+        if($request->status == "reviewed"){
+            $hd = RecipientSelectionHd::where('product_selection_hd_id',$request->refid)
+            ->update([
+            'reviewed_status' => "Y",
+            'reviewed_date' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }else if($request->status == "approved1"){
+            $hd = RecipientSelectionHd::where('product_selection_hd_id',$request->refid)
+            ->update([
+            'approved_status1' => "Y",
+            'approved_date1' =>Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
+            ]);    
+
+        }else if($request->status == "approved2"){
+            $hd = RecipientSelectionHd::where('product_selection_hd_id',$request->refid)
+            ->update([
+            'approved_status2' => "Y",
+            'approved_date2' => Carbon::now(),
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
+            ]);    
+        }
     }
 }

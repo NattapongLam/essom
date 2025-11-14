@@ -35,7 +35,8 @@ class IsoSoftwareDesign extends Controller
     public function create()
     {
         $hd = null;
-        return view('iso.form-software-design-create',compact('hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();   
+        return view('iso.form-software-design-create',compact('hd','emp'));
     }
 
     /**
@@ -60,6 +61,14 @@ class IsoSoftwareDesign extends Controller
             'prepared_date2' => $request->prepared_date2,
             'software_design_hd_flag' => true,
             'created_at' => Carbon::now(),
+            'reviewed_by1' => $request->reviewed_by1,
+            'reviewed_by2' => $request->reviewed_by2,
+            'initialapproval_by' => $request->initialapproval_by,
+            'finalapproval_by' => $request->finalapproval_by,
+            'reviewed_status1' => "N",
+            'reviewed_status2' => "N",
+            'initialapproval_status' => 'N',
+            'finalapproval_status' => "N"
         ];
         try{
 
@@ -110,7 +119,8 @@ class IsoSoftwareDesign extends Controller
     {
         $hd = SoftwareDesignHd::find($id);
         $dt = SoftwareDesignDt::where('software_design_dt_flag',true)->where('software_design_hd_id',$id)->get();
-        return view('iso.form-software-design-edit',compact('hd','dt'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();   
+        return view('iso.form-software-design-edit',compact('hd','dt','emp'));
     }
 
     /**
@@ -137,6 +147,10 @@ class IsoSoftwareDesign extends Controller
             'prepared_date2' => $request->prepared_date2,
             'software_design_hd_flag' => true,
             'created_at' => Carbon::now(),
+            'reviewed_by1' => $request->reviewed_by1,
+            'reviewed_by2' => $request->reviewed_by2,
+            'initialapproval_by' => $request->initialapproval_by,
+            'finalapproval_by' => $request->finalapproval_by,
         ];
         try{
 
@@ -153,19 +167,21 @@ class IsoSoftwareDesign extends Controller
                     'software_design_dt_flag' => true
                 ]);
             }
-            foreach ($request->listno as $key => $value) {
-                SoftwareDesignDt::insert([
-                    'software_design_hd_id' => $insertHD->software_design_hd_id,
-                    'listno' => $request->listno[$key],
-                    'software_design_dt_calculation' => $request->software_design_dt_calculation[$key],
-                    'software_design_dt_byhand' => $request->software_design_dt_byhand[$key],
-                    'software_design_dt_display' => $request->software_design_dt_display[$key],
-                    'software_design_dt_error' => $request->software_design_dt_error[$key],
-                    'person_at' => Auth::user()->name,
-                    'created_at' => Carbon::now(),
-                    'software_design_dt_flag' => true
-                ]);
-            }
+            if($request->listno){
+                foreach ($request->listno as $key => $value) {
+                    SoftwareDesignDt::insert([
+                        'software_design_hd_id' => $insertHD->software_design_hd_id,
+                        'listno' => $request->listno[$key],
+                        'software_design_dt_calculation' => $request->software_design_dt_calculation[$key],
+                        'software_design_dt_byhand' => $request->software_design_dt_byhand[$key],
+                        'software_design_dt_display' => $request->software_design_dt_display[$key],
+                        'software_design_dt_error' => $request->software_design_dt_error[$key],
+                        'person_at' => Auth::user()->name,
+                        'created_at' => Carbon::now(),
+                        'software_design_dt_flag' => true
+                    ]);
+                }
+            }           
             DB::commit();
             return redirect()->route('software-design.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
@@ -232,5 +248,9 @@ class IsoSoftwareDesign extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
+    }
+    public function approvedSoftwareDesign(Request $request)
+    {
+
     }
 }

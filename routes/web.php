@@ -127,10 +127,12 @@ Route::post('/cancelProductSelectionDt' , [App\Http\Controllers\IsoProductSelect
 Route::post('/ApprovedProductSelectionHd' , [App\Http\Controllers\IsoProductSelection::class , 'ApprovedProductSelectionHd']);
 Route::resource('/recipient-selection' , App\Http\Controllers\IsoRecipientSelection::class);
 Route::post('/cancelRecipientSelection' , [App\Http\Controllers\IsoRecipientSelection::class , 'cancelRecipientSelection']);
+Route::post('/ApprovedRecipientSelection' , [App\Http\Controllers\IsoRecipientSelection::class , 'ApprovedRecipientSelection']);
 Route::resource('/product-list-selected' , App\Http\Controllers\IsoProductListSelected::class);
 Route::post('/cancelProductListSelectedHd' , [App\Http\Controllers\IsoProductListSelected::class , 'cancelProductListSelectedHd']);
 Route::post('/cancelProductListSelectedDt' , [App\Http\Controllers\IsoProductListSelected::class , 'cancelProductListSelectedDt']);
 Route::resource('/software-design' , App\Http\Controllers\IsoSoftwareDesign::class);
 Route::post('/cancelSoftwareDesignHd' , [App\Http\Controllers\IsoSoftwareDesign::class , 'cancelSoftwareDesignHd']);
 Route::post('/cancelSoftwareDesignDt' , [App\Http\Controllers\IsoSoftwareDesign::class , 'cancelSoftwareDesignDt']);
+Route::post('/approvedSoftwareDesign' , [App\Http\Controllers\IsoSoftwareDesign::class , 'approvedSoftwareDesign']);
 // ISO 30 //
