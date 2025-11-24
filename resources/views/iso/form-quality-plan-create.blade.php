@@ -33,6 +33,16 @@
                     </div>      
                 </div>
                 <div class="row mt-3">
+                    <div class="col-6">
+                        <label for="quality_plan_hd_file">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="quality_plan_hd_file" >
+                    </div> 
+                    <div class="col-6">
+                        <label for="quality_plan_hd_link">Link(หากมี)</label>
+                        <input type="text" class="form-control" name="quality_plan_hd_link" >
+                    </div> 
+                </div>
+                <div class="row mt-3">
                     <div class="mb-2">
                         <button type="button" class="btn btn-sm btn-success" onclick="addRow()">
                             ➕ เพิ่มแถว

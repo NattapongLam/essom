@@ -109,70 +109,102 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
         </div>
         <br><br>
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                 Prepared by :
-                <input type="text" name="prepared_by" value="{{ $plan->prepared_by }}" style="width:300px;" readonly>
+                <input type="text" name="prepared_by" value="{{ $plan->prepared_by }}" readonly>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 Date :
-                <input type="date" name="prepared_date" value="{{ $plan->prepared_date ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" style="width:200px;" required>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-8">
-        Progress Review :
-        <input type="text" name="prepared_progress_review" value="{{ $plan->prepared_progress_review }}" style="width:300px;" readonly>
+                <input type="date" name="prepared_date" class="form-control" value="{{ $plan->prepared_date ? date('Y-m-d', strtotime($plan->prepared_date)) : '' }}" required>
             </div>
             <div class="col-4">
+             Progress Review :
+            <select class="form-control receiver-select" name="prepared_progress_review">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}"
+                             {{ isset( $plan->prepared_progress_review) &&   $plan->prepared_progress_review == $item->ms_employee_fullname ? 'selected' : '' }}>
+                            {{ $item->ms_employee_fullname }}
+                        </option>
+                    @endforeach
+            </select>          
+            </div>
+            <div class="col-2">
                  Date :
-        <input type="date" name="prepared_progress_date" value="{{ $plan->prepared_progress_date ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" style="width:200px;" readonly>
-            </div>
-        </div>
-        <br><br>
-        <div class="row">
-            <div class="col-8">
-                Reviewed by : <input type="text" name="reviewed_by" value="{{ $plan->reviewed_by }}" style="width:300px;" readonly>
-            </div>
-            <div class="col-4">
-                Date :
-                <input type="date" name="reviewed_date" value="{{ $plan->reviewed_date ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}" style="width:200px;" readonly>
+        <input type="date" name="prepared_progress_date" class="form-control" value="{{ $plan->prepared_progress_date ? date('Y-m-d', strtotime($plan->prepared_progress_date)) : '' }}" required>
             </div>
         </div>
         <br>
         <div class="row">
-            <div class="col-8">
-                Reported by : <input type="text" name="reported_by" value="{{ $plan->reported_by }}" style="width:300px;" readonly>
+            <div class="col-4">                
+                Reviewed by : 
+                  <select class="form-control receiver-select" name="reviewed_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}"
+                             {{ isset( $plan->reviewed_by) &&   $plan->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                            {{ $item->ms_employee_fullname }}
+                        </option>
+                    @endforeach
+            </select> 
+            </div>
+            <div class="col-2">
+                Date :
+                <input type="date" name="reviewed_date" class="form-control" value="{{ $plan->reviewed_date ? date('Y-m-d', strtotime($plan->reviewed_date)) : '' }}"  required>
             </div>
             <div class="col-4">
+                Reported by : 
+                   <select class="form-control receiver-select" name="reported_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}"
+                             {{ isset( $plan->reported_by) &&   $plan->reported_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                            {{ $item->ms_employee_fullname }}
+                        </option>
+                    @endforeach
+            </select> 
+            </div>
+            <div class="col-2">
                 Date :
-                <input type="date" name="reported_date" value="{{ $plan->reported_date ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" style="width:200px;" readonly>
+                <input type="date" name="reported_date" class="form-control" value="{{ $plan->reported_date ? date('Y-m-d', strtotime($plan->reported_date)) : '' }}" required>
             </div>
         </div>
-        <br><br>
+        <br>
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                 Approved by :
-                <input type="text" name="approved_by" value="{{ $plan->approved_by }}" style="width:300px;" readonly>
+                   <select class="form-control receiver-select" name="approved_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}"
+                             {{ isset( $plan->approved_by) &&   $plan->approved_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                            {{ $item->ms_employee_fullname }}
+                        </option>
+                    @endforeach
+            </select> 
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 Date :
-                <input type="date" name="approved_date" value="{{ $plan->approved_date ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" style="width:200px;" readonly>
+                <input type="date" name="approved_date" class="form-control" value="{{ $plan->approved_date ? date('Y-m-d', strtotime($plan->approved_date)) : '' }}" required>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-8">
+             <div class="col-4">
                 Acknowledged by :
-                <input type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by }}" style="width:300px;" readonly>
+                  <select class="form-control receiver-select" name="acknowledged_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}"
+                             {{ isset( $plan->acknowledged_by) &&   $plan->acknowledged_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                            {{ $item->ms_employee_fullname }}
+                        </option>
+                    @endforeach
+            </select> 
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 Date :
-        <input type="date" name="acknowledged_date" value="{{ $plan->acknowledged_date ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" style="width:200px;" readonly>
+        <input type="date" name="acknowledged_date" class="form-control" value="{{ $plan->acknowledged_date ? date('Y-m-d', strtotime($plan->acknowledged_date)) : '' }}" required>
             </div>
         </div>
-        
-        
+        <br>      
         <div class="actions">
             <button type="submit" class="primary">บันทึกข้อมูล</button>
         </div>

@@ -100,63 +100,85 @@ input[type="text"], input[type="date"] { height: 36px; font-size: 16px; }
     <button type="button" style="float:left;" class="edit" id="addRowBtn">+ เพิ่มแถว</button>
     <br><br>
     <div class="row">
-        <div class="col-8">
-        Prepared by: <input type="text" name="prepared_by"  value="{{auth()->user()->name}}" style="width:300px;" readonly>
+        <div class="col-4">
+        Prepared by: <input type="text" name="prepared_by"  value="{{auth()->user()->name}}" readonly>
+        </div>
+        <div class="col-2">
+        Date: <input type="date" name="prepared_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
         </div>
         <div class="col-4">
-        Date: <input type="date" name="prepared_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
-        </div>
-    </div>
-    <br>
-   <div class="row">
-     <div class="col-8">
-        Progress Review: <input type="text" name="prepared_progress_review" style="width:300px;" readonly>
+        Progress Review: 
+        <select class="form-control receiver-select" name="prepared_progress_review">
+            <option value=""></option>
+                @foreach ($emp as $item)
+                    <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                @endforeach
+        </select>
+        {{-- <input type="text" name="prepared_progress_review"  readonly> --}}
      </div>
-     <div class="col-4">
-          Date: <input type="date" name="prepared_progress_date" style="width:200px;" readonly>
+     <div class="col-2">
+          Date: <input type="date" name="prepared_progress_date" required>
      </div>
-   </div>
-    <br><br>
+    </div>
+    <br>
     <div class="row">
-        <div class="col-8">
-        Reviewed by  <input type="text" name="reviewed_by" style="width:300px;" readonly>
-        </div>
         <div class="col-4">
-        Date: <input type="date" name="reviewed_date" style="width:200px;" readonly>
+        Reviewed by  
+         <select class="form-control receiver-select" name="reviewed_by">
+            <option value=""></option>
+                @foreach ($emp as $item)
+                    <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                @endforeach
+        </select>
+        {{-- <input type="text" name="reviewed_by"  readonly> --}}
+        </div>
+        <div class="col-2">
+        Date: <input type="date" name="reviewed_date" required>
+        </div>
+         <div class="col-4">
+            Reported by: 
+            <select class="form-control receiver-select" name="reported_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                    @endforeach
+            </select>
+            {{-- <input type="text" name="reported_by" readonly> --}}
+        </div>
+        <div class="col-2">
+            Date: <input type="date" name="reported_progress_date" required>
         </div>
     </div>
     <br>
     <div class="row">
-        <div class="col-8">
-            Reported by: <input type="text" name="reported_by" style="width:300px;" readonly>
-        </div>
         <div class="col-4">
-            Date: <input type="date" name="reported_progress_date" style="width:200px;" readonly>
+             Approved by: 
+            <select class="form-control receiver-select" name="approved_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                    @endforeach
+            </select>
+             {{-- <input type="text" name="approved_by"  readonly> --}}
         </div>
-    </div>
-    <br><br>
-    <div class="row">
-        <div class="col-8">
-             Approved by: <input type="text" name="approved_by" style="width:300px;" readonly>
+        <div class="col-2">
+             Date: <input type="date" name="approved_date" required>
         </div>
-        <div class="col-4">
-             Date: <input type="date" name="approved_date" style="width:200px;" readonly>
+         <div class="col-4">
+            Acknowledged by: 
+              <select class="form-control receiver-select" name="acknowledged_by">
+                <option value=""></option>
+                    @foreach ($emp as $item)
+                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                    @endforeach
+            </select>
+            {{-- <input type="text" name="acknowledged_by"  readonly > --}}
+        </div>
+        <div class="col-2">
+            Date: <input type="date" name="acknowledged_date" required>
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-8">
-            Acknowledged by: <input type="text" name="acknowledged_by" style="width:300px;" readonly >
-        </div>
-        <div class="col-4">
-            Date: <input type="date" name="acknowledged_date" style="width:200px;" readonly>
-        </div>
-    </div>
-   
-   
-    
-   
-
     <div class="actions" style="margin-top:10px; text-align:right;">
         <button type="submit" class="primary">บันทึกข้อมูล</button>
     </div>

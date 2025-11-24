@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\DesignPlan;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -77,6 +79,8 @@ class IsoDesignPlan extends Controller
             'planned_marketing_status' => 'nullable|string|max:255',
             'planned_plant_status' => 'nullable|string|max:255',
             'approved_status' => 'nullable|string|max:255',
+            'iso_design_plan_file' => 'nullable|string|max:255',
+            'iso_design_plan_link' => 'nullable|string|max:255',
         ]);
 
         $data = $request->only([
@@ -90,7 +94,7 @@ class IsoDesignPlan extends Controller
             'plan_calc','act_calc','plan_review','act_review','participants','plan_verify','act_verify','plan_proto','act_proto','plan_valid','act_valid','plan_final','act_final',
             'planned_by','planned_date_engineering','planned_marketing','planned_date_marketing','planned_plant','planned_date_plant',
             'approved_by','approved_date','reviewed_status','approved_status_request','engineer_desing_status','senior_engineer_status',
-            'planned_status','planned_marketing_status','planned_plant_status','approved_status'
+            'planned_status','planned_marketing_status','planned_plant_status','approved_status','iso_design_plan_file','iso_design_plan_link'
         ]);
 
         // Checkbox
@@ -98,7 +102,10 @@ class IsoDesignPlan extends Controller
         foreach ($checkboxFields as $field) {
             $data[$field] = $request->has($field) ? 1 : 0;
         }
-
+        if ($request->hasFile('iso_design_plan_file')) {
+            $file  = $request->file('iso_design_plan_file')->storeAs('img/designplan_files', "IMG_" . Carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_design_plan_file')->extension());
+            $data['iso_design_plan_file'] = $file;
+        }
         try {
             DB::table('iso_design_plan')->insert($data);
             return redirect()->route('design-plan.index')->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
@@ -132,6 +139,8 @@ class IsoDesignPlan extends Controller
             'planned_marketing' => 'nullable|string|max:255',
             'planned_plant' => 'nullable|string|max:255',
             'approved_by' => 'nullable|string|max:255',
+            'iso_design_plan_file' => 'nullable|string|max:255',
+            'iso_design_plan_link' => 'nullable|string|max:255',
         ]);
 
         $data = $request->only([
@@ -144,14 +153,17 @@ class IsoDesignPlan extends Controller
             'engineer_desing','senior_engineer',
             'plan_calc','act_calc','plan_review','act_review','participants','plan_verify','act_verify','plan_proto','act_proto','plan_valid','act_valid','plan_final','act_final',
             'planned_by','planned_date_engineering','planned_marketing','planned_date_marketing','planned_plant','planned_date_plant',
-            'approved_by','approved_date'
+            'approved_by','approved_date','iso_design_plan_file','iso_design_plan_link'
         ]);
 
         $checkboxFields = ['reason_cost_price','reason_catalog_picture','reason_drawing','reason_prototype'];
         foreach ($checkboxFields as $field) {
             $data[$field] = $request->has($field) ? 1 : 0;
         }
-
+        if ($request->hasFile('iso_design_plan_file')) {
+            $file  = $request->file('iso_design_plan_file')->storeAs('img/designplan_files', "IMG_" . Carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_design_plan_file')->extension());
+            $data['iso_design_plan_file'] = $file;
+        }
         try {
             $plan = DB::table('iso_design_plan')->where('id',$id)->update($data);
             return redirect()->route('design-plan.index')->with('success', 'แก้ไขข้อมูลเรียบร้อยแล้ว');

@@ -34,6 +34,22 @@
                         <input class="form-control" name="quality_plan_hd_page" value="{{$hd->quality_plan_hd_page}}" readonly>
                     </div>      
                 </div>
+                 <div class="row mt-3">
+                    <div class="col-6">
+                         @if ($hd->quality_plan_hd_file)
+                             <a href="{{asset($hd->quality_plan_hd_file)}}" target=”_blank”>
+                                <i class="fas fa-file"></i>
+                            </a>
+                        @endif
+                    </div>
+                    <div class="col-6">
+                         @if ($hd->quality_plan_hd_link)
+                             <a href="{{asset($hd->quality_plan_hd_link)}}" target=”_blank”>
+                                <i class="fas fa-file"></i>
+                            </a>
+                        @endif
+                    </div>
+                 </div>                
                 <div class="row mt-3">
                     {{-- <div class="mb-2">
                         <button type="button" class="btn btn-sm btn-success" onclick="addRow()">
