@@ -116,7 +116,21 @@ button.primary:hover { transform: scale(1.05); }
                 <div><label>Model</label><input type="text" name="ref_model2" value="{{ $plan->ref_model2 }}" placeholder="Model"></div>
             </div>
         </div>
-
+          <div class="row">
+            <div class="col-6">
+                <label for="iso_design_plan_file">ไฟล์แนบ(หากมี)</label>
+                <input type="file" class="form-control-file" name="iso_design_plan_file" >
+                @if ($plan->iso_design_plan_file)
+                    <a href="{{asset($hd->iso_design_plan_file)}}" target=”_blank”>
+                        <i class="fas fa-file"></i>
+                    </a>
+                @endif
+            </div> 
+            <div class="col-6">
+                <label for="iso_design_plan_link">Link(หากมี)</label>
+                <input type="text" class="form-control" name="iso_design_plan_link" value="{{ $plan->iso_design_plan_link }}">
+            </div> 
+        </div>
         <div class="row">
             <div><label>1.5 Requested By</label><input type="text" name="requested_by" value="{{ $plan->requested_by }}"></div>
             <div><label>Date</label><input type="date" name="requested_date" value="{{ $plan->requested_date }}"></div>

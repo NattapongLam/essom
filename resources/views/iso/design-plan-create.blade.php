@@ -122,7 +122,17 @@ button.primary:hover { transform: scale(1.05); }
                 <div><label>Model</label><input type="text" name="ref_model1" value="{{ old('ref_model1') }}" placeholder="Model"></div>
                 <div><label>Brand</label><input type="text" name="ref_brand2" value="{{ old('ref_brand2') }}" placeholder="Brand"></div>
                 <div><label>Model</label><input type="text" name="ref_model2" value="{{ old('ref_model2') }}" placeholder="Model"></div>
-            </div>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="iso_design_plan_file">ไฟล์แนบ(หากมี)</label>
+                <input type="file" class="form-control-file" name="iso_design_plan_file" >
+            </div> 
+            <div class="col-6">
+                <label for="iso_design_plan_link">Link(หากมี)</label>
+                <input type="text" class="form-control" name="iso_design_plan_link" >
+            </div> 
         </div>
         <div class="row">
             <div><label>1.5 Requested By</label><input type="text" name="requested_by" value="{{auth()->user()->name}}" readonly></div>

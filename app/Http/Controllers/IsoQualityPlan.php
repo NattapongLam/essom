@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\QualityPlanDt;
 use App\Models\QualityPlanHd;
@@ -67,8 +68,12 @@ class IsoQualityPlan extends Controller
             'reviewed_by' => $request->reviewed_by,
             'approved_by' => $request->approved_by,
             'reviewed_status' => "N",
-            'approved_status' => "N"
+            'approved_status' => "N",
+            'quality_plan_hd_link' => $request->quality_plan_hd_link
         ];
+        if ($request->hasFile('quality_plan_hd_file')) {
+            $data['quality_plan_hd_file'] = $request->file('quality_plan_hd_file')->storeAs('img/qualityplan_files', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('quality_plan_hd_file')->extension());
+        }
         try{
             DB::beginTransaction();
             $insertHD = QualityPlanHd::create($data);
@@ -143,8 +148,12 @@ class IsoQualityPlan extends Controller
                 'reviewed_by' => $request->reviewed_by,
                 'approved_by' => $request->approved_by,
                 'reviewed_status' => "N",
-                'approved_status' => "N"
+                'approved_status' => "N",
+                'quality_plan_hd_link' => $request->quality_plan_hd_link
             ];
+            if ($request->hasFile('quality_plan_hd_file')) {
+                $data['quality_plan_hd_file'] = $request->file('quality_plan_hd_file')->storeAs('img/qualityplan_files', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('quality_plan_hd_file')->extension());
+            }
             try{
                 DB::beginTransaction();
                 $insertHD = QualityPlanHd::where('quality_plan_hd_id',$id)->update($data);
