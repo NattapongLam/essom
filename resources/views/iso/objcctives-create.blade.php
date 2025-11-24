@@ -183,68 +183,88 @@ button.delete:hover { transform: scale(1.05); }
 
     <div class="section-line">
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                 <label>Prepared by:
-                    <input type="text" name="prepared_by"  value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                    <input type="text" name="prepared_by" class="form-control"  value="{{auth()->user()->name}}" readonly>
+                </label>
+            </div>
+            <div class="col-2">
+                <label>Date:
+                    <input type="date" name="prepared_date"  class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
                 </label>
             </div>
             <div class="col-4">
+                <label>Reported by:
+                    <select class="form-control receiver-select" name="reported_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                    {{-- <input type="text" name="reported_by"  class="form-control" value="{{ old('reported_by') }}" readonly> --}}
+                </label>
+            </div>
+            <div class="col-2">
                 <label>Date:
-                    <input type="date" name="prepared_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                    <input type="date" name="reported_date" class="form-control" value="{{ old('reported_date') }}" readonly>
                 </label>
             </div>
         </div>
-         <div class="row">
-            <div class="col-8">
-                <label>Reported by:
-                    <input type="text" name="reported_by" value="{{ old('reported_by') }}" style="width:300px;" readonly>
-                </label>
-            </div>
-            <div class="col-4">
-                <label>Date:
-                    <input type="date" name="reported_date" value="{{ old('reported_date') }}" style="width:200px;" readonly>
-                </label>
-            </div>
-         </div>
     </div>
     <br>
     <div class="section-line">
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                  <label>Reviewed by:
-                    <input type="text" name="reviewed_by" value="{{ old('reviewed_by') }}" style="width:300px;" readonly>
+                      <select class="form-control receiver-select" name="reviewed_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                    {{-- <input type="text" name="reviewed_by" class="form-control" value="{{ old('reviewed_by') }}" readonly> --}}
                 </label>       
             </div>
-            <div class="col-4">
+            <div class="col-2">
                  <label>Date:
-                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" style="width:200px;" readonly>
+                    <input type="date" name="reviewed_date" class="form-control" value="{{ old('reviewed_date') }}"readonly>
                 </label>
-            </div>           
-        </div>
-        <div class="row">
-            <div class="col-8">
-                <label>Acknowledged by:
-                    <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by') }}" style="width:300px;" readonly>
-                </label>
-            </div>
+            </div> 
             <div class="col-4">
-                <label>Date:
-                    <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" style="width:200px;" readonly>
+                <label>Acknowledged by:
+                     <select class="form-control receiver-select" name="acknowledged_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                    {{-- <input type="text" name="acknowledged_by" class="form-control" value="{{ old('acknowledged_by') }}" readonly> --}}
                 </label>
             </div>
+            <div class="col-2">
+                <label>Date:
+                    <input type="date" name="acknowledged_date" class="form-control" value="{{ old('acknowledged_date') }}" readonly>
+                </label>
+            </div>          
         </div>
     </div>
     <br>
     <div class="section-line">
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                 <label>Approved by:
-                    <input type="text" name="approved_by" value="{{ old('approved_by') }}" style="width:300px;" readonly>
+                     <select class="form-control receiver-select" name="approved_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                    {{-- <input type="text" name="approved_by" value="{{ old('approved_by') }}" readonly> --}}
                 </label>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                  <label>Date:
-                    <input type="date" name="approved_date" value="{{ old('approved_date') }}" style="width:200px;" readonly>
+                    <input type="date" name="approved_date" value="{{ old('approved_date') }}"readonly>
                 </label>
             </div>
         </div>

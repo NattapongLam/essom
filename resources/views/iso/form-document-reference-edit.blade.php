@@ -44,15 +44,19 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="documentreferences_file">ไฟล์แนบ(หากมี)</label>
                         <input type="file" class="form-control-file" name="documentreferences_file" >
-                    </div> 
-                    @if ($hd->documentreferences_file)
-                        <a href="{{asset($hd->documentreferences_file)}}" target=”_blank”>
-                            <i class="fas fa-file"></i>
-                        </a>
-                    @endif  
+                        @if ($hd->documentreferences_file)
+                            <a href="{{asset($hd->documentreferences_file)}}" target=”_blank”>
+                                <i class="fas fa-file"></i>
+                            </a>
+                        @endif  
+                    </div>                  
+                    <div class="col-6">
+                        <label>Link</label>
+                        <input type="text" class="form-control" name="documentreferences_link" value="{{ $hd->documentreferences_link}}">
+                    </div>  
                 </div>
                 <br>
                 <div class="col-12 col-md-1">

@@ -24,6 +24,7 @@ class CreateDocumentreferencesTable extends Migration
             $table->string('person_at');
             $table->boolean('documentreferences_flag')->default(true); 
             $table->string('documentreferences_file')->nullable();
+            $table->string('documentreferences_link')->nullable();
             $table->timestamps();
         });
     }
