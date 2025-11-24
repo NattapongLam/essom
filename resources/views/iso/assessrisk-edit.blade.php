@@ -52,12 +52,7 @@ table td input.input_style { font-size: 15px; text-align: center; }
                     <b>ประเด็นความเสี่ยง:</b><br>
                     @foreach($risk['issues'] ?? ['', '', '', ''] as $pi => $issue)
                         <input type="text" name="risks[{{ $i }}][issues][{{ $pi }}]" value="{{ $issue }}" class="input_style"><br>
-                    @endforeach
-
-                    <b>มาตรการลดความเสี่ยงและติดตาม:</b><br>
-                    @foreach($risk['measures'] ?? ['', '', ''] as $mi => $measure)
-                        <input type="text" name="risks[{{ $i }}][measures][{{ $mi }}]" value="{{ $measure }}" class="input_style"><br>
-                    @endforeach
+                    @endforeach                   
                 </td>
 
                 <td colspan="7">
@@ -72,14 +67,55 @@ table td input.input_style { font-size: 15px; text-align: center; }
                             <td><input type="text" name="risks[{{ $i }}][before_assess][{{ $bi }}][L]" value="{{ $before['L'] }}" class="input_style"></td>
                             <td><input type="text" name="risks[{{ $i }}][before_assess][{{ $bi }}][Level]" value="{{ $before['Level'] }}" class="input_style"></td>
                             <td><input type="text" name="risks[{{ $i }}][before_assess][{{ $bi }}][Result]" value="{{ $before['Result'] }}" class="input_style"></td>
-                            <td><input type="text" name="risks[{{ $i }}][before_assess][{{ $bi }}][By]" value="{{ $before['By'] }}" class="input_style"></td>
+                            <td>
+                                 <select class="form-control receiver-select" name="risks[{{ $i }}][before_assess][{{ $bi }}][By]">
+                                    <option value="">กรุณาเลือก</option>
+                                    @foreach ($emp as $item)
+                                     <option value="{{ $item->ms_employee_fullname }}"
+                                            {{ isset($before['By']) && $before['By'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" name="risks[{{ $i }}][before_assess][{{ $bi }}][By]" value="{{ $before['By'] }}" class="input_style"> --}}
+                            </td>
                             <td><input type="date" name="risks[{{ $i }}][before_assess][{{ $bi }}][Date]" value="{{ !empty($before['Date']) ? date('Y-m-d', strtotime($before['Date'])) : '' }}" class="input_style"></td>
                         </tr>
                         @endforeach
                     </table>
                 </td>
             </tr>
-
+            <tr>
+                 <td colspan="6">
+                     <b>มาตรการลดความเสี่ยงและติดตาม:</b><br>
+                    @foreach($risk['measures'] ?? ['', '', ''] as $mi => $measure)
+                        <input type="text" name="risks[{{ $i }}][measures][{{ $mi }}]" value="{{ $measure }}" class="input_style"><br>
+                    @endforeach
+                 </td>
+                <td colspan="5">
+                       <b>รับทราบโดย / วันที่:</b>
+                    <table class="mini-table">
+                        @foreach($risk['mitigations'] as $di => $mitigation)
+                        <tr>
+                           <td>
+                                <select class="form-control receiver-select" name="risks[{{ $i }}][mitigations][{{ $di }}][text]">
+                                    <option value="">กรุณาเลือก</option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}"
+                                            {{ isset($mitigation['text']) && $mitigation['text'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>   
+                            <td> <input type="date" 
+                                name="risks[{{ $i }}][mitigations][{{ $di }}][date]" 
+                                value="{{ !empty($mitigation['date']) ? \Carbon\Carbon::parse($mitigation['date'])->format('Y-m-d') : '' }}" 
+                                class="input_style"></td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </td>
+            </tr>
             <tr>
                 <td colspan="6">
                     <b>สรุปผลการลดความเสี่ยง:</b><br>
@@ -87,10 +123,7 @@ table td input.input_style { font-size: 15px; text-align: center; }
                         <input type="text" name="risks[{{ $i }}][summary][{{ $si }}]" value="{{ $summary }}" class="input_style"><br>
                     @endforeach
 
-                    <b>การติดตาม :</b><br>
-                    @foreach($risk['follow_up'] ?? ['', '', ''] as $fi => $fu)
-                        <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $fu }}" class="input_style"><br>
-                    @endforeach
+                   
                 </td>
 
                 <td colspan="5">
@@ -115,7 +148,18 @@ table td input.input_style { font-size: 15px; text-align: center; }
                         @endforeach
                     </table>
 
-                    <b>รับทราบโดย / วันที่:</b>
+                   
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                     <b>การติดตาม :</b><br>
+                    @foreach($risk['follow_up'] ?? ['', '', ''] as $fi => $fu)
+                        <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $fu }}" class="input_style"><br>
+                    @endforeach
+                </td>
+                <td colspan="5">
+                     <b>รับทราบโดย / วันที่:</b>
                     <table class="mini-table">
                         @foreach($risk['acknowledged'] ?? [['name'=>'','date'=>''],['name'=>'','date'=>''],['name'=>'','date'=>'']] as $ai => $ack)
                         <tr>
@@ -137,7 +181,6 @@ table td input.input_style { font-size: 15px; text-align: center; }
                     </table>
                 </td>
             </tr>
-
             <tr>
                 <td colspan="4">
                     <b>อนุมัติ / วันที่:</b>
@@ -173,7 +216,18 @@ table td input.input_style { font-size: 15px; text-align: center; }
                             <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][L]" value="{{ $after['L'] }}" class="input_style"></td>
                             <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Level]" value="{{ $after['Level'] }}" class="input_style"></td>
                             <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][Result]" value="{{ $after['Result'] }}" class="input_style"></td>
-                            <td><input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style"></td>
+                            <td>
+                                <select class="form-control receiver-select" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]">
+                                     <option value="">กรุณาเลือก</option>
+                                        @foreach ($emp as $item)
+                                            <option value="{{ $item->ms_employee_fullname }}"
+                                                {{ isset($after['By']) && $after['By'] == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                                {{ $item->ms_employee_fullname }}
+                                            </option>
+                                        @endforeach
+                                </select>
+                                {{-- <input type="text" name="risks[{{ $i }}][after_assess][{{ $ai }}][By]" value="{{ $after['By'] }}" class="input_style"> --}}
+                            </td>
                             <td><input type="date" name="risks[{{ $i }}][after_assess][{{ $ai }}][Date]" value="{{ !empty($after['Date']) ? date('Y-m-d', strtotime($after['Date'])) : '' }}" class="input_style"></td>
                         </tr>
                         @endforeach

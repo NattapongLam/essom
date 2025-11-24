@@ -132,119 +132,121 @@ button.delete:hover { transform: scale(1.05); }
 
     <div class="section-line">
         <div class="row">
-            <div class="col-8">
+            <div class="col-4">
                 <label>Prepared by:
-                    <input type="text" name="prepared_by" value="{{ old('prepared_by', $objcctive->prepared_by) }}" style="width:300px;" readonly>
+                    <input type="text" name="prepared_by" class="form-control" value="{{ old('prepared_by', $objcctive->prepared_by) }}"  readonly>
                 </label>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 <label>Date:
-                    <input type="date" name="prepared_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->prepared_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                    <input type="date" name="prepared_date" class="form-control" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->prepared_date))->format('Y-m-d')) }}" readonly>
                 </label>
             </div>
-        </div>
-        <div class="row">
             @if ($objcctive->reported_by)
-            <div class="col-8">
+            <div class="col-4">
                 <label>Reported by:
-                    <input type="text" name="reported_by" value="{{$objcctive->reported_by}}" style="width:300px;" readonly>
+                    <input type="text" name="reported_by" class="form-control" value="{{$objcctive->reported_by}}"  readonly>
                 </label>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                 <label>Date:
-                    <input type="date" name="reported_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                    <input type="date" name="reported_date"  class="form-control" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" readonly>
                 </label>
             </div>
             @else
-            <div class="col-8">
-                <label>Reported by:
-                    <input type="text" name="reported_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
-                </label>
-            </div>
             <div class="col-4">
-                <label>Date:
-                    <input type="date" name="reported_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                <label>Reported by:
+                    <input type="text" name="reported_by" class="form-control" value="{{auth()->user()->name}}"  readonly>
                 </label>
             </div>
-            @endif            
+            <div class="col-2">
+                <label>Date:
+                    <input type="date" name="reported_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                </label>
+            </div>
+            @endif          
+        </div>
+        <div class="row">
+             
         </div>
     </div>
     <br>
     <div class="section-line">
         <div class="row">
             @if ($objcctive->reviewed_by)
-                <div class="col-8">
+                <div class="col-4">
                     <label>Reviewed by:
-                        <input type="text" name="reviewed_by" value="{{ old('reviewed_by', $objcctive->reviewed_by) }}" style="width:300px;" readonly>
+                        <input type="text" name="reviewed_by" class="form-control" value="{{ old('reviewed_by', $objcctive->reviewed_by) }}" readonly>
                     </label>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <label>Date:
-                        <input type="date" name="reviewed_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                        <input type="date" name="reviewed_date" class="form-control" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" readonly>
                     </label>
                 </div>  
             @elseif($objcctive->reported_by)
-                <div class="col-8">
+                <div class="col-4">
                     <label>Reviewed by:
-                        <input type="text" name="reviewed_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                        <input type="text" name="reviewed_by" class="form-control" value="{{auth()->user()->name}}"  readonly>
                     </label>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <label>Date:
-                        <input type="date" name="reviewed_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                        <input type="date" name="reviewed_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}"  required>
                     </label>
                 </div> 
-            @endif           
-        </div>
-        <div class="row">
+            @endif   
             @if ($objcctive->acknowledged_by)
-                <div class="col-8">
+                <div class="col-4">
                     <label>Acknowledged by:
-                        <input type="text" name="acknowledged_by" value="{{ old('acknowledged_by', $objcctive->acknowledged_by) }}" style="width:300px;" readonly>
+                        <input type="text" name="acknowledged_by" class="form-control" value="{{ old('acknowledged_by', $objcctive->acknowledged_by) }}" readonly>
                     </label>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <label>Date:
-                        <input type="date" name="acknowledged_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                        <input type="date" name="acknowledged_date" class="form-control" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}"  readonly>
                     </label>
                 </div>   
             @elseif($objcctive->reviewed_by)
-                  <div class="col-8">
+                  <div class="col-4">
                     <label>Acknowledged by:
-                        <input type="text" name="acknowledged_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                        <input type="text" name="acknowledged_by" class="form-control" value="{{auth()->user()->name}}" readonly>
                     </label>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <label>Date:
-                        <input type="date" name="acknowledged_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                        <input type="date" name="acknowledged_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
                     </label>
                 </div>   
-            @endif         
+            @endif                 
+        </div>
+        <div class="row">
+            
         </div>
     </div>
     <br>
     <div class="section-line">    
         <div class="row">
             @if ($objcctive->approved_by)
-            <div class="col-8">
+            <div class="col-4">
                 <label>Approved by:
-                    <input type="text" name="approved_by" value="{{ old('approved_by', $objcctive->approved_by) }}" style="width:300px;" readonly>
+                    <input type="text" name="approved_by" class="form-control"  value="{{ old('approved_by', $objcctive->approved_by) }}" readonly>
                 </label>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                     <label>Date:
-                        <input type="date" name="approved_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" style="width:200px;" readonly>
+                        <input type="date" name="approved_date" class="form-control"  value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" readonly>
                     </label>
             </div>
             @elseif($objcctive->acknowledged_by)
-            <div class="col-8">
+            <div class="col-4">
                 <label>Approved by:
-                    <input type="text" name="approved_by" value="{{auth()->user()->name}}" style="width:300px;" readonly>
+                    <input type="text" name="approved_by" class="form-control"  value="{{auth()->user()->name}}" readonly>
                 </label>
             </div>
-            <div class="col-4">
+            <div class="col-2">
                     <label>Date:
-                        <input type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="width:200px;" required>
+                        <input type="date" name="approved_date" class="form-control"  value="{{ old('date', now()->format('Y-m-d')) }}" required>
                     </label>
             </div>
             @endif

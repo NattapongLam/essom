@@ -43,9 +43,13 @@
                     </div>
                 </div>
                <div class="row mt-3">
-                    <div class="col-3">
+                    <div class="col-6">
                         <label for="documentreferences_file">ไฟล์แนบ(หากมี)</label>
                         <input type="file" class="form-control-file" name="documentreferences_file" >
+                    </div>
+                    <div class="col-6">
+                        <label>Link</label>
+                        <input type="text" class="form-control" name="documentreferences_link">
                     </div>             
                </div>
                <br>

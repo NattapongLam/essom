@@ -66,6 +66,7 @@ class IsoDocumentreference extends Controller
                 'person_at' => Auth::user()->name,
                 'documentreferences_flag' => true,
                 'created_at'=> Carbon::now(),
+                'documentreferences_link' => $request->documentreferences_link
         ];
         if ($request->hasFile('documentreferences_file')) {
             $data['documentreferences_file'] = $request->file('documentreferences_file')->storeAs('img/documentreferences', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentreferences_file')->extension());
@@ -128,6 +129,7 @@ class IsoDocumentreference extends Controller
                 'person_at' => Auth::user()->name,
                 'documentreferences_flag' => true,
                 'updated_at'=> Carbon::now(),
+                'documentreferences_link' => $request->documentreferences_link
         ];
         if ($request->hasFile('documentreferences_file')) {
             $data['documentreferences_file'] = $request->file('documentreferences_file')->storeAs('img/documentreferences', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentreferences_file')->extension());

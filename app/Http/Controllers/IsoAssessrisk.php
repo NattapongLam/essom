@@ -29,6 +29,7 @@ class IsoAssessrisk extends Controller
                 ['I'=>'','L'=>'','Level'=>'','Result'=>'','By'=>'','Date'=>'']
             ],
             'summary' => ['', '', ''],
+            'mitigations' => [['text'=>'','date'=>''],['text'=>'','date'=>''],['text'=>'','date'=>'']],
             'dates' => [['text'=>'','date'=>''],['text'=>'','date'=>''],['text'=>'','date'=>'']],
             'follow_up' => ['','',''],
             'acknowledged' => [['name'=>'','date'=>''],['name'=>'','date'=>''],['name'=>'','date'=>'']],
@@ -136,7 +137,13 @@ class IsoAssessrisk extends Controller
                 'flag' => true,
                 'approved_status_1' => "N",
                 'approved_status_2' => "N",
-                'approved_status_3' => "N"
+                'approved_status_3' => "N",
+                'mitigation_by_1' => $riskData['mitigations'][0]['text'] ?? '',
+                'mitigation_date_1' => $riskData['mitigations'][0]['date'] ?? null,
+                'mitigation_by_2' => $riskData['mitigations'][1]['text'] ?? '',
+                'mitigation_date_2' => $riskData['mitigations'][1]['date'] ?? null,
+                'mitigation_by_3' => $riskData['mitigations'][2]['text'] ?? '',
+                'mitigation_date_3' => $riskData['mitigations'][2]['date'] ?? null,
             ]);
         }
 
@@ -198,6 +205,12 @@ public function edit($id)
             ['text'=>$risk->ack_final_name_1 ?? '', 'date'=>$risk->ack_final_date_1 ?? ''],
             ['text'=>$risk->ack_final_name_2 ?? '', 'date'=>$risk->ack_final_date_2 ?? ''],
             ['text'=>$risk->ack_final_name_3 ?? '', 'date'=>$risk->ack_final_date_3 ?? ''],
+        ],
+        
+        'mitigations' => [
+            ['text'=>$risk->mitigation_by_1 ?? '', 'date'=>$risk->mitigation_date_1 ?? ''],
+            ['text'=>$risk->mitigation_by_2 ?? '', 'date'=>$risk->mitigation_date_2 ?? ''],
+            ['text'=>$risk->mitigation_by_3 ?? '', 'date'=>$risk->mitigation_date_3 ?? ''],
         ],
 
         'after_assess' => [
@@ -279,6 +292,12 @@ public function update(Request $request, $id)
             $risk->{'ack_final_date_'.($i+1)} = !empty($dt['date']) ? $dt['date'] : $risk->{'ack_final_date_'.($i+1)};
         }
     }
+    if(!empty($riskData['mitigations'])) {
+        foreach($riskData['mitigations'] as $i => $dt) {
+            $risk->{'mitigation_by_'.($i+1)} = $dt['text'] !== null && $dt['text'] !== '' ? $dt['text'] : $risk->{'mitigation_by_'.($i+1)};
+            $risk->{'mitigation_date_'.($i+1)} = !empty($dt['date']) ? $dt['date'] : $risk->{'mitigation_date_'.($i+1)};
+        }
+    }
 
     $risk->save();
 
@@ -346,7 +365,11 @@ public function update(Request $request, $id)
             ['text'=>$risk->ack_final_name_2 ?? '', 'date'=>$risk->ack_final_date_2 ?? ''],
             ['text'=>$risk->ack_final_name_3 ?? '', 'date'=>$risk->ack_final_date_3 ?? ''],
         ],
-
+        'mitigations' => [
+            ['text'=>$risk->mitigation_by_1 ?? '', 'date'=>$risk->mitigation_date_1 ?? ''],
+            ['text'=>$risk->mitigation_by_2 ?? '', 'date'=>$risk->mitigation_date_2 ?? ''],
+            ['text'=>$risk->mitigation_by_3 ?? '', 'date'=>$risk->mitigation_date_3 ?? ''],
+        ],
         'after_assess' => [
             ['I'=>$risk->post_i_1 ?? '', 'L'=>$risk->post_l_1 ?? '', 'Level'=>$risk->post_level_1 ?? '', 'Result'=>$risk->post_result_1 ?? '', 'By'=>$risk->post_by_1 ?? '', 'Date'=>$risk->post_date_1 ?? ''],
             ['I'=>$risk->post_i_2 ?? '', 'L'=>$risk->post_l_2 ?? '', 'Level'=>$risk->post_level_2 ?? '', 'Result'=>$risk->post_result_2 ?? '', 'By'=>$risk->post_by_2 ?? '', 'Date'=>$risk->post_date_2 ?? ''],

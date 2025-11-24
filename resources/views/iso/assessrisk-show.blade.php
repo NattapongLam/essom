@@ -145,12 +145,7 @@ table td input.input_style {
                 <b>ประเด็นความเสี่ยง:</b><br>
                 @foreach($risk['issues'] ?? [] as $issue)
                     <input type="text" value="{{ $issue ?? '' }}" class="input_style" readonly><br>
-                @endforeach
-
-                <b>มาตรการลดความเสี่ยงและติดตาม:</b><br>
-                @foreach($risk['measures'] ?? [] as $measure)
-                    <input type="text" value="{{ $measure ?? '' }}" class="input_style" readonly><br>
-                @endforeach
+                @endforeach               
             </td>
 
             <td colspan="7">
@@ -172,7 +167,25 @@ table td input.input_style {
                 </table>
             </td>
         </tr>
-
+        <tr>
+            <td colspan="6">
+                <b>มาตรการลดความเสี่ยงและติดตาม:</b><br>
+                @foreach($risk['measures'] ?? [] as $measure)
+                    <input type="text" value="{{ $measure ?? '' }}" class="input_style" readonly><br>
+                @endforeach
+            </td>
+            <td colspan="5">
+                 <b>รับทราบโดย / วันที่:</b>
+                <table class="mini-table">
+                    @foreach($risk['mitigations'] ?? [] as $mitigation)
+                    <tr>
+                        <td>{{ $mitigation['text'] ?? '' }}</td>
+                        <td>{{ $mitigation['date'] ?? '' }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </td>
+        </tr>
         <tr>
             <td colspan="6">
                 <b>สรุปผลการลดความเสี่ยง:</b><br>

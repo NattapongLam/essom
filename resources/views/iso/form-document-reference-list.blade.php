@@ -26,6 +26,7 @@
                                 <th>รหัสเอกสาร</th>
                                 <th>วันที่เอกสาร</th>
                                 <th>ไฟล์แนบ</th>
+                                <th>Link</th>
                                 <th>แก้ไข</th>
                                 <th>ลบ</th>
                             </tr>                    
@@ -46,6 +47,7 @@
                                             </a>
                                         @endif  
                                     </td>
+                                    <td>{{$item->documentreferences_link}}</td>
                                     <td>
                                         <a href="{{route('document-reference.edit',$item->documentreferences_id)}}" class="btn btn-sm btn-warning" >
                                                 <i class="fas fa-edit"></i>

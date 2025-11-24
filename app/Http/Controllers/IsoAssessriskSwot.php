@@ -11,7 +11,7 @@ class IsoAssessriskSwot extends Controller
 {
     public function index()
     {
-        $records = AssessriskSwot::latest()->get();
+        $records = DB::table('assessrisk_swot')->get();
         return view('iso.assessrisk-swot-list', compact('records'));
     }
 
@@ -49,7 +49,7 @@ class IsoAssessriskSwot extends Controller
             $data[$section] = $sectionArray;
         }
 
-        AssessriskSwot::create([
+        DB::table('assessrisk_swot')->insert([
             'meeting_date'   => $request->meeting_date,
             'strength'       => json_encode($data['strength']),
             'weakness'       => json_encode($data['weakness']),
@@ -67,7 +67,7 @@ class IsoAssessriskSwot extends Controller
 
     public function show($id)
     {
-        $record = AssessriskSwot::findOrFail($id);
+        $record =  DB::table('assessrisk_swot')->where('id',$id)->first();
 
         $strengths     = json_decode($record->strength ?? '[]', true);
         $weaknesses    = json_decode($record->weakness ?? '[]', true);
@@ -91,7 +91,7 @@ class IsoAssessriskSwot extends Controller
 
     public function edit($id)
     {
-        $record = AssessriskSwot::findOrFail($id);
+        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
 
         foreach (['report_date', 'ack_date', 'meeting_date'] as $field) {
             if (!empty($record->$field)) {
@@ -113,7 +113,7 @@ class IsoAssessriskSwot extends Controller
 
 public function update(Request $request, $id)
 {
-    $record = AssessriskSwot::findOrFail($id);
+    $record = DB::table('assessrisk_swot')->where('id',$id)->first();
 
     // --- ถ้ามาจากหน้า edit: อัปเดต SWOT + report ---
     if ($request->has('strength_risk') || $request->has('weakness_risk') || 
@@ -176,7 +176,7 @@ public function update(Request $request, $id)
 
     public function destroy($id)
     {
-        $record = AssessriskSwot::findOrFail($id);
+        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
         $record->delete();
 
         return redirect()->route('assessrisk-swot.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
