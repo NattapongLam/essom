@@ -69,7 +69,8 @@ class IsoProductSelection extends Controller
             'reviewed_status' => "N",
             'approved_status1' => "N",
             'assessor_status' => "N",
-            'approved_status2' => "N"
+            'approved_status2' => "N",
+            'product_selection_hd_type' => $request->product_selection_hd_type
         ];
         try{
             DB::beginTransaction();
@@ -90,6 +91,10 @@ class IsoProductSelection extends Controller
                     'product_selection_dt_flag' => true,
                     'person_at' => Auth::user()->name,
                     'created_at'  => Carbon::now(),
+                    'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
+                    'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
+                    'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
+                    'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
                 ]);
             }
             foreach ($request->product_selection_sub_listno as $key => $value) {
@@ -195,6 +200,10 @@ class IsoProductSelection extends Controller
                         'product_selection_dt_flag' => true,
                         'person_at' => Auth::user()->name,
                         'updated_at'  => Carbon::now(),
+                        'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
+                        'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
+                        'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
+                        'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
                     ]);
                 }
                 if($request->product_selection_dt_listno){
@@ -214,6 +223,10 @@ class IsoProductSelection extends Controller
                             'product_selection_dt_flag' => true,
                             'person_at' => Auth::user()->name,
                             'created_at'  => Carbon::now(),
+                            'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
+                            'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
+                            'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
+                            'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
                         ]);
                     }   
                 }               

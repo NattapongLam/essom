@@ -50,7 +50,7 @@
                                 <th rowspan="2" style="width: 20%">รายละเอียดผู้ขายสินค้า</th>
                                 <th rowspan="2" style="width: 10%">ยี่ห้อ</th>
                                 <th rowspan="2" style="width: 5%">(A)</th>
-                                <th rowspan="2" style="width: 5%">(B)</th>
+                                <th rowspan="2" style="width: 10%">(B)</th>
                                 <th rowspan="2" style="width: 5%">(C)</th>
                                 <th colspan="3" style="width: 12%">ผลการตรวจเยี่ยมสถานที่ผู้ขาย</th>
                                 <th rowspan="2" style="width: 10%">หมายเหตุ</th>
@@ -69,7 +69,11 @@
                                         <input type="hidden" name="product_selection_dt_id[]" value="{{$item->product_selection_dt_id}}">
                                     </td>
                                     <td>
-                                        <textarea class="form-control" name="product_selection_dt_vendor[]" disabled>{{$item->product_selection_dt_vendor}}</textarea>
+                                        <input class="form-control" name="product_selection_dt_vendor[]" value="{{$item->product_selection_dt_vendor}}" readonly>
+                                        <input class="form-control" name="product_selection_dt_vendor_name[]" value="{{$item->product_selection_dt_vendor_name}}" readonly>
+                                        <input class="form-control" name="product_selection_dt_vendor_tel[]" value="{{$item->product_selection_dt_vendor_tel}}" readonly>
+                                        <input class="form-control" name="product_selection_dt_vendor_email[]" value="{{$item->product_selection_dt_vendor_email}}" readonly>
+                                        <input class="form-control" name="product_selection_dt_vendor_remark[]" value="{{$item->product_selection_dt_vendor_remark}}" readonly>
                                     </td>
                                     <td>
                                         <input class="form-control" name="product_selection_dt_brand[]" value="{{$item->product_selection_dt_brand}}" readonly>                                        
@@ -86,15 +90,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control" name="product_selection_hd_grade_b[]" disabled>
-                                            @if ($item->product_selection_hd_grade_b)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif
-                                        </select>
+                                        <input type="text" class="form-control" name="product_selection_hd_grade_b[]" value="{{$item->product_selection_hd_grade_b}}" readonly>
                                     </td>
                                     <td>
                                         <select class="form-control" name="product_selection_hd_grade_c[]" disabled>

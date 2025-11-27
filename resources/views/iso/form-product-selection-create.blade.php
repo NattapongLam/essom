@@ -15,8 +15,17 @@
                 <form method="POST" class="form-horizontal" action="{{ route('product-selection.store') }}" enctype="multipart/form-data">
                 @csrf        
                <div class="row mt-3">
-                    <div class="col-12">
+                    <div class="col-6">
                         <h5><strong>ประเภทสินค้า</strong></h5>
+                    </div>
+                    <div class="col-6">
+                        <label for="product_selection_hd_type">ประเภทจัดซื้อ</label>
+                        <select class="form-control" name="product_selection_hd_type">
+                            <option value="">กรุณาเลือก</option>
+                            <option value="โรงงาน">โรงงาน</option>
+                            <option value="สำนักงาน">สำนักงาน</option>
+                            <option value="ต่างประเทศ">ต่างประเทศ</option>
+                        </select>
                     </div>
                     <div class="col-3">
                         <label for="product_type1">1.</label>
@@ -48,7 +57,7 @@
                                 <th rowspan="2" style="width: 20%">รายละเอียดผู้ขายสินค้า</th>
                                 <th rowspan="2" style="width: 10%">ยี่ห้อ</th>
                                 <th rowspan="2" style="width: 5%">(A)</th>
-                                <th rowspan="2" style="width: 5%">(B)</th>
+                                <th rowspan="2" style="width: 10%">(B)</th>
                                 <th rowspan="2" style="width: 5%">(C)</th>
                                 <th colspan="3" style="width: 12%">ผลการตรวจเยี่ยมสถานที่ผู้ขาย</th>
                                 <th rowspan="2" style="width: 10%">หมายเหตุ</th>
@@ -538,7 +547,11 @@ function addRow() {
             <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">            
         </td>
         <td>
-            <textarea type="text"  class="form-control" placeholder="รายละเอียดผู้ขายสินค้า" name="product_selection_dt_vendor[]"></textarea>
+            <input type="text"  class="form-control" placeholder="ชื่อ" name="product_selection_dt_vendor[]">
+            <input type="text"  class="form-control" placeholder="ผู้ติดต่อ" name="product_selection_dt_vendor_name[]">
+            <input type="text"  class="form-control" placeholder="โทร" name="product_selection_dt_vendor_tel[]">
+            <input type="text"  class="form-control" placeholder="E-mail" name="product_selection_dt_vendor_email[]">
+            <input type="text"  class="form-control" name="product_selection_dt_vendor_remark[]">
         </td>
         <td>
             <input type="text" class="form-control" placeholder="ยี่ห้อ	" name="product_selection_dt_brand[]">
@@ -550,10 +563,7 @@ function addRow() {
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_grade_b[]">
-                <option value="0"></option>
-                <option value="1">/</option>
-            </select>
+            <input type="text" class="form-control" name="product_selection_hd_grade_b[]">
         </td>
         <td>
             <select class="form-control"  name="product_selection_hd_grade_c[]">

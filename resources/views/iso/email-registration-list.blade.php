@@ -153,7 +153,7 @@ input:focus, textarea:focus {
    <table id="activityTable" width="100%" border="1" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
     <thead>
         <tr>
-                <th>No</th>
+                {{-- <th>No</th> --}}
                 <th>Item</th>
                 <th>Email Account</th>
                 <th>Password</th>
@@ -169,7 +169,7 @@ input:focus, textarea:focus {
         <tbody>
             @forelse($records as $record)
             <tr>
-                <td>{{ $record->id }}</td>
+                {{-- <td>{{ $record->id }}</td> --}}
                 <td>{{ $record->item }}</td>
                 <td>{{ $record->email_account }}</td>
                 <td>{{ $record->password }}</td>
