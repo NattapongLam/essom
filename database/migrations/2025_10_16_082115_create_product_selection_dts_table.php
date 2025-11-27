@@ -19,9 +19,13 @@ class CreateProductSelectionDtsTable extends Migration
             $table->foreign('product_selection_hd_id')->references('product_selection_hd_id')->on('product_selection_hds')->onDelete('cascade');
             $table->integer('product_selection_dt_listno');
             $table->string('product_selection_dt_vendor');
+            $table->string('product_selection_dt_vendor_name')->nullable();
+            $table->string('product_selection_dt_vendor_tel')->nullable();
+            $table->string('product_selection_dt_vendor_email')->nullable();
+            $table->string('product_selection_dt_vendor_remark')->nullable();
             $table->string('product_selection_dt_brand')->nullable();
             $table->boolean('product_selection_hd_grade_a')->default(false); 
-            $table->boolean('product_selection_hd_grade_b')->default(false); 
+            $table->string('product_selection_hd_grade_b')->nullable(); 
             $table->boolean('product_selection_hd_grade_c')->default(false); 
             $table->boolean('product_selection_hd_results1')->default(false); 
             $table->boolean('product_selection_hd_results2')->default(false); 

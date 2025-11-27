@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <td>ประเภทสินค้า</td>
+                                <td>ประเภทจัดซื้อ</td>
                                 <td>ผู้จัดทำ</td>
                                 <td>ผู้ทบทวน</td>
                                 <td>ผู้อนุมัติ</td>
@@ -42,6 +43,9 @@
                                         @if ($item->product_type4)
                                         <br>4. {{$item->product_type4}}
                                         @endif
+                                    </td>
+                                    <td>
+                                        {{$item->product_selection_hd_type}}
                                     </td>
                                     <td>
                                         {{$item->requested_by}}
