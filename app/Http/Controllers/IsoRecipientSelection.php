@@ -104,7 +104,8 @@ class IsoRecipientSelection extends Controller
             'reviewed_status' => "N",
             'approved_status1' => "N",
             'assessor_status' => "N",
-            'approved_status2' => "N"
+            'approved_status2' => "N",
+            'purchase_by' => $request->purchase_by,
         ];
         if ($request->hasFile('recipient_selection_hd_file')) {
             $data['recipient_selection_hd_file'] = $request->file('recipient_selection_hd_file')->storeAs('img/recipientselection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('recipient_selection_hd_file')->extension());
@@ -222,6 +223,8 @@ class IsoRecipientSelection extends Controller
                 'updated_at' =>  Carbon::now(),
                 'assessor_by' => $request->assessor_by,
                 'assessor_date' => $request->assessor_date,
+                'purchase_by' => $request->purchase_by,
+                'purchase_date' => $request->purchase_date
             ];
             if ($request->hasFile('recipient_selection_hd_file')) {
                 $data['recipient_selection_hd_file'] = $request->file('recipient_selection_hd_file')->storeAs('img/recipientselection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('recipient_selection_hd_file')->extension());

@@ -203,10 +203,63 @@
                 </div>                       
                 <div class="row mt-3">
                     <div class="col-12">
-                        <h6>ใบประเมินสินค้า/ผู้ขาย</h6>
+                        {{-- <h6>ใบประเมินสินค้า/ผู้ขาย</h6> --}}
+                        @foreach ($sub as $vendorListNo => $items)
+
+    <h5 class="mt-4">ใบประเมินลำดับที่ {{ $vendorListNo }}</h5>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th rowspan="2" class="text-center">ลำดับ</th>
+                <th rowspan="2" class="text-center">รายการประเมิน</th>
+                <th colspan="3" class="text-center">(1)</th>
+                <th colspan="3" class="text-center">(2)</th>
+                <th colspan="3" class="text-center">(3)</th>
+                <th colspan="3" class="text-center">(4)</th>
+            </tr>
+            <tr>
+                <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach ($items as $item)
+                <tr>
+                    <td class="text-center">{{ $item->product_selection_sub_listno }}</td>
+                    <td>
+                        - {{ $item->product_selection_sub_name }}
+                        <input type="hidden" name="product_selection_sub_id[]" value="{{ $item->product_selection_sub_id }}">
+                    </td>
+
+                    {{-- วน 4 กลุ่ม × 3 ค่า --}}
+                    @for ($group = 1; $group <= 4; $group++)
+                        @for ($grade = 1; $grade <= 3; $grade++)
+                            @php
+                                $field = "product_selection_hd_results{$group}_{$grade}";
+                            @endphp
+                            <td>
+                                <select class="form-control" name="{{ $field }}[]" disabled>
+                                    <option value="0" {{ $item->$field == 0 ? 'selected' : '' }}></option>
+                                    <option value="1" {{ $item->$field == 1 ? 'selected' : '' }}>/</option>
+                                </select>
+                            </td>
+                        @endfor
+                    @endfor
+
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+@endforeach
+
                     </div>                    
                 </div>
-                <div class="row mt-3">
+                {{-- <div class="row mt-3">
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
@@ -381,7 +434,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
+                </div> --}}
                 <div class="row mt-3">
                     <div class="col-12">
                         <label for="">หมายเหตุ</label>
