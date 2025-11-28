@@ -31,6 +31,7 @@ class CreateProductSelectionSubsTable extends Migration
             $table->boolean('product_selection_hd_results4_1')->default(false); 
             $table->boolean('product_selection_hd_results4_2')->default(false);
             $table->boolean('product_selection_hd_results4_3')->default(false);
+            $table->integer('product_selection_sub_vendorlistno');
             $table->string('person_at');
             $table->timestamps();
         });

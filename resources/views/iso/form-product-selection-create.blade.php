@@ -122,11 +122,14 @@
                     </div>
                 </div> 
                 <div class="row mt-3">
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <h6>ใบประเมินสินค้า/ผู้ขาย</h6>
+                    </div> --}}
+                    <div class="col-12">
+                        <div id="evaluationContainer"></div>
                     </div>                    
                 </div>
-                <div class="row mt-3">
+                {{-- <div class="row mt-3">
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
@@ -470,7 +473,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> --}}
                 <div class="row mt-3">
                     <div class="col-12">
                         <label for="">หมายเหตุ</label>
@@ -551,7 +554,6 @@ $(document).ready(function () {
         width: '100%'
     });
 });
-// ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");
     const rowCount = tableBody.querySelectorAll("tr").length + 1;
@@ -559,8 +561,8 @@ function addRow() {
     const row = document.createElement("tr");
     row.innerHTML = `
         <td>
-            ${rowCount}
-            <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">            
+            <span class="row-number">${rowCount}</span>
+            <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">
         </td>
         <td>
             <input type="text"  class="form-control" placeholder="ชื่อ" name="product_selection_dt_vendor[]">
@@ -570,42 +572,35 @@ function addRow() {
             <input type="text"  class="form-control" name="product_selection_dt_vendor_remark[]">
         </td>
         <td>
-            <input type="text" class="form-control" placeholder="ยี่ห้อ	" name="product_selection_dt_brand[]">
+            <input type="text" class="form-control" placeholder="ยี่ห้อ" name="product_selection_dt_brand[]">
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_grade_a[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_grade_a[]">
+                <option value="0"></option><option value="1">/</option>
+            </select>
+        </td>
+        <td><input type="text" class="form-control" name="product_selection_hd_grade_b[]"></td>
+        <td>
+            <select class="form-control" name="product_selection_hd_grade_c[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <input type="text" class="form-control" name="product_selection_hd_grade_b[]">
-        </td>
-        <td>
-            <select class="form-control"  name="product_selection_hd_grade_c[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_results1[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_results1[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_results2[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_results2[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_results3[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_results3[]">
-                <option value="0"></option>
-                <option value="1">/</option>
-            </select>
-        </td>
-          <td>
             <input type="text" class="form-control" placeholder="หมายเหตุ" name="product_selection_dt_remark[]">
         </td>
         <td class="text-center">
@@ -614,23 +609,105 @@ function addRow() {
     `;
 
     tableBody.appendChild(row);
-    updateRowNumbers(); // รีเลขลำดับ
+    updateRowNumbers();
+
+    // 👍 เพิ่มชุดประเมินสินค้า/ผู้ขาย
+    addEvaluationSection(rowCount);
 }
 
-// ✅ ฟังก์ชันลบแถว
+// ฟังก์ชันเพิ่มชุดประเมิน
+function addEvaluationSection(index) {
+    const evaluation = document.querySelector("#evaluationContainer");
+
+    const html = `
+        <div class="evaluation-block mb-4" data-index="${index}">
+            <h6>ใบประเมินสินค้า/ผู้ขาย ( รายการที่ ${index} )</h6>
+
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="text-center" style="width:25%">รายการประเมิน</th>
+                        <th colspan="3" class="text-center">( 1 )</th>
+                        <th colspan="3" class="text-center">( 2 )</th>
+                        <th colspan="3" class="text-center">( 3 )</th>
+                        <th colspan="3" class="text-center">( 4 )</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${createEvaluationRow(1, "คุณภาพการใช้งานของสินค้า", index)}
+                    ${createEvaluationRow(2, "ความเรียบร้อยของสินค้า", index)}
+                    ${createEvaluationRow(3, "บริการของผู้ขาย", index)}
+                    ${createEvaluationRow(4, "การให้บริการหลังการขาย", index)}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    evaluation.insertAdjacentHTML("beforeend", html);
+}
+
+// สร้างแถวของการประเมิน ( reusable )
+function createEvaluationRow(no, title, index) {
+    return `
+        <tr>
+            <td>
+                - ${title}
+                <input type="hidden" name="evaluation[${index}][sub_listno][]" value="${no}">
+                <input type="hidden" name="evaluation[${index}][sub_name][]" value="${title}">
+                <input type="hidden" name="evaluation[${index}][vendorlistno][]" value="${index}">
+            </td>
+
+            ${createSelectCells(index, no)}
+        </tr>
+    `;
+}
+
+// สร้างชุด Select 12 ช่อง (4 กลุ่ม × 3 ระดับ)
+function createSelectCells(index, subNo) {
+    let html = "";
+    for (let group = 1; group <= 4; group++) {
+        for (let grade = 1; grade <= 3; grade++) {
+            html += `
+                <td>
+                    <select class="form-control"
+                        name="evaluation[${index}][results${group}_${subNo}][]">
+                        <option value="0"></option>
+                        <option value="1">/</option>
+                    </select>
+                </td>
+            `;
+        }
+    }
+    return html;
+}
+
 function removeRow(button) {
     const row = button.closest("tr");
+    const rows = document.querySelectorAll("#destroyTable tbody tr");
+    const index = Array.from(rows).indexOf(row) + 1;
+
     row.remove();
-    updateRowNumbers(); // รีเลขลำดับใหม่หลังลบ
+    updateRowNumbers();
+
+    // ลบชุดประเมินที่เกี่ยวข้อง
+    const ev = document.querySelector(`.evaluation-block[data-index="${index}"]`);
+    if (ev) ev.remove();
 }
 
 function updateRowNumbers() {
-    document.querySelectorAll("#destroyTable tbody tr").forEach((row, index) => {
-        const number = index + 1;
+    document.querySelectorAll("#destroyTable tbody tr").forEach((row, i) => {
+        const number = i + 1;
         row.querySelector(".row-number").textContent = number;
-        row.querySelector('input[name="product_registration_dt_listno[]"]').value = number;
+        row.querySelector('input[name="product_selection_dt_listno[]"]').value = number;
     });
 }
+
 </script>
 @endpush  
     

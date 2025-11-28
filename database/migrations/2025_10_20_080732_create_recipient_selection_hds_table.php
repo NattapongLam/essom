@@ -72,6 +72,8 @@ class CreateRecipientSelectionHdsTable extends Migration
             $table->string('approved_by2')->nullable();
             $table->date('approved_date2')->nullable();
             $table->boolean('recipient_selection_hd_flag')->default(true); 
+            $table->string('purchase_by')->nullable();
+            $table->date('purchase_date')->nullable();
             $table->timestamps();
         });
     }
