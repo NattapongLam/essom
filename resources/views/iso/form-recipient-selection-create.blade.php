@@ -15,11 +15,20 @@
                 <form method="POST" class="form-horizontal" action="{{ route('recipient-selection.store') }}" enctype="multipart/form-data">
                 @csrf            
                 <div class="row mt-3">  
-                    <div class="col-4">
+                    <div class="col-3">
+                        <label for="recipient_selection_hd_type">ประเภทจัดซื้อ</label>
+                        <select class="form-control" name="recipient_selection_hd_type">
+                            <option value="">กรุณาเลือก</option>
+                            <option value="โรงงาน">โรงงาน</option>
+                            <option value="สำนักงาน">สำนักงาน</option>
+                            <option value="ต่างประเทศ">ต่างประเทศ</option>
+                        </select>
+                    </div>
+                    <div class="col-3">
                         <label for="recipient_selection_hd_name">ชื่อผู้รับจ้างช่าง</label>
                         <input class="form-control" name="recipient_selection_hd_name">
                     </div> 
-                    <div class="col-8">
+                    <div class="col-6">
                         <label for="recipient_selection_hd_address">ที่อยู่</label>
                         <input class="form-control" name="recipient_selection_hd_address">
                     </div>   

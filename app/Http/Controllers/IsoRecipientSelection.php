@@ -106,6 +106,7 @@ class IsoRecipientSelection extends Controller
             'assessor_status' => "N",
             'approved_status2' => "N",
             'purchase_by' => $request->purchase_by,
+            'recipient_selection_hd_type' => $request->recipient_selection_hd_type
         ];
         if ($request->hasFile('recipient_selection_hd_file')) {
             $data['recipient_selection_hd_file'] = $request->file('recipient_selection_hd_file')->storeAs('img/recipientselection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('recipient_selection_hd_file')->extension());
