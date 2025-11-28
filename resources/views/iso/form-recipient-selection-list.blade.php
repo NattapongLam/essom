@@ -23,6 +23,7 @@
                                 <th>ชื่อผู้ติดต่อ</th>
                                 <th>เบอร์โทร</th>
                                 <th>เสนอโดย</th>
+                                <th>ประเภทจัดซื้อ</th>
                                 <th>ประเมิน</th>
                                 <th>อนุมัติ</th>
                                 <th>ลบ</th>
@@ -38,6 +39,7 @@
                                         {{$item->requested_by}}<br>
                                          {{$item->requested_date}}
                                     </td>
+                                    <td>{{$item->recipient_selection_hd_type}}</td>
                                     <td>
                                         <a href="{{route('recipient-selection.edit',$item->recipient_selection_hd_id)}}" class="btn btn-sm btn-warning" >
                                             <i class="fas fa-edit"></i>
