@@ -390,12 +390,22 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-9">
-                        <label for="assessor_by">ผู้ประเมิน</label>
+                        <label for="assessor_by">ผู้ประเมินสินค้า</label>
                         <input class="form-control" name="assessor_by" value="{{$hd->assessor_by}}" readonly>
                     </div>
                     <div class="col-3">
                         <label for="assessor_date">วันที่</label>
                         <input class="form-control" type="date" name="assessor_date" value="{{$hd->assessor_date }}"  readonly>
+                    </div>
+                </div>
+                 <div class="row mt-3">
+                    <div class="col-9">
+                        <label for="purchase_by">ผู้ประเมินบริการ</label>
+                        <input class="form-control" name="purchase_by" value="{{$hd->purchase_by}}" readonly>
+                    </div>
+                    <div class="col-3">
+                        <label for="purchase_date">วันที่</label>
+                        <input class="form-control" type="date" name="purchase_date" value="{{$hd->purchase_date }}"  readonly>
                     </div>
                 </div>
                     <div class="row mt-3">

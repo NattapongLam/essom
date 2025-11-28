@@ -479,7 +479,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-9">
-                        <label for="assessor_by">ผู้ประเมิน</label>
+                        <label for="assessor_by">ผู้ประเมินสินค้า</label>
                         <select class="form-control receiver-select" name="assessor_by">
                             <option value=""></option>
                             @foreach ($emp as $item)
@@ -491,6 +491,22 @@
                     <div class="col-3">
                         <label for="assessor_date">วันที่</label>
                         <input class="form-control" type="date" name="assessor_date" readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-9">
+                        <label for="purchase_by">ผู้ประเมินบริการ</label>
+                        <select class="form-control receiver-select" name="purchase_by">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <input class="form-control" name="assessor_by" readonly> --}}
+                    </div>
+                    <div class="col-3">
+                        <label for="purchase_date">วันที่</label>
+                        <input class="form-control" type="date" name="purchase_date" readonly>
                     </div>
                 </div>
                 <div class="row mt-3">

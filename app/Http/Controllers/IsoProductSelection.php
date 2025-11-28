@@ -70,7 +70,8 @@ class IsoProductSelection extends Controller
             'approved_status1' => "N",
             'assessor_status' => "N",
             'approved_status2' => "N",
-            'product_selection_hd_type' => $request->product_selection_hd_type
+            'product_selection_hd_type' => $request->product_selection_hd_type,
+            'purchase_by' => $request->purchase_by
         ];
         try{
             DB::beginTransaction();
@@ -181,7 +182,9 @@ class IsoProductSelection extends Controller
                 'product_selection_hd_flag' => true,
                 'updated_at' => Carbon::now(),
                 'assessor_by' => $request->assessor_by,
-                'assessor_date' => $request->assessor_date
+                'assessor_date' => $request->assessor_date,
+                'purchase_by' => $request->purchase_by,
+                'purchase_date' => $request->purchase_date
             ];
             try{
                 DB::beginTransaction();

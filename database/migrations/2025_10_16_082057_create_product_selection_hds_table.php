@@ -32,6 +32,8 @@ class CreateProductSelectionHdsTable extends Migration
             $table->string('approved_by2')->nullable();
             $table->date('approved_date2')->nullable();
             $table->string('product_selection_hd_type')->nullable();
+            $table->string('purchase_by')->nullable();
+            $table->date('purchase_date')->nullable();
             $table->timestamps();
         });
     }
