@@ -286,7 +286,7 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-info toastrDefaultSuccess">
-                            ลงนามการแก้ไข/ป้องกัน
+                            บันทึกความคิดเห็น
                         </button>
                     </div>
                 </div>
