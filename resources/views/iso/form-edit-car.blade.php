@@ -345,7 +345,7 @@
                 </div>
                 </div>
                 @else --}}
-                @if($hd->iso_status_id == 8)
+                @if($hd->iso_status_id == 8 || $hd->iso_status_id == 7)
                 <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-info toastrDefaultSuccess">
                         ลงนามปิดเอกสาร

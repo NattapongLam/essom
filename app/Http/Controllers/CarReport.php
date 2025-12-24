@@ -302,6 +302,43 @@ class CarReport extends Controller
                 $this->notifyTelegram($message, $token, $chatId);
             }
             elseif($hd->iso_status_id == 7){
+                if($request->followup_by){
+                     $up = IsoCar::where('iso_car_id',$id)->update([ 
+                    'iso_status_id' => 9,
+                    'updated_at' => Carbon::now(),
+                    'followup_by' => Auth::user()->name,
+                    'followup_date' => Carbon::now(),
+                    'iso_car_refdocuno' => $request->iso_car_refdocuno,
+                ]);
+                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR" . "\n"
+                    . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
+                    . "📅 วันที่กรรมการลงนามปิดเอกสาร : " . Carbon::now()->format('d/m/Y') . "\n"
+                    . "👤 กรรมการลงนามปิดเอกสาร : " . Auth::user()->name . "\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
+                // $up = IsoCar::where('iso_car_id',$id)->update([ 
+                //     'iso_status_id' => 9,
+                //     'updated_at' => Carbon::now(),
+                //     'followup_remark' => $request->followup_remark,
+                //     'iso_car_refdocuno' => $request->iso_car_refdocuno,
+                //     'close_by' => $request->close_by,
+                //     'close_date' => $request->close_date,
+                //     'followup_by' => $request->followup_by,
+                //     'followup_date' => $request->followup_date,
+                // ]);
+                // $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                // $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                // $message = "📢 แจ้งเตือนปิดเอกสาร CAR" . "\n"
+                //     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
+                //     . "📅 วันที่ปิดเอกสาร : " . Carbon::now()->format('d/m/Y') . "\n"
+                //     . "👤 ผู้ปิดเอกสาร : " . Auth::user()->name . "\n";
+        
+                // // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                // $this->notifyTelegram($message, $token, $chatId);
+                }else{
                 $up = IsoCar::where('iso_car_id',$id)->update([  
                     'iso_status_id' => 8,
                     'updated_at' => Carbon::now(),
@@ -329,6 +366,8 @@ class CarReport extends Controller
         
                 // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
                 $this->notifyTelegram($message, $token, $chatId);
+                }
+                
             }
             elseif($hd->iso_status_id == 8){
                  $up = IsoCar::where('iso_car_id',$id)->update([ 
