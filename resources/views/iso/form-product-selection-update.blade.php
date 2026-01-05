@@ -54,6 +54,7 @@
                                 <th rowspan="2" style="width: 5%">(C)</th>
                                 <th colspan="3" style="width: 12%">ผลการตรวจเยี่ยมสถานที่ผู้ขาย</th>
                                 <th rowspan="2" style="width: 10%">หมายเหตุ</th>
+                                <th rowspan="2" style="width: 10%">ไฟล์แนบ</th>
                             </tr>
                             <tr>
                                 <th style="width: 5%">ระบบ</th>
@@ -138,6 +139,13 @@
                                     </td>
                                     <td>
                                         <input class="form-control" name="product_selection_dt_remark[]" value=" {{$item->product_selection_dt_remark}}" readonly>
+                                    </td>
+                                    <td>
+                                        @if ($item->documentcorrections_file)
+                                            <a href="{{asset($item->documentcorrections_file)}}" target=”_blank”>
+                                                <i class="fas fa-file"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

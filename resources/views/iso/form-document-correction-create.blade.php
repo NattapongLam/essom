@@ -55,10 +55,14 @@
                     </div>
                 </div>
                 <div class="row mt-3">   
-                    <div class="col-12">
+                    <div class="col-8">
                         <label>Document Name</label>
                         <input type="text" class="form-control form-control position-input" name="documentcorrections_name" required>
                     </div>
+                    <div class="col-4">
+                        <label for="documentcorrections_file">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="documentcorrections_file" >
+                    </div> 
                 </div>
                 <div class="row mt-3">
                     <div class="col-4">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ProductSelectionDt;
 use App\Models\ProductSelectionHd;
@@ -76,8 +77,8 @@ class IsoProductSelection extends Controller
         try{
             DB::beginTransaction();
             $insertHD = ProductSelectionHd::create($data);
-            foreach ($request->product_selection_dt_listno as $key => $value) {      
-                ProductSelectionDt::insert([
+            foreach ($request->product_selection_dt_listno as $key => $value) { 
+                $data_dt = [
                     'product_selection_hd_id' => $insertHD->product_selection_hd_id,
                     'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
                     'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
@@ -96,7 +97,18 @@ class IsoProductSelection extends Controller
                     'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
                     'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
                     'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
-                ]);
+                ]; 
+                if ($request->hasFile('product_selection_dt_file') 
+                    && isset($request->file('product_selection_dt_file')[$key])) {
+
+                    $file = $request->file('product_selection_dt_file')[$key];
+
+                    $data_dt['product_selection_dt_file'] = $file->storeAs(
+                        'img/productselection',
+                        'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
+                    );
+                }
+                ProductSelectionDt::create($data_dt);
             }
             if ($request->has('evaluation')) {
             foreach ($request->evaluation as $vendorIndex => $rows) {
