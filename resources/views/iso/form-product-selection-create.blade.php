@@ -61,6 +61,7 @@
                                 <th rowspan="2" style="width: 5%">(C)</th>
                                 <th colspan="3" style="width: 12%">ผลการตรวจเยี่ยมสถานที่ผู้ขาย</th>
                                 <th rowspan="2" style="width: 10%">หมายเหตุ</th>
+                                <th rowspan="2" style="width: 10%">ไฟล์แนบ</th>
                                 <th rowspan="2" style="width: 3%">ลบ</th>
                             </tr>
                             <tr>
@@ -602,6 +603,9 @@ function addRow() {
         </td>
         <td>
             <input type="text" class="form-control" placeholder="หมายเหตุ" name="product_selection_dt_remark[]">
+        </td>
+        <td>
+            <input type="file" class="form-control-file" name="product_selection_dt_file[]" >
         </td>
         <td class="text-center">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">ลบ</button>

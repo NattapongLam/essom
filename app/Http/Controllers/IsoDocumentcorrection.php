@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Documentregister;
 use App\Models\Documentcorrection;
@@ -79,6 +80,9 @@ class IsoDocumentcorrection extends Controller
                 'reviewed_status' => 'N',
                 'approved_status' => 'N'
             ];
+            if ($request->hasFile('documentcorrections_file')) {
+                $data['documentcorrections_file'] = $request->file('documentcorrections_file')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file')->extension());
+            }
             try{
 
                 DB::beginTransaction();
@@ -162,6 +166,9 @@ class IsoDocumentcorrection extends Controller
                 'reviewed_status' => 'N',
                 'approved_status' => 'N'
             ];
+            if ($request->hasFile('documentcorrections_file')) {
+                $data['documentcorrections_file'] = $request->file('documentcorrections_file')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file')->extension());
+            }
             try{
 
                 DB::beginTransaction();
