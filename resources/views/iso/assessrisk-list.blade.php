@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5>ESSOM CO.,LTD<br>คำขอแก้ไขแบบการประเมินความเสี่ยงและโอกาส</h5>
+                    <h5>ESSOM CO.,LTD<br>การประเมินความเสี่ยงและโอกาส</h5>
                     <p class="text-right mb-0">F6120.1<br>15 Feb 22</p>
                     <p class="text-left">
 

@@ -13,23 +13,146 @@ Swal.fire({
 @endif
 
 <style>
-.input_style[readonly] { background-color: #f3f4f6; color: #6b7280; cursor: not-allowed; }
-body { font-family: 'TH Sarabun New', sans-serif; font-size: 18px; background: #f4f6f8; color: #333; }
-form { margin: 20px auto; width: 95%; max-width: 2000px; background: #ffffff; padding: 30px 35px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; }
-.risk-block { border: 1px solid #d1d5db; border-radius: 10px; margin-bottom: 30px; background: #ffffff; padding: 20px 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); page-break-inside: avoid; }
-.risk-header { font-weight: bold; background: #e6f0ff; padding: 8px 10px; border-radius: 6px; margin-bottom: 15px; color: #457dcbff; }
-.input_style { width: 100%; border: 1px solid #cbd5e1; border-radius: 5px; outline: none; background: #f9fafb; font-size: 16px; padding: 5px 8px; transition: all 0.2s ease-in-out; }
-.input_style:focus { border-color: #3b82f6; background: #ffffff; box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
-.mini-table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 6px 0; }
-.mini-table th, .mini-table td { border: 1px solid #cbd5e1; padding: 5px; text-align: center; }
-.mini-table th { background: #f0f4f8; font-weight: 600; color: #1e3a8a; }
-table { border-collapse: separate !important; border-spacing: 0 !important; border: 1px solid #cbd5e1 !important; width: 100%; background: #ffffff; border-radius: 8px; overflow: hidden; margin-top: 10px; }
-table td, table th { border: 1px solid #cbd5e1 !important; padding: 6px 10px; }
-table td input.input_style { font-size: 15px; text-align: center; }
-.btn-submit { background: #2242abff; color: #fff; border: none; border-radius: 8px; padding: 10px 25px; cursor: pointer; font-size: 16px; transition: background 0.2s ease-in-out; }
-.btn-submit:hover { background: #6090deff; }
-</style>
+    .input_style[readonly] {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
 
+body { 
+    font-family: 'TH Sarabun New', sans-serif; 
+    font-size: 14px; 
+    background: #f4f6f8; 
+    color: #333;
+}
+
+form { 
+    margin: 20px auto; 
+    width: 95%; 
+    max-width: 2000px; 
+    background: #ffffff; 
+    padding: 30px 35px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+    border: 1px solid #e0e0e0;
+}
+
+.risk-block { 
+    border: 1px solid #d1d5db; 
+    border-radius: 10px; 
+    margin-bottom: 30px; 
+    background: #ffffff; 
+    padding: 20px 25px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+    page-break-inside: avoid; 
+}
+
+.risk-header { 
+    font-weight: bold; 
+    background: #e6f0ff; 
+    padding: 8px 10px; 
+    border-radius: 6px; 
+    margin-bottom: 15px; 
+    color: #457dcbff;
+}
+
+.input_style { 
+    width: 100%; 
+    border: 1px solid #cbd5e1; 
+    border-radius: 5px; 
+    outline: none; 
+    background: #f9fafb; 
+    font-size: 12px; 
+    padding: 5px 8px; 
+    transition: all 0.2s ease-in-out;
+}
+
+.input_style:focus {
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+}
+
+.mini-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 12px; 
+    margin: 6px 0; 
+}
+
+.mini-table th, .mini-table td { 
+    border: 1px solid #cbd5e1; 
+    padding: 5px; 
+    text-align: center; 
+}
+
+.mini-table th { 
+    background: #f0f4f8; 
+    font-weight: 600; 
+    color: #1e3a8a;
+}
+
+table { 
+    border-collapse: separate !important; 
+    border-spacing: 0 !important; 
+    border: 1px solid #cbd5e1 !important; 
+    width: 100%; 
+    background: #ffffff; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    margin-top: 10px;
+}
+
+table td, table th { 
+    border: 1px solid #cbd5e1 !important; 
+    padding: 6px 10px; 
+}
+
+table td input.input_style { 
+    font-size: 12px; 
+    text-align: center; 
+}
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.btn-submit { 
+    background: #2242abff; 
+    color: #fff; 
+    border: none; 
+    border-radius: 8px; 
+    padding: 10px 25px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background 0.2s ease-in-out;
+}
+
+.btn-submit:hover { 
+    background: #6090deff; 
+}
+
+@media (max-width: 768px) {
+   table, thead, tbody, tr, td, th {
+        font-size: 12px;
+    }
+
+    table {
+        min-width: 900px; /* ป้องกันบีบจนพัง */
+    }
+
+    .mini-table {
+        min-width: 600px;
+    }
+
+    .risk-header input {
+        width: 100% !important;
+        margin-bottom: 6px;
+    }
+}
+
+</style>
+<div class="container-fluid">
 <form id="assessForm" method="POST" action="{{ route('assessrisk.update', $risk->id) }}">
     @csrf
     @method('PUT')
@@ -39,13 +162,13 @@ table td input.input_style { font-size: 15px; text-align: center; }
         <div class="risk-header">
             <center><h4>การประเมินความเสี่ยงและโอกาส (แก้ไข)</h4></center><br>
             อ้างอิง กระบวนการ / ระเบียบปฏิบัติ: 
-            <input type="text" name="risks[{{ $i }}][process]" value="{{ $risk['process'] ?? '' }}" class="input_style" style="width:20%;">
+            <input type="text" name="risks[{{ $i }}][process]" value="{{ $risk['process'] ?? '' }}" class="input_style" style="width:30%;">
             เสนอโดย: 
             <input type="text" name="risks[{{ $i }}][proposed_by]" value="{{ $risk['proposed_by'] ?? '' }}" class="input_style" style="width:20%;">
             วันที่: 
             <input type="date" name="risks[{{ $i }}][date]" value="{{ !empty($risk['date']) ? date('Y-m-d', strtotime($risk['date'])) : '' }}" class="input_style" style="width:15%;">
         </div>
-
+        <div class="table-responsive">
         <table>
             <tr>
                 <td colspan="6">
@@ -236,6 +359,7 @@ table td input.input_style { font-size: 15px; text-align: center; }
             </tr>
 
         </table>
+        </div>
     </div>
     @endforeach
 
@@ -243,7 +367,7 @@ table td input.input_style { font-size: 15px; text-align: center; }
         <button type="submit" class="btn-submit">อัปเดตข้อมูล</button>
     </div>
 </form>
-
+</div>
 @endsection
 
 @push('scriptjs')

@@ -20,7 +20,7 @@ Swal.fire({
 
 body { 
     font-family: 'TH Sarabun New', sans-serif; 
-    font-size: 18px; 
+    font-size: 14px; 
     background: #f4f6f8; 
     color: #333;
 }
@@ -61,7 +61,7 @@ form {
     border-radius: 5px; 
     outline: none; 
     background: #f9fafb; 
-    font-size: 16px; 
+    font-size: 12px; 
     padding: 5px 8px; 
     transition: all 0.2s ease-in-out;
 }
@@ -75,7 +75,7 @@ form {
 .mini-table { 
     width: 100%; 
     border-collapse: collapse; 
-    font-size: 15px; 
+    font-size: 12px; 
     margin: 6px 0; 
 }
 
@@ -108,10 +108,14 @@ table td, table th {
 }
 
 table td input.input_style { 
-    font-size: 15px; 
+    font-size: 12px; 
     text-align: center; 
 }
-
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 .btn-submit { 
     background: #2242abff; 
     color: #fff; 
@@ -128,14 +132,26 @@ table td input.input_style {
 }
 
 @media (max-width: 768px) {
-    form { padding: 20px; }
-    .risk-header h4 { font-size: 16px; }
-    .input_style { font-size: 14px; }
-    table td, table th { padding: 4px 6px; }
+   table, thead, tbody, tr, td, th {
+        font-size: 12px;
+    }
+
+    table {
+        min-width: 900px; /* ป้องกันบีบจนพัง */
+    }
+
+    .mini-table {
+        min-width: 600px;
+    }
+
+    .risk-header input {
+        width: 100% !important;
+        margin-bottom: 6px;
+    }
 }
 
 </style>
-
+<div class="container-fluid">
 <form id="assessForm" method="POST" action="{{ route('assessrisk.store') }}">
     @csrf
 
@@ -143,21 +159,21 @@ table td input.input_style {
     <div class="risk-block">
         <div class="risk-header">
             <center><h4>การประเมินความเสี่ยงและโอกาส </h4></center><br>
-            อ้างอิง กระบวนการ / ระเบียบปฏิบัติ: <input type="text" name="risks[{{ $i }}][process]" value="{{ $risk['process'] }}" class="input_style" style="width:20%;">  
+            อ้างอิง กระบวนการ / ระเบียบปฏิบัติ: <input type="text" name="risks[{{ $i }}][process]" value="{{ $risk['process'] }}" class="input_style" style="width:30%;">  
             เสนอโดย: <input type="text" name="risks[{{ $i }}][proposed_by]" value="{{auth()->user()->name}}" class="input_style" style="width:20%;">  
             วันที่: <input type="date" name="risks[{{ $i }}][date]" value="{{ old('date', now()->format('Y-m-d')) }}" class="input_style" style="width:15%;">
         </div>
-
+        <div class="table-responsive">
         <table>
             <tr>
-                <td colspan="6">
+                <td colspan="4">
                     <b>ประเด็นความเสี่ยง:</b><br>
                     @foreach($risk['issues'] as $pi => $issue)
                         <input type="text" name="risks[{{ $i }}][issues][{{ $pi }}]" value="{{ $issue }}" class="input_style"><br>
                     @endforeach                   
                 </td>
 
-                <td colspan="7">
+                <td colspan="8">
                     <table class="mini-table">
                         <tr>
                             <th>ก่อนประเมิน</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
@@ -188,13 +204,13 @@ table td input.input_style {
                 </td>
             </tr>
             <tr>
-                <td colspan="6">
+                <td colspan="4">
                     <b>มาตรการลดความเสี่ยงและติดตาม:</b><br>
                     @foreach($risk['measures'] as $mi => $measure)
                         <input type="text" name="risks[{{ $i }}][measures][{{ $mi }}]" value="{{ $measure }}" class="input_style"><br>
                     @endforeach
                 </td>
-                <td colspan="5">
+                <td colspan="8">
                       <b>รับทราบโดย / วันที่:</b>
                     <table class="mini-table">
                         @foreach($risk['mitigations'] as $di => $mitigation)
@@ -219,13 +235,13 @@ table td input.input_style {
                 </td>
             </tr>
             <tr>
-                <td colspan="6">
+                <td colspan="4">
                     <b>สรุปผลการลดความเสี่ยง:</b><br>
                     @foreach($risk['summary'] as $si => $summary)
                         <input type="text" name="risks[{{ $i }}][summary][{{ $si }}]" value="{{ $summary }}" class="input_style"><br>
                     @endforeach
                 </td>
-                <td colspan="5">
+                <td colspan="8">
                     <b>รับทราบโดย / วันที่:</b>
                     <table class="mini-table">
                         @foreach($risk['dates'] as $di => $date)
@@ -251,13 +267,13 @@ table td input.input_style {
             </tr>
 
             <tr>
-                <td colspan="6">
+                <td colspan="4">
                     <b>การติดตาม:</b><br>
                     @foreach($risk['follow_up'] as $fi => $follow)
                         <input type="text" name="risks[{{ $i }}][follow_up][{{ $fi }}]" value="{{ $follow }}" class="input_style"><br>
                     @endforeach
                 </td>
-                <td colspan="2">
+                <td colspan="8">
                     <b>รับทราบโดย / วันที่:</b>
                     <table class="mini-table">
                         @foreach($risk['acknowledged'] as $ai => $ack)
@@ -315,7 +331,7 @@ table td input.input_style {
         @endforeach
     </table>
 </td>
-                <td colspan="7">
+                <td colspan="8">
                     <table class="mini-table">
                         <tr>
                             <th>หลังประเมิน:</th><th>I</th><th>L</th><th>Level</th><th>Result</th><th>By</th><th>Date</th>
@@ -347,6 +363,7 @@ table td input.input_style {
             </tr>
 
         </table>
+        </div>
     </div>
     @endforeach
 
@@ -354,6 +371,7 @@ table td input.input_style {
         <button type="submit" class="btn-submit">บันทึกทั้งหมด</button>
     </div>
 </form>
+</div>
 @endsection
 
 @push('scriptjs')
