@@ -255,6 +255,7 @@ margin-top: 40px;
  <div class="wrap">
               <h2 align="center">ESSOM CO.,LTD.</h2>
           <h2 align="center">ใบส่งต่อความรู้องค์การ / การประเมินผลและการทบทวน</h2>
+           <p class="text-right mb-0">F7160.3<br>7 Nov 23</p>
     <div class="card">
           <?php if($submitted): ?>
             <div class="summary">

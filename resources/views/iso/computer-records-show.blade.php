@@ -83,21 +83,15 @@ input:focus, textarea:focus {
 h5 { margin-top: 20px; }
 </style>
 <div class="form-container">
-    <h2 align="center">ESSOM CO., LTD.</h2>
-
+    <h2 align="center">ESSOM CO., LTD.<br> การบำรุงรักษาอุปกรณ์ IT</h2>
+    <p class="text-right mb-0">F7134.2<br>12 Jun 20</p>
     <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px;">
-        <div style="flex:1 1 200px;">
             <label>For Asset Number</label>
-            <input type="text" value="{{ $data->asset_number ?? '' }}" readonly>
-        </div>
-        <div style="flex:1 1 200px;">
+            <input type="text" value="{{ $data->asset_number ?? '' }}" class="form-control" readonly>
             <label>User Name</label>
-            <input type="text" value="{{ $data->user_name ?? '' }}" readonly>
-        </div>
-        <div style="flex:1 1 200px;">
+            <input type="text" value="{{ $data->user_name ?? '' }}" class="form-control" readonly>
             <label>Period</label>
-            <input type="text" value="{{ $data->period ?? '' }}" readonly>
-        </div>
+            <input type="text" value="{{ $data->period ?? '' }}"  class="form-control"readonly>
     </div>
 
     <table>

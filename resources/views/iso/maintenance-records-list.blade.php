@@ -7,8 +7,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>ESSOM CO.,LTD.<br>คำขอแก้ไข รายการบันทึกการบำรุงเครื่องจักร <br> EQUIPMENT MAINTENANCE RECORD</h2>
-                    <p class="text-right mb-0">F6200.1<br>9 Apr 24</p>
+                    <h2>ESSOM CO.,LTD.<br>บันทึกการบำรุงเครื่องจักร <br> EQUIPMENT MAINTENANCE RECORD</h2>
+                    <p class="text-right mb-0">F7132.1<br>7 Mar 25</p>
                     <p class="text-left">
     
   <a href="{{ route('maintenance-records.create') }}">เพิ่มข้อมูลใหม่</a>

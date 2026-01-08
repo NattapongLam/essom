@@ -9,6 +9,7 @@
 
 <h2 align="center">ESSOM CO., LTD.</h2>
 <h3 align="center">{{ isset($record) ? 'แก้ไข' : 'สร้าง' }} ใบบันทึกความรู้องค์กร</h3>
+<p class="text-right mb-0">F7160.2<br>7 Nov 23</p>
 
 <form action="{{ isset($record) ? route('knowledge-record.update', $record->id) : route('knowledge-record.store') }}" 
       method="POST" enctype="multipart/form-data" style="width:600px;margin:20px auto;">

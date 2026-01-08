@@ -36,6 +36,7 @@ button:hover { transform: scale(1.05); }
 
 <div class="form-container">
   <h2>ประวัติคอมพิวเตอร์</h2>
+  <p class="text-right">F7134.1<br>9 Jun. 16</p>
 
   <form method="POST" action="{{ isset($computerHistory) ? route('computer-history.update', $computerHistory->id) : route('computer-history.store') }}">
     @csrf

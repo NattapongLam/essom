@@ -103,7 +103,7 @@ tr:hover { background-color: #e0f2fe; transition: 0.2s; }
 <div class="form-container">
 <h2>ESSOM CO., LTD.</h2>
 <h2>ประวัติเครื่องจักร EQUIPMENT RECORD</h2>
-
+<p class="text-right mb-0">F7132.2<br>9 Feb 17</p>
 <form action="{{ route('machine-history.store') }}" method="POST">
 @csrf
 <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:15px;">

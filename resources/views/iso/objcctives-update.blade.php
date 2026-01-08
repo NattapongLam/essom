@@ -25,23 +25,98 @@ Swal.fire({
 @endif
 
 <style>
-.form-container { background: #fff; padding: 25px 40px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-bottom: 25px; }
+.form-container {
+    background: #fff;
+    padding: 25px 40px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
 h2 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; color: #1e293b; }
-th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: center; vertical-align: middle; }
-th { background-color: #1e40af; color: #ffffff; font-weight: 600; text-transform: uppercase; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #1e293b;
+}
+th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+th {
+    background-color: #1e40af;
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+}
 tr:nth-child(even) { background-color: #f1f5f9; }
-input, textarea, select { border: 1px solid #94a3b8; border-radius: 5px; padding: 6px 10px; font-size: 14px; width: 100%; box-sizing: border-box; background-color: #f8fafc; transition: 0.2s; }
-input:focus, textarea:focus { border-color: #1e40af; box-shadow: 0 0 4px rgba(59,130,246,0.3); background-color: #ffffff; outline: none; }
-button.primary { background: linear-gradient(180deg, #1e3a8a, #3b82f6); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+
+input, textarea, select {
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 13px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f8fafc;
+    transition: 0.2s;
+}
+input:focus, textarea:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 4px rgba(59,130,246,0.3);
+    background-color: #ffffff;
+    outline: none;
+}
+
+button.primary {
+    background: linear-gradient(180deg, #1e3a8a, #3b82f6);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 button.primary:hover { transform: scale(1.05); }
-button.edit { background: linear-gradient(180deg, #2563eb, #60a5fa); color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:500; cursor:pointer; transition: all 0.2s ease; }
+
+button.edit {
+    background: linear-gradient(180deg, #2563eb, #60a5fa);
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:500;
+    cursor:pointer;
+    transition: all 0.2s ease;
+}
 button.edit:hover { transform: scale(1.05); }
-button.delete { background: linear-gradient(180deg, #dc2626, #ef4444); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+
+button.delete {
+    background: linear-gradient(180deg, #dc2626, #ef4444);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 button.delete:hover { transform: scale(1.05); }
+
 .actions { display:flex; gap:12px; justify-content:flex-end; margin-top:15px; }
-@media (max-width: 1024px){ table, th, td { font-size: 12px; } .form-container { width: 95%; padding: 20px; } }
-@media (max-width: 640px){ table { font-size: 11px; } .actions { flex-direction: column; align-items: stretch; } }
+
+@media (max-width: 1024px){
+    table, th, td { font-size: 12px; }
+    .form-container { width: 95%; padding: 20px; }
+}
+@media (max-width: 640px){
+    table { font-size: 11px; }
+    .actions { flex-direction: column; align-items: stretch; }
+}
 </style>
 
 <form action="{{ route('objcctives.update', $objcctive->id) }}" method="POST">
@@ -51,14 +126,15 @@ button.delete:hover { transform: scale(1.05); }
 <div class="form-container">
     <h2>ESSOM CO.,LTD.</h2>
     <h2>Objective</h2>
+    <p class="text-right mb-0">F6200.1<br>9 Apr 24</p>
     <br><br>
     <center>
         <div class="section-line">
             <label>Section:
-                <input type="text" name="section[]" value="{{ old('section.0', $objcctive->section) }}" style="width:430px;" required>
+                <input type="text" name="section[]" value="{{ old('section.0', $objcctive->section) }}" class="form-control" required>
             </label>
             <label>Period:
-                <input type="text" name="period[]" value="{{ old('period.0', $objcctive->period) }}" style="width:540px;" required>
+                <input type="text" name="period[]" value="{{ old('period.0', $objcctive->period) }}" class="form-control" required>
             </label>
         </div>
     </center>
@@ -66,11 +142,11 @@ button.delete:hover { transform: scale(1.05); }
     <table id="objectiveTable">
         <thead>
             <tr>
-                <th rowspan="2">NO.</th>
-                <th rowspan="2">DESCRIPTION OF ACTIVITIES</th>
-                <th rowspan="2">RESP. PERSON</th>
+                <th rowspan="2" style="width: 5%">NO.</th>
+                <th rowspan="2" style="width: 30%">DESCRIPTION OF ACTIVITIES</th>
+                <th rowspan="2" style="width: 20%">RESP. PERSON</th>
                 <th colspan="3">OBJECTIVE</th>
-                <th rowspan="2">REMARKS/CORRECTIVE ACTION</th>
+                <th rowspan="2" style="width: 20%">REMARKS/CORRECTIVE ACTION</th>
                 {{-- <th rowspan="2">[ปุ่มลบ]</th> --}}
             </tr>
             <tr>
@@ -87,7 +163,10 @@ button.delete:hover { transform: scale(1.05); }
             @forelse($activities as $i => $act)
             <tr>
                 <td>{{ $i+1 }}</td>
-                <td><input type="text" name="description[]" value="{{ old('description.'.$i, $act['description']) }}" readonly></td>
+                <td>
+                    <textarea name="description[]" rows="5" readonly>{{ old('description.'.$i, $act['description']) }}</textarea>
+                    {{-- <input type="text" name="description[]" value="{{ old('description.'.$i, $act['description']) }}" readonly> --}}
+                </td>
                 <td>
                     <select class="form-control receiver-select" name="resp_person[]" disabled>
                         <option value=""></option>
@@ -102,7 +181,10 @@ button.delete:hover { transform: scale(1.05); }
                 <td><input type="text" name="previous[]" value="{{ old('previous.'.$i, $act['previous']) }}" readonly></td>
                 <td><input type="text" name="plan[]" value="{{ old('plan.'.$i, $act['plan']) }}" readonly></td>
                 <td><input type="text" name="results[]" value="{{ old('results.'.$i, $act['results']) }}" readonly></td>
-                <td><input type="text" name="remarks[]" value="{{ old('remarks.'.$i, $act['remarks']) }}" readonly></td>
+                <td>
+                    <textarea name="remarks[]" rows="5" readonly>{{ old('remarks.'.$i, $act['remarks']) }}</textarea>
+                    {{-- <input type="text" name="remarks[]" value="{{ old('remarks.'.$i, $act['remarks']) }}" readonly> --}}
+                </td>
                 {{-- <td>
                     <input type="hidden" name="no[]" value="{{ $i+1 }}" class="rowNo">
                     <button type="button" class="delete">ลบ</button>

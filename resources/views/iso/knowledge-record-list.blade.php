@@ -21,7 +21,8 @@ Swal.fire({
             <div class="card">
                 <div class="card-header text-center">
                     <h2>ESSOM CO., LTD.</h2>
-                    <h3>บันทึกความรู้องค์กร</h3>
+                    <h3>ใบบันทึกความรู้องค์กร</h3>
+                    <p class="text-right mb-0">F7160.2<br>7 Nov 23</p>
                     <p class="text-left">
                         <a href="{{ route('knowledge-record.create') }}">เพิ่มข้อมูลใหม่</a>
                     </p>

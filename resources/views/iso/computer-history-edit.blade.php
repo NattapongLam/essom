@@ -134,6 +134,7 @@ button:hover {
 </style>
 <div class="form-container">
   <h2>แก้ไขประวัติคอมพิวเตอร์</h2>
+  <p class="text-right">F7134.1<br>9 Jun. 16</p>
   <form method="POST" action="{{ route('computer-history.update', $item->id) }}">
     @csrf
     @method('PUT')

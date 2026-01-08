@@ -28,23 +28,23 @@ Swal.fire({
     color: #6b7280; 
     cursor: not-allowed;
 }
-.card, .form-container { background:#fff; border-radius:18px; padding:25px 40px; box-shadow:0 6px 20px rgba(0,0,0,0.08); border:1px solid #e0e0e0; margin-bottom:25px; }
-body { background:#fff; }
-h2 { text-align:center; font-weight:700; color:#0f172a; margin-bottom:8px; }
-table { width:100%; border-collapse:collapse; margin-top:20px; font-size:16px; color:#1e293b; background:#fff; }
-th, td { border:1px solid #cbd5e1; padding:10px 12px; text-align:center; vertical-align:middle; background:#fff; }
-th { background:#1e40af; color:#fff; font-weight:600; text-transform:uppercase; }
-tr:nth-child(even) { background:#f8fafc; }
-input, textarea, select { border:1px solid #94a3b8; border-radius:5px; padding:6px 10px; width:100%; box-sizing:border-box; background:#fff; transition:0.2s; }
-input:focus, textarea:focus { border-color:#1e40af; box-shadow:0 0 4px rgba(59,130,246,0.3); outline:none; }
-button.primary { background:linear-gradient(180deg,#1e3a8a,#3b82f6); color:#fff; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; transition:0.2s; }
-button.primary:hover { transform:scale(1.05); }
-button.edit { background:linear-gradient(180deg,#2563eb,#60a5fa); color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; transition:0.2s; }
-button.edit:hover { transform:scale(1.05); }
-button.delete { background:linear-gradient(180deg,#dc2626,#ef4444); color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; transition:0.2s; }
-button.delete:hover { transform:scale(1.05); }
+.card, .form-container { background: #ffffff; border-radius: 18px; padding: 25px 40px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; margin-bottom: 25px; }
+body { background-color: #ffffff; }
+h2 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; color: #1e293b; background-color: #ffffff; }
+th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: center; vertical-align: middle; background-color: #ffffff; }
+th { background-color: #1e40af; color: #ffffff; font-weight: 600; text-transform: uppercase; }
+tr:nth-child(even) { background-color: #f8fafc; }
+input, textarea, select { border: 1px solid #94a3b8; border-radius: 5px; padding: 6px 10px; font-size: 12px; width: 100%; box-sizing: border-box; background-color: #ffffff; transition: 0.2s; }
+input:focus, textarea:focus { border-color: #1e40af; box-shadow: 0 0 4px rgba(59,130,246,0.3); outline: none; }
+button.primary { background: linear-gradient(180deg, #1e3a8a, #3b82f6); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+button.primary:hover { transform: scale(1.05); }
+button.edit { background: linear-gradient(180deg, #2563eb, #60a5fa); color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:500; cursor:pointer; transition: all 0.2s ease; }
+button.edit:hover { transform: scale(1.05); }
+button.delete { background: linear-gradient(180deg, #dc2626, #ef4444); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+button.delete:hover { transform: scale(1.05); }
 .actions { display:flex; gap:12px; justify-content:flex-end; margin-top:15px; }
-input[type="text"], input[type="date"] { height:36px; font-size:16px; }
+input[type="text"], input[type="date"] { height: 36px; font-size: 12px; }
 </style>
 
 <form action="{{ route('iso-plan.update', $plan->id) }}" method="POST">
@@ -57,33 +57,34 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
             <br><br>
             <div class="row">
                 <div class="col-6">
-                    Project :<input type="text" name="project_name" value="{{ $plan->project_name }}" style="width:450px;" required>
+                    Project :<input type="text" name="project_name" value="{{ $plan->project_name }}" class="form-control" required>
                 </div>
                 <div class="col-6">
-                     Responsible Section / Person : <input type="text" name="responsible_section" value="{{ $plan->responsible_section }}" style="width:450px;" required>
+                     Responsible Section / Person : <input type="text" name="responsible_section" value="{{ $plan->responsible_section }}" class="form-control" required>
                 </div>
             </div>
         </center>
         <br>
+        <div class="table-responsive">
         <table id="activityTable">
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Description of Activities</th>
-                    <th>Resp. Person</th>
-                    <th>Start</th>
-                    <th>Finish</th>
-                    <th>Status</th>
-                    <th>Remarks</th>
-                    <th>Action</th>
+                    <th style="width: 5%">No.</th>
+                    <th style="width: 25%">Description of Activities</th>
+                    <th style="width: 20%">Resp. Person</th>
+                    <th style="width: 10%">Start</th>
+                    <th style="width: 10%">Finish</th>
+                    <th style="width: 10%">Status</th>
+                    <th style="width: 20%">Remarks</th>
+                    <th style="width: 5%">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($activities as $i => $act)
                 <tr>
-                    <td>{{ $i + 1 }}</td>
-                    <td><input type="text" name="DA[]" value="{{ $act['description'] ?? '' }}"></td>
-                    <td>
+                    <td style="width: 5%">{{ $i + 1 }}</td>
+                    <td style="width: 25%"><input type="text" name="DA[]" value="{{ $act['description'] ?? '' }}"></td>
+                    <td style="width: 20%">
                         <select class="form-control receiver-select" name="RP[]">
                             <option value=""></option>
                             @foreach ($emp as $item)
@@ -94,15 +95,16 @@ input[type="text"], input[type="date"] { height:36px; font-size:16px; }
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="date" name="date_start[]" value="{{ $act['date_start'] ? date('Y-m-d', strtotime($act['date_start'])) : '' }}"></td>
-                    <td><input type="date" name="date_end[]" value="{{ $act['date_end'] ? date('Y-m-d', strtotime($act['date_end'])) : '' }}"></td>
-                    <td><input type="text" name="RS[]" value="{{ $act['status'] ?? '' }}"></td>
-                    <td><input type="text" name="Remark[]" value="{{ $act['remark'] ?? '' }}"></td>
-                    <td><button type="button" class="delete">ลบ</button></td>
+                    <td style="width: 10%"><input type="date" name="date_start[]" value="{{ $act['date_start'] ? date('Y-m-d', strtotime($act['date_start'])) : '' }}"></td>
+                    <td style="width: 10%"><input type="date" name="date_end[]" value="{{ $act['date_end'] ? date('Y-m-d', strtotime($act['date_end'])) : '' }}"></td>
+                    <td style="width: 10%"><input type="text" name="RS[]" value="{{ $act['status'] ?? '' }}"></td>
+                    <td style="width: 20%"><input type="text" name="Remark[]" value="{{ $act['remark'] ?? '' }}"></td>
+                    <td style="width: 5%"><button type="button" class="delete">ลบ</button></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        </div>
         <div>
             <br>
             <button type="button" class="edit" id="addRowBtn">+ เพิ่มแถว</button>

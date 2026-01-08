@@ -28,7 +28,7 @@ input[readonly], textarea[readonly] { background-color: #e2e8f0; }
         <h4>แผนการออกแบบผลิตภัณฑ์</h4>
         <h4>DESIGN REQUEST AND DESIGN PLANNING</h4>
     </center>
-
+    <p class="text-right">F8300.1<br>19 Jan. 22</p>
     <div class="section">
         <div class="section-title">1. Design Request</div>
         <div class="row">

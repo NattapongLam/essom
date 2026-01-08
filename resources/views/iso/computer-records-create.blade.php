@@ -102,25 +102,24 @@ input:focus {
 </style>
 
 <div class="form-container">
-    <h2 align="center">ESSOM CO., LTD.</h2>
+    <h2 align="center">
+        ESSOM CO., LTD.
+        <br>
+        การบำรุงรักษาอุปกรณ์ IT
+    </h2>
 
+    <p class="text-right mb-0">F7134.2<br>12 Jun 20</p>
     <form class="form-container" method="POST" action="{{ route('computer-records.store') }}">
         @csrf
         <div class="step" id="step1">
-          <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
-    <div >
-        <label>การบำรุงรักษาอุปกรณ์ IT (IT Preventive Maintenance) For Asset Number</label>
-        <input type="text" style=" width: 25%;" name="asset_number" required>
-    </div>
-    <div style="flex: 1 1 150px;">
-        <label>User Name</label>
-        <input type="text" style="width: 60%;" name="user_name" required>
-    </div>
-    <div style="flex: 1 1 150px; " >
-        <label>Period</label>
-        <input type="text" name="period" style="width: 50%;" required>
-    </div>
-</div>
+            <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
+                    <label>For Asset Number</label>
+                    <input type="text" class="form-control" name="asset_number" required>
+                    <label>User Name</label>
+                    <input type="text" class="form-control" name="user_name" required>
+                    <label>Period</label>
+                    <input type="text" name="period" class="form-control" required>
+            </div>
             <table>
                 <thead>
                     <tr>

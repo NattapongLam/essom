@@ -100,14 +100,14 @@ button.primary:hover { transform: scale(1.05); }
 </style>
 
 <div class="form-container">
-    <h2 align="center">ESSOM CO., LTD. </h2>
-
+    <h2 align="center">ESSOM CO., LTD.<br> การบำรุงรักษาอุปกรณ์ IT </h2>
+    <p class="text-right mb-0">F7134.2<br>12 Jun 20</p>
     <form method="POST" action="{{ route('maintenance.store') }}">
         @csrf
         <div style="display:flex; gap:15px; margin-bottom:15px;">
-            <label>การบำรุงรักษาอุปกรณ์ IT (IT Preventive Maintenance ) For Asset Number</label><input type="text" name="asset_number">
-            <label>User Name:</label><input type="text" name="user_name">
-            <label>Period:</label><input type="text" name="period">
+            <label>For Asset Number</label><input type="text" name="asset_number" class="form-control">
+            <label>User Name:</label><input type="text" name="user_name" class="form-control">
+            <label>Period:</label><input type="text" name="period" class="form-control">
         </div>
 
         <table>

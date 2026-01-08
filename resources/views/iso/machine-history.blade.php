@@ -161,7 +161,7 @@ font-size: 14px;
 <form>
     <h2 align="center">ESSOM CO.,LTD.</h2>
     <h2 align="center">ประวัติเครื่องจักร EQUIPMENT RECORD </h2>  
-
+    <p class="text-right mb-0">F7132.2<br>9 Feb 17</p>
 <div class="form-container">
 
         <div align="center"><br />ชื่อเครื่องจักร  :

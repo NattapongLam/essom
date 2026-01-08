@@ -8,7 +8,7 @@
 <div class="container mt-4">
     <h4 class="text-center">ESSOM CO., LTD.</h4>
     <h5 class="text-center mb-4">แบบสำรวจความรู้ขององค์กร</h5>
-
+    <p class="text-right mb-0">F7160.1<br>7 Nov 23</p>
     <form action="{{ route('knowledge-survey.store') }}" method="POST">
         @csrf
 

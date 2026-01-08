@@ -12,8 +12,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-    <h2 align="center">ESSOM CO., LTD. <br> คำขอแก้ไขแบบบำรุงรักษาอุปกรณ์IT</h2>
-    <p class="text-right mb-0">F7134.2<br>12 jun </p>
+    <h2 align="center">ESSOM CO., LTD. <br> การบำรุงรักษาอุปกรณ์ IT</h2>
+    <p class="text-right mb-0">F7134.2<br>12 Jun 20</p>
                     <p class="text-left">
         <a href="{{ route('computer-records.create') }}" >เพิ่มข้อมูลใหม่</a>
                     </p>

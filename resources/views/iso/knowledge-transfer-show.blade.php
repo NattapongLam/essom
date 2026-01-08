@@ -44,6 +44,7 @@ button.ghost { background: #cbd5e1; color: #000; border: none; padding: 6px 14px
 <div class="form-container">
     <h2>ESSOM CO.,LTD.</h2>
     <h2>แก้ไขใบส่งต่อความรู้องค์กร การประเมินผลและการทบทวน</h2>
+     <p class="text-right mb-0">F7160.3<br>7 Nov 23</p>
     <form method="POST" action="{{ route('knowledge-transfer.update', $knowledgeTransfer->id) }}">
         @csrf
         @method('PUT')

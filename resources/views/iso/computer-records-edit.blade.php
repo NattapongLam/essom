@@ -42,26 +42,20 @@ input:focus { border-color: #1e40af; box-shadow: 0 0 4px rgba(59,130,246,0.3); b
 </style>
 
 <div class="form-container">
-    <h2 align="center">ESSOM CO., LTD.<br> แก้ไขรายการบำรุงรักษาอุปกรณ์IT</h2>
-
+    <h2 align="center">ESSOM CO., LTD.<br> การบำรุงรักษาอุปกรณ์ IT</h2>
+     <p class="text-right mb-0">F7134.2<br>12 Jun 20</p>
     <form class="form-container" method="POST" action="{{ route('computer-records.update', $record->id) }}">
         @csrf
         @method('PUT')
 
         <div class="step" id="step1">
             <div style="display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap;">
-                <div style="flex:1 1 300px;">
-                    <label>การบำรุงรักษาอุปกรณ์ IT (IT Preventive Maintenance ) For Asset Number</label>
-                    <input type="text" name="asset_number" value="{{ $record->asset_number }}" required>
-                </div>
-                <div style="flex:1 1 200px;">
+                    <label>For Asset Number</label>
+                    <input type="text" name="asset_number" class="form-control" value="{{ $record->asset_number }}" required>
                     <label>User Name</label>
-                    <input type="text" name="user_name" value="{{ $record->user_name }}" required>
-                </div>
-                <div style="flex:1 1 150px;">
+                    <input type="text" name="user_name" class="form-control" value="{{ $record->user_name }}" required>
                     <label>Period</label>
-                    <input type="text" name="period" value="{{ $record->period }}" required>
-                </div>
+                    <input type="text" name="period" class="form-control" value="{{ $record->period }}" required>
             </div>
 
             <table>

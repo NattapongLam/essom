@@ -103,7 +103,7 @@ tr.fade-out { opacity: 0; transition: opacity 0.3s ease; }
 <div class="form-container">
 <h2>ESSOM CO., LTD.</h2>
 <h2>แก้ไขประวัติเครื่องจักร EQUIPMENT RECORD</h2>
-
+<p class="text-right mb-0">F7132.2<br>9 Feb 17</p>
 <form action="{{ route('machine-history.update', $machine_history->id) }}" method="POST">
 @csrf
 @method('PUT')

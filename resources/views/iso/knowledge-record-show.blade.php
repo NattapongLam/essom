@@ -24,7 +24,8 @@ button.save{background:#16a34a;color:#fff;border:none;padding:10px 22px;border-r
 
 <div class="form-container">
     <h2>ESSOM CO., LTD.</h2>
-    <h3>บันทึกความรู้องค์กร (อนุมัติ)</h3>
+    <h3>ใบบันทึกความรู้องค์กร (อนุมัติ)</h3>
+    <p class="text-right mb-0">F7160.2<br>7 Nov 23</p>
     <hr style="margin:15px 0;">
 
     <form action="{{ route('knowledge-record.update', $record->id) }}" method="POST">

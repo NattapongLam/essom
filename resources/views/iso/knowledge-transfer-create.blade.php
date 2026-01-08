@@ -105,6 +105,7 @@ button.ghost {
 <div class="form-container">
     <h2>ESSOM CO.,LTD.</h2>
     <h2>ใบส่งต่อความรู้องค์กร การประเมินผลและการทบทวน</h2>
+     <p class="text-right mb-0">F7160.3<br>7 Nov 23</p>
     <form method="POST" action="{{ route('knowledge-transfer.store') }}">
         @csrf
         <div class="grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
