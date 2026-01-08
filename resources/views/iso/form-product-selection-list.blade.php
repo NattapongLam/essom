@@ -24,6 +24,7 @@
                                 <td>ผู้จัดทำ</td>
                                 <td>ผู้ทบทวน</td>
                                 <td>ผู้อนุมัติ</td>
+                                <td>แก้ไข</td>
                                 <td>ประเมิน</td>
                                 <td>อนุมัติ</td>
                                 <td>ลบ</td>
@@ -61,6 +62,11 @@
                                         {{$item->approved_by1}}
                                         <br>
                                         {{$item->approved_date1}}
+                                    </td>
+                                    <td>
+                                        <a href="{{route('product-selection.edit',$item->product_selection_hd_id)}}" class="btn btn-sm btn-info" >
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                     </td>
                                     <td>
                                         <a href="{{route('product-selection.edit',$item->product_selection_hd_id)}}" class="btn btn-sm btn-warning" >

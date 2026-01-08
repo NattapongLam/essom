@@ -154,9 +154,9 @@ button.delete:hover { transform: scale(1.05); }
                 <th rowspan="2" style="width: 5%">[ปุ่มลบ]</th>
             </tr>
             <tr>
-                <td width="8%" align="center">Previous</td>
-                <td width="8%" align="center">Plan</td>
-                <td width="8%" align="center">Results</td>
+                <td width="10%" align="center">Previous</td>
+                <td width="10%" align="center">Plan</td>
+                <td width="10%" align="center">Results</td>
             </tr>
         </thead>
         <tbody>
