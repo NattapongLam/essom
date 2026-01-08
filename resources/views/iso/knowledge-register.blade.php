@@ -55,7 +55,7 @@ button.primary{background:#4CAF50;color:#fff;border:none;padding:10px 15px;borde
     <h2>ESSOM CO.,LTD.</h2>
     <h2>บริษัท เอสซอม จำกัด</h2>
     <h2>ทะเบียนความรู้องค์กร (Organization Registration)</h2>
-
+    <p class="text-right mb-0">F7160.4<br>7 Nov 23</p>
     <table class="main_table">
         <thead>
             <tr>

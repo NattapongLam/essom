@@ -8,8 +8,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5>ESSOM CO.,LTD<br>แบบคำขอแก้ไขแบบ แผนการออกแบบผลิตภัณฑ์ <br>DESIGN REQUEST AND DESIGN PLANNING</h5>
-                    <p class="text-right">F7529.1<br>1 Oct. 20</p>
+                    <h5>ESSOM CO.,LTD<br>แผนการออกแบบผลิตภัณฑ์ <br>DESIGN REQUEST AND DESIGN PLANNING</h5>
+                    <p class="text-right">F8300.1<br>19 Jan. 22</p>
                     <p class="text-left">
                         <a href="{{ route('design-plan.create') }}">เพิ่มเอกสาร</a>
                     </p>              

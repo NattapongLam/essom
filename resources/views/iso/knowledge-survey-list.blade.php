@@ -8,8 +8,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5>ESSOM CO.,LTD<br>คำขอแก้ไขแบบสำรวจองค์กร</h5>
-                    <p class="text-right mb-0">F6120.1<br>7 Nov 23</p>
+                    <h5>ESSOM CO.,LTD<br>แบบสำรวจความรู้องค์กร</h5>
+                    <p class="text-right mb-0">F7160.1<br>7 Nov 23</p>
                     <p class="text-left">
 
                         <a href="{{ route('knowledge-survey.create') }}" >เพิ่มข้อมูลใหม่</a>

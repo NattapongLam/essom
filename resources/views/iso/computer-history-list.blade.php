@@ -7,8 +7,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5>ESSOM CO.,LTD<br>คำขอแก้ไขแบบ ประวัติคอมพิวเตอร์</h5>
-                    <p class="text-right">F7530.1<br>1 Oct. 20</p>
+                    <h5>ESSOM CO.,LTD<br>ประวัติคอมพิวเตอร์</h5>
+                    <p class="text-right">F7134.1<br>9 Jun. 16</p>
                     <p class="text-left">
                         <a href="{{route('computer-history.create')}}">เพิ่มเอกสาร</a>
                     </p>              

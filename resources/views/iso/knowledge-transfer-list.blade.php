@@ -15,7 +15,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD <br>คำขอแก้ไขแบบ <br>ใบส่งต่อความรู้</h5>
+                <h5>ESSOM CO.,LTD <br>ใบส่งต่อความรู้องค์กร การประเมินผลและการทบทวน</h5>
+                <p class="text-right mb-0">F7160.3<br>7 Nov 23</p>
                 <p class="text-left">
                     <a href="{{ route('knowledge-transfer.create') }}" >เพิ่มข้อมูลใหม่</a>
                 </p>

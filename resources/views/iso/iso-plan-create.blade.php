@@ -22,11 +22,11 @@ input[readonly], input[disabled] {
 .card, .form-container { background: #ffffff; border-radius: 18px; padding: 25px 40px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; margin-bottom: 25px; }
 body { background-color: #ffffff; }
 h2 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; color: #1e293b; background-color: #ffffff; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; color: #1e293b; background-color: #ffffff; }
 th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: center; vertical-align: middle; background-color: #ffffff; }
 th { background-color: #1e40af; color: #ffffff; font-weight: 600; text-transform: uppercase; }
 tr:nth-child(even) { background-color: #f8fafc; }
-input, textarea, select { border: 1px solid #94a3b8; border-radius: 5px; padding: 6px 10px; font-size: 14px; width: 100%; box-sizing: border-box; background-color: #ffffff; transition: 0.2s; }
+input, textarea, select { border: 1px solid #94a3b8; border-radius: 5px; padding: 6px 10px; font-size: 12px; width: 100%; box-sizing: border-box; background-color: #ffffff; transition: 0.2s; }
 input:focus, textarea:focus { border-color: #1e40af; box-shadow: 0 0 4px rgba(59,130,246,0.3); outline: none; }
 button.primary { background: linear-gradient(180deg, #1e3a8a, #3b82f6); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
 button.primary:hover { transform: scale(1.05); }
@@ -35,7 +35,7 @@ button.edit:hover { transform: scale(1.05); }
 button.delete { background: linear-gradient(180deg, #dc2626, #ef4444); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
 button.delete:hover { transform: scale(1.05); }
 .actions { display:flex; gap:12px; justify-content:flex-end; margin-top:15px; }
-input[type="text"], input[type="date"] { height: 36px; font-size: 16px; }
+input[type="text"], input[type="date"] { height: 36px; font-size: 12px; }
 </style>
 
 <form action="{{ route('iso-plan.store') }}" method="POST">
@@ -47,38 +47,38 @@ input[type="text"], input[type="date"] { height: 36px; font-size: 16px; }
     <br><br>
     <div class="row">
         <div class="col-6">
-            Project: <input type="text" name="project_name" style="width:450px;" required>
+            Project: <input type="text" name="project_name" class="form-control" required>
         </div>
         <div class="col-6">
-            Responsible Section / Person: <input type="text" name="responsible_section" style="width:450px;" required>
+            Responsible Section / Person: <input type="text" name="responsible_section" class="form-control" required>
         </div>
     </div>
     </center>
     <br/>
-
+    <div class="table-responsive">
     <table id="activityTable">
         <thead>
             <tr>
-                <th rowspan="2">No.</th>
-                <th rowspan="2">Description of Activities</th>
-                <th rowspan="2">Resp.<br>Person</th>
+                <th rowspan="2" style="width: 5%">No.</th>
+                <th rowspan="2" style="width: 25%">Description of Activities</th>
+                <th rowspan="2" style="width: 20%">Resp.<br>Person</th>
                 <th colspan="2">Date</th>
                 <th>STATUS</th>
-                <th rowspan="2">Progress Report/Remarks</th>
-                <th rowspan="2">[ลบ]</th>
+                <th rowspan="2" style="width: 20%">Progress Report/Remarks</th>
+                <th rowspan="2" style="width: 5%">[ลบ]</th>
             </tr>
             <tr>
-                <th>Start</th>
-                <th>Finish</th>
-                <th>Result</th>
+                <th style="width: 10%">Start</th>
+                <th style="width: 10%">Finish</th>
+                <th style="width: 10%">Result</th>
             </tr>
         </thead>
         <tbody>
             @for ($i = 0; $i < 5; $i++)
             <tr>
-                <td>{{ $i + 1 }}</td>
-                <td><input type="text" name="DA[]" placeholder="Description"></td>
-                <td>
+                <td style="width: 5%">{{ $i + 1 }}</td>
+                <td style="width: 25%"><input type="text" name="DA[]" placeholder="Description"></td>
+                <td style="width: 20%">
                     <select class="form-control receiver-select" name="RP[]">
                         <option value=""></option>
                         @foreach ($emp as $item)
@@ -86,16 +86,16 @@ input[type="text"], input[type="date"] { height: 36px; font-size: 16px; }
                         @endforeach
                     </select>
                 </td>
-                <td><input type="date" name="date_start[]"></td>
-                <td><input type="date" name="date_end[]"></td>
-                <td><input type="text" name="RS[]" placeholder="Status"></td>
-                <td><input type="text" name="Remark[]" placeholder="Remarks"></td>
-                <td><button type="button" class="delete">ลบ</button></td>
+                <td style="width: 10%"><input type="date" name="date_start[]"></td>
+                <td style="width: 10%"><input type="date" name="date_end[]"></td>
+                <td style="width: 10%"><input type="text" name="RS[]" placeholder="Status"></td>
+                <td style="width: 20%"><input type="text" name="Remark[]" placeholder="Remarks"></td>
+                <td style="width: 5%"><button type="button" class="delete">ลบ</button></td>
             </tr>
             @endfor
         </tbody>
     </table>
-
+    </div>
     <br>
     <button type="button" style="float:left;" class="edit" id="addRowBtn">+ เพิ่มแถว</button>
     <br><br>

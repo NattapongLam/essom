@@ -48,7 +48,7 @@ button.primary:hover { transform: scale(1.05); }
         <h4>แผนการออกแบบผลิตภัณฑ์</h4>
         <h4>DESIGN REQUEST AND DESIGN PLANNING</h4>
     </center>
-
+    <p class="text-right">F8300.1<br>19 Jan. 22</p>
     <!-- หน้า 1 -->
     <div class="section">
         <div class="section-title-container">

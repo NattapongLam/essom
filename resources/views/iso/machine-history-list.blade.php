@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h5>ESSOM CO.,LTD<br>คำขอแก้ไขประวัติเครื่องจักร<br>EQUIPMENT RECORD</h5>
+                    <h5>ESSOM CO.,LTD<br>ประวัติเครื่องจักร<br>EQUIPMENT RECORD</h5>
                     <p class="text-right mb-0">F7132.2<br>9 Feb 17</p>
                     <p class="text-left">
                         <a href="{{ route('machine-history.create') }}" >เพิ่มข้อมูลใหม่</a>

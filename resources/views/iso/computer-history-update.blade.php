@@ -36,7 +36,7 @@ button:hover { transform: scale(1.05); }
 
 <div class="form-container">
   <h2>อัปเดตประวัติคอมพิวเตอร์</h2>
-
+  <p class="text-right">F7134.1<br>9 Jun. 16</p>
   <form method="POST" action="{{ route('computer-history.update', $computerHistory->id) }}">
     @csrf
     @method('PUT')

@@ -9,7 +9,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD<br>ใบคัดเลือกสินค้า/ผู้ขายและประเมิน (Drawing control status)</h5><p class="text-right">F8411.1<br>15 Aug. 19</p>
+                <h5>ESSOM CO.,LTD<br>ใบคัดเลือกสินค้า/ผู้ขายและประเมิน (SUPPLER QUALIFICATION AND EVALUATION)</h5><p class="text-right">F8411.1<br>15 Aug. 19</p>
                 <p class="text-left">
                     <a href="{{route('product-selection.create')}}">เพิ่มเอกสาร</a>
                 </p>              

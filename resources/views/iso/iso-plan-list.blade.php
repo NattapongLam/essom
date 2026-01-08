@@ -8,6 +8,7 @@
         <div class="card">
             <div class="card-header text-center">
                 <h5>ESSOM CO.,LTD<br>PLAN</h5>
+                <p class="text-right mb-0">F6200.2<br>14 Oct 20</p>
                 <p class="text-left">
                     <a href="{{ route('iso-plan.create') }}">+ เพิ่มเอกสาร</a>
                 </p>              

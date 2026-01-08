@@ -31,25 +31,23 @@ input[readonly], textarea[readonly] {
     color: #1e293b;
     cursor: default;
 }
-.card, .form-container {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 25px 40px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    border: 1px solid #e0e0e0;
-    margin-bottom: 25px;
-}
+.card, .form-container { background: #ffffff; border-radius: 18px; padding: 25px 40px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; margin-bottom: 25px; }
 body { background-color: #ffffff; }
 h2 { text-align: center; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; color: #1e293b; background-color: #ffffff; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; color: #1e293b; background-color: #ffffff; }
 th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: center; vertical-align: middle; background-color: #ffffff; }
 th { background-color: #1e40af; color: #ffffff; font-weight: 600; text-transform: uppercase; }
 tr:nth-child(even) { background-color: #f8fafc; }
-input, textarea, select { border: 1px solid #94a3b8; border-radius: 5px; padding: 6px 10px; font-size: 14px; width: 100%; box-sizing: border-box; background-color: #f9fafb; }
-button.back { background: linear-gradient(180deg, #2563eb, #60a5fa); color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:500; cursor:pointer; }
-button.back:hover { transform: scale(1.05); }
-button.save { background: linear-gradient(180deg, #16a34a, #4ade80); color:white; border:none; padding:8px 16px; border-radius:6px; font-weight:500; cursor:pointer; }
-button.save:hover { transform: scale(1.05); }
+input, textarea, select { border: 1px solid #94a3b8; border-radius: 5px; padding: 6px 10px; font-size: 12px; width: 100%; box-sizing: border-box; background-color: #ffffff; transition: 0.2s; }
+input:focus, textarea:focus { border-color: #1e40af; box-shadow: 0 0 4px rgba(59,130,246,0.3); outline: none; }
+button.primary { background: linear-gradient(180deg, #1e3a8a, #3b82f6); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+button.primary:hover { transform: scale(1.05); }
+button.edit { background: linear-gradient(180deg, #2563eb, #60a5fa); color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:500; cursor:pointer; transition: all 0.2s ease; }
+button.edit:hover { transform: scale(1.05); }
+button.delete { background: linear-gradient(180deg, #dc2626, #ef4444); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+button.delete:hover { transform: scale(1.05); }
+.actions { display:flex; gap:12px; justify-content:flex-end; margin-top:15px; }
+input[type="text"], input[type="date"] { height: 36px; font-size: 12px; }
 </style>
 
 <div align="left" class="form-container">
@@ -61,27 +59,34 @@ button.save:hover { transform: scale(1.05); }
             <h2>ESSOM CO.,LTD.</h2>
             <h2>PLAN</h2>
             <br><br>
-            Project :
-            <input type="text" value="{{ $plan->project_name ?? '-' }}" style="width:450px; margin-right:200px;" readonly>
-            Responsible Section / Person :
-            <input type="text" value="{{ $plan->responsible_section ?? '-' }}" style="width:450px;" readonly>
+            <div class="row">
+                <div class="col-6">
+                    Project :
+                    <input type="text" value="{{ $plan->project_name ?? '-' }}" class="form-control" readonly>
+                </div>
+                <div class="col-6">
+                    Responsible Section / Person :
+                    <input type="text" value="{{ $plan->responsible_section ?? '-' }}" class="form-control" readonly>
+                </div>
+            </div>
         </center>
 
         <br>
+        <div class="table-responsive">
         <table id="activityTable">
             <thead>
                 <tr>
-                    <th rowspan="2">No.</th>
-                    <th rowspan="2">Description of Activities</th>
-                    <th rowspan="2">Resp.<br>Person</th>
+                    <th rowspan="2" style="width: 5%">No.</th>
+                    <th rowspan="2" style="width: 25%">Description of Activities</th>
+                    <th rowspan="2" style="width: 20%">Resp.<br>Person</th>
                     <th colspan="2">Date</th>
                     <th>Status</th>
-                    <th rowspan="2">Progress Report/Remarks</th>
+                    <th rowspan="2" style="width: 20%">Progress Report/Remarks</th>
                 </tr>
                 <tr>
-                    <th>Start</th>
-                    <th>Finish</th>
-                    <th>Result</th>
+                    <th style="width: 10%">Start</th>
+                    <th style="width: 10%">Finish</th>
+                    <th style="width: 10%">Result</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,18 +96,18 @@ button.save:hover { transform: scale(1.05); }
                 @endphp
                 @foreach($activities as $act)
                 <tr>
-                    <td>{{ $no++ }}</td>
-                    <td><input type="text" value="{{ $act['description'] ?? '-' }}" readonly></td>
-                    <td><input type="text" value="{{ $act['responsible_person'] ?? '-' }}" readonly></td>
-                    <td><input type="text" value="{{ isset($act['date_start']) ? date('Y-m-d', strtotime($act['date_start'])) : '-' }}" readonly></td>
-                    <td><input type="text" value="{{ isset($act['date_end']) ? date('Y-m-d', strtotime($act['date_end'])) : '-' }}" readonly></td>
-                    <td><input type="text" value="{{ $act['status'] ?? '-' }}" readonly></td>
-                    <td><input type="text" value="{{ $act['remark'] ?? '-' }}" readonly></td>
+                    <td style="width: 5%">{{ $no++ }}</td>
+                    <td style="width: 25%"><input type="text" value="{{ $act['description'] ?? '-' }}" readonly></td>
+                    <td style="width: 20%"><input type="text" value="{{ $act['responsible_person'] ?? '-' }}" readonly></td>
+                    <td style="width: 10%"><input type="text" value="{{ isset($act['date_start']) ? date('Y-m-d', strtotime($act['date_start'])) : '-' }}" readonly></td>
+                    <td style="width: 10%"><input type="text" value="{{ isset($act['date_end']) ? date('Y-m-d', strtotime($act['date_end'])) : '-' }}" readonly></td>
+                    <td style="width: 10%"><input type="text" value="{{ $act['status'] ?? '-' }}" readonly></td>
+                    <td style="width: 20%"><input type="text" value="{{ $act['remark'] ?? '-' }}" readonly></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-
+        </div>
         <br><br>
         <div class="row">
             <div class="col-4">

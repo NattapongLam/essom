@@ -73,6 +73,8 @@
         }
     </style>
       <h2 align="center">ESSOM CO.,LTD.</h2>
+      <h3>ใบบันทึกความรู้องค์กร</h3>
+    <p class="text-right mb-0">F7160.2<br>7 Nov 23</p>
 <a href="{{ route('knowledge-record.create') }}" >
 <table id="activityTable" width="20%" border="1" cellpadding="0" cellspacing="0">
     <thead>

@@ -37,7 +37,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 12px;
     color: #1e293b;
 }
 th, td {
@@ -58,7 +58,7 @@ input, textarea, select {
     border: 1px solid #94a3b8;
     border-radius: 5px;
     padding: 6px 10px;
-    font-size: 14px;
+    font-size: 13px;
     width: 100%;
     box-sizing: border-box;
     background-color: #f8fafc;
@@ -124,27 +124,34 @@ button.delete:hover { transform: scale(1.05); }
 <div class="form-container">
     <h2>ESSOM CO.,LTD.</h2>
     <h2>Objective</h2>
+    <p class="text-right mb-0">F6200.1<br>9 Apr 24</p>
     <br><br>
     <center>
-        <div class="section-line">
-            <label>Section:
-                <input type="text" name="section[]" value="{{ old('section.0') }}" style="width:430px;" required>
-            </label>
-            <label>Period:
-                <input type="text" name="period[]" value="{{ old('period.0') }}" style="width:540px;" required>
-            </label>
-        </div>
-   
-
+        {{-- <div class="section-line"> --}}
+            <div class="row">
+                <div class="col-6">
+                    <label>Section:
+                        <input type="text" name="section[]" value="{{ old('section.0') }}" class="form-control" required>
+                    </label>                   
+                </div>
+                <div class="col-6">
+                    <label>Period:
+                        <input type="text" name="period[]" value="{{ old('period.0') }}" class="form-control" required>
+                    </label>
+                </div>
+            </div>
+        {{-- </div>
+    --}}
+    <div class="table-responsive">
     <table id="objectiveTable">
         <thead>
             <tr>
-                <th rowspan="2">NO.</th>
-                <th rowspan="2">DESCRIPTION OF ACTIVITIES</th>
-                <th rowspan="2">RESP. PERSON</th>
+                <th rowspan="2" style="width: 5%">NO.</th>
+                <th rowspan="2" style="width: 30%">DESCRIPTION OF ACTIVITIES</th>
+                <th rowspan="2" style="width: 20%">RESP. PERSON</th>
                 <th colspan="3">OBJECTIVE</th>
-                <th rowspan="2">REMARKS/CORRECTIVE ACTION</th>
-                <th rowspan="2">[ปุ่มลบ]</th>
+                <th rowspan="2" style="width: 20%">REMARKS/CORRECTIVE ACTION</th>
+                <th rowspan="2" style="width: 5%">[ปุ่มลบ]</th>
             </tr>
             <tr>
                 <td width="8%" align="center">Previous</td>
@@ -156,7 +163,12 @@ button.delete:hover { transform: scale(1.05); }
             @for($i = 0; $i < 5; $i++)
             <tr>
                 <td>{{ $i+1 }}</td>
-                <td><input type="text" name="description[]" placeholder="Description of Activities" value="{{ old('description.'.$i) }}"></td>
+                <td>
+                    <textarea name="description[]" rows="5">
+                        {{ old('description.'.$i) }}
+                    </textarea>
+                    {{-- <input type="text" name="description[]" placeholder="Description of Activities" value="{{ old('description.'.$i) }}"> --}}
+                </td>
                 <td>
                     <select class="form-control receiver-select" name="resp_person[]">
                         <option value=""></option>
@@ -168,7 +180,12 @@ button.delete:hover { transform: scale(1.05); }
                 <td><input type="text" name="previous[]" placeholder="Previous" value="{{ old('previous.'.$i) }}"></td>
                 <td><input type="text" name="plan[]" placeholder="Plan" value="{{ old('plan.'.$i) }}"></td>
                 <td><input type="text" name="results[]" placeholder="Results" value="{{ old('results.'.$i) }}"></td>
-                <td><input type="text" name="remarks[]" placeholder="Remarks" value="{{ old('remarks.'.$i) }}"></td>
+                <td>
+                    <textarea  name="remarks[]" rows="5">
+                        {{ old('remarks.'.$i) }}
+                    </textarea>
+                    {{-- <input type="text" name="remarks[]" placeholder="Remarks" value="{{ old('remarks.'.$i) }}"> --}}
+                </td>
                 <td>
                     <input type="hidden" name="no[]" value="{{ $i+1 }}" class="rowNo">
                     <button type="button" class="delete">ลบ</button>
@@ -177,6 +194,7 @@ button.delete:hover { transform: scale(1.05); }
             @endfor
         </tbody>
     </table>
+    </div>
      </center>
     <button type="button" class="edit" id="addRowBtn" style="margin-top:10px;">+ เพิ่มแถว</button>
     <br><br>
