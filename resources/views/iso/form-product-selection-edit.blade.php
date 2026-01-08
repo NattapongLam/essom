@@ -142,6 +142,7 @@
                                         <input class="form-control" name="product_selection_dt_remark[]" value=" {{$item->product_selection_dt_remark}}">
                                     </td>
                                     <td>
+                                        <input type="file" class="form-control-file" name="product_selection_dt_file[]" >
                                         @if ($item->documentcorrections_file)
                                             <a href="{{asset($item->documentcorrections_file)}}" target=”_blank”>
                                                 <i class="fas fa-file"></i>

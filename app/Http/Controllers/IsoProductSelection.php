@@ -246,7 +246,7 @@ class IsoProductSelection extends Controller
                 }
                 if($request->product_selection_dt_listno){
                     foreach ($request->product_selection_dt_listno as $key => $value) {      
-                        ProductSelectionDt::insert([
+                       $data_dt = [
                             'product_selection_hd_id' => $insertHD->product_selection_hd_id,
                             'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
                             'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
@@ -265,11 +265,22 @@ class IsoProductSelection extends Controller
                             'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
                             'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
                             'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
-                        ]);
+                        ]; 
+                        if ($request->hasFile('product_selection_dt_file') 
+                            && isset($request->file('product_selection_dt_file')[$key])) {
+
+                            $file = $request->file('product_selection_dt_file')[$key];
+
+                            $data_dt['product_selection_dt_file'] = $file->storeAs(
+                                'img/productselection',
+                                'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
+                            );
+                        }
+                        ProductSelectionDt::create($data_dt);
                     }   
                 }               
                 foreach ($request->product_selection_sub_id as $key => $value) {
-                    ProductSelectionSub::where('product_selection_sub_id',$value)->update([
+                    $data_up = [
                         'product_selection_hd_results1_1' => $request->product_selection_hd_results1_1[$key],
                         'product_selection_hd_results1_2' => $request->product_selection_hd_results1_2[$key],
                         'product_selection_hd_results1_3' => $request->product_selection_hd_results1_3[$key],
@@ -284,7 +295,15 @@ class IsoProductSelection extends Controller
                         'product_selection_hd_results4_3' => $request->product_selection_hd_results4_3[$key],
                         'person_at' => Auth::user()->name,
                         'updated_at' => Carbon::now(),
-                    ]);
+                    ];
+                    if ($request->hasFile('product_selection_dt_file') && isset($request->file('product_selection_dt_file')[$key])) {
+                            $file = $request->file('product_selection_dt_file')[$key];
+                            $data_up['product_selection_dt_file'] = $file->storeAs(
+                                'img/productselection',
+                                'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
+                            );
+                    }
+                    ProductSelectionSub::where('product_selection_sub_id',$value)->update($data_up);
                 }
                 DB::commit();
                 return redirect()->route('product-selection.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
