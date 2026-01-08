@@ -83,6 +83,9 @@ class IsoDocumentcorrection extends Controller
             if ($request->hasFile('documentcorrections_file')) {
                 $data['documentcorrections_file'] = $request->file('documentcorrections_file')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file')->extension());
             }
+            if ($request->hasFile('documentcorrections_file1')) {
+                $data['documentcorrections_file1'] = $request->file('documentcorrections_file1')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file1')->extension());
+            }
             try{
 
                 DB::beginTransaction();
@@ -168,6 +171,9 @@ class IsoDocumentcorrection extends Controller
             ];
             if ($request->hasFile('documentcorrections_file')) {
                 $data['documentcorrections_file'] = $request->file('documentcorrections_file')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file')->extension());
+            }
+            if ($request->hasFile('documentcorrections_file1')) {
+                $data['documentcorrections_file1'] = $request->file('documentcorrections_file1')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file1')->extension());
             }
             try{
 
