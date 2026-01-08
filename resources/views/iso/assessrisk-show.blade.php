@@ -15,12 +15,19 @@ Swal.fire({
 @endif
 
 <style>
+    .input_style[readonly] {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
 body { 
     font-family: 'TH Sarabun New', sans-serif; 
-    font-size: 18px; 
+    font-size: 14px; 
     background: #f4f6f8; 
     color: #333;
 }
+
 form { 
     margin: 20px auto; 
     width: 95%; 
@@ -31,6 +38,7 @@ form {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
     border: 1px solid #e0e0e0;
 }
+
 .risk-block { 
     border: 1px solid #d1d5db; 
     border-radius: 10px; 
@@ -40,6 +48,7 @@ form {
     box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
     page-break-inside: avoid; 
 }
+
 .risk-header { 
     font-weight: bold; 
     background: #e6f0ff; 
@@ -48,42 +57,43 @@ form {
     margin-bottom: 15px; 
     color: #457dcbff;
 }
+
 .input_style { 
     width: 100%; 
     border: 1px solid #cbd5e1; 
     border-radius: 5px; 
     outline: none; 
     background: #f9fafb; 
-    font-size: 16px; 
+    font-size: 12px; 
     padding: 5px 8px; 
     transition: all 0.2s ease-in-out;
 }
+
 .input_style:focus {
     border-color: #3b82f6;
     background: #ffffff;
     box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
 }
-.input_style[readonly] {
-    background: #f3f4f6;
-    color: #555;
-    cursor: not-allowed;
-}
+
 .mini-table { 
     width: 100%; 
     border-collapse: collapse; 
-    font-size: 15px; 
+    font-size: 12px; 
     margin: 6px 0; 
 }
+
 .mini-table th, .mini-table td { 
     border: 1px solid #cbd5e1; 
     padding: 5px; 
     text-align: center; 
 }
+
 .mini-table th { 
     background: #f0f4f8; 
     font-weight: 600; 
     color: #1e3a8a;
 }
+
 table { 
     border-collapse: separate !important; 
     border-spacing: 0 !important; 
@@ -94,13 +104,20 @@ table {
     overflow: hidden; 
     margin-top: 10px;
 }
+
 table td, table th { 
     border: 1px solid #cbd5e1 !important; 
     padding: 6px 10px; 
 }
+
 table td input.input_style { 
-    font-size: 15px; 
+    font-size: 12px; 
     text-align: center; 
+}
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .btn-submit { 
     background: #2242abff; 
@@ -112,21 +129,36 @@ table td input.input_style {
     font-size: 16px; 
     transition: background 0.2s ease-in-out;
 }
+
 .btn-submit:hover { 
     background: #6090deff; 
 }
+
 @media (max-width: 768px) {
-    form { padding: 20px; }
-    .risk-header h4 { font-size: 16px; }
-    .input_style { font-size: 14px; }
-    table td, table th { padding: 4px 6px; }
+   table, thead, tbody, tr, td, th {
+        font-size: 12px;
+    }
+
+    table {
+        min-width: 900px; /* ป้องกันบีบจนพัง */
+    }
+
+    .mini-table {
+        min-width: 600px;
+    }
+
+    .risk-header input {
+        width: 100% !important;
+        margin-bottom: 6px;
+    }
 }
+
 </style>
 
 {{-- <form action="{{ route('assessrisk.update', $risks[0]['id'] ?? 0) }}" method="POST">
     @csrf
     @method('PUT') --}}
-
+<div class="container-fluid">
 @foreach($risks as $i => $risk)
 <div class="risk-block">
     <div class="risk-header">
@@ -138,7 +170,7 @@ table td input.input_style {
         วันที่: 
         <input type="date" value="{{ $risk['date'] ?? '' }}" class="input_style" style="width:15%;" readonly>
     </div>
-
+    <div class="table-responsive">
     <table>
         <tr>
             <td colspan="6">
@@ -321,6 +353,8 @@ table td input.input_style {
 
         </tr>
     </table>
+    </div>
+</div>
 </div>
 @endforeach
 
