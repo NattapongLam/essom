@@ -24,6 +24,7 @@
                                 <th>เบอร์โทร</th>
                                 <th>เสนอโดย</th>
                                 <th>ประเภทจัดซื้อ</th>
+                                <th>แก้ไข</th>
                                 <th>ประเมิน</th>
                                 <th>อนุมัติ</th>
                                 <th>ลบ</th>
@@ -40,6 +41,11 @@
                                          {{$item->requested_date}}
                                     </td>
                                     <td>{{$item->recipient_selection_hd_type}}</td>
+                                    <td>
+                                        <a href="{{route('recipient-selection.edit',$item->recipient_selection_hd_id)}}" class="btn btn-sm btn-info" >
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a href="{{route('recipient-selection.edit',$item->recipient_selection_hd_id)}}" class="btn btn-sm btn-warning" >
                                             <i class="fas fa-edit"></i>
