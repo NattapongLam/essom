@@ -53,6 +53,7 @@ Route::resource('/pd-woho' , App\Http\Controllers\ProductionWorkingHours::class)
 Route::post('/getData-Woho' , [App\Http\Controllers\ProductionWorkingHours::class , 'getDataWoho']);
 Route::post('/getEmployee' , [App\Http\Controllers\ProductionWorkingHours::class , 'getEmployee']);
 Route::post('/cancelDocsMan' , [App\Http\Controllers\ProductionWorkingHours::class , 'cancelDocsMan']);
+Route::get('/employee/jobs', [App\Http\Controllers\ProductionWorkingHours::class, 'getJobs'])->name('employee.jobs');
 Route::resource('/fl-inst' , App\Http\Controllers\FinalInspection::class);
 Route::post('/getData-Inst' , [App\Http\Controllers\FinalInspection::class , 'getDataInst']);
 Route::resource('/pd-close' , App\Http\Controllers\ProductionClose::class);

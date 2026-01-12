@@ -280,4 +280,18 @@ class ProductionWorkingHours extends Controller
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);     
     }
+    public function getJobs(Request $request)
+    {
+        $jobs = DB::table('vw_historyworkinghours')
+            ->where('ms_employee_id', $request->ms_employee_id)
+            ->select(
+                'workinghours_hd_date',
+                'productionopenjob_hd_docuno',
+                'workinghours_dt_hours'
+            )
+            ->orderBy('workinghours_hd_date', 'desc')
+            ->get();
+
+        return response()->json($jobs);
+    }
 }
