@@ -138,6 +138,23 @@
                 </div> --}}
             {{-- </div> --}}
             <div class="row">
+                <h5>ประวัติการบันทึกย้อนหลัง 7 วัน</h5>
+                <table class="table" id="jobTable">
+                <thead>
+                    <tr>
+                        <th>วันที่</th>
+                        <th>เลขที่งาน</th>
+                        <th>จำนวน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="text-center">กรุณาเลือกพนักงาน</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="row">
                 <div class="col-12 col-md-12">
                 <div class="form-group">
                     <label for="workinghours_hd_remark">หมายเหตุ</label>
@@ -597,5 +614,49 @@ $(document).ready(function() {
         bSort: true, 
     })
 }); 
+$(document).ready(function () {
+
+    $('#ms_employee_id').on('change', function () {
+        let empId = $(this).val();
+        let tbody = $('#jobTable tbody');
+
+        tbody.html('<tr><td colspan="3" class="text-center">กำลังโหลด...</td></tr>');
+
+        if (empId === '') {
+            tbody.html('<tr><td colspan="3" class="text-center">กรุณาเลือกพนักงาน</td></tr>');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('employee.jobs') }}",
+            type: "GET",
+            data: {
+                ms_employee_id: empId
+            },
+            success: function (res) {
+                tbody.empty();
+
+                if (res.length === 0) {
+                    tbody.append('<tr><td colspan="3" class="text-center">ไม่พบข้อมูล</td></tr>');
+                    return;
+                }
+
+                $.each(res, function (index, item) {
+                    tbody.append(`
+                        <tr>
+                            <td>${item.workinghours_hd_date}</td>
+                            <td>${item.productionopenjob_hd_docuno}</td>
+                            <td>${item.workinghours_dt_hours}</td>
+                        </tr>
+                    `);
+                });
+            },
+            error: function () {
+                tbody.html('<tr><td colspan="3" class="text-danger text-center">เกิดข้อผิดพลาด</td></tr>');
+            }
+        });
+    });
+
+});
 </script>
 @endpush        
