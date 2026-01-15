@@ -424,11 +424,11 @@ class CarReport extends Controller
                 $this->notifyTelegram($message, $token, $chatId);
             }
             DB::commit();
-            return redirect()->route('car-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+            return redirect()->route('car-report.edit',$id)->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
             Log::error($e->getMessage());
             dd($e->getMessage());
-            return redirect()->route('car-report.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            return redirect()->route('car-report.edit',$id)->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
         }
     }
 
