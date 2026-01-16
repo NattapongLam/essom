@@ -32,5 +32,37 @@ class RolePermissionSeeder extends Seeder
         // Permission::create(['name' => 'Report-manhours']);
         // Permission::create(['name' => 'Report-costmaterials']);
         // Permission::create(['name' => 'main-iso']);
+        // Permission::create(['name' => 'iso-ncr']);
+        // Permission::create(['name' => 'iso-car']);
+        // Permission::create(['name' => 'iso-assessrisk']);
+        // Permission::create(['name' => 'iso-assessrisk-swot']);
+        // Permission::create(['name' => 'iso-objective']);
+        // Permission::create(['name' => 'iso-plan']);
+        // Permission::create(['name' => 'iso-maintenancerecords']);
+        // Permission::create(['name' => 'iso-machinehistorys']);
+        // Permission::create(['name' => 'iso-computerhistorys']);
+        // Permission::create(['name' => 'iso-itmaintenance']);
+        // Permission::create(['name' => 'iso-emailregistration']);
+        // Permission::create(['name' => 'iso-knowledgesurvey']);
+        // Permission::create(['name' => 'iso-knowledgerecord']);
+        // Permission::create(['name' => 'iso-knowledgetransfer']);
+        // Permission::create(['name' => 'iso-knowledgeregister']);
+        // Permission::create(['name' => 'iso-documentcontrol']);
+        // Permission::create(['name' => 'iso-documentdistribution']);
+        // Permission::create(['name' => 'iso-documentcorrection']);
+        // Permission::create(['name' => 'iso-documentdestruction']);
+        // Permission::create(['name' => 'iso-externaldocument']);
+        // Permission::create(['name' => 'iso-referencedocuments']);
+        // Permission::create(['name' => 'iso-designplan']);
+        // Permission::create(['name' => 'iso-designreview-a']);
+        // Permission::create(['name' => 'iso-designreview-b']);
+        // Permission::create(['name' => 'iso-detailedtesting']);
+        // Permission::create(['name' => 'iso-editdesign']);
+        // Permission::create(['name' => 'iso-productregistration']);
+        // Permission::create(['name' => 'iso-qualityplan']);
+        // Permission::create(['name' => 'iso-productselection']);
+        // Permission::create(['name' => 'iso-recipientselection']);
+        // Permission::create(['name' => 'iso-selectedproduct']);
+        // Permission::create(['name' => 'iso-softwaredesign']);
     }
 }
