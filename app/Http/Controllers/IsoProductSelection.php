@@ -225,7 +225,7 @@ class IsoProductSelection extends Controller
                 DB::beginTransaction();
                 $insertHD = ProductSelectionHd::where('product_selection_hd_id',$id)->update($data);
                 foreach ($request->product_selection_dt_id as $key => $value) {
-                    ProductSelectionDt::where('product_selection_dt_id',$value)->update([
+                    $data_up = [
                         'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
                         'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
                         'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
@@ -242,7 +242,18 @@ class IsoProductSelection extends Controller
                         'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
                         'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
                         'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
-                    ]);
+                    ];
+                    if ($request->hasFile('product_selection_dt_file') 
+                            && isset($request->file('product_selection_dt_file')[$key])) {
+
+                            $file = $request->file('product_selection_dt_file')[$key];
+
+                            $data_up['product_selection_dt_file'] = $file->storeAs(
+                                'img/productselection',
+                                'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
+                            );
+                        }
+                    ProductSelectionDt::where('product_selection_dt_id',$value)->update($data_up);
                 }
                 if($request->product_selection_dt_listno){
                     foreach ($request->product_selection_dt_listno as $key => $value) {      
@@ -266,6 +277,7 @@ class IsoProductSelection extends Controller
                             'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
                             'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
                         ]; 
+                        dd($data_dt);
                         if ($request->hasFile('product_selection_dt_file') 
                             && isset($request->file('product_selection_dt_file')[$key])) {
 
@@ -296,13 +308,6 @@ class IsoProductSelection extends Controller
                         'person_at' => Auth::user()->name,
                         'updated_at' => Carbon::now(),
                     ];
-                    if ($request->hasFile('product_selection_dt_file') && isset($request->file('product_selection_dt_file')[$key])) {
-                            $file = $request->file('product_selection_dt_file')[$key];
-                            $data_up['product_selection_dt_file'] = $file->storeAs(
-                                'img/productselection',
-                                'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
-                            );
-                    }
                     ProductSelectionSub::where('product_selection_sub_id',$value)->update($data_up);
                 }
                 DB::commit();

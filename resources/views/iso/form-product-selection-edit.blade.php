@@ -143,8 +143,8 @@
                                     </td>
                                     <td>
                                         <input type="file" class="form-control-file" name="product_selection_dt_file[]" >
-                                        @if ($item->documentcorrections_file)
-                                            <a href="{{asset($item->documentcorrections_file)}}" target=”_blank”>
+                                        @if ($item->product_selection_dt_file)
+                                            <a href="{{asset($item->product_selection_dt_file)}}" target=”_blank”>
                                                 <i class="fas fa-file"></i>
                                             </a>
                                         @endif
