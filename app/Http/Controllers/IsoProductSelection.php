@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProductSelectionSub;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ProductListSelectedDt;
+use App\Models\ProductListSelectedHd;
 
 class IsoProductSelection extends Controller
 {
@@ -219,7 +221,8 @@ class IsoProductSelection extends Controller
                 'assessor_by' => $request->assessor_by,
                 'assessor_date' => $request->assessor_date,
                 'purchase_by' => $request->purchase_by,
-                'purchase_date' => $request->purchase_date
+                'purchase_date' => $request->purchase_date,
+                'approved_by1' => $request->approved_by1
             ];
             try{
                 DB::beginTransaction();
@@ -410,5 +413,72 @@ class IsoProductSelection extends Controller
             ]);    
         }
         
+    }
+
+    public function updateProductSelection(Request $request)
+    {
+        try {
+            $hd = ProductSelectionHd::findOrFail($request->refid);
+
+            $ckhd = ProductListSelectedHd::where(
+                'product_list_selected_hd_product',
+                $hd->product_type1
+            )->first();
+
+            // ถ้ามีแล้ว ไม่ต้องทำซ้ำ
+            if ($ckhd) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'มีข้อมูลนี้แล้ว'
+                ]);
+            }
+
+            DB::beginTransaction();
+
+            $insertHD = ProductListSelectedHd::create([
+                'product_list_selected_hd_product' => $hd->product_type1,
+                'person_at' => Auth::user()->name,
+                'product_list_selected_hd_flag' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $ckdt = ProductSelectionDt::where('product_selection_dt_flag', true)
+                ->where('product_selection_hd_id', $hd->product_selection_hd_id)
+                ->get();
+
+            foreach ($ckdt as $value) {
+                ProductListSelectedDt::create([
+                    'product_list_selected_hd_id' => $insertHD->product_list_selected_hd_id,
+                    'product_list_selected_dt_listno' => $value->product_selection_dt_listno,
+                    'product_list_selected_dt_vendor' => $value->product_selection_dt_vendor,
+                    'product_list_selected_dt_product' => $hd->product_type1,
+                    'product_list_selected_dt_results1' => 0,
+                    'product_list_selected_dt_results2' => 0,
+                    'product_list_selected_dt_results3' => 0,
+                    'product_list_selected_dt_results4' => 0,
+                    'product_list_selected_dt_results5' => 1,
+                    'person_at' => Auth::user()->name,
+                    'product_list_selected_dt_flag' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'อัพเดทเรียบร้อยแล้ว'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e);
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
