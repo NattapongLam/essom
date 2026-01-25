@@ -27,6 +27,7 @@
                                 <th>From</th>
                                 <th>Remark</th>
                                 <th>Requested By</th>
+                                <th></th>
                                 <th>แก้ไข</th>
                                 <th>อนุมัติ</th>
                                 <th>ลบ</th>
@@ -43,6 +44,18 @@
                                     <td>{{$item->documentcorrections_from}}</td>
                                     <td>{{$item->documentcorrections_note}}</td>
                                     <td>{{$item->requested_by}}</td>
+                                    <td>
+                                        @if ($item->documentcorrections_file)
+                                            <a href="{{asset($item->documentcorrections_file)}}" target=”_blank”>
+                                                <i class="fas fa-file"> ไฟล์เดิม</i>
+                                            </a><br>
+                                        @endif
+                                        @if ($item->documentcorrections_file1)
+                                            <a href="{{asset($item->documentcorrections_file1)}}" target=”_blank”>
+                                                <i class="fas fa-file"> ไฟล์ใหม่</i>
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>
                                         {{-- @if ($item->reviewed_by == null) --}}
                                             <a href="{{route('document-correction.edit',$item->documentcorrections_id)}}" class="btn btn-sm btn-warning" >
