@@ -17,41 +17,41 @@
                 </div>
                 <div class="card-body">             
                     <div class="table-responsive">
-                        <table id="tb_job" class="table table-bordered table-sm text-center">
+                        <table id="tb_job" class="table table-bordered table-sm">
                             <thead>
                                 <tr>
-                                    <th>กระบวนการ / ระเบียบ</th>
-                                    <th>เสนอโดย</th>
-                                    <th>วันที่</th>
-                                    <th>ประเด็นความเสี่ยง</th>
-                                     <th>แก้ไข</th>
-                                    <th>อนุมัติ</th>
-                                    <th>ลบ</th>
+                                    <th class="text-center">กระบวนการ / ระเบียบ</th>
+                                    <th class="text-center">เสนอโดย</th>
+                                    <th class="text-center">วันที่</th>
+                                    <th class="text-center">ประเด็นความเสี่ยง</th>
+                                    <th class="text-center">แก้ไข</th>
+                                    <th class="text-center">อนุมัติ</th>
+                                    <th class="text-center">ลบ</th>
                                 </tr>
                             </thead>
                            <tbody>
 @foreach($risks as $i => $risk)
 <tr>
     <td>{{ $risk->process_ref }}</td>
-    <td>{{ $risk->proposed_by }}</td>
-    <td>{{ $risk->proposed_date }}</td>
+    <td class="text-center">{{ $risk->proposed_by }}</td>
+    <td class="text-center">{{ $risk->proposed_date }}</td>
     <td>
         {{ $risk->risk_issue }}<br>
         {{ $risk->risk_cause }}<br>
         {{ $risk->risk_impact }}<br>
         {{ $risk->risk_accept_reason }}
     </td>
-    <td>
+    <td class="text-center">
         <a href="{{ route('assessrisk.edit', $risk->id) }}" class="btn btn-sm btn-warning">
             <i class="fas fa-edit"></i>
         </a>
     </td>
-    <td>
+    <td class="text-center">
         <a href="{{ route('assessrisk.show', $risk->id) }}" class="btn btn-sm btn-primary">
             <i class="fas fa-check"></i>
         </a>
     </td>
-    <td>
+    <td class="text-center">
         <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="confirmDel('{{ $risk->id }}')">
             <i class="fas fa-trash"></i>
         </a>
