@@ -11,19 +11,22 @@
                     <h5>ESSOM CO.,LTD<br>การประเมินความเสี่ยงและโอกาส</h5>
                     <p class="text-right mb-0">F6120.1<br>15 Feb 22</p>
                     <p class="text-left">
-
-                        <a href="{{ route('assessrisk.create') }}" >เพิ่มข้อมูลใหม่</a>
+                        <a href="{{ route('assessrisk.create') }}" >เพิ่มข้อมูลใหม่</a><br>                       
                    </p>              
                 </div>
-                <div class="card-body">             
+                <div class="card-body">     
+                    Risk level<br>   
+                    Low : 1-3 Middle : 4-9 High : 10-16 Very High : 20-25                        
                     <div class="table-responsive">
                         <table id="tb_job" class="table table-bordered table-sm">
                             <thead>
                                 <tr>
                                     <th class="text-center">กระบวนการ / ระเบียบ</th>
                                     <th class="text-center">เสนอโดย</th>
+                                    <th class="text-center">อนุมัติโดย</th>
                                     <th class="text-center">วันที่</th>
                                     <th class="text-center">ประเด็นความเสี่ยง</th>
+                                    <th class="text-center">Level</th>
                                     <th class="text-center">แก้ไข</th>
                                     <th class="text-center">อนุมัติ</th>
                                     <th class="text-center">ลบ</th>
@@ -34,6 +37,7 @@
 <tr>
     <td>{{ $risk->process_ref }}</td>
     <td class="text-center">{{ $risk->proposed_by }}</td>
+    <td class="text-center">{{ $risk->approved_by_1 }}</td>
     <td class="text-center">{{ $risk->proposed_date }}</td>
     <td>
         {{ $risk->risk_issue }}<br>
@@ -41,6 +45,7 @@
         {{ $risk->risk_impact }}<br>
         {{ $risk->risk_accept_reason }}
     </td>
+    <td class="text-center">{{ $risk->pre_level_1 }}</td>
     <td class="text-center">
         <a href="{{ route('assessrisk.edit', $risk->id) }}" class="btn btn-sm btn-warning">
             <i class="fas fa-edit"></i>
@@ -91,7 +96,7 @@ $(document).ready(function() {
             type: 'time-date-sort'
         }],
         order: [
-            [1, "asc"]
+            [3, "asc"]
         ],
         fixedHeader: {
             header:false,
