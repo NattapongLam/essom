@@ -52,9 +52,20 @@
         </a>
     </td>
     <td class="text-center">
-        <a href="{{ route('assessrisk.show', $risk->id) }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-check"></i>
-        </a>
+       @if ($risk->approved_date_1)
+            <span class="badge badge-success">อนุมัติ</span>
+
+        @elseif ($risk->approved_status_1 === 'N')
+            @if ($risk->approved_by_1 === auth()->user()->name)
+                <a href="{{ route('assessrisk.show', $risk->id) }}"
+                class="btn btn-sm btn-primary">
+                    <i class="fas fa-check"></i>
+                </a>
+            @else
+                <span class="badge badge-info">รออนุมัติ</span>
+            @endif
+        @endif
+            
     </td>
     <td class="text-center">
         <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="confirmDel('{{ $risk->id }}')">
