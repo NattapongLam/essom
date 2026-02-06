@@ -172,7 +172,7 @@ class IsoRecipientSelection extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->checkdoc == ""){
+        if($request->checkdoc == "Edit"){
             $data = [
                 'recipient_selection_hd_name' => $request->recipient_selection_hd_name,
                 'recipient_selection_hd_address' => $request->recipient_selection_hd_address,
