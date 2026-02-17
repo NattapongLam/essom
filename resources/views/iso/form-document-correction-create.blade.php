@@ -60,11 +60,11 @@
                         <input type="text" class="form-control form-control position-input" name="documentcorrections_name" required>
                     </div>
                     <div class="col-3">
-                        <label for="documentcorrections_file">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentcorrections_file">เอกสารงานพิมพ์ต้นฉบับ</label>
                         <input type="file" class="form-control-file" name="documentcorrections_file" >
                     </div> 
                     <div class="col-3">
-                        <label for="documentcorrections_file">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentcorrections_file">เอกสารอื่นๆที่ใช้อ้างอิง (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentcorrections_file1" >
                     </div> 
                 </div>

@@ -74,7 +74,7 @@
                         <input type="text" class="form-control form-control position-input" name="documentcorrections_name" value="{{$doc->documentcorrections_name}}" required>
                     </div>
                     <div class="col-3">
-                        <label for="documentcorrections_file">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentcorrections_file">เอกสารงานพิมพ์ต้นฉบับ</label>
                         <input type="file" class="form-control-file" name="documentcorrections_file" >
                         @if ($doc->documentcorrections_file)
                             <a href="{{asset($doc->documentcorrections_file)}}" target=”_blank”>
@@ -83,7 +83,7 @@
                         @endif
                     </div> 
                     <div class="col-3">
-                        <label for="documentcorrections_file">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentcorrections_file">เอกสารอื่นๆที่ใช้อ้างอิง (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentcorrections_file1" >
                         @if ($doc->documentcorrections_file1)
                             <a href="{{asset($doc->documentcorrections_file1)}}" target=”_blank”>

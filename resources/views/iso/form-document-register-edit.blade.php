@@ -74,21 +74,45 @@
                 </div>
                  <div class="row mt-3">
                     <div class="col-4">
-                        <label for="documentregisters_file">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentregisters_file">ไฟล์สแกนต้นฉบับ</label>
                         <input type="file" class="form-control-file" name="documentregisters_file" >                        
                     </div> 
                     <div class="col-4">
-                        <label for="documentregisters_file1">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentregisters_file1">เอกสารแนบ (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentregisters_file1" >                        
                     </div> 
                     <div class="col-4">
-                        <label for="documentregisters_file2">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentregisters_file2">เอกสารอ้างอิง (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentregisters_file2" >                        
                     </div> 
                 </div>
                 <div class="row mt-3">
                     <div class="col-4">
-                        <label for="documentregisters_flag">เอกสารแนบของเดิม</label><br>
+                        <label for="documentregisters_flag">
+                            เอกสาร 
+                            @if ($hd->documentregisters_rev10)
+                                เอกสาร Rev.{{$hd->documentregisters_rev10}}
+                            @elseif($hd->documentregisters_rev09)
+                                เอกสาร Rev.{{$hd->documentregisters_rev09}}
+                            @elseif($hd->documentregisters_rev08)
+                                เอกสาร Rev.{{$hd->documentregisters_rev08}}
+                            @elseif($hd->documentregisters_rev07)
+                                เอกสาร Rev.{{$hd->documentregisters_rev07}}
+                            @elseif($hd->documentregisters_rev06)
+                                เอกสาร Rev.{{$hd->documentregisters_rev06}}
+                            @elseif($hd->documentregisters_rev05)
+                                เอกสาร Rev.{{$hd->documentregisters_rev05}}
+                            @elseif($hd->documentregisters_rev04)
+                                เอกสาร Rev.{{$hd->documentregisters_rev04}}
+                            @elseif($hd->documentregisters_rev03)
+                                เอกสาร Rev.{{$hd->documentregisters_rev03}}
+                            @elseif($hd->documentregisters_rev02)
+                                เอกสาร Rev.{{$hd->documentregisters_rev02}}
+                            @elseif($hd->documentregisters_rev01)
+                                เอกสาร Rev.{{$hd->documentregisters_rev01}}
+                            @endif
+                        </label>
+                        <br>
                         @if ($hd->documentregisters_file)
                             <a href="{{asset($hd->documentregisters_file)}}" target=”_blank”>
                                 <i class="fas fa-file"></i>
