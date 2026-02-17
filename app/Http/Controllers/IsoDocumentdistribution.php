@@ -97,7 +97,9 @@ class IsoDocumentdistribution extends Controller
     public function show($id)
     {
         $hd = Documentregister::find($id);
-        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)
+        ->whereIn('ms_employee_id',[32,36,54,57])
+        ->get();
         $list = Documentdistribution::leftjoin('ms_employee','documentdistributions.ms_employee_id','=','ms_employee.ms_employee_id')
         ->select('documentdistributions.*','ms_employee.ms_employee_code','ms_employee.ms_employee_fullname','ms_employee.ms_job_name')
         ->where('documentdistributions.documentdistributions_flag',true)
