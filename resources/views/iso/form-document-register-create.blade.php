@@ -73,15 +73,15 @@
                 </div>
                <div class="row mt-3">
                     <div class="col-4">
-                        <label for="documentregisters_file">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentregisters_file">ไฟล์สแกนต้นฉบับ</label>
                         <input type="file" class="form-control-file" name="documentregisters_file" >
                     </div> 
                     <div class="col-4">
-                        <label for="documentregisters_file1">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentregisters_file1">เอกสารแนบ (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentregisters_file1" >
                     </div> 
                     <div class="col-4">
-                        <label for="documentregisters_file2">ไฟล์แนบ(หากมี)</label>
+                        <label for="documentregisters_file2">เอกสารอ้างอิง (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentregisters_file2" >
                     </div> 
                 </div>
