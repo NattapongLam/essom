@@ -26,6 +26,7 @@
                 <th>NO</th>
                 <th>For Asset Number</th>
                 <th>User Name</th>
+                <th>Year</th>
               <th>แก้ไข</th>
               <th>ลบ</th>
             </tr>
@@ -86,7 +87,7 @@ $(document).ready(function() {
             type: 'time-date-sort'
         }],
         order: [
-            [1, "asc"]
+            [0, "asc"]
         ],
         fixedHeader: {
             header:false,
