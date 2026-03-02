@@ -156,7 +156,8 @@ function addRow() {
     row.innerHTML = `
         <td>
             ${rowCount}
-            <input type="hidden" name="product_list_selected_dt_listno[]" value="${rowCount}">            
+            <input type="hidden" name="product_list_selected_dt_listno[]" value="${rowCount}">   
+            <input type="hidden" name="product_list_selected_dt_id[]" value="0">         
         </td>
         <td>
             <textarea type="text"  class="form-control" placeholder="ผู้ขาย" name="product_list_selected_dt_vendor[]"></textarea>

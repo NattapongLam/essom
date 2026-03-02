@@ -124,34 +124,36 @@ class IsoProductListSelected extends Controller
             ProductListSelectedHd::where('product_list_selected_hd_id',$id)->update($data);
             $insertHD = ProductListSelectedHd::find($id);
             foreach ($request->product_list_selected_dt_id as $key => $value) {
-                ProductListSelectedDt::where('product_list_selected_dt_id',$value)->update([
-                    'product_list_selected_dt_vendor' => $request->product_list_selected_dt_vendor[$key],
-                    'product_list_selected_dt_product' => $request->product_list_selected_dt_product[$key],
-                    'product_list_selected_dt_results1' => $request->product_list_selected_dt_results1[$key],
-                    'product_list_selected_dt_results2' => $request->product_list_selected_dt_results2[$key],
-                    'product_list_selected_dt_results3' => $request->product_list_selected_dt_results3[$key],
-                    'product_list_selected_dt_results4' => $request->product_list_selected_dt_results4[$key],
-                    'product_list_selected_dt_results5' => $request->product_list_selected_dt_results5[$key],
-                    'person_at' => Auth::user()->name,
-                    'product_list_selected_dt_flag' => true,
-                    'updated_at' => Carbon::now(),
-                ]);
-            }
-            foreach ($request->product_list_selected_dt_listno as $key => $value) {
-                ProductListSelectedDt::insert([
-                    'product_list_selected_hd_id' =>  $insertHD->product_list_selected_hd_id, 
-                    'product_list_selected_dt_listno' => $value,
-                    'product_list_selected_dt_vendor' => $request->product_list_selected_dt_vendor[$key],
-                    'product_list_selected_dt_product' => $request->product_list_selected_dt_product[$key],
-                    'product_list_selected_dt_results1' => $request->product_list_selected_dt_results1[$key],
-                    'product_list_selected_dt_results2' => $request->product_list_selected_dt_results2[$key],
-                    'product_list_selected_dt_results3' => $request->product_list_selected_dt_results3[$key],
-                    'product_list_selected_dt_results4' => $request->product_list_selected_dt_results4[$key],
-                    'product_list_selected_dt_results5' => $request->product_list_selected_dt_results5[$key],
-                    'person_at' => Auth::user()->name,
-                    'product_list_selected_dt_flag' => true,
-                    'created_at' => Carbon::now(),
-                ]);
+                if($value <> 0){
+                    ProductListSelectedDt::where('product_list_selected_dt_id',$value)->update([
+                        'product_list_selected_dt_vendor' => $request->product_list_selected_dt_vendor[$key],
+                        'product_list_selected_dt_product' => $request->product_list_selected_dt_product[$key],
+                        'product_list_selected_dt_results1' => $request->product_list_selected_dt_results1[$key],
+                        'product_list_selected_dt_results2' => $request->product_list_selected_dt_results2[$key],
+                        'product_list_selected_dt_results3' => $request->product_list_selected_dt_results3[$key],
+                        'product_list_selected_dt_results4' => $request->product_list_selected_dt_results4[$key],
+                        'product_list_selected_dt_results5' => $request->product_list_selected_dt_results5[$key],
+                        'person_at' => Auth::user()->name,
+                        'product_list_selected_dt_flag' => true,
+                        'updated_at' => Carbon::now(),
+                    ]);
+                }elseif($value == 0){
+                    ProductListSelectedDt::insert([
+                        'product_list_selected_hd_id' =>  $insertHD->product_list_selected_hd_id, 
+                        'product_list_selected_dt_listno' => $value,
+                        'product_list_selected_dt_vendor' => $request->product_list_selected_dt_vendor[$key],
+                        'product_list_selected_dt_product' => $request->product_list_selected_dt_product[$key],
+                        'product_list_selected_dt_results1' => $request->product_list_selected_dt_results1[$key],
+                        'product_list_selected_dt_results2' => $request->product_list_selected_dt_results2[$key],
+                        'product_list_selected_dt_results3' => $request->product_list_selected_dt_results3[$key],
+                        'product_list_selected_dt_results4' => $request->product_list_selected_dt_results4[$key],
+                        'product_list_selected_dt_results5' => $request->product_list_selected_dt_results5[$key],
+                        'person_at' => Auth::user()->name,
+                        'product_list_selected_dt_flag' => true,
+                        'created_at' => Carbon::now(),
+                    ]);
+                }
+              
             }
             DB::commit();
             return redirect()->route('product-list-selected.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
