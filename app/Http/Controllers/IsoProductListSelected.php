@@ -121,7 +121,8 @@ class IsoProductListSelected extends Controller
         ];
         try{
             DB::beginTransaction();
-            $insertHD = ProductListSelectedHd::where('product_list_selected_hd_id',$id)->update($data);
+            ProductListSelectedHd::where('product_list_selected_hd_id',$id)->update($data);
+            $insertHD = ProductListSelectedHd::find($id);
             foreach ($request->product_list_selected_dt_id as $key => $value) {
                 ProductListSelectedDt::where('product_list_selected_dt_id',$value)->update([
                     'product_list_selected_dt_vendor' => $request->product_list_selected_dt_vendor[$key],
