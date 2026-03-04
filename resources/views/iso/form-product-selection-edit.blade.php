@@ -547,7 +547,8 @@ function addRow() {
     row.innerHTML = `
         <td>
             ${rowCount}
-            <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">            
+            <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">       
+            <input type="hidden" name="product_selection_dt_id[]" value="0">     
         </td>
         <td>
             <input type="text"  class="form-control" placeholder="ชื่อ" name="product_selection_dt_vendor[]">
@@ -594,6 +595,9 @@ function addRow() {
         </td>
           <td>
             <input type="text" class="form-control" placeholder="หมายเหตุ" name="product_selection_dt_remark[]">
+        </td>
+        <td>
+            <input type="file" class="form-control-file" name="product_selection_dt_file[]" >
         </td>
         <td class="text-center">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeRow(this)">ลบ</button>
