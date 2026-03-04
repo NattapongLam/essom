@@ -228,39 +228,38 @@ class IsoProductSelection extends Controller
                 DB::beginTransaction();
                 $insertHD = ProductSelectionHd::where('product_selection_hd_id',$id)->update($data);
                 foreach ($request->product_selection_dt_id as $key => $value) {
-                    $data_up = [
-                        'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
-                        'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
-                        'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
-                        'product_selection_hd_grade_b' => $request->product_selection_hd_grade_b[$key],
-                        'product_selection_hd_grade_c' => $request->product_selection_hd_grade_c[$key],
-                        'product_selection_hd_results1' => $request->product_selection_hd_results1[$key],
-                        'product_selection_hd_results2' => $request->product_selection_hd_results2[$key],
-                        'product_selection_hd_results3' => $request->product_selection_hd_results3[$key],
-                        'product_selection_dt_remark' => $request->product_selection_dt_remark[$key],
-                        'product_selection_dt_flag' => true,
-                        'person_at' => Auth::user()->name,
-                        'updated_at'  => Carbon::now(),
-                        'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
-                        'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
-                        'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
-                        'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
-                    ];
-                    if ($request->hasFile('product_selection_dt_file') 
-                            && isset($request->file('product_selection_dt_file')[$key])) {
+                    if($value <> 0){
+                        $data_up = [
+                            'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
+                            'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
+                            'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
+                            'product_selection_hd_grade_b' => $request->product_selection_hd_grade_b[$key],
+                            'product_selection_hd_grade_c' => $request->product_selection_hd_grade_c[$key],
+                            'product_selection_hd_results1' => $request->product_selection_hd_results1[$key],
+                            'product_selection_hd_results2' => $request->product_selection_hd_results2[$key],
+                            'product_selection_hd_results3' => $request->product_selection_hd_results3[$key],
+                            'product_selection_dt_remark' => $request->product_selection_dt_remark[$key],
+                            'product_selection_dt_flag' => true,
+                            'person_at' => Auth::user()->name,
+                            'updated_at'  => Carbon::now(),
+                            'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
+                            'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
+                            'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
+                            'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
+                        ];
+                        if ($request->hasFile('product_selection_dt_file') 
+                                && isset($request->file('product_selection_dt_file')[$key])) {
 
-                            $file = $request->file('product_selection_dt_file')[$key];
+                                $file = $request->file('product_selection_dt_file')[$key];
 
-                            $data_up['product_selection_dt_file'] = $file->storeAs(
-                                'img/productselection',
-                                'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
-                            );
-                        }
-                    ProductSelectionDt::where('product_selection_dt_id',$value)->update($data_up);
-                }
-                if($request->product_selection_dt_listno){
-                    foreach ($request->product_selection_dt_listno as $key => $value) {      
-                       $data_dt = [
+                                $data_up['product_selection_dt_file'] = $file->storeAs(
+                                    'img/productselection',
+                                    'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
+                                );
+                            }
+                        ProductSelectionDt::where('product_selection_dt_id',$value)->update($data_up);
+                    }elseif($value == 0){
+                         $data_dt = [
                             'product_selection_hd_id' => $insertHD->product_selection_hd_id,
                             'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
                             'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
@@ -280,7 +279,6 @@ class IsoProductSelection extends Controller
                             'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
                             'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
                         ]; 
-                        dd($data_dt);
                         if ($request->hasFile('product_selection_dt_file') 
                             && isset($request->file('product_selection_dt_file')[$key])) {
 
@@ -292,8 +290,9 @@ class IsoProductSelection extends Controller
                             );
                         }
                         ProductSelectionDt::create($data_dt);
-                    }   
-                }               
+                    }
+                   
+                }           
                 foreach ($request->product_selection_sub_id as $key => $value) {
                     $data_up = [
                         'product_selection_hd_results1_1' => $request->product_selection_hd_results1_1[$key],

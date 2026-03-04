@@ -20,6 +20,7 @@
       </div>
                 <div class="card-body">             
                     <div class="table-responsive">
+                      
                         <table id="tb_job" class="table table-bordered table-sm text-center">
                             <thead>
             <tr>
@@ -27,17 +28,24 @@
                 <th>For Asset Number</th>
                 <th>User Name</th>
                 <th>Year</th>
-              <th>แก้ไข</th>
-              <th>ลบ</th>
+                <th>Update</th>
+                <th>แก้ไข</th>
+                <th>ลบ</th>
             </tr>
         </thead>
         <tbody>
         @foreach($records as $record)
+            @php
+                            $lastDate = collect($record->date_check)
+                                            ->filter()
+                                            ->last();
+            @endphp
             <tr>
                 <td>{{ $record->id }}</td>
                 <td>{{ $record->asset_number }}</td>
                 <td>{{ $record->user_name }}</td>
                 <td>{{ $record->period }}</td>
+                <td>{{ $lastDate }}</td>
         <td>
             <a href="{{ route('computer-records.edit', $record->id) }}" class="btn btn-warning btn-sm">
                 <i class="fas fa-edit"></i>
