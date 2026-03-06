@@ -24,97 +24,120 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
        
         <li class="nav-header">แบบบันทึก</li>
+        @can('docu-productionnotices')
         <li class="nav-item">
             <a href="{{route('pd-noti.index')}}" class="nav-link {{\Request::routeIs('pd-noti.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบแจ้งผลิต</p>
             </a>           
         </li>
+        @endcan 
+        @can('docu-deliveryorders')
         <li class="nav-item">
             <a href="{{route('del-order.index')}}" class="nav-link {{\Request::routeIs('del-order.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบนำส่งสินค้า</p>
             </a>           
-        </li> 
+        </li>
+        @endcan 
+        @can('docu-productionopenjobs')
         <li class="nav-item">
             <a href="{{route('pd-open.index')}}" class="nav-link {{\Request::routeIs('pd-open.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบเปิดงาน</p>
             </a>           
         </li>
+        @endcan
+        @can('docu-workorders')   
         <li class="nav-item">
             <a href="{{route('pd-work.index')}}" class="nav-link {{\Request::routeIs('pd-work.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบสั่งงาน</p>
             </a>           
         </li>
+        @endcan
+        @can('docu-ladingorders')   
         <li class="nav-item">
             <a href="{{route('pd-ladi.index')}}" class="nav-link {{\Request::routeIs('pd-ladi.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบเบิกวัสดุอุปกรณ์</p>
             </a>           
         </li>
+        @endcan
+        @can('docu-returnorders')   
         <li class="nav-item">
             <a href="{{route('pd-retu.index')}}" class="nav-link {{\Request::routeIs('pd-retu.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>รับคืนจากการเบิก</p>
             </a>           
-        </li> 
+        </li>
+        @endcan 
+        @can('docu-requestorders')   
         <li class="nav-item">
             <a href="{{route('pd-requ.index')}}" class="nav-link {{\Request::routeIs('pd-requ.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบขอซื้อ</p>
             </a>           
         </li>
+        @endcan
+        @can('docu-workinghours')   
         <li class="nav-item">
             <a href="{{route('pd-woho.index')}}" class="nav-link  {{\Request::routeIs('pd-woho.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>บันทึกชั่วโมงการทำงาน</p>
             </a>           
         </li>
+        @endcan
+        @can('docu-finalinspections')   
         <li class="nav-item">
             <a href="{{route('fl-inst.index')}}" class="nav-link {{\Request::routeIs('fl-inst.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ตรวจสอบขั้นตอนสุดท้าย</p>
             </a>           
         </li>
+        @endcan
+        @can('docu-productionclosejobs')   
         <li class="nav-item">
             <a href="{{route('pd-close.index')}}" class="nav-link {{\Request::routeIs('pd-close.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-pencil-alt"></i>
                 <p>ใบปิดงาน</p>
             </a>           
-        </li>                
-        <li class="nav-header">รายงาน</li>       
+        </li>
+        @endcan                      
+        <li class="nav-header">รายงาน</li>    
+        @can('Report-productionplan')   
         <li class="nav-item">
             <a href="{{route('pd-calendar.index')}}" class="nav-link {{\Request::routeIs('pd-calendar.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>แผนการผลิต</p>
             </a>           
         </li>
+        @endcan
+        @can('Report-followupplan')
         <li class="nav-item">
             <a href="{{route('pd-follow.index')}}" class="nav-link {{\Request::routeIs('pd-follow.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>ติดตามงาน</p>
             </a>           
         </li>
-        {{-- <li class="nav-item">
-            <a href="{{route('wh-stock.index')}}" class="nav-link {{\Request::routeIs('wh-stock.index') ? 'active' : ''}}">
-                <i class="nav-icon fas fa-chart-line"></i>
-                <p>สต็อคคงเหลือ</p>
-            </a>           
-        </li> --}}
+        @endcan
+        @can('Report-manhours')
         <li class="nav-item">
             <a href="{{route('mn-report.index')}}" class="nav-link {{\Request::routeIs('mn-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>Man Hour Report</p>
             </a>           
         </li>
+        @endcan
+        @can('Report-costmaterials')
         <li class="nav-item">
             <a href="{{route('cm-report.index')}}" class="nav-link {{\Request::routeIs('cm-report.index') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-chart-line"></i>
                 <p>Cost of Material</p>
             </a>           
         </li>
+        @endcan
+        @can('main-iso')
         <li class="nav-header">
             ระบบคุณภาพ
         </li>
@@ -124,25 +147,16 @@
                 <p>เอกสาร ISO</p>
             </a>           
         </li>
-        {{-- <li class="nav-item">
-            <a href="{{route('ncr-report.index')}}" class="nav-link {{\Request::routeIs('ncr-report.index') ? 'active' : ''}}">
-                <i class="nav-icon fas fa-bullhorn"></i>
-                <p>เอกสาร NCR</p>
-            </a>           
-        </li> --}}
-        {{-- <li class="nav-item">
-            <a href="{{route('car-report.index')}}" class="nav-link {{\Request::routeIs('car-report.index') ? 'active' : ''}}">
-                <i class="nav-icon fas fa-bullhorn"></i>
-                <p>เอกสาร CAR</p>
-            </a>           
-        </li> --}}
+        @endcan
+        @can('setup-users')
         <li class="nav-header">ตั้งค่า</li>
         <li class="nav-item">
             <a href="{{route('employee.list')}}" class="nav-link {{\Request::routeIs('employee.list') ? 'active' : ''}}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>ผู้ใช้งานระบบ</p>
             </a>           
-        </li>       
+        </li>  
+        @endcan     
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

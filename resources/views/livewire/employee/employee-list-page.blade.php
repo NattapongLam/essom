@@ -33,6 +33,7 @@
                       <th style="text-align: center">อีเมล</th>
                       <th style="width: 40px">Action</th>
                       <th style="width: 40px">Permission</th>
+                      <th style="width: 40px">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -48,18 +49,26 @@
                       </td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->email}}</td>
-                        <td>
+                        <td class="text-center">
                           <a href="{{route('employee.update',$item->id)}}" 
                             class="btn btn-sm btn-warning" >
                             <i class="fas fa-edit"></i>
                           </a>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <a href="{{route('employee.role.permission',$item->id)}}" 
                             class="btn btn-sm btn-info" >
                             <i class="fas fa-user"></i>
                           </a>
                         </td>
+                        <td class="text-center">
+                        <button 
+                            class="btn btn-sm btn-danger"
+                            wire:click="delete({{ $item->id }})"
+                            onclick="confirm('ต้องการลบข้อมูลนี้หรือไม่ ?') || event.stopImmediatePropagation()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
                     </tr>
                     @endforeach                  
                   </tbody>

@@ -31,4 +31,14 @@ class EmployeeListPage extends Component
             'employees' => $employees
         ])->extends('layouts.main');
     }
+
+    public function delete($id)
+    {
+        $employee = User::find($id);
+
+        if ($employee) {
+            $employee->delete();
+            session()->flash('message', 'ลบข้อมูลเรียบร้อยแล้ว');
+        }
+    }
 }

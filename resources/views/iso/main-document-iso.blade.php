@@ -15,6 +15,7 @@
                 </div>
                 <br>      
       <div class="row iso-boxes">
+        @can('iso-ncr') 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -28,7 +29,9 @@
             <a href="{{route('ncr-report.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan    
         <!-- ./col -->
+        @can('iso-car') 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -42,7 +45,9 @@
             <a href="{{route('car-report.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan  
         <!-- ./col -->
+        @can('iso-assessrisk') 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -56,7 +61,9 @@
             <a href="{{route('assessrisk.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan 
         <!-- ./col -->
+        @can('iso-assessrisk-swot') 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -70,10 +77,11 @@
             <a href="{{route('assessrisk-swot.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan 
         <!-- ./col -->
       </div>
       <div class="row iso-boxes">
-        
+        @can('iso-objective') 
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -87,7 +95,9 @@
             <a href="{{route('objcctives.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan 
         <!-- ./col -->
+        @can('iso-plan')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -101,7 +111,9 @@
             <a href="{{route('iso-plan.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan 
         <!-- ./col -->
+        @can('iso-maintenancerecords')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -115,7 +127,9 @@
             <a href="{{route('maintenance-records.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan 
         <!-- ./col -->
+        @can('iso-machinehistorys')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -129,9 +143,11 @@
             <a href="{{route('machine-history.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan 
         <!-- ./col -->
-      </div>
+      </div>      
       <div class="row iso-boxes">
+        @can('iso-computerhistorys')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -145,7 +161,9 @@
             <a href="{{route('computer-history.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-itmaintenance')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -159,7 +177,9 @@
             <a href="{{route('computer-records.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-emailregistration')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -173,7 +193,9 @@
             <a href="{{route('email-registration.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-knowledgesurvey')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -187,9 +209,11 @@
             <a href="{{route('knowledge-survey.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
       </div>
       <div class="row iso-boxes">
+        @can('iso-knowledgerecord')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -203,7 +227,9 @@
             <a href="{{route('knowledge-record.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-knowledgetransfer')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -217,7 +243,9 @@
             <a href="{{route('knowledge-transfer.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-knowledgeregister')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -231,7 +259,9 @@
             <a href="{{route('knowledge-register.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-documentcontrol')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -245,9 +275,11 @@
             <a href="{{route('document-register.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
       </div>
       <div class="row iso-boxes">
+        @can('iso-documentdistribution')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -261,7 +293,9 @@
             <a href="{{route('document-distribution.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-documentcorrection')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -275,7 +309,9 @@
             <a href="{{route('document-correction.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-documentdestruction')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -289,7 +325,9 @@
             <a href="{{route('document-destruction.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-externaldocument')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -303,9 +341,11 @@
             <a href="{{route('document-external.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
       </div>
      <div class="row iso-boxes">
+        @can('iso-referencedocuments')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -319,7 +359,9 @@
             <a href="{{route('document-reference.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-designplan')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -333,7 +375,9 @@
             <a href="{{route('design-plan.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-designreview-a')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -347,7 +391,9 @@
             <a href="{{route('design-review-a.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-designreview-b')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -361,9 +407,11 @@
             <a href="{{route('design-review-b.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
       </div>
       <div class="row iso-boxes">
+        @can('iso-detailedtesting')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -377,7 +425,9 @@
             <a href="{{route('detailed-testing.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-editdesign')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -391,7 +441,9 @@
             <a href="{{route('design-edit.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-productregistration')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -405,7 +457,9 @@
             <a href="{{route('product-registration.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-qualityplan')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -419,9 +473,11 @@
             <a href="{{route('quality-plan.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
       </div>
      <div class="row iso-boxes">
+        @can('iso-productselection')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -435,7 +491,9 @@
             <a href="{{route('product-selection.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-recipientselection')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -449,7 +507,9 @@
             <a href="{{route('recipient-selection.index')}}" class="small-box-footer"  target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-selectedproduct')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
@@ -463,7 +523,9 @@
             <a href="{{route('product-list-selected.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
+        @can('iso-softwaredesign')
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
@@ -477,6 +539,7 @@
             <a href="{{route('software-design.index')}}" class="small-box-footer" target="_blank" rel="noopener noreferrer">คลิก <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endcan
         <!-- ./col -->
       </div>
       </div>
