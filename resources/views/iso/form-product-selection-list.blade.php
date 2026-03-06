@@ -28,6 +28,7 @@
                                 <td>ประเมิน</td>
                                 <td>อนุมัติ</td>
                                 <td>ลบ</td>
+                                <td>อัพเดทบัญชี</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +83,12 @@
                                         <a href="javascript:void(0)" class="btn btn-danger btn-sm"  
                                             onclick="confirmDel('{{ $item->product_selection_hd_id }}')">
                                             <i class="fas fa-trash"></i>
+                                        </a> 
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm"  
+                                            onclick="confirmUpDate('{{ $item->product_selection_hd_id }}')">
+                                            <i class="fas fa-upload"></i>
                                         </a> 
                                     </td>
                                 </tr>
@@ -164,6 +171,63 @@ Swal.fire({
                     Swal.fire({
                         title: 'ไม่สำเร็จ',
                         text: 'ยกเลิกเอกสารไม่สำเร็จ',
+                        icon: 'error'
+                    });
+                }
+               
+            }
+        });
+
+    } else if ( // Read more about handling dismissals
+        result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+            title: 'ยกเลิก',
+            text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
+            icon: 'error'
+        });
+    }
+});
+
+}
+confirmUpDate = (refid) =>{       
+Swal.fire({
+    title: 'คุณแน่ใจหรือไม่ !',
+    text: `คุณต้องการอัพเดทลงบัญชีนี้หรือไม่ ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'ยืนยัน',
+    cancelButtonText: 'ยกเลิก',
+    confirmButtonClass: 'btn btn-success mt-2',
+    cancelButtonClass: 'btn btn-danger ms-2 mt-2',
+    buttonsStyling: false
+}).then(function(result) {
+    if (result.value) {
+
+        $.ajax({
+            url: `{{ url('/updateProductSelection') }}`,
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "refid": refid
+            },
+            dataType: "json",
+            success: function(data) {
+
+                console.log(data);
+
+
+                if (data.status == true) {
+                    Swal.fire({
+                        title: 'สำเร็จ',
+                        text: 'อัพเดทเรียบร้อยแล้ว',
+                        icon: 'success'
+                    }).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'ไม่สำเร็จ',
+                        text: 'อัพเดทไม่สำเร็จ(มีข้อมูลอยู่แล้ว)',
                         icon: 'error'
                     });
                 }
