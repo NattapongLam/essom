@@ -80,7 +80,7 @@ $(document).ready(function() {
         "lengthMenu": [[10, 25, 50, -1],[10, 25, 50, "All"]],
         dom: 'Bfrtip',
         buttons: ['copy','csv','excel','pdf','print'],
-        order: [[1, "asc"]],
+        order: [[0, "asc"]],
         pagingType: "full_numbers"
     });
 });
