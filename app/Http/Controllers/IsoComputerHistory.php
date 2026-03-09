@@ -10,7 +10,7 @@ class IsoComputerHistory extends Controller
 
     public function index()
     {
-        $histories = ComputerHistory::latest()->paginate(10);
+        $histories = ComputerHistory::latest()->get();
         return view('iso.computer-history-list', compact('histories'));
     }
 
