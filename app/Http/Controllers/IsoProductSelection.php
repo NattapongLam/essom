@@ -228,39 +228,9 @@ class IsoProductSelection extends Controller
                 DB::beginTransaction();
                 ProductSelectionHd::where('product_selection_hd_id',$id)->update($data);
                 $insertHD = ProductSelectionHd::find($id);
-                foreach ($request->product_selection_dt_id as $key => $value) {
-                    if($value <> 0){
-                        $data_up = [
-                            'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
-                            'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
-                            'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
-                            'product_selection_hd_grade_b' => $request->product_selection_hd_grade_b[$key],
-                            'product_selection_hd_grade_c' => $request->product_selection_hd_grade_c[$key],
-                            'product_selection_hd_results1' => $request->product_selection_hd_results1[$key],
-                            'product_selection_hd_results2' => $request->product_selection_hd_results2[$key],
-                            'product_selection_hd_results3' => $request->product_selection_hd_results3[$key],
-                            'product_selection_dt_remark' => $request->product_selection_dt_remark[$key],
-                            'product_selection_dt_flag' => true,
-                            'person_at' => Auth::user()->name,
-                            'updated_at'  => Carbon::now(),
-                            'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
-                            'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
-                            'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
-                            'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
-                        ];
-                        if ($request->hasFile('product_selection_dt_file') 
-                                && isset($request->file('product_selection_dt_file')[$key])) {
-
-                                $file = $request->file('product_selection_dt_file')[$key];
-
-                                $data_up['product_selection_dt_file'] = $file->storeAs(
-                                    'img/productselection',
-                                    'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
-                                );
-                            }
-                        ProductSelectionDt::where('product_selection_dt_id',$value)->update($data_up);
-                    }elseif($value == 0){
-                         $data_dt = [
+                foreach ($request->product_selection_dt_id  as $key => $value) {
+                    if($value == 0){    
+                        $data_dt = [
                             'product_selection_hd_id' => $insertHD->product_selection_hd_id,
                             'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
                             'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
@@ -280,6 +250,7 @@ class IsoProductSelection extends Controller
                             'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
                             'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
                         ]; 
+                       
                         if ($request->hasFile('product_selection_dt_file') 
                             && isset($request->file('product_selection_dt_file')[$key])) {
 
@@ -290,29 +261,105 @@ class IsoProductSelection extends Controller
                                 'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
                             );
                         }
-                        ProductSelectionDt::create($data_dt);
+                        ProductSelectionDt::create($data_dt);                  
+                           
+                    }else{
+                        
+                          $data_dt = [
+                                'product_selection_hd_id' => $insertHD->product_selection_hd_id,
+                                'product_selection_dt_listno' => $request->product_selection_dt_listno[$key],
+                                'product_selection_dt_vendor' => $request->product_selection_dt_vendor[$key],
+                                'product_selection_dt_brand' => $request->product_selection_dt_brand[$key],
+                                'product_selection_hd_grade_a' => $request->product_selection_hd_grade_a[$key],
+                                'product_selection_hd_grade_b' => $request->product_selection_hd_grade_b[$key],
+                                'product_selection_hd_grade_c' => $request->product_selection_hd_grade_c[$key],
+                                'product_selection_hd_results1' => $request->product_selection_hd_results1[$key],
+                                'product_selection_hd_results2' => $request->product_selection_hd_results2[$key],
+                                'product_selection_hd_results3' => $request->product_selection_hd_results3[$key],
+                                'product_selection_dt_remark' => $request->product_selection_dt_remark[$key],
+                                'product_selection_dt_flag' => true,
+                                'person_at' => Auth::user()->name,
+                                'created_at'  => Carbon::now(),
+                                'product_selection_dt_vendor_name' => $request->product_selection_dt_vendor_name[$key],
+                                'product_selection_dt_vendor_tel' => $request->product_selection_dt_vendor_tel[$key],
+                                'product_selection_dt_vendor_email' => $request->product_selection_dt_vendor_email[$key],
+                                'product_selection_dt_vendor_remark' => $request->product_selection_dt_vendor_remark[$key],
+                            ]; 
+                        if ($request->hasFile('product_selection_dt_file') 
+                                && isset($request->file('product_selection_dt_file')[$key])) {
+
+                                $file = $request->file('product_selection_dt_file')[$key];
+
+                                $data_dt['product_selection_dt_file'] = $file->storeAs(
+                                    'img/productselection',
+                                    'IMG_' . Carbon::now()->format('YmdHis') . '_' . Str::random(5) . '.' . $file->extension()
+                                );
+                            }
+                        ProductSelectionDt::where('product_selection_dt_id',$value)->update($data_dt);
                     }
                    
                 }           
-                foreach ($request->product_selection_sub_id as $key => $value) {
-                    $data_up = [
-                        'product_selection_hd_results1_1' => $request->product_selection_hd_results1_1[$key],
-                        'product_selection_hd_results1_2' => $request->product_selection_hd_results1_2[$key],
-                        'product_selection_hd_results1_3' => $request->product_selection_hd_results1_3[$key],
-                        'product_selection_hd_results2_1' => $request->product_selection_hd_results2_1[$key],
-                        'product_selection_hd_results2_2' => $request->product_selection_hd_results2_2[$key],
-                        'product_selection_hd_results2_3' => $request->product_selection_hd_results2_3[$key],
-                        'product_selection_hd_results3_1' => $request->product_selection_hd_results3_1[$key],
-                        'product_selection_hd_results3_2' => $request->product_selection_hd_results3_2[$key],
-                        'product_selection_hd_results3_3' => $request->product_selection_hd_results3_3[$key],
-                        'product_selection_hd_results4_1' => $request->product_selection_hd_results4_1[$key],
-                        'product_selection_hd_results4_2' => $request->product_selection_hd_results4_2[$key],
-                        'product_selection_hd_results4_3' => $request->product_selection_hd_results4_3[$key],
-                        'person_at' => Auth::user()->name,
-                        'updated_at' => Carbon::now(),
-                    ];
-                    ProductSelectionSub::where('product_selection_sub_id',$value)->update($data_up);
-                }
+                
+                // foreach ($request->product_selection_sub_id as $key => $value) {
+                //     if($value){
+                //         if ($request->has('evaluation')) {
+                //             foreach ($request->evaluation as $vendorIndex => $rows) {
+
+                //                 foreach ($rows['sub_listno'] as $i => $subListNo) {
+                //                 ProductSelectionSub::insert([
+                //                     'product_selection_hd_id' => $insertHD->product_selection_hd_id,
+                //                     'product_selection_sub_vendorlistno' => $rows['vendorlistno'][$key], 
+                //                     'product_selection_sub_listno' => $rows['sub_listno'][$i],
+                //                     'product_selection_sub_name' => $rows['sub_name'][$i],
+
+                //                     // results group 1 (ดี / พอใช้ / ไม่ดี)
+                //                     'product_selection_hd_results1_1' => $rows['results1_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results1_2' => $rows['results1_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results1_3' => $rows['results1_'.$subListNo][$i] ?? 0,
+
+                //                     // results group 2
+                //                     'product_selection_hd_results2_1' => $rows['results2_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results2_2' => $rows['results2_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results2_3' => $rows['results2_'.$subListNo][$i] ?? 0,
+
+                //                     // results group 3
+                //                     'product_selection_hd_results3_1' => $rows['results3_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results3_2' => $rows['results3_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results3_3' => $rows['results3_'.$subListNo][$i] ?? 0,
+
+                //                     // results group 4
+                //                     'product_selection_hd_results4_1' => $rows['results4_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results4_2' => $rows['results4_'.$subListNo][$i] ?? 0,
+                //                     'product_selection_hd_results4_3' => $rows['results4_'.$subListNo][$i] ?? 0,
+
+                //                     'person_at' => Auth::user()->name,
+                //                     'created_at' => Carbon::now(),
+                //                 ]);
+
+                //                 }
+                //             }
+                //         }
+                //     }else{
+                //         $data_up = [
+                //             'product_selection_hd_results1_1' => $request->product_selection_hd_results1_1[$key],
+                //             'product_selection_hd_results1_2' => $request->product_selection_hd_results1_2[$key],
+                //             'product_selection_hd_results1_3' => $request->product_selection_hd_results1_3[$key],
+                //             'product_selection_hd_results2_1' => $request->product_selection_hd_results2_1[$key],
+                //             'product_selection_hd_results2_2' => $request->product_selection_hd_results2_2[$key],
+                //             'product_selection_hd_results2_3' => $request->product_selection_hd_results2_3[$key],
+                //             'product_selection_hd_results3_1' => $request->product_selection_hd_results3_1[$key],
+                //             'product_selection_hd_results3_2' => $request->product_selection_hd_results3_2[$key],
+                //             'product_selection_hd_results3_3' => $request->product_selection_hd_results3_3[$key],
+                //             'product_selection_hd_results4_1' => $request->product_selection_hd_results4_1[$key],
+                //             'product_selection_hd_results4_2' => $request->product_selection_hd_results4_2[$key],
+                //             'product_selection_hd_results4_3' => $request->product_selection_hd_results4_3[$key],
+                //             'person_at' => Auth::user()->name,
+                //             'updated_at' => Carbon::now(),
+                //         ];
+                //         ProductSelectionSub::where('product_selection_sub_id',$value)->update($data_up);
+                //     }
+                  
+                // }
                 DB::commit();
                 return redirect()->route('product-selection.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){
