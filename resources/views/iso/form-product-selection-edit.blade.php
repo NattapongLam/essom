@@ -12,13 +12,22 @@
                 <h5>ESSOM CO.,LTD<br>ใบคัดเลือกสินค้า/ผู้ขายและประเมิน (SUPPLER QUALIFICATION AND EVALUATION)</h5><p class="text-right">F8411.1<br>15 Aug. 19</p>              
             </div>
             <div class="card-body">       
-                <form method="POST" class="form-horizontal" action="{{ route('product-selection.update',$hd->product_selection_hd_id) }}" enctype="multipart/form-data">
+               <form method="POST" class="form-horizontal" action="{{ route('product-selection.update',$hd->product_selection_hd_id) }}" enctype="multipart/form-data">
                 @csrf  
-                @method('PUT')       
+                @method('PUT') 
                <div class="row mt-3">
-                    <div class="col-12">
+                    <div class="col-6">
                         <h5><strong>ประเภทสินค้า</strong></h5>
-                        <input type="hidden" name="checkdoc" value="Edit">    
+                        <input type="hidden" name="checkdoc" value="Edit">  
+                    </div>
+                    <div class="col-6">
+                        <label for="product_selection_hd_type">ประเภทจัดซื้อ</label>
+                        <select class="form-control" name="product_selection_hd_type">
+                            <option value="{{$hd->product_selection_hd_type}}">{{$hd->product_selection_hd_type}}</option>
+                            <option value="โรงงาน">โรงงาน</option>
+                            <option value="สำนักงาน">สำนักงาน</option>
+                            <option value="ต่างประเทศ">ต่างประเทศ</option>
+                        </select>
                     </div>
                     <div class="col-3">
                         <label for="product_type1">1.</label>
@@ -63,11 +72,12 @@
                                 <th style="width: 5%">เครื่องมือ</th>
                             </tr>
                         </thead>
-                        <tbody>
+                         <tbody>
                             @foreach ($dt as $item)
                                 <tr>
                                     <td>
                                         {{$item->product_selection_dt_listno}}
+                                        <input type="hidden" name="product_selection_dt_listno[]" value="{{$item->product_selection_dt_listno}}">
                                         <input type="hidden" name="product_selection_dt_id[]" value="{{$item->product_selection_dt_id}}">
                                     </td>
                                     <td>
@@ -158,6 +168,9 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tbody id="dt">
+                            <!-- เริ่มต้นไม่มีแถว หรือคุณจะใส่แถวเริ่มต้น 1 แถวก็ได้ -->
+                        </tbody>
                     </table>
                 </div>
                 <div class="row mt-3">
@@ -168,23 +181,20 @@
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="requested_by">จัดทำโดย</label>
-                        <input class="form-control" name="requested_by" value="{{$hd->requested_by}}" readonly>
+                        <input class="form-control" name="requested_by" value="{{auth()->user()->name}}" readonly>
                     </div>
                     <div class="col-3">
                         <label for="requested_date">วันที่</label>
-                        <input class="form-control" type="date" name="requested_date" value="{{$hd->requested_date}}" required>
+                        <input class="form-control" type="date" name="requested_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
                     </div>
                 </div>   
                 <div class="row mt-3">
                     <div class="col-9">
                         <label for="reviewed_by">ทบทวนโดย</label>
-                         <select class="form-control receiver-select" name="reviewed_by">
+                        <select class="form-control receiver-select" name="reviewed_by">
                             <option value=""></option>
                             @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($hd->reviewed_by) &&  $hd->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
-                                    {{ $item->ms_employee_fullname }}
-                                </option>
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
                         {{-- <input class="form-control" name="reviewed_by" readonly> --}}
@@ -200,10 +210,7 @@
                         <select class="form-control receiver-select" name="approved_by1">
                             <option value=""></option>
                             @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($hd->approved_by1) &&  $hd->approved_by1 == $item->ms_employee_fullname ? 'selected' : '' }}>
-                                    {{ $item->ms_employee_fullname }}
-                                </option>
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
                         {{-- <input class="form-control" name="approved_by1" readonly> --}}
@@ -214,8 +221,11 @@
                     </div>
                 </div> 
                 <div class="row mt-3">
+                    {{-- <div class="col-12">
+                        <h6>ใบประเมินสินค้า/ผู้ขาย</h6>
+                    </div> --}}
                     <div class="col-12">
-                       @foreach ($sub as $vendorListNo => $items)
+                         @foreach ($sub as $vendorListNo => $items)
 
     <h5 class="mt-4">ใบประเมินลำดับที่ {{ $vendorListNo }}</h5>
 
@@ -268,13 +278,13 @@
 
 @endforeach
 
+                        <div id="evaluationContainer"></div>
                     </div>                    
                 </div>
                 {{-- <div class="row mt-3">
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
-                                <th rowspan="2" style="width: 5%" class="text-center">ลำดับประเมิน</th>
                                 <th rowspan="2" style="width: 25%" class="text-center">รายการประเมิน</th>
                                 <th colspan="3" class="text-center">( 1 )</th>
                                 <th colspan="3" class="text-center">( 2 )</th>
@@ -297,162 +307,329 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($sub as $item)
-                                <tr>
-                                    <td>{{$item->product_selection_sub_vendorlistno}}</td>
-                                    <td>
-
-                                        - {{$item->product_selection_sub_name}}
-                                        <input type="hidden" value="{{$item->product_selection_sub_id}}" name="product_selection_sub_id[]">
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results1_1[]">
-                                            @if ($item->product_selection_hd_results1_1)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif
-                                           
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results1_2[]">
-                                            @if ($item->product_selection_hd_results1_2)
-                                                <option value="1">/</option>  
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>  
-                                            @endif
-                                            
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results1_3[]">
-                                            @if ($item->product_selection_hd_results1_3)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                                
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif
-                                           
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results2_1[]">
-                                            @if ($item->product_selection_hd_results2_1)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif
-                                           
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results2_2[]">
-                                            @if ($item->product_selection_hd_results2_2)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif
-                                           
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results2_3[]">
-                                            @if ($item->product_selection_hd_results2_3)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif                                            
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results3_1[]">
-                                            @if ($item->product_selection_hd_results3_1)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif                                         
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results3_2[]">
-                                            @if ($item->product_selection_hd_results3_2)
-                                                <option value="1">/</option> 
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option> 
-                                            @endif
-                                            
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results3_3[]">
-                                            @if ($item->product_selection_hd_results3_3)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif                                            
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results4_1[]">
-                                            @if ($item->product_selection_hd_results4_1)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif       
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results4_2[]">
-                                            @if ($item->product_selection_hd_results4_2)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif       
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"  name="product_selection_hd_results4_3[]">
-                                            @if ($item->product_selection_hd_results4_3)
-                                                <option value="1">/</option>
-                                                <option value="0"></option>
-                                            @else
-                                                <option value="0"></option>
-                                                <option value="1">/</option>
-                                            @endif       
-                                        </select>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <td>
+                                    - คุณภาพการใช้งานของสินค้า
+                                    <input type="hidden" value="1" name="product_selection_sub_listno[]">
+                                    <input type="hidden" value="คุณภาพการใช้งานของสินค้า" name="product_selection_sub_name[]">
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                 <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    - ความเรียบร้อยของสินค้า
+                                    <input type="hidden" value="2" name="product_selection_sub_listno[]">
+                                    <input type="hidden" value="ความเรียบร้อยของสินค้า" name="product_selection_sub_name[]">
+                                </td>
+                               <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                 <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    - บริการของผู้ขาย
+                                    <input type="hidden" value="3" name="product_selection_sub_listno[]">
+                                    <input type="hidden" value="บริการของผู้ขาย" name="product_selection_sub_name[]">
+                                </td>
+                               <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                 <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    - การให้บริการหลังการขาย
+                                    <input type="hidden" value="4" name="product_selection_sub_listno[]">
+                                    <input type="hidden" value="การให้บริการหลังการขาย" name="product_selection_sub_name[]">
+                                </td>
+                              <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                 <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
+                                        <option value="0"></option>
+                                        <option value="1">/</option>
+                                    </select>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div> --}}
                 <div class="row mt-3">
                     <div class="col-12">
                         <label for="">หมายเหตุ</label>
-                        <textarea  class="form-control" name="product_selection_hd_remark">{{$hd->product_selection_hd_remark}}</textarea>
+                        <textarea  class="form-control" name="product_selection_hd_remark"></textarea>
                     </div>                    
                 </div>
                 <div class="row mt-3">
@@ -461,36 +638,30 @@
                         <select class="form-control receiver-select" name="assessor_by">
                             <option value=""></option>
                             @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($hd->assessor_by) &&  $hd->assessor_by == $item->ms_employee_fullname ? 'selected' : '' }}>
-                                    {{ $item->ms_employee_fullname }}
-                                </option>
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
-                        {{-- <input class="form-control" name="assessor_by" value="{{auth()->user()->name}}" readonly> --}}
+                        {{-- <input class="form-control" name="assessor_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="assessor_date">วันที่</label>
-                        <input class="form-control" type="date" name="assessor_date" value="{{ old('date', now()->format('Y-m-d')) }}"  required>
+                        <input class="form-control" type="date" name="assessor_date" readonly>
                     </div>
                 </div>
-                 <div class="row mt-3">
+                <div class="row mt-3">
                     <div class="col-9">
                         <label for="purchase_by">ผู้ประเมินบริการ</label>
                         <select class="form-control receiver-select" name="purchase_by">
                             <option value=""></option>
                             @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($hd->purchase_by) &&  $hd->purchase_by == $item->ms_employee_fullname ? 'selected' : '' }}>
-                                    {{ $item->ms_employee_fullname }}
-                                </option>
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
                         {{-- <input class="form-control" name="assessor_by" readonly> --}}
                     </div>
                     <div class="col-3">
                         <label for="purchase_date">วันที่</label>
-                        <input class="form-control" type="date" name="purchase_date" value="{{ old('date', now()->format('Y-m-d')) }}"  required>
+                        <input class="form-control" type="date" name="purchase_date" readonly>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -499,10 +670,7 @@
                         <select class="form-control receiver-select" name="approved_by2">
                             <option value=""></option>
                             @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($hd->approved_by2) &&  $hd->approved_by2 == $item->ms_employee_fullname ? 'selected' : '' }}>
-                                    {{ $item->ms_employee_fullname }}
-                                </option>
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
                         {{-- <input class="form-control" name="approved_by2" readonly> --}}
@@ -538,17 +706,16 @@ $(document).ready(function () {
         width: '100%'
     });
 });
-// ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
-    const tableBody = document.querySelector("#destroyTable tbody");
-    const rowCount = tableBody.querySelectorAll("tr").length + 1;
+    const tableBody = document.querySelector("#dt");
+    const rowCount = document.querySelectorAll("#destroyTable tbody tr").length + 1;
 
     const row = document.createElement("tr");
     row.innerHTML = `
         <td>
-            ${rowCount}
-            <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">       
-            <input type="hidden" name="product_selection_dt_id[]" value="0">     
+            <span class="row-number">${rowCount}</span>
+            <input type="hidden" name="product_selection_dt_listno[]" value="${rowCount}">
+            <input type="hidden" name="product_selection_dt_id[]" value="0">
         </td>
         <td>
             <input type="text"  class="form-control" placeholder="ชื่อ" name="product_selection_dt_vendor[]">
@@ -558,42 +725,35 @@ function addRow() {
             <input type="text"  class="form-control" name="product_selection_dt_vendor_remark[]">
         </td>
         <td>
-            <input type="text" class="form-control" placeholder="ยี่ห้อ	" name="product_selection_dt_brand[]">
+            <input type="text" class="form-control" placeholder="ยี่ห้อ" name="product_selection_dt_brand[]">
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_grade_a[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_grade_a[]">
+                <option value="0"></option><option value="1">/</option>
+            </select>
+        </td>
+        <td><input type="text" class="form-control" name="product_selection_hd_grade_b[]"></td>
+        <td>
+            <select class="form-control" name="product_selection_hd_grade_c[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-           <input type="text" class="form-control" name="product_selection_hd_grade_b[]">
-        </td>
-        <td>
-            <select class="form-control"  name="product_selection_hd_grade_c[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_results1[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_results1[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_results2[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_results2[]">
-                <option value="0"></option>
-                <option value="1">/</option>
+            <select class="form-control" name="product_selection_hd_results3[]">
+                <option value="0"></option><option value="1">/</option>
             </select>
         </td>
         <td>
-            <select class="form-control"  name="product_selection_hd_results3[]">
-                <option value="0"></option>
-                <option value="1">/</option>
-            </select>
-        </td>
-          <td>
             <input type="text" class="form-control" placeholder="หมายเหตุ" name="product_selection_dt_remark[]">
         </td>
         <td>
@@ -605,80 +765,112 @@ function addRow() {
     `;
 
     tableBody.appendChild(row);
-    updateRowNumbers(); // รีเลขลำดับ
+    updateRowNumbers();
+
+    // 👍 เพิ่มชุดประเมินสินค้า/ผู้ขาย
+    addEvaluationSection(rowCount);
 }
 
-// ✅ ฟังก์ชันลบแถว
+// ฟังก์ชันเพิ่มชุดประเมิน
+function addEvaluationSection(index) {
+    const evaluation = document.querySelector("#evaluationContainer");
+
+    const html = `
+        <div class="evaluation-block mb-4" data-index="${index}">
+            <h6>ใบประเมินสินค้า/ผู้ขาย ( รายการที่ ${index} )</h6>
+
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="text-center">ลำดับ</th>
+                        <th rowspan="2" class="text-center" style="width:25%">รายการประเมิน</th>
+                        <th colspan="3" class="text-center">( 1 )</th>
+                        <th colspan="3" class="text-center">( 2 )</th>
+                        <th colspan="3" class="text-center">( 3 )</th>
+                        <th colspan="3" class="text-center">( 4 )</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                        <th class="text-center">ดี</th><th class="text-center">พอใช้</th><th class="text-center">ไม่ดี</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${createEvaluationRow(1, "คุณภาพการใช้งานของสินค้า", index)}
+                    ${createEvaluationRow(2, "ความเรียบร้อยของสินค้า", index)}
+                    ${createEvaluationRow(3, "บริการของผู้ขาย", index)}
+                    ${createEvaluationRow(4, "การให้บริการหลังการขาย", index)}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    evaluation.insertAdjacentHTML("beforeend", html);
+}
+
+// สร้างแถวของการประเมิน ( reusable )
+function createEvaluationRow(no, title, index) {
+    return `
+        <tr>
+            <td class="text-center">
+                ${no}
+            </td>
+            <td>
+                - ${title}
+                <input type="hidden" name="evaluation[${index}][sub_listno][]" value="${no}">
+                <input type="hidden" name="evaluation[${index}][sub_name][]" value="${title}">
+                <input type="hidden" name="evaluation[${index}][vendorlistno][]" value="${index}">
+            </td>
+
+            ${createSelectCells(index, no)}
+        </tr>
+    `;
+}
+// สร้างชุด Select 12 ช่อง (4 กลุ่ม × 3 ระดับ)
+function createSelectCells(index, subNo) {
+    let html = "";
+    for (let group = 1; group <= 4; group++) {
+        for (let grade = 1; grade <= 3; grade++) {
+            html += `
+                <td>
+                    <select class="form-control"
+                        name="evaluation[${index}][results${group}_${subNo}][]">
+                        <option value="0"></option>
+                        <option value="1">/</option>
+                    </select>
+                </td>
+            `;
+        }
+    }
+    return html;
+}
+
 function removeRow(button) {
     const row = button.closest("tr");
+    const rows = document.querySelectorAll("#destroyTable tbody tr");
+    const index = Array.from(rows).indexOf(row) + 1;
+
     row.remove();
-    updateRowNumbers(); // รีเลขลำดับใหม่หลังลบ
+    updateRowNumbers();
+
+    // ลบชุดประเมินที่เกี่ยวข้อง
+    const ev = document.querySelector(`.evaluation-block[data-index="${index}"]`);
+    if (ev) ev.remove();
 }
 
 function updateRowNumbers() {
-    document.querySelectorAll("#destroyTable tbody tr").forEach((row, index) => {
-        const number = index + 1;
-        row.querySelector(".row-number").textContent = number;
-        row.querySelector('input[name="product_registration_dt_listno[]"]').value = number;
+    document.querySelectorAll("#destroyTable tbody tr").forEach((row, i) => {
+        const number = i + 1;
+
+        const numberCell = row.querySelector(".row-number");
+        if (numberCell) numberCell.textContent = number;
+
+        const input = row.querySelector('input[name="product_selection_dt_listno[]"]');
+        if (input) input.value = number;
     });
 }
-confirmDel = (refid) =>{       
-Swal.fire({
-    title: 'คุณแน่ใจหรือไม่ !',
-    text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'ยืนยัน',
-    cancelButtonText: 'ยกเลิก',
-    confirmButtonClass: 'btn btn-success mt-2',
-    cancelButtonClass: 'btn btn-danger ms-2 mt-2',
-    buttonsStyling: false
-}).then(function(result) {
-    if (result.value) {
 
-        $.ajax({
-            url: `{{ url('/cancelProductSelectionDt') }}`,
-            type: "POST",
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "refid": refid
-            },
-            dataType: "json",
-            success: function(data) {
-
-                console.log(data);
-
-
-                if (data.status == true) {
-                    Swal.fire({
-                        title: 'สำเร็จ',
-                        text: 'ยกเลิกเอกสารเรียบร้อยแล้ว',
-                        icon: 'success'
-                    }).then(function() {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'ไม่สำเร็จ',
-                        text: 'ยกเลิกเอกสารไม่สำเร็จ',
-                        icon: 'error'
-                    });
-                }
-               
-            }
-        });
-
-    } else if ( // Read more about handling dismissals
-        result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-            title: 'ยกเลิก',
-            text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
-            icon: 'error'
-        });
-    }
-});
-
-}
 </script>
 @endpush  
     
