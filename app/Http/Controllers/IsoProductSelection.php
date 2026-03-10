@@ -226,7 +226,8 @@ class IsoProductSelection extends Controller
             ];
             try{
                 DB::beginTransaction();
-                $insertHD = ProductSelectionHd::where('product_selection_hd_id',$id)->update($data);
+                ProductSelectionHd::where('product_selection_hd_id',$id)->update($data);
+                $insertHD = ProductSelectionHd::find($id);
                 foreach ($request->product_selection_dt_id as $key => $value) {
                     if($value <> 0){
                         $data_up = [
