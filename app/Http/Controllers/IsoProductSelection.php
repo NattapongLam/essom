@@ -203,6 +203,7 @@ class IsoProductSelection extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         if($request->checkdoc == "Edit"){
             $request->validate([
                 'product_type1' => ['required'],
@@ -263,7 +264,7 @@ class IsoProductSelection extends Controller
                         }
                         ProductSelectionDt::create($data_dt);                  
                            
-                    }else{
+                    }elseif($value <> 0){
                         
                           $data_dt = [
                                 'product_selection_hd_id' => $insertHD->product_selection_hd_id,
@@ -299,67 +300,71 @@ class IsoProductSelection extends Controller
                     }
                    
                 }           
-                
-                // foreach ($request->product_selection_sub_id as $key => $value) {
-                //     if($value){
-                //         if ($request->has('evaluation')) {
-                //             foreach ($request->evaluation as $vendorIndex => $rows) {
+                if ($request->has('evaluation')) {
 
-                //                 foreach ($rows['sub_listno'] as $i => $subListNo) {
-                //                 ProductSelectionSub::insert([
-                //                     'product_selection_hd_id' => $insertHD->product_selection_hd_id,
-                //                     'product_selection_sub_vendorlistno' => $rows['vendorlistno'][$key], 
-                //                     'product_selection_sub_listno' => $rows['sub_listno'][$i],
-                //                     'product_selection_sub_name' => $rows['sub_name'][$i],
+                    foreach ($request->evaluation as $vendorIndex => $rows) {
 
-                //                     // results group 1 (ดี / พอใช้ / ไม่ดี)
-                //                     'product_selection_hd_results1_1' => $rows['results1_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results1_2' => $rows['results1_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results1_3' => $rows['results1_'.$subListNo][$i] ?? 0,
+                        if (!isset($rows['sub_listno'])) {
+                            continue;
+                        }
 
-                //                     // results group 2
-                //                     'product_selection_hd_results2_1' => $rows['results2_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results2_2' => $rows['results2_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results2_3' => $rows['results2_'.$subListNo][$i] ?? 0,
+                        foreach ($rows['sub_listno'] as $i => $subListNo) {
 
-                //                     // results group 3
-                //                     'product_selection_hd_results3_1' => $rows['results3_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results3_2' => $rows['results3_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results3_3' => $rows['results3_'.$subListNo][$i] ?? 0,
+                            $subId = $request->product_selection_sub_id[$i] ?? 0;
 
-                //                     // results group 4
-                //                     'product_selection_hd_results4_1' => $rows['results4_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results4_2' => $rows['results4_'.$subListNo][$i] ?? 0,
-                //                     'product_selection_hd_results4_3' => $rows['results4_'.$subListNo][$i] ?? 0,
+                            $data = [
 
-                //                     'person_at' => Auth::user()->name,
-                //                     'created_at' => Carbon::now(),
-                //                 ]);
+                                'product_selection_hd_id' => $insertHD->product_selection_hd_id,
 
-                //                 }
-                //             }
-                //         }
-                //     }else{
-                //         $data_up = [
-                //             'product_selection_hd_results1_1' => $request->product_selection_hd_results1_1[$key],
-                //             'product_selection_hd_results1_2' => $request->product_selection_hd_results1_2[$key],
-                //             'product_selection_hd_results1_3' => $request->product_selection_hd_results1_3[$key],
-                //             'product_selection_hd_results2_1' => $request->product_selection_hd_results2_1[$key],
-                //             'product_selection_hd_results2_2' => $request->product_selection_hd_results2_2[$key],
-                //             'product_selection_hd_results2_3' => $request->product_selection_hd_results2_3[$key],
-                //             'product_selection_hd_results3_1' => $request->product_selection_hd_results3_1[$key],
-                //             'product_selection_hd_results3_2' => $request->product_selection_hd_results3_2[$key],
-                //             'product_selection_hd_results3_3' => $request->product_selection_hd_results3_3[$key],
-                //             'product_selection_hd_results4_1' => $request->product_selection_hd_results4_1[$key],
-                //             'product_selection_hd_results4_2' => $request->product_selection_hd_results4_2[$key],
-                //             'product_selection_hd_results4_3' => $request->product_selection_hd_results4_3[$key],
-                //             'person_at' => Auth::user()->name,
-                //             'updated_at' => Carbon::now(),
-                //         ];
-                //         ProductSelectionSub::where('product_selection_sub_id',$value)->update($data_up);
-                //     }
-                  
-                // }
+                                'product_selection_sub_vendorlistno' => $rows['vendorlistno'][$i] ?? $vendorIndex,
+
+                                'product_selection_sub_listno' => $subListNo,
+
+                                'product_selection_sub_name' => $rows['sub_name'][$i] ?? '',
+
+                                // group 1
+                                'product_selection_hd_results1_1' => $request->input("results1_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results1_2' => $request->input("results1_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results1_3' => $request->input("results1_{$subListNo}.{$i}",0),
+
+                                // group 2
+                                'product_selection_hd_results2_1' => $request->input("results2_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results2_2' => $request->input("results2_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results2_3' => $request->input("results2_{$subListNo}.{$i}",0),
+
+                                // group 3
+                                'product_selection_hd_results3_1' => $request->input("results3_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results3_2' => $request->input("results3_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results3_3' => $request->input("results3_{$subListNo}.{$i}",0),
+
+                                // group 4
+                                'product_selection_hd_results4_1' => $request->input("results4_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results4_2' => $request->input("results4_{$subListNo}.{$i}",0),
+                                'product_selection_hd_results4_3' => $request->input("results4_{$subListNo}.{$i}",0),
+
+                                'person_at' => Auth::user()->name,
+                            ];
+
+                            if ($subId == 0) {
+
+                                $data['created_at'] = now();
+
+                                ProductSelectionSub::insert($data);
+
+                            } 
+                            // else {
+
+                            //     $data['updated_at'] = now();
+
+                            //     ProductSelectionSub::where('product_selection_sub_id',$subId)->update($data);
+
+                            // }
+
+                        }
+
+                    }
+
+                }
                 DB::commit();
                 return redirect()->route('product-selection.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
             }catch(\Exception $e){

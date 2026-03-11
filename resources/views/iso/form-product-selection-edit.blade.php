@@ -281,351 +281,6 @@
                         <div id="evaluationContainer"></div>
                     </div>                    
                 </div>
-                {{-- <div class="row mt-3">
-                    <table class="table table-bordered table-sm">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" style="width: 25%" class="text-center">รายการประเมิน</th>
-                                <th colspan="3" class="text-center">( 1 )</th>
-                                <th colspan="3" class="text-center">( 2 )</th>
-                                <th colspan="3" class="text-center">( 3 )</th>
-                                <th colspan="3" class="text-center">( 4 )</th>
-                            </tr>
-                            <tr>
-                                <th style="width: 6%" class="text-center">ดี</th>
-                                <th style="width: 6%" class="text-center">พอใช้</th>
-                                <th style="width: 6%" class="text-center">ไม่ดี</th>
-                                <th style="width: 6%" class="text-center">ดี</th>
-                                <th style="width: 6%" class="text-center">พอใช้</th>
-                                <th style="width: 6%" class="text-center">ไม่ดี</th>
-                                <th style="width: 6%" class="text-center">ดี</th>
-                                <th style="width: 6%" class="text-center">พอใช้</th>
-                                <th style="width: 6%" class="text-center">ไม่ดี</th>
-                                <th style="width: 6%" class="text-center">ดี</th>
-                                <th style="width: 6%" class="text-center">พอใช้</th>
-                                <th style="width: 6%" class="text-center">ไม่ดี</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    - คุณภาพการใช้งานของสินค้า
-                                    <input type="hidden" value="1" name="product_selection_sub_listno[]">
-                                    <input type="hidden" value="คุณภาพการใช้งานของสินค้า" name="product_selection_sub_name[]">
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                 <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    - ความเรียบร้อยของสินค้า
-                                    <input type="hidden" value="2" name="product_selection_sub_listno[]">
-                                    <input type="hidden" value="ความเรียบร้อยของสินค้า" name="product_selection_sub_name[]">
-                                </td>
-                               <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                 <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    - บริการของผู้ขาย
-                                    <input type="hidden" value="3" name="product_selection_sub_listno[]">
-                                    <input type="hidden" value="บริการของผู้ขาย" name="product_selection_sub_name[]">
-                                </td>
-                               <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                 <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    - การให้บริการหลังการขาย
-                                    <input type="hidden" value="4" name="product_selection_sub_listno[]">
-                                    <input type="hidden" value="การให้บริการหลังการขาย" name="product_selection_sub_name[]">
-                                </td>
-                              <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results1_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                 <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results2_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results3_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control"  name="product_selection_hd_results4_3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> --}}
                 <div class="row mt-3">
                     <div class="col-12">
                         <label for="">หมายเหตุ</label>
@@ -818,6 +473,7 @@ function createEvaluationRow(no, title, index) {
             </td>
             <td>
                 - ${title}
+                <input type="hidden" name="product_selection_sub_id[]" value="0">
                 <input type="hidden" name="evaluation[${index}][sub_listno][]" value="${no}">
                 <input type="hidden" name="evaluation[${index}][sub_name][]" value="${title}">
                 <input type="hidden" name="evaluation[${index}][vendorlistno][]" value="${index}">
@@ -834,8 +490,7 @@ function createSelectCells(index, subNo) {
         for (let grade = 1; grade <= 3; grade++) {
             html += `
                 <td>
-                    <select class="form-control"
-                        name="evaluation[${index}][results${group}_${subNo}][]">
+                    <select class="form-control" name="product_selection_hd_results${group}_${subNo}[]">
                         <option value="0"></option>
                         <option value="1">/</option>
                     </select>
@@ -870,7 +525,63 @@ function updateRowNumbers() {
         if (input) input.value = number;
     });
 }
+confirmDel = (refid) =>{       
+Swal.fire({
+    title: 'คุณแน่ใจหรือไม่ !',
+    text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'ยืนยัน',
+    cancelButtonText: 'ยกเลิก',
+    confirmButtonClass: 'btn btn-success mt-2',
+    cancelButtonClass: 'btn btn-danger ms-2 mt-2',
+    buttonsStyling: false
+}).then(function(result) {
+    if (result.value) {
 
+        $.ajax({
+            url: `{{ url('/cancelProductSelectionDt') }}`,
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "refid": refid
+            },
+            dataType: "json",
+            success: function(data) {
+
+                console.log(data);
+
+
+                if (data.status == true) {
+                    Swal.fire({
+                        title: 'สำเร็จ',
+                        text: 'ยกเลิกเอกสารเรียบร้อยแล้ว',
+                        icon: 'success'
+                    }).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'ไม่สำเร็จ',
+                        text: 'ยกเลิกเอกสารไม่สำเร็จ',
+                        icon: 'error'
+                    });
+                }
+               
+            }
+        });
+
+    } else if ( // Read more about handling dismissals
+        result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+            title: 'ยกเลิก',
+            text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
+            icon: 'error'
+        });
+    }
+});
+
+}
 </script>
 @endpush  
     
