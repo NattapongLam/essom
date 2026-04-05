@@ -15,9 +15,13 @@
                 <form method="POST" class="form-horizontal" action="{{ route('product-registration.store') }}" enctype="multipart/form-data">
                 @csrf           
                 <div class="row mt-3">
-                        <div class="col-12">
-                            <label for="documentregisters_listno">Product Name</label>
+                        <div class="col-9">
+                            <label for="product_registration_hd_name">Product Name</label>
                             <input type="text" class="form-control" name="product_registration_hd_name">
+                        </div>
+                        <div class="col-3">
+                            <label for="product_registration_hd_subcode">Sub Code</label>
+                            <input type="text" class="form-control" name="product_registration_hd_subcode">
                         </div>
                 </div>
                 <div class="row mt-3">

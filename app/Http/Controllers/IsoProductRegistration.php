@@ -53,6 +53,7 @@ class IsoProductRegistration extends Controller
         ]);
         $data = [
             'product_registration_hd_name' => $request->product_registration_hd_name,
+            'product_registration_hd_subcode' => $request->product_registration_hd_subcode,
             'product_registration_hd_flag' => true,
             'person_at' => Auth::user()->name,
             'created_at' => Carbon::now(),
@@ -132,6 +133,7 @@ class IsoProductRegistration extends Controller
                 'product_registration_hd_flag' => true,
                 'person_at' => Auth::user()->name,
                 'updated_at'  => Carbon::now(),
+                'product_registration_hd_subcode' => $request->product_registration_hd_subcode,
             ]);
             foreach ($request->product_registration_dt_id as $key => $value) {
                 ProductRegistrationDt::where('product_registration_dt_id',$value)

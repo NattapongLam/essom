@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="row mt-3">   
-                    <div class="col-6">
+                    <div class="col-3">
                         <label>Document Name</label>
                         <input type="text" class="form-control form-control position-input" name="documentcorrections_name" value="{{$doc->documentcorrections_name}}" required>
                     </div>
@@ -91,6 +91,10 @@
                             </a>
                         @endif
                     </div> 
+                    <div class="col-3">
+                        <label>ลิงค์เอกสารเดิม</label>
+                        <input type="text" class="form-control form-control position-input" name="documentcorrections_link" value="{{$doc->documentcorrections_link}}">
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-4">
