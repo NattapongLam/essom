@@ -20,6 +20,7 @@
                         <thead>
                             <tr> 
                                 <th>Product Name</th>
+                                <th>Sub Code</th>
                                 <th>Update</th>      
                                 <th>แก้ไข</th> 
                                 <th>ลบ</th>                        
@@ -29,6 +30,7 @@
                             @foreach ($hd as $item)
                                 <tr>
                                     <td>{{$item->product_registration_hd_name}}</td>
+                                    <td>{{$item->product_registration_hd_subcode}}</td>
                                     <td>{{$item->updated_at}}</td>
                                     <td>
                                         <a href="{{route('product-registration.edit',$item->product_registration_hd_id)}}" class="btn btn-sm btn-warning" >

@@ -47,12 +47,12 @@
                                     <td>
                                         @if ($item->documentcorrections_file)
                                             <a href="{{asset($item->documentcorrections_file)}}" target=”_blank”>
-                                                <i class="fas fa-file"> ไฟล์เดิม</i>
+                                                <i class="fas fa-file"> ต้นฉบับ</i>
                                             </a><br>
                                         @endif
                                         @if ($item->documentcorrections_file1)
                                             <a href="{{asset($item->documentcorrections_file1)}}" target=”_blank”>
-                                                <i class="fas fa-file"> ไฟล์ใหม่</i>
+                                                <i class="fas fa-file"> เอกสารอื่นๆ</i>
                                             </a>
                                         @endif
                                     </td>

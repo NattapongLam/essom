@@ -78,7 +78,8 @@ class IsoDocumentcorrection extends Controller
                 'reviewed_by' => $request->reviewed_by,
                 'approved_by' => $request->approved_by,
                 'reviewed_status' => 'N',
-                'approved_status' => 'N'
+                'approved_status' => 'N',
+                'documentcorrections_link' => $request->documentcorrections_link
             ];
             if ($request->hasFile('documentcorrections_file')) {
                 $data['documentcorrections_file'] = $request->file('documentcorrections_file')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file')->extension());
@@ -167,7 +168,8 @@ class IsoDocumentcorrection extends Controller
                 'reviewed_by' => $request->reviewed_by,
                 'approved_by' => $request->approved_by,
                 'reviewed_status' => 'N',
-                'approved_status' => 'N'
+                'approved_status' => 'N',
+                'documentcorrections_link' => $request->documentcorrections_link
             ];
             if ($request->hasFile('documentcorrections_file')) {
                 $data['documentcorrections_file'] = $request->file('documentcorrections_file')->storeAs('img/documentcorrection', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('documentcorrections_file')->extension());

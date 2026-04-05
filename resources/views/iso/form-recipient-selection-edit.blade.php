@@ -39,6 +39,22 @@
                         <label for="recipient_selection_hd_email">E-mail</label>
                         <input class="form-control" name="recipient_selection_hd_email" value="{{$hd->recipient_selection_hd_email}}">
                     </div>   
+                    <div class="col-3">
+                        <label for="product_type1">1.</label>
+                        <input type="text" class="form-control" name="product_type1" value="{{$hd->product_type1}}" required>
+                    </div>
+                    <div class="col-3">
+                        <label for="product_type2">2.</label>
+                        <input type="text" class="form-control" name="product_type2" value="{{$hd->product_type2}}">
+                    </div>
+                    <div class="col-3">
+                        <label for="product_type3">3.</label>
+                        <input type="text" class="form-control" name="product_type3" value="{{$hd->product_type3}}">
+                    </div>
+                    <div class="col-3">
+                        <label for="product_type4">4.</label>
+                        <input type="text" class="form-control" name="product_type4" value="{{$hd->product_type4}}">
+                    </div>
                 </div>
                 <div class="row mt-3">  
                     <table class="table table-bordered table-sm text-center">

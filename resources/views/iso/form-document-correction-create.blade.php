@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="row mt-3">   
-                    <div class="col-6">
+                    <div class="col-3">
                         <label>Document Name</label>
                         <input type="text" class="form-control form-control position-input" name="documentcorrections_name" required>
                     </div>
@@ -67,6 +67,10 @@
                         <label for="documentcorrections_file">เอกสารอื่นๆที่ใช้อ้างอิง (หากมี)</label>
                         <input type="file" class="form-control-file" name="documentcorrections_file1" >
                     </div> 
+                    <div class="col-3">
+                        <label>ลิงค์เอกสารเดิม</label>
+                        <input type="text" class="form-control form-control position-input" name="documentcorrections_link">
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-4">
