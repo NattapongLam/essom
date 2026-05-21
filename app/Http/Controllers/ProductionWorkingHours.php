@@ -95,7 +95,17 @@ class ProductionWorkingHours extends Controller
             'ms_department_id' => ['required'],
             'ms_employee_id' => ['required'],
         ]);
+        $emp = EmployeeList::where('ms_employee_id',$request->ms_employee_id)->first();
         $doc = DB::table('vw_workinghours_job')->where('productionopenjob_dt_id',$request->productionopenjob_dt_id)->first();
+        $ckdocu = DB::table('workinghours_hd')
+        ->where('workinghours_status_id','<>',2)
+        ->where('created_person',$emp->ms_employee_fullname)
+        ->where('workinghours_hd_date',$request->workinghours_hd_date)
+        ->first();
+        if ($ckdocu) {
+            // กรณีพบข้อมูล ให้หยุดการทำงานและแจ้งเตือน
+            return back()->with('error', 'ไม่สามารถบันทึกได้ เนื่องจากข้อมูลของวันที่นี้มีอยู่แล้วในระบบ');
+        }
         $hd = [
             'workinghours_hd_date' => $request->workinghours_hd_date,
             'workinghours_hd_docuno' => $request->workinghours_hd_docuno,
@@ -108,7 +118,7 @@ class ProductionWorkingHours extends Controller
             'workinghours_hd_remark' => $request->workinghours_hd_remark,
             'other_hours' => 0,
             'created_at' => Carbon::now(),
-            'created_person' => Auth::user()->name,
+            'created_person' => $emp->ms_employee_fullname,
             'workinghours_status_id' => 1,
             //'workinghours_hd_type' => $doc->types
         ];
@@ -116,8 +126,7 @@ class ProductionWorkingHours extends Controller
 
             DB::beginTransaction();
             $insertHD = ProductionWorkingHoursHd::create($hd);
-            foreach($request->job_id as $key => $value){               
-                $emp = EmployeeList::where('ms_employee_id',$request->ms_employee_id)->first();
+            foreach($request->job_id as $key => $value){                              
                 if($emp){ 
                     $job = DB::table('vw_jobmandaylistv1')->where('id',$value)->first();  
                     if($job){
