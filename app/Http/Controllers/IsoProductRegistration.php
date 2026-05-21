@@ -112,7 +112,7 @@ class IsoProductRegistration extends Controller
     public function edit($id)
     {
         $hd = ProductRegistrationHd::find($id);   
-        $dt = ProductRegistrationDt::where('product_registration_dt_flag',true)->get();
+        $dt = ProductRegistrationDt::where('product_registration_dt_flag',true)->where('product_registration_hd_id',$id)->get();
         return view('iso.form-product-registration-edit',compact('hd','dt'));
     }
 
