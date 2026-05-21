@@ -94,7 +94,7 @@
 confirmApp = (refid) =>{       
 Swal.fire({
     title: 'คุณแน่ใจหรือไม่ !',
-    text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
+    text: `คุณต้องการรับทราบรายการนี้หรือไม่ ?`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'ยืนยัน',
@@ -121,7 +121,7 @@ Swal.fire({
                 if (data.status == true) {
                     Swal.fire({
                         title: 'สำเร็จ',
-                        text: 'ยกเลิกเอกสารเรียบร้อยแล้ว',
+                        text: 'รับทราบเอกสารเรียบร้อยแล้ว',
                         icon: 'success'
                     }).then(function() {
                         location.reload();
@@ -129,7 +129,7 @@ Swal.fire({
                 } else {
                     Swal.fire({
                         title: 'ไม่สำเร็จ',
-                        text: 'ยกเลิกเอกสารไม่สำเร็จ',
+                        text: 'รับทราบเอกสารไม่สำเร็จ',
                         icon: 'error'
                     });
                 }
@@ -140,7 +140,7 @@ Swal.fire({
     } else if ( // Read more about handling dismissals
         result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
-            title: 'ยกเลิก',
+            title: 'รับทราบ',
             text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
             icon: 'error'
         });
