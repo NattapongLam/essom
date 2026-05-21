@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductListSelectedDt;
+use App\Models\ProductListSelectedHd;
+use App\Models\RecipientSelectionHd;
+use App\Models\RecipientSelectionSub;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Models\RecipientSelectionHd;
-use Illuminate\Support\Facades\Auth;
-use App\Models\RecipientSelectionSub;
+use Illuminate\Support\Str;
 
 class IsoRecipientSelection extends Controller
 {
@@ -338,6 +340,99 @@ class IsoRecipientSelection extends Controller
                 'status' => true,
                 'message' => 'อนุมัติเอกสารเรียบร้อยแล้ว'
             ]);    
+        }
+    }
+    public function updateRecipientSelection(Request $request)
+    {
+        try {
+            $hd = RecipientSelectionHd::findOrFail($request->refid);
+            $ckhd = ProductListSelectedHd::where(
+                'product_list_selected_hd_product',
+                $hd->product_type1
+            )->first();
+
+            // ถ้ามีแล้ว ไม่ต้องทำซ้ำ
+            if ($ckhd) {
+                $ckdt = RecipientSelectionHd::where('recipient_selection_hd_id',$hd->recipient_selection_hd_id)
+                ->where('recipient_selection_hd_flag',true)
+                ->get();
+                foreach ($ckdt as $value) {
+                    $ck = ProductListSelectedDt::where('product_list_selected_dt_vendor',$value->recipient_selection_hd_name)
+                    ->where('recipient_selection_hd_flag',true)
+                    ->first();
+                    if($ck){
+
+                    }else{
+                        ProductListSelectedDt::create([
+                            'product_list_selected_hd_id' => $ckhd->product_list_selected_hd_id,
+                            'product_list_selected_dt_listno' => 0,
+                            'product_list_selected_dt_vendor' => $value->recipient_selection_hd_name,
+                            'product_list_selected_dt_product' => $hd->product_type1,
+                            'product_list_selected_dt_results1' => 0,
+                            'product_list_selected_dt_results2' => 0,
+                            'product_list_selected_dt_results3' => 0,
+                            'product_list_selected_dt_results4' => 0,
+                            'product_list_selected_dt_results5' => 1,
+                            'person_at' => Auth::user()->name,
+                            'product_list_selected_dt_flag' => true,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
+                }
+                return response()->json([
+                    'status' => true,
+                    'message' => 'อัพเดทเรียบร้อยแล้ว'
+                ]);
+            }
+
+            DB::beginTransaction();
+
+            $insertHD = ProductListSelectedHd::create([
+                'product_list_selected_hd_product' => $hd->product_type1,
+                'person_at' => Auth::user()->name,
+                'product_list_selected_hd_flag' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $ckdt = RecipientSelectionHd::where('recipient_selection_hd_id',$hd->recipient_selection_hd_id)
+                ->where('recipient_selection_hd_flag',true)
+                ->get();
+
+            foreach ($ckdt as $value) {
+
+                ProductListSelectedDt::create([
+                    'product_list_selected_hd_id' => $insertHD->product_list_selected_hd_id,
+                    'product_list_selected_dt_listno' => 0,
+                    'product_list_selected_dt_vendor' => $value->recipient_selection_hd_name,
+                    'product_list_selected_dt_product' => $hd->product_type1,
+                    'product_list_selected_dt_results1' => 0,
+                    'product_list_selected_dt_results2' => 0,
+                    'product_list_selected_dt_results3' => 0,
+                    'product_list_selected_dt_results4' => 0,
+                    'product_list_selected_dt_results5' => 1,
+                    'person_at' => Auth::user()->name,
+                    'product_list_selected_dt_flag' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'อัพเดทเรียบร้อยแล้ว'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e);
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
