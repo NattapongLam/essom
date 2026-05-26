@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <label for="iso_car_docuno">CAR No :</label>
-                        <input class="form-control" name="iso_car_docuno" value="{{$docs}}" readonly>
+                        <input class="form-control" name="iso_car_docuno" value="{{$docs}}">
                         <input type="hidden" class="form-control" name="iso_car_number" value="{{$docs_number}}">
                     </div>
                     <div class="col-12 col-md-3">
@@ -48,7 +48,7 @@
                         <input type="date" class="form-control" name="iso_car_date" value="{{date('Y-m-d')}}">
                     </div>
                     <div class="col-12 col-md-3">
-                        <label for="problem_by">ผู้แก้ปัญหา :</label>
+                        <label for="problem_by">ผู้ออกเอกสาร :</label>
                         <select class="form-control select2" name="problem_by">
                             <option>กรุณาเลือก</option>
                             @foreach ($emp as $item)
@@ -57,7 +57,11 @@
                         </select>
                     </div>
                     <div class="col-12 col-md-3">
-                        <label for="problem_to">ถึงกรรมการผู้แก้ปัญหา :</label>                       
+                        <label for="iso_car_filename1">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="iso_car_filename1" >
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="problem_to">ถึง (กรรมการผู้จัดการ/รองกรรมการผู้จัดการ ผู้แก้ปัญหา) :</label>                       
                         <select class="form-control select2" name="problem_to">
                             <option>กรุณาเลือก</option>
                             @foreach ($emp as $item)
@@ -69,19 +73,19 @@
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="consider_remark">เกณฑ์พิจารณา/ข้อกำหนดที่อ้างอิง :</label>
-                        <input class="form-control" name="consider_remark">
+                        <textarea class="form-control" name="consider_remark" rows="5"></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="found_bugs">ข้อบกพร่องที่พบ :</label>
-                        <input class="form-control" name="found_bugs">
+                        <textarea class="form-control" name="found_bugs" rows="5"></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="characteristics">ลักษณะข้อบกพร่องนี้ในหน่วยงานหรือกระบวนการอื่นที่เหมือนกัน :</label>
-                        <input class="form-control" name="characteristics">
+                        <textarea class="form-control" name="characteristics" rows="5"></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -98,7 +102,33 @@
                         <label for="troublemaker_date">วันที่ :</label>
                         <input type="date" class="form-control" name="troublemaker_date">
                     </div>
-                </div><br>
+                    <div class="col-12 col-md-3">
+                        <label for="problem_add">กำหนดผู้แก้ปัญหา คือ :</label>
+                        <select class="form-control select2" name="problem_add">
+                            <option>กรุณาเลือก</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                            @endforeach 
+                        </select>
+                        <select class="form-control select2" name="problem_add1">
+                            <option>กรุณาเลือก</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                            @endforeach 
+                        </select>
+                        <select class="form-control select2" name="problem_add2">
+                            <option>กรุณาเลือก</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
+                            @endforeach 
+                        </select>
+                    </div>
+                     <div class="col-12 col-md-3">
+                        <label for="problem_date">ผู้แก้ปัญหา รับเรื่องวันที่ :</label>
+                        <input type="date" class="form-control" name="problem_date">
+                    </div>
+                </div>
+                <br>
                 <div class="row">
                     <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-success toastrDefaultSuccess">

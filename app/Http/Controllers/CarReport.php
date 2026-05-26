@@ -82,7 +82,7 @@ class CarReport extends Controller
         $emp = EmployeeList::where('ms_employee_flag',true)
         ->leftjoin('ms_department','ms_employee.ms_department_id','=','ms_department.ms_department_id')       
         ->OrderBy('ms_employee.ms_employeegroup_id','asc')
-        ->OrderBy('ms_department.ms_employee_listno','asc')
+        ->OrderBy('ms_employee.ms_employee_listno','asc')
         ->get();
         return view('iso.form-create-car',compact('emp','docs','docs_number'));
     }
@@ -95,27 +95,18 @@ class CarReport extends Controller
      */
     public function store(Request $request)
     {
-        $docs_last = DB::table('iso_car')
-        ->where('iso_car_docuno', 'like', '%' . date('y') . '%')
-        ->orderBy('iso_car_id', 'desc')->first();
-        if ($docs_last) {
-        $docs = date('y').'-'. str_pad($docs_last->iso_car_number + 1, 5, '0', STR_PAD_LEFT);
-        $docs_number = $docs_last->iso_car_number + 1;
-        } else {
-        $docs = date('y').'-'. str_pad(1, 5, '0', STR_PAD_LEFT);
-        $docs_number = 1;
-        }
         $request->validate([
             'iso_car_docuno' => ['required'],
-            'iso_car_date' => ['required'],
+            'iso_car_date'   => ['required'],
         ]);
-        if($request->iso_car_refertype1){
+        $iso_car_refertype = 'อื่นๆ'; 
+        if ($request->iso_car_refertype1) {
             $iso_car_refertype = 'คำร้องเรียนจากลูกค้า/บุคคลภายนอก';
-        }elseif($request->iso_car_refertype2){
+        } elseif ($request->iso_car_refertype2) {
             $iso_car_refertype = 'รายงานความไม่สอดคล้องกับข้อกำหนด (NCR)';
-        }elseif($request->iso_car_refertype3){
+        } elseif ($request->iso_car_refertype3) {
             $iso_car_refertype = 'การตรวจสอบภายใน';
-        }elseif($request->iso_car_refertype4){
+        } elseif ($request->iso_car_refertype4) {
             $iso_car_refertype = 'อื่นๆ';
         }
         $hd = [
@@ -123,9 +114,9 @@ class CarReport extends Controller
             'iso_car_referremark' => $request->iso_car_referremark,
             'iso_car_refernumber' => $request->iso_car_refernumber,
             'iso_car_referdate' => $request->iso_car_referdate,
-            'iso_car_docuno' => $docs,
+            'iso_car_docuno' => $request->iso_car_docuno,
             'iso_car_date' => $request->iso_car_date,
-            'iso_car_number' => $docs_number,
+            'iso_car_number' => $request->iso_car_number,
             'problem_by' => $request->problem_by,
             'problem_to' => $request->problem_to,
             'consider_remark' => $request->consider_remark,
@@ -135,23 +126,19 @@ class CarReport extends Controller
             'troublemaker_date' => $request->troublemaker_date,
             'created_at' => Carbon::now(),
             'created_person' => Auth::user()->name,
-            'iso_status_id' => 1
+            'iso_status_id' => 1,
+            'problem_add' => $request->problem_add,
+            'problem_add1' => $request->problem_add1,
+            'problem_add2' => $request->problem_add2,
+            'problem_date' => $request->problem_date,
         ];
+        if ($request->hasFile('iso_car_filename1')) {
+            $hd['iso_car_filename1'] = $request->file('iso_car_filename1')->storeAs('img/car/', "CAR_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_car_filename1')->extension());
+        }
         try{
 
             DB::beginTransaction();
             $insertHD = IsoCar::create($hd);
-            // define('LINE_API', "https://notify-api.line.me/api/notify");
-            //     $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
-            //     $params = array(
-            //     "message"  => "แจ้งเตือนเปิดเอกสาร CAR"."\n"
-            //     ."เลขที่ : ". $docs ."\n"
-            //     ."ผู้เปิดเอกสาร : ".Auth::user()->name."\n"
-            //     ."วันที่เปิดเอกสาร : ".Carbon::now()->format('d/m/Y')."\n",
-            //     "stickerPkg"     => 446,
-            //     "stickerId"      => 1988,
-            //     );
-            //     $res = $this->notify_message($params, $token);
             $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
             $message = "📢 แจ้งเตือนเปิดเอกสาร CAR" . "\n"
