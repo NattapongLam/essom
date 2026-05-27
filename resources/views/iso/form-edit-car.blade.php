@@ -28,7 +28,7 @@
             </div>            
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-md-12">
+                    <div class="col-12 col-md-8">
                         <label for="iso_car_refertype">อ้างอิง :</label>
                         @if($hd->iso_car_refertype == 'คำร้องเรียนจากลูกค้า/บุคคลภายนอก')
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="คำร้องเรียนจากลูกค้า/บุคคลภายนอก" checked>
@@ -66,42 +66,43 @@
                         <label style="font-size: 14px;" for="iso_car_refertype">อื่นๆ</label>
                         @endif
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-4">
                         <label for="iso_car_referremark">ระบุ :</label>
-                        <input class="form-control" value="{{$hd->iso_car_referremark}}">
+                        <input class="form-control" value="{{$hd->iso_car_referremark}}" readonly>
                     </div>
+                </div>
+                <div class="row">                  
                     <div class="col-12 col-md-3">
                         <label for="iso_car_refernumber">เลขที่/ครั้งที่อ้างอิง :</label>
-                        <input class="form-control" value="{{$hd->iso_car_refernumber}}">
+                        <input class="form-control" value="{{$hd->iso_car_refernumber}}" readonly>
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="iso_car_referdate">วันที่ :</label>
-                        <input type="date" class="form-control" value="{{$hd->iso_car_referdate}}">
+                        <input type="date" class="form-control" value="{{$hd->iso_car_referdate}}" readonly>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-12 col-md-3">
                         <label for="iso_car_docuno">CAR No :</label>
-                        <input class="form-control" value="{{$hd->iso_car_docuno}}">
+                        <input class="form-control" value="{{$hd->iso_car_docuno}}" readonly>
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="iso_car_date">วันที่ :</label>
-                        <input type="date" class="form-control" value="{{$hd->iso_car_date}}">
+                        <input type="date" class="form-control" value="{{$hd->iso_car_date}}" readonly>
                     </div>
+                </div>
+                <div class="row">
+                    
                     <div class="col-12 col-md-3">
-                        <label for="problem_by">ผู้แก้ปัญหา :</label>
-                        <select class="form-control select2">
+                        <label for="problem_by">ผู้ออกเอกสาร :</label>
+                        <select class="form-control select2" disabled>
                             <option value="{{$hd->problem_by}}">{{$hd->problem_by}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
                     </div>
-                    <div class="col-12 col-md-3">
-                        <label for="problem_to">ถึงกรรมการผู้แก้ปัญหา :</label>
-                        <select class="form-control select2">
+                    <div class="col-12 col-md-6">
+                        <label for="problem_to">ถึง (กรรมการผู้จัดการ/รองกรรมการผู้จัดการ ผู้แก้ปัญหา) :</label>
+                        <select class="form-control select2" disabled>
                             <option value="{{$hd->problem_to}}">{{$hd->problem_to}}</option>
                             @foreach ($emp as $item)
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}} ({{$item->ms_employeegroup_name}})</option>
@@ -112,19 +113,19 @@
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="consider_remark">เกณฑ์พิจารณา/ข้อกำหนดที่อ้างอิง :</label>
-                        <input class="form-control" value="{{$hd->consider_remark}}">
+                        <textarea class="form-control" disabled>{{$hd->consider_remark}}</textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="found_bugs">ข้อบกพร่องที่พบ :</label>
-                        <input class="form-control" value="{{$hd->found_bugs}}">
+                        <textarea class="form-control" disabled>{{$hd->found_bugs}}</textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="characteristics">ลักษณะข้อบกพร่องนี้ในหน่วยงานหรือกระบวนการอื่นที่เหมือนกัน :</label>
-                        <input class="form-control" value="{{$hd->characteristics}}">
+                        <textarea class="form-control" disabled>{{$hd->characteristics}}</textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -174,29 +175,7 @@
                             @endforeach 
                         </select>
                     </div>
-                    {{-- <div class="col-12 col-md-3">
-                        <label for="troublemaker_byto">กรรมการผู้พบปัญหา :</label>
-                        <select class="form-control select2">
-                            <option value="{{$hd->troublemaker_byto}}">{{$hd->troublemaker_byto}}</option>
-                            @foreach ($emp as $item)
-                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
-                            @endforeach 
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <label for="troublemaker_dateto">วันที่ :</label>
-                        <input type="date" class="form-control" value="{{$hd->troublemaker_dateto}}">
-                    </div> --}}
                 </div><br>
-                {{-- @if($hd->iso_status_id == 1)
-                <div class="row">
-                    <div class="col-12 col-md-3">
-                        <button type="submit" class="btn btn-info toastrDefaultSuccess">
-                            กรรมการลงนาม (ผู้พบปัญหา)
-                        </button>
-                    </div>
-                </div>
-                @endif                --}}
             </div>
         </div>
         <div class="card">
@@ -204,37 +183,37 @@
                 <h3 class="card-title" style="font-weight: bold">การแก้ไข/ป้องกัน</h3>
             </div>
             <div class="card-body">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-12 col-md-3">
                         <label for="problem_date">กรรมการผู้แก้ปัญหา รับเรื่องวันที่</label>
                         <input type="date" class="form-control" value="{{$hd->problem_date}}" name="problem_date">
                     </div>
                     
-                </div>
+                </div> --}}
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="cause_remark">สาเหตุของปัญหา</label>
-                        <input class="form-control" value="{{$hd->cause_remark}}" name="cause_remark">
+                        <textarea class="form-control" name="cause_remark" rows="5">{{$hd->cause_remark}}</textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="prevent_remark">มาตรการแก้ไข/ป้องกัน</label>
-                        <input class="form-control" value="{{$hd->prevent_remark}}" name="prevent_remark">
+                        <textarea class="form-control" name="prevent_remark" rows="5">{{$hd->prevent_remark}}</textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <label for="follow_remark">การตรวจติดตาม ข้อบกพร่องนี้ในหน่วยงานหรือกระบวนการอื่นที่เหมือนกัน</label>
-                        <input class="form-control" value="{{$hd->follow_remark}}" name="follow_remark">
+                        <textarea class="form-control" name="follow_remark" rows="5">{{$hd->follow_remark}}</textarea>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <label for="iso_car_duedate">กำหนดเสร็จภายในวันที่</label>
                         <input type="date" class="form-control" value="{{$hd->iso_car_duedate}}" name="iso_car_duedate">
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <label for="iso_car_by">ลงชื่อ (ผู้แก้ปัญหา)</label>
                         <select class="form-control select2" name="iso_car_by">
                             <option value="{{$hd->iso_car_by}}">{{$hd->iso_car_by}}</option>
@@ -242,10 +221,26 @@
                                 <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
                             @endforeach 
                         </select>
+                        <select class="form-control select2" name="iso_car_by1">
+                            <option value="{{$hd->iso_car_by1}}">{{$hd->iso_car_by1}}</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
+                            @endforeach 
+                        </select>
+                        <select class="form-control select2" name="iso_car_by2">
+                            <option value="{{$hd->iso_car_by2}}">{{$hd->iso_car_by2}}</option>
+                            @foreach ($emp as $item)
+                                <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}  ({{$item->ms_employeegroup_name}})</option>
+                            @endforeach 
+                        </select>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <label for="iso_car_bydate">วันที่ (ผู้แก้ปัญหา)</label>
                         <input type="date" class="form-control" value="{{$hd->iso_car_bydate}}" name="iso_car_bydate">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="iso_car_filename2">ไฟล์แนบ(หากมี)</label>
+                        <input type="file" class="form-control-file" name="iso_car_filename2" >
                     </div>
                 </div><br>
                 @if($hd->iso_status_id == 1)

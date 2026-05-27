@@ -198,50 +198,24 @@ class CarReport extends Controller
         try{
             DB::beginTransaction();
             if($hd->iso_status_id == 1){
-                // $up = IsoCar::where('iso_car_id',$id)->update([
-                //     'troublemaker_dateto' => Carbon::now(),
-                //     'troublemaker_byto' => Auth::user()->name,
-                //     'iso_status_id' => 6,
-                //     'updated_at' => Carbon::now(),
-                //     'problem_date' => $request->problem_date,
-                //     'problem_add' => $request->problem_add,
-                //     'problem_add1' => $request->problem_add1,
-                //     'problem_add2' => $request->problem_add2,
-                // ]);
-                // $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
-                // $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
-                // $message = "📢 แจ้งเตือนกรรมการลงนามเปิดเอกสาร CAR" . "\n"
-                //     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
-                //     . "📅 วันที่กรรมการลงนามเปิดเอกสาร : " . Carbon::now()->format('d/m/Y') . "\n"
-                //     . "👤 กรรมการลงนามเปิดเอกสาร : " . Auth::user()->name . "\n";
-        
-                // // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
-                // $this->notifyTelegram($message, $token, $chatId);
-                $up = IsoCar::where('iso_car_id',$id)->update([ 
+                $hd = [
                     'iso_status_id' => 7,
                     'updated_at' => Carbon::now(),
-                    'problem_date' => $request->problem_date,
-                    'problem_add' => $request->problem_add,
-                    'problem_add1' => $request->problem_add1,
-                    'problem_add2' => $request->problem_add2,
                     'cause_remark' => $request->cause_remark,
                     'prevent_remark' => $request->prevent_remark,
                     'follow_remark' => $request->follow_remark,
                     'iso_car_duedate' => $request->iso_car_duedate,
                     'iso_car_by' => $request->iso_car_by,
+                    'iso_car_bydate' => $request->iso_car_bydate,
+                    'iso_car_by1' => $request->iso_car_by1,
+                    'iso_car_by2' => $request->iso_car_by2,
+                    'iso_car_by' => $request->iso_car_by,
                     'iso_car_bydate' => $request->iso_car_bydate
-                ]);
-                // define('LINE_API', "https://notify-api.line.me/api/notify");
-                // $token = "bz5HNGdmNUwOZ4z44oxTsoi1iJ74RJqPmvyHAfTX3SS";
-                // $params = array(
-                // "message"  => "แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR"."\n"
-                // ."เลขที่ : ".$hd->iso_car_docuno."\n"
-                // ."วันที่แก้ไข/ป้องกัน : ".Auth::user()->name."\n"
-                // ."ผู้แก้ไข/ป้องกัน : ".Carbon::now()->format('d/m/Y')."\n",
-                // "stickerPkg"     => 446,
-                // "stickerId"      => 1988,
-                // );
-                // $res = $this->notify_message($params, $token);
+                ];
+                if ($request->hasFile('iso_car_filename2')) {
+                    $hd['iso_car_filename2'] = $request->file('iso_car_filename2')->storeAs('img/car/', "CAR_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_car_filename2')->extension());
+                }
+                $up = IsoCar::where('iso_car_id',$id)->update($hd);
                 $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR" . "\n"
