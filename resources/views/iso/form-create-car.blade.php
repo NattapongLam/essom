@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-9">
                         <label for="iso_car_referremark">ระบุ :</label>
                         <input class="form-control" name="iso_car_referremark">
                     </div>
@@ -32,10 +32,10 @@
                         <label for="iso_car_refernumber">เลขที่/ครั้งที่อ้างอิง :</label>
                         <input class="form-control" name="iso_car_refernumber">
                     </div>
-                    <div class="col-12 col-md-3">
+                    {{-- <div class="col-12 col-md-3">
                         <label for="iso_car_referdate">วันที่ :</label>
                         <input type="date" class="form-control" name="iso_car_referdate">
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-3">
