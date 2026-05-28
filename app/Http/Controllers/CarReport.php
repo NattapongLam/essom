@@ -198,7 +198,7 @@ class CarReport extends Controller
         try{
             DB::beginTransaction();
             if($hd->iso_status_id == 1){
-                $hd = [
+                $up = [
                     'iso_status_id' => 7,
                     'updated_at' => Carbon::now(),
                     'cause_remark' => $request->cause_remark,
@@ -213,9 +213,9 @@ class CarReport extends Controller
                     'iso_car_bydate' => $request->iso_car_bydate
                 ];
                 if ($request->hasFile('iso_car_filename2')) {
-                    $hd['iso_car_filename2'] = $request->file('iso_car_filename2')->storeAs('img/car/', "CAR_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_car_filename2')->extension());
+                    $up['iso_car_filename2'] = $request->file('iso_car_filename2')->storeAs('img/car/', "CAR_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_car_filename2')->extension());
                 }
-                $up = IsoCar::where('iso_car_id',$id)->update($hd);
+                IsoCar::where('iso_car_id',$id)->update($up);
                 $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR" . "\n"
