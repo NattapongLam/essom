@@ -113,7 +113,7 @@ class CarReport extends Controller
             'iso_car_refertype' => $iso_car_refertype,
             'iso_car_referremark' => $request->iso_car_referremark,
             'iso_car_refernumber' => $request->iso_car_refernumber,
-            'iso_car_referdate' => $request->iso_car_referdate,
+            //'iso_car_referdate' => $request->iso_car_referdate,
             'iso_car_docuno' => $request->iso_car_docuno,
             'iso_car_date' => $request->iso_car_date,
             'iso_car_number' => $request->iso_car_number,
@@ -142,7 +142,7 @@ class CarReport extends Controller
             $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
             $message = "📢 แจ้งเตือนเปิดเอกสาร CAR" . "\n"
-                . "🔹 เลขที่ : ". $docs . "\n"
+                . "🔹 เลขที่ : ".  $request->iso_car_docuno . "\n"
                 . "📅 วันที่เปิดเอกสาร : " . Carbon::now()->format('d/m/Y') . "\n"
                 . "👤 ผู้เปิดเอกสาร : " . Auth::user()->name . "\n";
     
