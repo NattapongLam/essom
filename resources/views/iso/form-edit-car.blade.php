@@ -28,7 +28,7 @@
             </div>            
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-md-8">
+                    <div class="col-12 col-md-12">
                         <label for="iso_car_refertype">อ้างอิง :</label>
                         @if($hd->iso_car_refertype == 'คำร้องเรียนจากลูกค้า/บุคคลภายนอก')
                         <input type="checkbox" id="checkboxPrimary1" name="iso_car_refertype" value="คำร้องเรียนจากลูกค้า/บุคคลภายนอก" checked>
@@ -66,20 +66,21 @@
                         <label style="font-size: 14px;" for="iso_car_refertype">อื่นๆ</label>
                         @endif
                     </div>
-                    <div class="col-12 col-md-4">
+                    
+                </div>
+                <div class="row">         
+                    <div class="col-12 col-md-3">
                         <label for="iso_car_referremark">ระบุ :</label>
                         <input class="form-control" value="{{$hd->iso_car_referremark}}" readonly>
-                    </div>
-                </div>
-                <div class="row">                  
+                    </div>         
                     <div class="col-12 col-md-3">
                         <label for="iso_car_refernumber">เลขที่/ครั้งที่อ้างอิง :</label>
                         <input class="form-control" value="{{$hd->iso_car_refernumber}}" readonly>
                     </div>
-                    <div class="col-12 col-md-3">
+                    {{-- <div class="col-12 col-md-3">
                         <label for="iso_car_referdate">วันที่ :</label>
                         <input type="date" class="form-control" value="{{$hd->iso_car_referdate}}" readonly>
-                    </div>
+                    </div> --}}
                     <div class="col-12 col-md-3">
                         <label for="iso_car_docuno">CAR No :</label>
                         <input class="form-control" value="{{$hd->iso_car_docuno}}" readonly>
