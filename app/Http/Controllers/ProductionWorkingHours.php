@@ -303,4 +303,51 @@ class ProductionWorkingHours extends Controller
 
         return response()->json($jobs);
     }
+
+    public function checkLeave(Request $request)
+    {
+        try {
+            $empCode = $request->ms_employee_code; 
+            $checkDate = $request->check_date;
+
+            // 1. ค้นหาข้อมูลการลา
+            $leave = DB::table('hr_leave')
+                        ->where('ms_employee_code', $empCode)
+                        ->whereDate('hr_leave_start', '<=', $checkDate)
+                        ->whereDate('hr_leave_end', '>=', $checkDate)
+                        ->where('flag', true)
+                        ->first();
+
+            // 2. ค้นหาข้อมูลโอที
+            $overtime = DB::table('hr_overtime')
+                        ->where('ms_employee_code', $empCode)
+                        ->where('hr_overtime_date', $checkDate)
+                        ->where('flag', true)
+                        ->first();       
+            
+            // ถ้ามี $overtime ให้เอาไปหาร 60 ถ้าไม่มีให้เป็น 0
+            $overtime_hours = $overtime ? ($overtime->hr_overtime_sum_time / 60) : 0; 
+
+            // 3. เคสที่พนักงานมีการลาหยุด
+            if ($leave) {
+                return response()->json([
+                    'is_leave' => true,
+                    'leave_data' => $leave,
+                    'overtime_hours' => $overtime_hours
+                ]);
+            }
+
+            // 4. 🌟 แก้ไขตรงนี้: เคสที่พนักงานไม่ได้ลา (มาทำงานปกติ) แต่ต้องส่งค่าโอทีไปบวก 7.5 ด้วย
+            return response()->json([
+                'is_leave' => false,
+                'overtime_hours' => $overtime_hours // แนบส่งกลับไปให้หน้าบ้านเสมอ
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'is_leave' => false, 
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

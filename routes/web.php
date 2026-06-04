@@ -88,6 +88,7 @@ Route::group([
     Route::post('/getEmployee' , [App\Http\Controllers\ProductionWorkingHours::class , 'getEmployee']);
     Route::post('/cancelDocsMan' , [App\Http\Controllers\ProductionWorkingHours::class , 'cancelDocsMan']);
     Route::get('/employee/jobs', [App\Http\Controllers\ProductionWorkingHours::class, 'getJobs'])->name('employee.jobs');
+    Route::post('/employee/check-leave', [App\Http\Controllers\ProductionWorkingHours::class, 'checkLeave'])->name('employee.checkLeave');
 });
 Route::group([
     'middleware' =>  ['auth','permission:docu-finalinspections']
