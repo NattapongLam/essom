@@ -187,7 +187,7 @@
                                     <span id="total_hours">0.00</span> ชม.
                                 </td>
                                 <td>
-                                    <h6 id="result_hours"><span class="text-primary font-weight-bold">7.5</span> ชม.</h6>
+                                    <h6 id="result_hours"><span class="text-primary font-weight-bold">8.5</span> ชม.</h6>
                                 </td>
                             </tr>
                         </tfoot>
