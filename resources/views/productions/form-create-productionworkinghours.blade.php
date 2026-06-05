@@ -730,7 +730,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                         if(leaveName && leaveName.includes('วันเช้า')){
                             alert('ข้อแนะนำ: พนักงานท่านนี้ลาแบบ [' + leaveName + '] กรุณาตรวจสอบชั่วโมงทำงานให้ถูกต้อง');
                             
-                            let baseHours = 3.5;
+                            let baseHours = 4;
                             let totalHours = baseHours + otHours;
                             
                             console.log("--- พนักงานลาครึ่งวันเช้า ---");
@@ -744,7 +744,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                         } else if (leaveName && leaveName.includes('วันบ่าย')){
                             alert('ข้อแนะนำ: พนักงานท่านนี้ลาแบบ [' + leaveName + '] กรุณาตรวจสอบชั่วโมงทำงานให้ถูกต้อง');
                             
-                            let baseHours = 4;
+                            let baseHours = 3.5;
                             let totalHours = baseHours + otHours;
                             
                             console.log("--- พนักงานลาครึ่งวันบ่าย ---");
@@ -760,7 +760,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                     // 1.3 กรณีเป็นสถานะการลาอื่นๆ ที่ไม่มีคำว่า เต็มวัน หรือ ครึ่งวัน
                     else {
                         alert('คำเตือน: พนักงานอยู่ในสถานะการลา: ' + leaveName);
-                        let baseHours = 7.5;
+                        let baseHours = 8.5;
                         let totalHours = baseHours + otHours;
                         
                         console.log("--- พนักงานลาประเภทอื่นๆ ---");
@@ -774,7 +774,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                 
                 // 2. [เคสที่ 2] 🌟 เพิ่มบล็อกนี้: พนักงานมาทำงานปกติ (ไม่ได้ลาหยุด) แต่มีโอกาสได้โอที
                 else {
-                    let baseHours = 7.5; // ชั่วโมงทำงานมาตรฐานของคนไม่ลา
+                    let baseHours = 8.5; // ชั่วโมงทำงานมาตรฐานของคนไม่ลา
                     let totalHours = baseHours + otHours; // คำนวณจริง 7.5 + 0.5 = 8.00
                     
                     console.log("--- พนักงานทำงานปกติ (ไม่ได้ลา) ---");
