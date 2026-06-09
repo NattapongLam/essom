@@ -730,12 +730,12 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                         if(leaveName && leaveName.includes('วันเช้า')){
                             alert('ข้อแนะนำ: พนักงานท่านนี้ลาแบบ [' + leaveName + '] กรุณาตรวจสอบชั่วโมงทำงานให้ถูกต้อง');
                             
-                            let baseHours = 4;
+                            let baseHours = 4.5;
                             let totalHours = baseHours + otHours;
                             
                             console.log("--- พนักงานลาครึ่งวันเช้า ---");
                             console.log("ค่าโอทีจากหลังบ้าน:", response.overtime_hours);
-                            console.log("ยอดรวมชั่วโมงสิทธิ์ (3.5 + OT):", totalHours);
+                            console.log("ยอดรวมชั่วโมงสิทธิ์ (4.5 + OT):", totalHours);
 
                             $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(2)}</span> ชม.`);
                             calculateTotalHours();
@@ -744,7 +744,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                         } else if (leaveName && leaveName.includes('วันบ่าย')){
                             alert('ข้อแนะนำ: พนักงานท่านนี้ลาแบบ [' + leaveName + '] กรุณาตรวจสอบชั่วโมงทำงานให้ถูกต้อง');
                             
-                            let baseHours = 3.5;
+                            let baseHours = 4;
                             let totalHours = baseHours + otHours;
                             
                             console.log("--- พนักงานลาครึ่งวันบ่าย ---");
