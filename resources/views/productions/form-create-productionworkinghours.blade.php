@@ -184,7 +184,7 @@
                             <tr style="background-color:#EAEAEA; font-weight: bold;">
                                 <td colspan="3" class="text-right">ยอดรวมทั้งหมด:</td>
                                 <td class="text-center">
-                                    <span id="total_hours">0.00</span> ชม.
+                                    <span id="total_hours">0.0</span> ชม.
                                 </td>
                                 <td>
                                     <h6 id="result_hours"><span class="text-primary font-weight-bold">8.5</span> ชม.</h6>
@@ -737,7 +737,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                             console.log("ค่าโอทีจากหลังบ้าน:", response.overtime_hours);
                             console.log("ยอดรวมชั่วโมงสิทธิ์ (4.5 + OT):", totalHours);
 
-                            $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(2)}</span> ชม.`);
+                            $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(1)}</span> ชม.`);
                             calculateTotalHours();
                             return;
                             
@@ -751,7 +751,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                             console.log("ค่าโอทีจากหลังบ้าน:", response.overtime_hours);
                             console.log("ยอดรวมชั่วโมงสิทธิ์ (4.0 + OT):", totalHours);
 
-                            $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(2)}</span> ชม.`);
+                            $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(1)}</span> ชม.`);
                             calculateTotalHours();
                             return;
                         }
@@ -767,7 +767,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                         console.log("ค่าโอทีจากหลังบ้าน:", response.overtime_hours);
                         console.log("ยอดรวมชั่วโมงสิทธิ์ (7.5 + OT):", totalHours);
 
-                        $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(2)}</span> ชม.`);
+                        $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(1)}</span> ชม.`);
                         calculateTotalHours();
                     }
                 } 
@@ -783,7 +783,7 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
                     console.log("ยอดรวมชั่วโมงสิทธิ์ (7.5 + OT):", totalHours);
                     
                     // อัปเดตตัวเลขแสดงผลบนหน้าจอให้พนักงานปกติ
-                    $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(2)}</span> ชม.`);
+                    $('#result_hours').html(`<span class="text-primary font-weight-bold">${totalHours.toFixed(1)}</span> ชม.`);
                     
                     // เรียกฟังก์ชันตรวจสอบกับตารางแถวล่างสุดทันที
                     calculateTotalHours();
@@ -809,7 +809,7 @@ calculateTotalHours = () => {
     });
 
     // แสดงผลรวมใน tag span
-    $('#total_hours').text(total.toFixed(2));
+    $('#total_hours').text(total.toFixed(1));
 
     // ดึงตัวเลขจาก #result_hours มาเปรียบเทียบ
     let maxHours = parseFloat($('#result_hours').text()) || 0;
@@ -818,7 +818,7 @@ calculateTotalHours = () => {
         Swal.fire({
             icon: 'error',
             title: 'ชั่วโมงเกินกำหนด!',
-            text: `จำนวนชั่วโมงรวม (${total.toFixed(2)} ชม.) เกินกว่าชั่วโมงที่กำหนดไว้ (${maxHours.toFixed(2)} ชม.)`,
+            text: `จำนวนชั่วโมงรวม (${total.toFixed(1)} ชม.) เกินกว่าชั่วโมงที่กำหนดไว้ (${maxHours.toFixed(1)} ชม.)`,
             confirmButtonText: 'ตกลง'
         });
 
