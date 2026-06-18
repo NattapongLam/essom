@@ -73,8 +73,6 @@
                                   {{$message}}
                                 </div>
                                 @enderror   
-                        {{-- <input type="hidden" class="form-control" name="ms_department_name" id="ms_department_name" class="form-control" value="{{$dep->ms_department_name}}"readonly>
-                        <input type="hidden" name="ms_department_id" id="ms_department_id" value="{{$emp->ms_department_id}}"> --}}
                         </div>
                     </div>
                 </div>
@@ -86,59 +84,6 @@
                     </div>
                 </div>
             </div>           
-            {{-- <div class="row"> --}}
-                {{-- <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label for="ms_department_id">แผนก</label>
-                        <select class="form-control select2 @error('ms_department_id') is-invalid @enderror" style="width: 100%;" name="ms_department_id" id="ms_department_id">
-                            <option value="">กรุณาเลือก</option>
-                            @foreach ($dep as $item)
-                            <option value="{{$item->ms_department_id}}">{{$item->ms_department_name}}</option>
-                            @endforeach
-                        </select>
-                            @error('ms_department_id')
-                            <div id="ms_department_id_validation" class="invalid-feedback">
-                              {{$message}}
-                            </div>
-                            @enderror
-                    </div>
-                </div> --}}
-                {{-- <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label for="workinghours_type">ประเภท</label>
-                        <select class="form-control select2" style="width: 100%;" name="workinghours_type" id="workinghours_type">
-                            <option selected="selected">กรุณาเลือก</option>
-                            @foreach ($typ as $item)
-                            <option value="{{$item->workinghours_type_name}}">{{$item->workinghours_type_name}}</option>
-                            @endforeach
-                          </select>
-                    </div>
-                </div> --}}
-                {{-- <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        <label for="productionopenjob_dt_id">เลขที่เปิดงาน</label>
-                        <select class="form-control select2 @error('productionopenjob_dt_id') is-invalid @enderror" style="width: 100%;" id="productionopenjob_dt_id" name="productionopenjob_dt_id">
-                        <option value="">กรุณาเลือกเลขที่เปิดงาน</option>
-                        @foreach ($jobdoc as $jobdoc)
-                            <option value="{{ $jobdoc->productionopenjob_dt_id }}"
-                                {{ old('productionopenjob_dt_id') == $jobdoc->productionopenjob_dt_id ? 'selected' : null }}>
-                                {{ $jobdoc->productionopenjob_hd_docuno }} {{ $jobdoc->ms_product_name }} {{ $jobdoc->ms_customer_name }}</option>
-                        @endforeach
-                        </select>
-                        @error('productionopenjob_dt_id')
-                            <div id="productionopenjob_dt_id_docuno_validation" class="invalid-feedback">
-                              {{$message}}
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="form-group">
-                        <label for="other_hours">ชั่วโมงอื่นๆ</label>
-                        <input class="form-control" name="other_hours" id="other_hours" type="text" value="{{old('other_hours',0)}}">
-                    </div>
-                </div> --}}
-            {{-- </div> --}}
             <div class="row">
                 <h5>ประวัติการบันทึกย้อนหลัง 7 วัน</h5>
                 <table class="table" id="jobTable">
@@ -206,9 +151,7 @@
                                     <th>ลำดับ</th>
                                     <th>เลขที่งาน</th>
                                     <th>สินค้า</th>
-                                    {{-- <th>ชื่อ - นามสกุล</th> --}}
-                                    {{-- <th>ชั่วโมงทำงาน</th> --}}
-                                    {{-- <th>ชั่วโมงอื่นๆ</th> --}}
+                                    <th>ประเภท</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -218,26 +161,7 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$item->productionopenjob_hd_docuno}}</td>
                                         <td>{{$item->ms_product_name}}</td>
-                                        {{-- <td>{{Auth::user()->name}}</td> --}}
-                                        {{-- <td> --}}
-                                            {{-- <input class="form-control" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;">
-                                            <select class="form-control" style="width:70px;" id="workinghours_dt_time[]" name="workinghours_dt_time[]">
-                                                <option value="0">.00</option>
-                                                <option value="30">.30</option>
-                                            </select>                                            
-                                            <input type="hidden" id="productionopenjob_hd_docuno[]" name="productionopenjob_hd_docuno[]" value="{{$item->productionopenjob_hd_docuno}}">
-                                            <input type="hidden" id="workinghours_type_name[]" name="workinghours_type_name[]" value="{{$item->workinghours_type_name}}"> --}}
-                                            {{-- <input type="hidden" id="emp_id[]" name="emp_id[]" value="{{$emp->ms_employee_id}}">
-                                            <input type="hidden" id="ms_employee_code[]" name="ms_employee_code[]" value="{{$emp->ms_employee_code}}">
-                                            <input type="hidden" id="ms_employee_fullname[]" name="ms_employee_fullname[]" value="{{$emp->ms_employee_fullname}}"> --}}
-                                        {{-- </td> --}}
-                                        {{-- <td>
-                                            <input class="form-control" type="number" id="workinghours_dt_other[]" name="workinghours_dt_other[]" value="0" style="width:70px;">
-                                            <select class="form-control" style="width:70px;" id="other_time[]" name="other_time[]">
-                                                <option value="0">.00</option>
-                                                <option value="30">.30</option>
-                                            </select>
-                                        </td> --}}
+                                        <td>{{$item->workinghours_type_name}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -246,314 +170,6 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="row">             
-                <div class="col-12">
-                <div class="table-responsive">
-                <table class="table table-bordered">
-                <thead>
-                    <tr style="background-color:#F5F5F5">
-                        <th class="text-center">ลำดับ</th>
-                        <th class="text-center">รหัสพนักงาน</th>
-                        <th class="text-center">ชื่อ - นามสกุล</th>   
-                        <th class="text-center">จำนวนชั่วโมง</th>                    
-                        <th class="text-center"></th>
-                    </tr>
-                </thead>
-                <tbody id="tb_employeelist">
-                </tbody>
-                </table>
-                </div>
-                </div>
-            </div><hr> --}}
-            {{-- <div class="row">             
-                <div class="col-12">
-                    <div class="card card-primary card-outline card-outline-tabs">
-                      <div class="card-header p-0 border-bottom-0">
-                        <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                          <li class="nav-item">
-                            <a class="nav-link active" id="custom-tabs-four-Large-tab" data-toggle="pill" href="#custom-tabs-four-Large" role="tab" aria-controls="custom-tabs-four-Large" aria-selected="true">อุปกรณ์ใหญ่</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Small1-tab" data-toggle="pill" href="#custom-tabs-four-Small1" role="tab" aria-controls="custom-tabs-four-Small1" aria-selected="false">อุปกรณ์เล็ก1</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Small2-tab" data-toggle="pill" href="#custom-tabs-four-Small2" role="tab" aria-controls="custom-tabs-four-Small2" aria-selected="false">อุปกรณ์เล็ก2</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Elect-tab" data-toggle="pill" href="#custom-tabs-four-Elect" role="tab" aria-controls="custom-tabs-four-Elect" aria-selected="false">ไฟฟ้า</a>
-                          </li> 
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Mach-tab" data-toggle="pill" href="#custom-tabs-four-Mach" role="tab" aria-controls="custom-tabs-four-Mach" aria-selected="false">กลึง</a>
-                          </li> 
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Paint-tab" data-toggle="pill" href="#custom-tabs-four-Paint" role="tab" aria-controls="custom-tabs-four-Paint" aria-selected="false">ช่างสี</a>
-                          </li> 
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Service-tab" data-toggle="pill" href="#custom-tabs-four-Service" role="tab" aria-controls="custom-tabs-four-Service" aria-selected="false">ซ่อมและบริการ</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Del-tab" data-toggle="pill" href="#custom-tabs-four-Del" role="tab" aria-controls="custom-tabs-four-Del" aria-selected="false">ส่งของ</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Store-tab" data-toggle="pill" href="#custom-tabs-four-Store" role="tab" aria-controls="custom-tabs-four-Store" aria-selected="false">พัสดุ</a>
-                          </li> 
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-Design-tab" data-toggle="pill" href="#custom-tabs-four-Design" role="tab" aria-controls="custom-tabs-four-Design" aria-selected="false">ออกแบบ</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-four-ENG-tab" data-toggle="pill" href="#custom-tabs-four-ENG" role="tab" aria-controls="custom-tabs-four-ENG" aria-selected="false">วิศวกรโรงงาน</a>
-                          </li> 
-                        </ul>
-                      </div>
-                      <div class="card-body">
-                        <div class="tab-content" id="custom-tabs-four-tabContent">
-                          <div class="tab-pane fade show active" id="custom-tabs-four-Large" role="tabpanel" aria-labelledby="custom-tabs-four-Large-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>                                         
-                                        </tr>
-                                    </thead>
-                                    <tbody>     
-                                        @foreach ($lar as $item)
-                                            <tr>
-                                                <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                                <td class="text-center">{{$item->ms_employee_code}}</td>
-                                                <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                            </tr>
-                                        @endforeach                                 
-                                    </tbody>
-                                </table>
-                                </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Small1" role="tabpanel" aria-labelledby="custom-tabs-four-Small1-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>                                         
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($sm1 as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                   
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Small2" role="tabpanel" aria-labelledby="custom-tabs-four-Small2-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>   
-                                        @foreach ($sm2 as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                     
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Elect" role="tabpanel" aria-labelledby="custom-tabs-four-Elect-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>   
-                                        @foreach ($ele as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                   
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Mach" role="tabpanel" aria-labelledby="custom-tabs-four-Mach-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($mac as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Paint" role="tabpanel" aria-labelledby="custom-tabs-four-Paint-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($pai as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Service" role="tabpanel" aria-labelledby="custom-tabs-four-Service-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($ser as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Del" role="tabpanel" aria-labelledby="custom-tabs-four-Del-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($del as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Store" role="tabpanel" aria-labelledby="custom-tabs-four-Store-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($sto as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-Design" role="tabpanel" aria-labelledby="custom-tabs-four-Design-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($des as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-four-ENG" role="tabpanel" aria-labelledby="custom-tabs-four-ENG-tab">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">#</th>
-                                            <th class="text-center">รหัสพนักงาน</th>
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>    
-                                        @foreach ($eng as $item)
-                                        <tr>
-                                            <td class="text-center"><img src="{{asset('img/accept.png')}}" style="width: 30px" onclick="addTolist({{$item->ms_employee_id}})"> </td>
-                                            <td class="text-center">{{$item->ms_employee_code}}</td>
-                                            <td class="text-center">{{$item->ms_employee_fullname}}</td>
-                                        </tr>
-                                        @endforeach                                  
-                                    </tbody>
-                                </table>
-                            </div>
-                          </div>                    
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
         </form>
     </div>
@@ -581,8 +197,12 @@ addTolist = (id) => {
             _token: '{{ csrf_token() }}'
         },
         dataType: "json",
-        success: function(data) {               
+        success: function(data) {              
             $numbertd = $('#tb_employeelist tr').length + 1;
+            
+            // 🌟 เช็คว่าเป็นประเภท Product หรือไม่
+            let isProduct = (data.emp.workinghours_type_name === 'Product') ? 'true' : 'false';
+
             $('#tb_employeelist').append(`
             <tr style="background-color:#F8F8FF" class="${data.emp.id}">                 
             <td class="text-center"><input type="hidden" name="productionopenjob_hd_docuno[]" value="${data.emp.id}">${$numbertd}</td>   
@@ -590,12 +210,21 @@ addTolist = (id) => {
             <td class="text-center">${data.emp.ms_product_name}</td>
             <td class="text-center">
                 <input type="hidden" id="job_id[]" name="job_id[]" value="${data.emp.id}">
-                <input class="form-control input-hours-trigger" type="number" id="workinghours_dt_hours[]" name="workinghours_dt_hours[]" value="0" style="width:70px;" min="0">
+                
+                <input class="form-control input-hours-trigger" 
+                       type="number" 
+                       id="workinghours_dt_hours[]" 
+                       name="workinghours_dt_hours[]" 
+                       value="0" 
+                       style="width:70px;" 
+                       min="0"
+                       data-is-product="${isProduct}">
+
                 <select class="form-control select-time-trigger" style="width:70px;" id="workinghours_dt_time[]" name="workinghours_dt_time[]">
                     <option value="0">.00</option>
                     <option value="30">.30</option>
                 </select>
-            </td>                                      
+            </td>                                                     
             <td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="removeTolist('${data.emp.id}')"><i class="fas fa-trash"></i></button></td>
             </tr>
             `);
@@ -798,33 +427,57 @@ $('#ms_employee_id, #workinghours_hd_date').on('change', function() {
 // เปลี่ยนจาก calculateTotalHours : () => เป็นแบบด้านล่างนี้ครับ
 calculateTotalHours = () => { 
     let total = 0;
+    let totalProductHours = 0; // 🌟 ตัวแปรสะสมชั่วโมงสำหรับงานที่เป็น Product ทั้งหมด
 
     // วนลูปหาทุกแถวที่อยู่ในตาราง tb_employeelist
     $('#tb_employeelist tr').each(function() {
-        let hours = parseFloat($(this).find('input[name="workinghours_dt_hours[]"]').val()) || 0;
+        let inputHours = $(this).find('input[name="workinghours_dt_hours[]"]');
+        let hours = parseFloat(inputHours.val()) || 0;
         let minutesValue = parseFloat($(this).find('select[name="workinghours_dt_time[]"]').val()) || 0;
         let minutes = minutesValue === 30 ? 0.5 : 0;
 
-        total += (hours + minutes);
+        let rowTotal = hours + minutes;
+        total += rowTotal;
+
+        // 🌟 ตรวจสอบว่าแถวนี้เป็นประเภท Product หรือไม่ ถ้าใช่ให้นำไปบวกรวมในกลุ่ม Product
+        let isProduct = inputHours.data('is-product') === true || inputHours.data('is-product') === "true";
+        if (isProduct) {
+            totalProductHours += rowTotal;
+        }
     });
 
-    // แสดงผลรวมใน tag span
+    // แสดงผลรวมทั้งหมดใน tag span
     $('#total_hours').text(total.toFixed(1));
 
-    // ดึงตัวเลขจาก #result_hours มาเปรียบเทียบ
+    // ดึงตัวเลขจาก #result_hours มาเปรียบเทียบ (สิทธิ์ชั่วโมงสูงสุดของวันนั้นๆ)
     let maxHours = parseFloat($('#result_hours').text()) || 0;
 
-    if (total > maxHours) {
+    // 🌟 1. เช็คเคสที่ 1: ชั่วโมงรวมของงานประเภท Product ทั้งหมด เกิน 7 ชั่วโมงหรือไม่
+    if (totalProductHours > 7) {
         Swal.fire({
             icon: 'error',
-            title: 'ชั่วโมงเกินกำหนด!',
-            text: `จำนวนชั่วโมงรวม (${total.toFixed(1)} ชม.) เกินกว่าชั่วโมงที่กำหนดไว้ (${maxHours.toFixed(1)} ชม.)`,
+            title: 'ชั่วโมงงาน Product เกินกำหนด!',
+            text: `ยอดรวมชั่วโมงงานประเภท Product ทั้งหมด คือ ${totalProductHours.toFixed(1)} ชม. (กำหนดให้ลงได้ไม่เกิน 7.0 ชม.)`,
             confirmButtonText: 'ตกลง'
         });
 
         $('#total_hours').css('color', 'red');
-        $('button[type="submit"]').prop('disabled', true);
-    } else {
+        $('button[type="submit"]').prop('disabled', true); // บล็อกปุ่มบันทึก
+    } 
+    // 🌟 2. เช็คเคสที่ 2: ชั่วโมงรวมทุกประเภท เกินสิทธิ์สูงสุดของวันนั้นๆ หรือไม่ (เงื่อนไขเดิมของคุณ)
+    else if (total > maxHours) {
+        Swal.fire({
+            icon: 'error',
+            title: 'ชั่วโมงรวมเกินกำหนด!',
+            text: `จำนวนชั่วโมงรวมทั้งหมด (${total.toFixed(1)} ชม.) เกินกว่าชั่วโมงที่กำหนดไว้ (${maxHours.toFixed(1)} ชม.)`,
+            confirmButtonText: 'ตกลง'
+        });
+
+        $('#total_hours').css('color', 'red');
+        $('button[type="submit"]').prop('disabled', true); // บล็อกปุ่มบันทึก
+    } 
+    // ถ้าผ่านเงื่อนไขทั้งหมด ปลดบล็อกปุ่มบันทึกตามปกติ
+    else {
         $('#total_hours').css('color', '');
         $('button[type="submit"]').prop('disabled', false);
     }
