@@ -161,8 +161,9 @@ input:focus {
             <tbody>
                 @foreach($machines as $i => $machine)
                     @php
+                        // แก้ไขตรงนี้: เปลี่ยนเติมช่องว่างเริ่มต้นจาก 0 (สีขาว) เป็น 2 (ช่องสีดำ)
                         $data = $records[$machine] ?? [
-                            'status' => array_fill(0, count($maintenance_items), 0),
+                            'status' => array_fill(0, count($maintenance_items), 2), 
                             'inspector' => '',
                             'inspection_date' => ''
                         ];
@@ -181,7 +182,10 @@ input:focus {
                     <tr class="step step-{{ $i < 11 ? 1 : ($i < 22 ? 2 : 3) }}">
                         <td>{{ $machine }}</td>
                         @foreach($maintenance_items as $index => $item)
-                            @php $state = $data['status'][$index] ?? 0; @endphp
+                            @php 
+                                // เช็คว่าถ้าไม่มีใน Array หรือเป็น null ให้ fallback ไปที่สถานะ 2 (ช่องสีดำ)
+                                $state = isset($data['status'][$index]) ? $data['status'][$index] : 2; 
+                            @endphp
                             <td>
                                 <input type="hidden" name="status[{{ $machine }}][{{ $index }}]" value="{{ $state }}">
                                 <div class="triple-checkbox" data-name="status[{{ $machine }}][{{ $index }}]" data-state="{{ $state }}"></div>
@@ -202,14 +206,25 @@ input:focus {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // ปรับ Logic การคลิกวนลูปสถานะ
     document.querySelectorAll('.triple-checkbox').forEach(cb => {
         cb.addEventListener('click', function() {
             let input = document.querySelector(`input[name="${this.dataset.name}"]`);
-            if(this.dataset.state === '0') { this.dataset.state = '1'; input.value = '1'; }
-            else if(this.dataset.state === '1') { this.dataset.state = '2'; input.value = '2'; }
-            else { this.dataset.state = '0'; input.value = '0'; }
+            
+            // ลำดับการวน: 2 (ดำ) -> 0 (ว่าง) -> 1 (เช็คถูก ✔) -> วนกลับมา 2 (ดำ)
+            if (this.dataset.state === '2') { 
+                this.dataset.state = '0'; 
+                input.value = '0'; 
+            } else if (this.dataset.state === '0') { 
+                this.dataset.state = '1'; 
+                input.value = '1'; 
+            } else { 
+                this.dataset.state = '2'; 
+                input.value = '2'; 
+            }
         });
     });
+
     const steps = Array.from(document.querySelectorAll('.step'));
     const totalSteps = 3; 
     let currentStep = 1;
@@ -242,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
     prevBtn.addEventListener('click', () => { if(currentStep > 1) { currentStep--; showStep(currentStep); } });
     nextBtn.addEventListener('click', () => { if(currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
     showStep(currentStep);
+
     const form = document.querySelector('form.form-container');
     form.addEventListener('submit', function(e){
         e.preventDefault();
@@ -258,7 +274,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.getElementById('printBtn').addEventListener('click', function() {
+// ดักจับปุ่ม print เผื่อกรณีปุ่มถูกเรียกใช้งานภายนอก
+document.getElementById('printBtn')?.addEventListener('click', function() {
     window.print();
 });
 </script>

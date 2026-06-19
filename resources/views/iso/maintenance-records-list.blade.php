@@ -10,67 +10,69 @@
                     <h2>ESSOM CO.,LTD.<br>บันทึกการบำรุงเครื่องจักร <br> EQUIPMENT MAINTENANCE RECORD</h2>
                     <p class="text-right mb-0">F7132.1<br>7 Mar 25</p>
                     <p class="text-left">
-    
-  <a href="{{ route('maintenance-records.create') }}">เพิ่มข้อมูลใหม่</a>
+                        <a href="{{ route('maintenance-records.create') }}" class="btn btn-primary btn-sm">เพิ่มข้อมูลใหม่</a>
                     </p>    
                 </div>
-      <div class="card-body">             
+                <div class="card-body">             
                     <div class="table-responsive">
-                        <table id="tb_job" class="table table-bordered table-sm text-center">
+                        <table id="maintenanceTable" class="table table-bordered table-sm text-center">
                             <thead>
                                 <tr>
-        <tr>
-            <th>No.</th>
-            <th>ผู้ตรวจ</th>
-            <th>วันที่ตรวจ</th>
-            <th>แก้ไข </th>
-            <th> ลบ</th>
-        </tr>
-        @foreach($records as $i => $record)
-    @if($record && $record->inspector)
-    <tr>
-        <td>{{ intval($i) + 1 }}</td>
-        <td>{{ $record->inspector }}</td>
-        <td>{{ $record->inspection_date ? \Carbon\Carbon::parse($record->inspection_date)->format('Y-m-d') : '' }}</td>
-        <td>
-            <a href="{{ route('maintenance-records.edit', $record->id) }}" class="btn btn-sm btn-warning">
-                <i class="fas fa-edit"></i>
-            </a>
-        </td>
-        <td>
-            <form action="{{ route('maintenance-records.destroy', $record->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm"
-                    onclick="return confirm('คุณต้องการลบข้อมูลนี้หรือไม่?')">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </form>
-        </td>
-    </tr>
-    @endif
-@endforeach
-
-    </table>
-</div>
-</div>
-</div>
-</div>
-</div>
+                                    <th>No.</th>
+                                    <th>ปีที่ตรวจ</th>
+                                    <th>ผู้ตรวจ (ตัวแทน)</th>
+                                    <th>แก้ไข</th>
+                                    <th>ลบ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $no = 1; @endphp
+                                @foreach($recordsByYear as $year => $record)
+                                    @if($record && $record->inspector)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td><strong>{{ $year }}</strong></td>
+                                        <td>{{ $record->inspector }}</td>
+                                        <td>
+                                            <a href="{{ route('maintenance-records.edit', $record->id) }}" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('maintenance-records.destroy', $record->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('คุณต้องการลบข้อมูลทั้งหมดของปีนี้ใช่หรือไม่?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="pagination" style="margin-top:15px; text-align:center;"></div>
 </div>
 
 <script>
-document.getElementById('searchInput').addEventListener('input', function() {
+// สคริปต์ JavaScript ค้นหา, Print, Excel และ Pagination ทำงานได้ตามปกติกับตารางที่ถูกจัดกลุ่มแล้ว
+document.getElementById('searchInput')?.addEventListener('input', function() {
     const filter = this.value.toLowerCase();
-    const rows = document.querySelectorAll('#maintenanceTable tr:not(:first-child)');
+    const rows = document.querySelectorAll('#maintenanceTable tbody tr');
     rows.forEach(row => {
         row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
     });
 });
 
-document.getElementById('printBtn').addEventListener('click', function() { window.print(); });
-document.getElementById('exportExcelBtn').addEventListener('click', function() {
+document.getElementById('printBtn')?.addEventListener('click', function() { window.print(); });
+document.getElementById('exportExcelBtn')?.addEventListener('click', function() {
     const table = document.getElementById('maintenanceTable');
     const wb = XLSX.utils.book_new();
     const ws_data = [];
@@ -88,10 +90,14 @@ document.getElementById('exportExcelBtn').addEventListener('click', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('maintenanceTable');
-    const rows = Array.from(table.querySelectorAll('tr:not(:first-child)'));
+    if (!table) return;
+    
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
     const rowsPerPage = 10;
     let currentPage = 1;
     const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    if (totalPages <= 1) return; // ถ้ามีน้อยกว่า 10 แถว ไม่ต้องทำ Pagination
 
     function showPage(page) {
         currentPage = page;
@@ -104,9 +110,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderPagination() {
         const pagination = document.getElementById('pagination');
         pagination.innerHTML = `
-            <button id="prevPage" ${currentPage === 1 ? 'disabled' : ''}>ก่อนหน้า</button>
+            <button id="prevPage" class="btn btn-light btn-sm" ${currentPage === 1 ? 'disabled' : ''}>ก่อนหน้า</button>
             <span> หน้า ${currentPage} / ${totalPages} </span>
-            <button id="nextPage" ${currentPage === totalPages ? 'disabled' : ''}>ถัดไป</button>
+            <button id="nextPage" class="btn btn-light btn-sm" ${currentPage === totalPages ? 'disabled' : ''}>ถัดไป</button>
         `;
         document.getElementById('prevPage').addEventListener('click', () => showPage(currentPage - 1));
         document.getElementById('nextPage').addEventListener('click', () => showPage(currentPage + 1));
