@@ -310,6 +310,7 @@ Route::group([
     Route::post('/cancelRecipientSelection' , [App\Http\Controllers\IsoRecipientSelection::class , 'cancelRecipientSelection']);
     Route::post('/ApprovedRecipientSelection' , [App\Http\Controllers\IsoRecipientSelection::class , 'ApprovedRecipientSelection']);
     Route::post('/updateRecipientSelection' , [App\Http\Controllers\IsoRecipientSelection::class , 'updateRecipientSelection']);
+     Route::get('/recipient-selection-report', [App\Http\Controllers\IsoRecipientSelection::class, 'report'])->name('recipient-selection.report');
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-selectedproduct']

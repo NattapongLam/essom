@@ -435,4 +435,13 @@ class IsoRecipientSelection extends Controller
             ], 500);
         }
     }
+
+    public function report()
+    {
+          // ดึงข้อมูลจาก View ที่เราทำไว้ร่วมกันขึ้นมา
+        $reports = DB::table('vw_recipient_evaluation_report')->get();
+
+        // ส่งข้อมูลไปยังหน้า View ของ Laravel (สมมติชื่อไฟล์ report.blade.php)
+        return view('iso.form-recipient-selection-report', compact('reports'));
+    }
 }
