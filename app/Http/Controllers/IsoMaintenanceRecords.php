@@ -48,13 +48,28 @@ class IsoMaintenanceRecords extends Controller
     {
         $maintenance_items = $this->maintenanceItems();
         $machines = $this->machines();
-        $records = MaintenanceRecord::all()->keyBy('machine_name');
+
+        // 1. ดึงข้อมูลและแปลงสถานะตามปกติ (นำ keyBy ออกก่อนเพื่อให้จัดกลุ่มด้วยปีได้)
+        $records = MaintenanceRecord::all();
 
         foreach ($records as $record) {
             $record->status = is_string($record->status) ? json_decode($record->status, true) : ($record->status ?? []);
         }
 
-        return view('iso.maintenance-records-list', compact('maintenance_items', 'machines', 'records'));
+        // 2. จัดกลุ่มด้วย "ปี" ของวันที่ตรวจ (inspection_date)
+        // และเลือกเอาเฉพาะรายการล่าสุด หรือรายการแรกของปีนั้นๆ มาแสดง 1 แถวต่อปี
+        $recordsByYear = $records->filter(function($record) {
+            return !empty($record->inspection_date);
+        })->groupBy(function($record) {
+            return \Carbon\Carbon::parse($record->inspection_date)->format('Y'); // จัดกลุ่มด้วยปี ค.ศ.
+        })->map(function($yearGroup) {
+            // เลือกแถวแรกของกลุ่มปีนั้น (หรือเปลี่ยนเป็น ->sortByDesc('inspection_date')->first() ถ้าต้องการข้อมูลล่าสุดของปี)
+            return $yearGroup->first(); 
+        })->sortByDesc(function($record, $year) {
+            return $year; // เรียงลำดับจากปีล่าสุดลงไป
+        });
+
+        return view('iso.maintenance-records-list', compact('maintenance_items', 'machines', 'recordsByYear'));
     }
 
     public function create()
@@ -91,7 +106,14 @@ class IsoMaintenanceRecords extends Controller
         $records = MaintenanceRecord::all()->keyBy('machine_name');
 
         foreach ($records as $record) {
-            $record->status = is_string($record->status) ? json_decode($record->status, true) : ($record->status ?? []);
+            // 1. แปลงโครงสร้างจาก String JSON ให้เป็น Array
+            $statusArray = is_string($record->status) ? json_decode($record->status, true) : ($record->status ?? []);
+            
+            // 2. ตรวจสอบอาเรย์: ถ้าเจอค่าที่เป็น "0" ให้เปลี่ยนเป็น 2 (ช่องสีดำ) ทันที
+            // แต่ถ้าเป็น "1" (เช็คถูก) หรือค่าอื่นๆ ให้คงไว้ตามเดิม
+            $record->status = array_map(function($value) {
+                return (string)$value === '0' ? 2 : $value;
+            }, $statusArray);
         }
 
         return view('iso.maintenance-records-edit', compact('records', 'maintenance_items', 'machines'));
