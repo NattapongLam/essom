@@ -558,4 +558,13 @@ class IsoProductSelection extends Controller
             ], 500);
         }
     }
+
+    public function report()
+    {
+        // ดึงข้อมูลจาก View ที่เราทำไว้ร่วมกันขึ้นมา
+        $reports = DB::table('vw_supplier_evaluation_report')->get();
+
+        // ส่งข้อมูลไปยังหน้า View ของ Laravel (สมมติชื่อไฟล์ report.blade.php)
+        return view('iso.form-product-selection-report', compact('reports'));
+    }
 }
