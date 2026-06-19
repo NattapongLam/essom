@@ -74,7 +74,7 @@
                         <div class="row g-3 mb-2">
                             <div class="col-12 col-sm-4">
                                 <div class="stat-box">
-                                    <div class="stat-icon stat-icon-budget"><i class="fas fa-sack-dollar"></i></div>
+                                    <div class="stat-icon stat-icon-budget"><i class="fas fa-money-bill-wave"></i></div>
                                     <div>
                                         <span class="stat-label">Estimate budget</span>
                                         <span class="stat-value">{{ number_format($job->productionopenjob_estimatecost, 2) }}</span>
@@ -99,11 +99,34 @@
                                     <div>
                                         <span class="stat-label">Total Time</span>
                                         <span class="stat-value">{{ number_format($job->totaltime, 2) }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                       {{-- กำหนดค่าสีตามเงื่อนไขเปอร์เซ็นต์ --}}
+            @if ($time->timeper < 50)
+                @php $barColor = 'bg-green'; @endphp
+            @elseif ($time->timeper >= 50 && $time->timeper <= 69)
+                @php $barColor = 'bg-yellow'; @endphp {{-- หรือ bg-warning ตาม CSS framework ที่คุณใช้ --}}
+            @elseif ($time->timeper >= 70 && $time->timeper <= 99)
+                @php $barColor = 'bg-orange'; @endphp {{-- หากไม่มีสีส้มในระบบ สามารถสร้างคลาสคัสตอมเพิ่มได้ --}}
+            @else
+                @php $barColor = 'bg-red'; @endphp {{-- หรือ bg-danger --}}
+            @endif
 
+            {{-- แสดงผล Progress Bar --}}
+            <div class="progress progress-sm">
+                <div class="progress-bar {{ $barColor }}" role="progressbar" 
+                     aria-valuenow="{{ $time->timeper }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100" 
+                     style="width: {{ $time->timeper > 100 ? 100 : $time->timeper }}%">
+                </div>
+            </div>
+            
+            <small>
+                {{ number_format($time->timeper, 2) }}% ( {{ $time->mantime }} ) 
+            </small>
+                                    </div>
+                              </div>                            
+                        </div>
+                        </div>
                         <h4 class="section-title mt-4"><i class="fas fa-stream me-2"></i>Recent Activity</h4>
 
                         <div class="activity-timeline">
@@ -140,7 +163,7 @@
                     {{-- ===================== RIGHT: JOB INFO + COMMENTS ===================== --}}
                     <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                         <div class="job-summary">
-                            <h3 class="job-title">Job No. {{ $job->productionopenjob_hd_docuno }} <span class="text-muted">({{ $job->ms_product_code }})</span></h3>
+                            <h3 class="job-title">Job No. {{ $job->productionopenjob_hd_docuno }}</h3>
                             <p class="text-muted mb-1">Product : {{ $job->ms_product_name }}</p>
                             <p class="text-muted mb-0">Spec Page : {{ $job->ms_specpage_name }}</p>
                         </div>
