@@ -135,7 +135,8 @@ class ProductionFollow extends Controller
         $job = ProductionOpenjobHd::where('productionopenjob_hd_docuno',$id)->first();
         $doc = DB::table('vw_productionopenjob_docuall')->where('productionopenjob_hd_docuno',$job->productionopenjob_hd_docuno)->get();
         $comm = ProductionComment::where('productionopenjob_hd_docuno',$id)->get();
-        return view('productions.form-view-productionfollow',compact('job','doc','comm'));
+        $time = DB::table('vw_productionfollowup')->where('productionopenjob_hd_docuno',$id)->first();
+        return view('productions.form-view-productionfollow',compact('job','doc','comm','time'));
     }
 
     /**

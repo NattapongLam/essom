@@ -182,7 +182,7 @@
                                                 <td>
                                                     <a href="{{ route('pd-follow.show', $item->productionopenjob_hd_docuno) }}" class="project-doc-link">
                                                         {{ $item->productionopenjob_hd_docuno }}
-                                                        <span class="text-muted fw-normal">({{ $item->ms_product_code }} Spec Page {{ $item->ms_specpage_name }})</span>
+                                                        <span class="text-muted fw-normal">(Spec Page {{ $item->ms_specpage_name }})</span>
                                                     </a>
                                                     <div class="project-meta">
                                                         <span><i class="fas fa-box me-1"></i> {{ $item->ms_product_name }}</span>
