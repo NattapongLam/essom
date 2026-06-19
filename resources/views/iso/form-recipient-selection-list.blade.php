@@ -12,7 +12,10 @@
                 <h5>ESSOM CO.,LTD<br>ใบคัดเลือกผู้รับจ้างช่วงและประเมิน (SUBCONTRACTOR QUALIFICATION AND EVALUATION)</h5><p class="text-right">F8411.2<br>15 Aug. 19</p>
                 <p class="text-left">
                     <a href="{{route('recipient-selection.create')}}">เพิ่มเอกสาร</a>
-                </p>              
+                </p>  
+                <p class="text-right">
+                   <a href="{{ route('recipient-selection.report') }}">ประเมินสมรรถนะของผู้ส่งมอบ/ผู้ขาย</a>
+                </p>             
             </div>
             <div class="card-body">             
                 <div class="table-responsive">
