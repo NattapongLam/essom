@@ -100,8 +100,7 @@ class ProductionNotice extends Controller
      */
     public function edit($id)
     {
-        $hd = ProductionNoticeHd::leftjoin('ms_specpage','productionnotice_hd.ms_specpage_id','=','ms_specpage.ms_specpage_id')
-        ->where('productionnotice_hd.productionnotice_hd_id',$id)
+        $hd = ProductionNoticeHd::where('productionnotice_hd.productionnotice_hd_id',$id)
         ->where('productionnotice_hd.productionnotice_status_id',1)
         ->first();
         $dt = ProductionNoticeDt::leftjoin('ms_specpage','productionnotice_dt.ms_specpage_id','=','ms_specpage.ms_specpage_id')
