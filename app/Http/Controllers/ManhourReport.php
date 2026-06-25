@@ -20,7 +20,7 @@ class ManhourReport extends Controller
      */
     public function index()
     {
-        $hd = DB::table('manhour_report')->get();
+        $hd = DB::table('manhour_report')->where('manhour_report_flag',true)->get();
         return view('productions.form-open-manhourreport',compact('hd'));
     }
 

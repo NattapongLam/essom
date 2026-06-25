@@ -339,38 +339,42 @@ const addTolist = (id) => {
             let numbertd = $('#tb_employeelist tr').length + 1;
             let isProduct = (data.emp.workinghours_type_name === 'Product') ? 'true' : 'false';
 
-            $('#tb_employeelist').append(`
-            <tr style="background-color:#ffffff" class="${data.emp.id} align-middle">                 
-                <td class="text-center font-weight-bold text-secondary">
-                    <input type="hidden" name="productionopenjob_hd_docuno[]" value="${data.emp.id}">${numbertd}
-                </td>   
-                <td class="text-center font-weight-bold text-primary">${data.emp.productionopenjob_hd_docuno}</td>
-                <td class="font-weight-500 text-dark">${data.emp.ms_product_name}</td>
-                <td class="text-center">
-                    <input type="hidden" id="job_id[]" name="job_id[]" value="${data.emp.id}">
-                    <div class="input-group justify-content-center">
-                        <input class="form-control input-hours-trigger input-hours-styled" 
-                               type="number" 
-                               id="workinghours_dt_hours[]" 
-                               name="workinghours_dt_hours[]" 
-                               value="0" 
-                               style="max-width:75px;" 
-                               min="0"
-                               data-is-product="${isProduct}">
-
-                        <select class="form-control select-time-trigger select-time-styled" style="max-width:75px;" id="workinghours_dt_time[]" name="workinghours_dt_time[]">
-                            <option value="0">.00</option>
-                            <option value="30">.30</option>
-                        </select>
-                    </div>
-                </td>                                                                     
-                <td class="text-center">
-                    <button type="button" class="btn btn-action-remove btn-sm shadow-xs" onclick="removeTolist('${data.emp.id}')">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
-            </tr>
-            `);
+           // ค้นหาบรรทัดนี้ในฟังก์ชัน addTolist เดิมของคุณ แล้วเปลี่ยนเป็นชุดนี้แทนครับ
+$('#tb_employeelist').append(`
+<tr style="background-color:#ffffff" class="${data.emp.id} align-middle">                 
+    <td class="text-center font-weight-bold text-secondary">
+        <input type="hidden" name="productionopenjob_hd_docuno[]" value="${data.emp.id}">${numbertd}
+    </td>   
+    <td class="text-center font-weight-bold text-primary">${data.emp.productionopenjob_hd_docuno}</td>
+    <td class="font-weight-500 text-dark">${data.emp.ms_product_name}</td>
+    <td class="text-center">
+        <input type="hidden" id="job_id[]" name="job_id[]" value="${data.emp.id}">
+        <!-- แก้ไข: เพิ่มคลาส flex-nowrap และกำหนดสไตล์ inline ควบคุมความกว้างไม่ให้หลุดแถว -->
+        <div class="input-group justify-content-center flex-nowrap mx-auto" style="width: 150px; min-width: 140px;">
+            <input class="form-control input-hours-trigger input-hours-styled px-1" 
+                   type="number" 
+                   id="workinghours_dt_hours[]" 
+                   name="workinghours_dt_hours[]" 
+                   value="0" 
+                   style="max-width: 75px; width: 75px;" 
+                   min="0"
+                   data-is-product="${isProduct}">
+            <select class="form-control select-time-trigger select-time-styled px-1" 
+                    style="max-width: 75px; width: 75px;" 
+                    id="workinghours_dt_time[]" 
+                    name="workinghours_dt_time[]">
+                <option value="0">.00</option>
+                <option value="30">.30</option>
+            </select>
+        </div>
+    </td>                                                                                                            
+    <td class="text-center">
+        <button type="button" class="btn btn-action-remove btn-sm shadow-xs" onclick="removeTolist('${data.emp.id}')">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </td>
+</tr>
+`);
 
             calculateTotalHours();
         }
