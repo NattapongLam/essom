@@ -235,6 +235,7 @@ Route::group([
 ],function(){
     Route::resource('/document-destruction' , App\Http\Controllers\IsoDocumentdestruction::class);
     Route::post('/cancelDestruction' , [App\Http\Controllers\IsoDocumentdestruction::class , 'cancelDestruction']);
+    Route::post('/cancelDestructionDt' , [App\Http\Controllers\IsoDocumentdestruction::class , 'cancelDestructionDt']);
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-externaldocument']
