@@ -216,22 +216,23 @@
         </div>
 
         <div class="card-body-modern">
-            <form method="POST" action="{{ route('document-destruction.store') }}" enctype="multipart/form-data">
-                @csrf       
-                
+            <form method="POST" class="form-horizontal" action="{{ route('document-destruction.update',$hd->documentdestruction_hd_id) }}" enctype="multipart/form-data">
+                @csrf    
+                @method('PUT')  
+                <input type="hidden" name="check_docu" value="Edit">
                 <div class="form-section-panel">
                     <div class="row">
                         <div class="col-md-4 mb-3 mb-md-0">
                              <label>เรียน</label>
-                             <input class="form-control-modern" type="text" name="documentdestruction_hd_to" placeholder="ระบุผู้รับหนังสือ" required>
+                             <input class="form-control-modern" type="text" name="documentdestruction_hd_to" placeholder="ระบุผู้รับหนังสือ" value="{{$hd->documentdestruction_hd_to}}" required>
                         </div>
                         <div class="col-md-4 mb-3 mb-md-0">
                              <label>จาก</label>
-                             <input class="form-control-modern" type="text" name="documentdestruction_hd_from" placeholder="ระบุหน่วยงานผู้ส่ง" required>
+                             <input class="form-control-modern" type="text" name="documentdestruction_hd_from" placeholder="ระบุหน่วยงานผู้ส่ง" value="{{$hd->documentdestruction_hd_from}}" required>
                         </div>
                         <div class="col-md-4">
                              <label>วันที่เอกสาร</label>
-                             <input class="form-control-modern" type="date" name="documentdestruction_hd_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                             <input class="form-control-modern" type="date" name="documentdestruction_hd_date" value="{{ $hd->documentdestruction_hd_date }}" required>
                         </div>
                     </div>
                 </div>
@@ -258,24 +259,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            @foreach ($dt as $item)
+                                <tr>
                                 <td>
-                                    <span class="row-number">1</span>
-                                    <input type="hidden" name="documentdestruction_dt_listno[]" value="1">
+                                    <span class="row-number">{{$item->documentdestruction_dt_listno}}</span>
+                                    <input type="hidden" name="documentdestruction_dt_listno[]" value="{{$item->documentdestruction_dt_listno}}">
                                 </td>
                                 <td>
-                                    <input type="text" name="documentdestruction_dt_code[]" class="form-control-modern" placeholder="กรอกรหัสเอกสาร" required>
+                                    <input type="text" name="documentdestruction_dt_code[]" class="form-control-modern" value="{{$item->documentdestruction_dt_code}}" placeholder="กรอกรหัสเอกสาร" required>
                                 </td>
                                 <td>
-                                    <input type="text" name="documentdestruction_dt_name[]" class="form-control-modern" placeholder="กรอกชื่อเอกสาร" required>
+                                    <input type="text" name="documentdestruction_dt_name[]" class="form-control-modern" value="{{$item->documentdestruction_dt_name}}" placeholder="กรอกชื่อเอกสาร" required>
                                 </td>
                                 <td>
-                                    <input type="text" name="documentdestruction_dt_note[]" class="form-control-modern" placeholder="กรอกหมายเหตุ">
+                                    <input type="text" name="documentdestruction_dt_note[]" class="form-control-modern" value="{{$item->documentdestruction_dt_note}}" placeholder="กรอกหมายเหตุ">
                                 </td>
                                 <td>
-                                    <button type="button" class="btn-action-delete" onclick="removeRow(this)">ลบ</button>
+                                    <a href="javascript:void(0)" class="btn-action-delete" onclick="confirmDel('{{ $item->documentdestruction_dt_id }}')" title="ลบรายการ">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
+                            @endforeach                            
                         </tbody>
                     </table>
                 </div>
@@ -287,8 +292,8 @@
                     <div class="row">
                         <div class="col-md-4 mb-4 mb-md-0 text-center px-3">
                             <label class="text-left">ผู้ขออนุมัติ</label>
-                            <input class="form-control-modern mb-2" type="text" value="{{auth()->user()->name}}" name="requested_by" style="background-color: #f1f5f9;" readonly>
-                            <input class="form-control-modern" type="date" value="{{ old('date', now()->format('Y-m-d')) }}" name="requested_date" required>
+                            <input class="form-control-modern mb-2" type="text" value="{{$hd->requested_by}}" name="requested_by" style="background-color: #f1f5f9;" readonly>
+                            <input class="form-control-modern" type="date" value="{{$hd->requested_date }}" name="requested_date" required>
                         </div>
                         
                         <div class="col-md-4 mb-4 mb-md-0 text-center px-3">
@@ -297,7 +302,9 @@
                                 <select class="form-control receiver-select" name="reviewed_by" required>
                                     <option value=""></option>
                                     @foreach ($emp as $item)
-                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                        <option value="{{ $item->ms_employee_fullname }}" {{ isset($hd->reviewed_by) &&  $hd->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -310,7 +317,9 @@
                                  <select class="form-control receiver-select" name="approved_by" required>
                                     <option value=""></option>
                                     @foreach ($emp as $item)
-                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                        <option value="{{ $item->ms_employee_fullname }}" {{ isset($hd->approved_by) &&  $hd->approved_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                            {{ $item->ms_employee_fullname }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -401,6 +410,57 @@ function updateRowNumbers() {
         const number = index + 1;
         row.querySelector(".row-number").textContent = number;
         row.querySelector('input[name="documentdestruction_dt_listno[]"]').value = number;
+    });
+}
+confirmDel = (refid) => {       
+    Swal.fire({
+        title: 'คุณแน่ใจหรือไม่ !',
+        text: 'คุณต้องการลบใบขอทำลายเอกสารรายการนี้หรือไม่ ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonClass: 'btn btn-success px-4 py-2 text-white font-weight-bold rounded',
+        cancelButtonClass: 'btn btn-danger ms-2 px-4 py-2 text-white font-weight-bold rounded',
+        buttonsStyling: false
+    }).then(function(result) {
+        if (result.value) {
+            $.ajax({
+                url: `{{ url('/cancelDestructionDt') }}`,
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "refid": refid
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.status == true) {
+                        Swal.fire({
+                            title: 'สำเร็จ',
+                            text: 'ยกเลิกเอกสารเรียบร้อยแล้ว',
+                            icon: 'success',
+                            confirmButtonColor: '#4f46e5'
+                        }).then(function() {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'ไม่สำเร็จ',
+                            text: 'ยกเลิกเอกสารไม่สำเร็จ',
+                            icon: 'error',
+                            confirmButtonColor: '#dc2626'
+                        });
+                    }
+                }
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: 'ยกเลิกแล้ว',
+                text: 'โปรดตรวจสอบข้อมูลอีกครั้งเพื่อความถูกต้อง :)',
+                icon: 'error',
+                confirmButtonColor: '#dc2626'
+            });
+        }
     });
 }
 </script>

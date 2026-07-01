@@ -101,7 +101,7 @@ class IsoDocumentdestruction extends Controller
     public function show($id)
     {
         $hd = DocumentdestructionHd::where('documentdestruction_hd_id',$id)->first();
-        $dt = DocumentdestructionDt::where('documentdestruction_hd_id',$id)->get();
+        $dt = DocumentdestructionDt::where('documentdestruction_hd_id',$id)->where('documentdestruction_dt_flag',true)->get();
         return view('iso.form-document-destruction-update',compact('hd','dt'));
     }
 
@@ -113,7 +113,10 @@ class IsoDocumentdestruction extends Controller
      */
     public function edit($id)
     {
-        //
+        $hd = DocumentdestructionHd::where('documentdestruction_hd_id',$id)->first();
+        $dt = DocumentdestructionDt::where('documentdestruction_hd_id',$id)->where('documentdestruction_dt_flag',true)->get();
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();  
+        return view('iso.form-document-destruction-edit',compact('hd','dt','emp'));
     }
 
     /**
@@ -125,23 +128,105 @@ class IsoDocumentdestruction extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = [
-            'reviewed_by' => $request->reviewed_by,
-            'reviewed_date' => $request->reviewed_date,
-            'approved_by' => $request->approved_by,
-            'approved_date' => $request->approved_date,
-            'reviewed_status' => $request->reviewed_status,
-            'approved_status' => $request->approved_status
-        ];
-        try{
-            DB::beginTransaction();
-            $insertHD = DocumentdestructionHd::where('documentdestruction_hd_id',$id)->update($data);          
-            DB::commit();
-            return redirect()->route('document-destruction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
-        }catch(\Exception $e){
-            Log::error($e->getMessage());
-            dd($e->getMessage());
-            return redirect()->route('document-destruction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        if ($request->check_docu == "Edit") {
+            $request->validate([
+                'documentdestruction_hd_to' => ['required'],
+                'documentdestruction_hd_from' => ['required'],
+                'documentdestruction_hd_date' => ['required'],
+                'documentdestruction_dt_listno' => ['required', 'array'], // แนะนำให้ใส่ 'array' เพื่อตรวจสอบความถูกต้อง
+                'requested_by' => ['required'],
+                'requested_date' => ['required'],
+            ]);
+
+            $data = [
+                'documentdestruction_hd_date' => $request->documentdestruction_hd_date,
+                'documentdestruction_hd_to'   => $request->documentdestruction_hd_to,
+                'documentdestruction_hd_from' => $request->documentdestruction_hd_from,
+                'requested_by'                => $request->requested_by,
+                'requested_date'              => $request->requested_date,
+                'documentdestruction_hd_flag' => true,
+                'reviewed_by'                 => $request->reviewed_by,
+                'approved_by'                 => $request->approved_by,
+                'reviewed_status'             => "N",
+                'approved_status'             => "N",
+                // 'created_at' => Carbon::now(), ❌ เอาออก: การ Update ไม่ควรไปทับค่าวันที่สร้าง (created_at)
+            ];
+
+            try {
+                DB::beginTransaction();
+
+                // ทำการอัปเดตข้อมูลฝั่ง Header
+                DocumentdestructionHd::where('documentdestruction_hd_id', $id)->update($data);      
+
+                // วนลูปจัดการข้อมูลฝั่ง Detail
+                foreach ($request->documentdestruction_dt_listno as $key => $value) {
+                    
+                    $CheckDT = DocumentdestructionDt::where('documentdestruction_dt_listno', $value)
+                        ->where('documentdestruction_hd_id', $id)
+                        ->where('documentdestruction_dt_flag', true)
+                        ->first();
+
+                    if ($CheckDT) {
+                        // 💡 ปรับปรุง: อัปเดตผ่าน Instance ของ $CheckDT โดยตรง ช่วยลดภาระการคิวรีซ้ำ
+                        $CheckDT->update([
+                            'documentdestruction_dt_listno' => $value,
+                            'documentdestruction_dt_code'   => $request->documentdestruction_dt_code[$key] ?? null,
+                            'documentdestruction_dt_name'   => $request->documentdestruction_dt_name[$key] ?? null,
+                            'documentdestruction_dt_note'   => $request->documentdestruction_dt_note[$key] ?? null,
+                            'documentdestruction_dt_flag'   => true,
+                            'person_at'                     => Auth::user()->name,
+                            'updated_at'                    => Carbon::now(),
+                        ]);
+                    } else {
+                        // 💡 แก้ไขบั๊ก: ใช้ $id แทน $insertHD->documentdestruction_hd_id
+                        DocumentdestructionDt::insert([
+                            'documentdestruction_hd_id'     => $id, 
+                            'documentdestruction_dt_listno' => $value,
+                            'documentdestruction_dt_code'   => $request->documentdestruction_dt_code[$key] ?? null,
+                            'documentdestruction_dt_name'   => $request->documentdestruction_dt_name[$key] ?? null,
+                            'documentdestruction_dt_note'   => $request->documentdestruction_dt_note[$key] ?? null,
+                            'documentdestruction_dt_flag'   => true,
+                            'person_at'                     => Auth::user()->name,
+                            'created_at'                    => Carbon::now(),
+                        ]);
+                    }
+                }
+
+                DB::commit();
+                return redirect()->route('document-destruction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+
+            } catch (\Exception $e) {
+                DB::rollBack(); // 🛑 สำคัญมาก! ต้องมี Rollback เสมอหากเกิดข้อผิดพลาดใน Transaction
+                Log::error("Update Error: " . $e->getMessage());
+                
+                // แนะนำให้เอา dd() ออกหากจะนำไปใช้บน Production เพื่อไม่ให้ระบบหยุดทำงานหน้าขาว
+                return redirect()->route('document-destruction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ: ' . $e->getMessage());
+            }
+
+        } else {
+            // ส่วนของการอนุมัติ / ตรวจสอบ (Review / Approve)
+            $data = [
+                'reviewed_by'     => $request->reviewed_by,
+                'reviewed_date'   => $request->reviewed_date,
+                'approved_by'     => $request->approved_by,
+                'approved_date'   => $request->approved_date,
+                'reviewed_status' => $request->reviewed_status,
+                'approved_status' => $request->approved_status
+            ];
+
+            try {
+                DB::beginTransaction();
+
+                DocumentdestructionHd::where('documentdestruction_hd_id', $id)->update($data);          
+
+                DB::commit();
+                return redirect()->route('document-destruction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
+
+            } catch (\Exception $e) {
+                DB::rollBack(); // 🛑 อย่าลืม Rollback ตรงนี้ด้วยครับ
+                Log::error("Approval Error: " . $e->getMessage());
+                return redirect()->route('document-destruction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            }
         }
     }
 
@@ -162,6 +247,19 @@ class IsoDocumentdestruction extends Controller
             'documentdestruction_hd_flag' => 0,
             'updated_at' => Carbon::now(),
             'requested_by' => Auth::user()->name,
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
+        ]);    
+    }
+
+    public function cancelDestructionDt(Request $request)
+    {
+        $hd = DocumentdestructionDt::where('documentdestruction_dt_id',$request->refid)->update([
+            'documentdestruction_dt_flag' => 0,
+            'updated_at' => Carbon::now(),
+            'person_at' => Auth::user()->name,
         ]);
         return response()->json([
             'status' => true,
