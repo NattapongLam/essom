@@ -1,60 +1,253 @@
 @extends('layouts.main')
 @section('content')
-<!-- Sweet Alert-->
+
+<!-- Essential Plugins Assets Component -->
 <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<div class="mt-4"><br>
-<div class="row">  
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD<br>ใบคำขอดำเนินการด้านเอกสาร Documents Action Request</h5>
-                <p class="text-right">F7530.3<br>27 Aug 25</p>                   
+<style>
+    /* Modern Indigo Theme Workspace Core Framework */
+    .custom-container {
+        font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+        color: #334155;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 25px rgba(79, 70, 229, 0.05);
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+    }
+
+    /* Elegant Structural Header Design */
+    .card-header-modern {
+        background-color: #ffffff;
+        padding: 2rem 2.5rem 1.5rem 2.5rem;
+        border-bottom: 1px solid #f1f5f9;
+        position: relative;
+    }
+
+    .header-title-block h5 {
+        font-size: 1.05rem;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        font-weight: 500;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .header-title-block h2 {
+        font-weight: 700;
+        color: #1e293b;
+        margin-top: 6px;
+        margin-bottom: 0;
+        font-size: 1.4rem;
+        line-height: 1.4;
+    }
+
+    .doc-number-badge {
+        position: absolute;
+        top: 2rem;
+        right: 2.5rem;
+        text-align: right;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 0.78rem;
+        color: #64748b;
+        line-height: 1.4;
+    }
+
+    /* Premium Dynamic Form Controller Styling */
+    .form-group-custom {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-group-custom label {
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.88rem;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .form-control-modern {
+        display: block;
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #1e293b;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control-modern:focus {
+        color: #1e293b;
+        background-color: #ffffff;
+        border-color: #818cf8;
+        outline: 0;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    }
+
+    .form-control-modern[readonly] {
+        background-color: #f8fafc;
+        color: #64748b;
+        border-color: #e2e8f0;
+    }
+
+    /* Form File Input Architecture Overrides & Badges */
+    .file-input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .file-input-modern {
+        padding: 7px 12px;
+        background: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        border-radius: 10px;
+        width: 100%;
+        cursor: pointer;
+        font-size: 0.85rem;
+    }
+
+    .file-download-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eef2ff;
+        color: #4f46e5;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid #e0e7ff;
+        transition: all 0.2s;
+    }
+
+    .file-download-badge:hover {
+        background-color: #4f46e5;
+        color: #ffffff;
+    }
+
+    /* Select2 Dropdown Custom Enhancements */
+    .select2-container--default .select2-selection--single {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        height: 44px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #1e293b !important;
+        line-height: 42px !important;
+        padding-left: 14px !important;
+        font-size: 0.9rem;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 42px !important;
+        right: 10px !important;
+    }
+
+    /* Core Action Primary Trigger */
+    .btn-indigo-submit {
+        background-color: #4f46e5;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 10px;
+        border: none;
+        width: 100%;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-indigo-submit:hover {
+        background-color: #3730a3;
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 992px) {
+        .doc-number-badge { position: relative; top: 0; right: 0; text-align: left; display: inline-block; margin-top: 15px; }
+        .card-header-modern { padding: 1.5rem; }
+    }
+</style>
+
+<div class="container-fluid custom-container">
+    <div class="card form-card">
+        
+        <!-- Document Card Header Section -->
+        <div class="card-header-modern">
+            <div class="header-title-block text-center">
+                <h5>ESSOM CO., LTD.</h5>
+                <h2>ใบคำขอดำเนินการด้านเอกสาร Documents Action Request</h2>
             </div>
-            <div class="card-body">    
-                <form method="POST" class="form-horizontal" action="{{ route('document-correction.update',$doc->documentcorrections_id) }}" enctype="multipart/form-data">
-                @csrf   
-                @method('PUT')  
-                <input type="hidden" name="checkdoc" value="Edit">    
-                <div class="row mt-3">
-                    <div class="col-4">
+            <div class="doc-number-badge">
+                <strong>F7530.3</strong><br>
+                <span class="text-muted">27 Aug 25</span>
+            </div>
+        </div>
+
+        <!-- Form Workspace Layout Area -->
+        <div class="card-body" style="padding: 2.5rem;">
+            <form method="POST" action="{{ route('document-correction.update', $doc->documentcorrections_id) }}" enctype="multipart/form-data">
+                @csrf         
+                @method('PUT')
+                <input type="hidden" name="checkdoc" value="Edit">
+
+                <!-- Section Group Row 1 -->
+                <div class="row">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>ประเภท</label>
-                        <select class="form-control" name="documentcorrections_type" required>
+                        <select class="form-control-modern" name="documentcorrections_type" required>
                             @if ($doc->documentcorrections_type == "ขอออกเอกสารใหม่")
-                                <option value="ขอออกเอกสารใหม่">ขอออกเอกสารใหม่</option>
+                                <option value="ขอออกเอกสารใหม่" selected>ขอออกเอกสารใหม่</option>
                                 <option value="ขอแก้ไขเอกสาร">ขอแก้ไขเอกสาร</option>
                                 <option value="ขอยกเลิกเอกสาร">ขอยกเลิกเอกสาร</option>
                             @elseif($doc->documentcorrections_type == "ขอแก้ไขเอกสาร")                                
-                                <option value="ขอแก้ไขเอกสาร">ขอแก้ไขเอกสาร</option>
+                                <option value="ขอแก้ไขเอกสาร" selected>ขอแก้ไขเอกสาร</option>
                                 <option value="ขอยกเลิกเอกสาร">ขอยกเลิกเอกสาร</option>
                                 <option value="ขอออกเอกสารใหม่">ขอออกเอกสารใหม่</option>
                             @else                                    
-                                <option value="ขอยกเลิกเอกสาร">ขอยกเลิกเอกสาร</option>
+                                <option value="ขอยกเลิกเอกสาร" selected>ขอยกเลิกเอกสาร</option>
                                 <option value="ขอออกเอกสารใหม่">ขอออกเอกสารใหม่</option>
                                 <option value="ขอแก้ไขเอกสาร">ขอแก้ไขเอกสาร</option>
-                            @endif                          
+                            @endif                                          
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>DAR No.</label>
-                        <input class="form-control" type="text" name="documentcorrections_docuno" value="{{$doc->documentcorrections_docuno}}" required>
+                        <input class="form-control-modern" type="text" name="documentcorrections_docuno" value="{{$doc->documentcorrections_docuno}}" required>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>Date</label>
-                        <input class="form-control" type="date" value="{{ $doc->documentcorrections_date }}" name="documentcorrections_date" required>
+                        <input class="form-control-modern" type="date" value="{{ $doc->documentcorrections_date }}" name="documentcorrections_date" required>
                     </div>
                 </div>
-                <div class="row mt-3">                   
-                    <div class="col-4">
+
+                <!-- Section Group Row 2 -->
+                <div class="row">                    
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>To</label>
-                        <input class="form-control" type="text" name="documentcorrections_to" value="{{$doc->documentcorrections_to}}" required>
+                        <input class="form-control-modern" type="text" name="documentcorrections_to" value="{{$doc->documentcorrections_to}}" required>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>From</label>
-                        <input class="form-control" type="text" name="documentcorrections_from"  value="{{$doc->documentcorrections_from}}" required>
+                        <input class="form-control-modern" type="text" name="documentcorrections_from" value="{{$doc->documentcorrections_from}}" required>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>Document No</label>
                         <select class="form-control receiver-select" name="documentregisters_id">
                             <option value="">กรุณาเลือก</option>
@@ -68,160 +261,180 @@
                         </select>
                     </div>
                 </div>
-                <div class="row mt-3">   
-                    <div class="col-3">
+
+                <!-- Section Group Row 3 -->
+                <div class="row">   
+                    <div class="col-md-3 col-12 form-group-custom">
                         <label>Document Name</label>
-                        <input type="text" class="form-control form-control position-input" name="documentcorrections_name" value="{{$doc->documentcorrections_name}}" required>
+                        <input type="text" class="form-control-modern position-input" name="documentcorrections_name" value="{{$doc->documentcorrections_name}}" required>
                     </div>
-                    <div class="col-3">
+                    <div class="col-md-3 col-12 form-group-custom">
                         <label for="documentcorrections_file">เอกสารงานพิมพ์ต้นฉบับ</label>
-                        <input type="file" class="form-control-file" name="documentcorrections_file" >
-                        @if ($doc->documentcorrections_file)
-                            <a href="{{asset($doc->documentcorrections_file)}}" target=”_blank”>
-                                <i class="fas fa-file"></i>
-                            </a>
-                        @endif
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input-modern" name="documentcorrections_file">
+                            @if ($doc->documentcorrections_file)
+                                <a href="{{asset($doc->documentcorrections_file)}}" target="_blank" class="file-download-badge" title="ดูไฟล์ปัจจุบัน">
+                                    <i class="fas fa-file-alt"></i>
+                                </a>
+                            @endif
+                        </div>
                     </div> 
-                    <div class="col-3">
-                        <label for="documentcorrections_file">เอกสารอื่นๆที่ใช้อ้างอิง (หากมี)</label>
-                        <input type="file" class="form-control-file" name="documentcorrections_file1" >
-                        @if ($doc->documentcorrections_file1)
-                            <a href="{{asset($doc->documentcorrections_file1)}}" target=”_blank”>
-                                <i class="fas fa-file"></i>
-                            </a>
-                        @endif
+                    <div class="col-md-3 col-12 form-group-custom">
+                        <label for="documentcorrections_file1">เอกสารอื่นๆที่ใช้อ้างอิง (หากมี)</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" class="file-input-modern" name="documentcorrections_file1">
+                            @if ($doc->documentcorrections_file1)
+                                <a href="{{asset($doc->documentcorrections_file1)}}" target="_blank" class="file-download-badge" title="ดูไฟล์อ้างอิงปัจจุบัน">
+                                    <i class="fas fa-file-alt"></i>
+                                </a>
+                            @endif
+                        </div>
                     </div> 
-                    <div class="col-3">
-                        <label>ลิงค์เอกสารเดิม</label>
-                        <input type="text" class="form-control form-control position-input" name="documentcorrections_link" value="{{$doc->documentcorrections_link}}">
+                    <div class="col-md-3 col-12 form-group-custom">
+                        <label>ลิงก์เอกสารเดิม</label>
+                        <input type="text" class="form-control-modern" name="documentcorrections_link" value="{{$doc->documentcorrections_link}}">
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-4">
+
+                <!-- Section Group Row 4 -->
+                <div class="row">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>Form Rev</label>
-                         <input class="form-control" type="text" name="documentcorrections_torev" value="{{$doc->documentcorrections_torev}}">
+                        <input class="form-control-modern" type="text" name="documentcorrections_torev" value="{{$doc->documentcorrections_torev}}">
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-12 form-group-custom">
                         <label>To Rev</label>
-                        <input class="form-control" type="text" name="documentcorrections_fromrev" value="{{$doc->documentcorrections_fromrev}}">
+                        <input class="form-control-modern" type="text" name="documentcorrections_fromrev" value="{{$doc->documentcorrections_fromrev}}">
                     </div>
-                    <div class="col-4">
-                        <label>Effective date</label>
-                        <input class="form-control" type="date" value="{{ $doc->documentcorrections_effectivedate}}" name="documentcorrections_effectivedate" required>
+                    <div class="col-md-4 col-12 form-group-custom">
+                        <label>Effective Date</label>
+                        <input class="form-control-modern" type="date" value="{{ $doc->documentcorrections_effectivedate }}" name="documentcorrections_effectivedate" required>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-6">
+
+                <!-- Section Group Row 5 -->
+                <div class="row">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Previous Details</label>
-                        <textarea class="form-control" rows="10" name="documentcorrections_previous">{{$doc->documentcorrections_previous}}</textarea>
+                        <textarea class="form-control-modern" rows="6" name="documentcorrections_previous" style="resize: vertical;">{{$doc->documentcorrections_previous}}</textarea>
                     </div> 
-                    <div class="col-6">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Details for Revision</label>
-                        <textarea class="form-control" rows="10" name="documentcorrections_revision">{{$doc->documentcorrections_revision}}</textarea>
+                        <textarea class="form-control-modern" rows="6" name="documentcorrections_revision" style="resize: vertical;">{{$doc->documentcorrections_revision}}</textarea>
                     </div>  
                 </div> 
-                <div class="row mt-3">
-                    <div class="col-12">
+
+                <!-- Section Group Row 6 -->
+                <div class="row">
+                    <div class="col-12 form-group-custom">
                         <label>เหตุผลในการดำเนินการ</label>
-                        <textarea class="form-control" name="documentcorrections_note">{{$doc->documentcorrections_note}}</textarea>
+                        <textarea class="form-control-modern" rows="3" name="documentcorrections_note" style="resize: vertical;">{{$doc->documentcorrections_note}}</textarea>
                     </div> 
                 </div> 
-                <div class="row mt-3">
-                    <div class="col-6">
+
+                <!-- Section Group Row 7 -->
+                <div class="row">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Requested By</label>
-                        <input class="form-control" type="text" value="{{$doc->requested_by}}" name="requested_by" readonly>
+                        <input class="form-control-modern" type="text" value="{{$doc->requested_by}}" name="requested_by" readonly>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Date</label>
-                        <input class="form-control" type="date" value="{{$doc->requested_date}}" name="requested_date" required>
+                        <input class="form-control-modern" type="date" value="{{$doc->requested_date}}" name="requested_date" required>
                     </div>
                 </div> 
-                <div class="row mt-3">
-                    <div class="col-12">
+
+                <!-- Section Group Row 8 -->
+                <div class="row">
+                    <div class="col-12 form-group-custom">
                         <label>Audit Check List Revision</label>
-                        <input class="form-control" type="text" name="documentcorrections_auditcheck" readonly>
+                        <input class="form-control-modern" type="text" name="documentcorrections_auditcheck" readonly>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <label>Reviewed By ผู้ช่วยผู้จัดการ/ผู้จัดการ/รองกรรมการผู้จัดการ</label>
-                         <select class="form-control receiver-select" name="reviewed_by">
+
+                <!-- Section Group Row 9 -->
+                <div class="row">
+                    <div class="col-md-6 col-12 form-group-custom">
+                        <label>Reviewed By ผู้ช่วยผู้จัดการ/ผู้จัดการ/รองกรรมการผู้จัดการ</label>                       
+                        <select class="form-control receiver-select" name="reviewed_by">
                             <option value=""></option>
                             @foreach ($emp as $item)
                                 <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($doc->reviewed_by) &&  $doc->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ isset($doc->reviewed_by) && $doc->reviewed_by == $item->ms_employee_fullname ? 'selected' : '' }}>
                                     {{ $item->ms_employee_fullname }}
                                 </option>
                             @endforeach
                         </select>
-                        {{-- <input class="form-control" type="text" name="reviewed_by" readonly> --}}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Date</label>
-                        <input class="form-control" type="date" name="reviewed_date" readonly>
+                        <input class="form-control-modern" type="date" name="reviewed_date" readonly>
                     </div>
                 </div> 
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <label>Deputy Mannaging Directors/Mannaging Directors Comment</label>
-                        <input class="form-control" type="text" name="reviewed_comment" readonly>
+
+                <!-- Section Group Row 10 -->
+                <div class="row">
+                    <div class="col-12 form-group-custom">
+                        <label>Deputy Managing Directors/Managing Directors Comment</label>
+                        <input class="form-control-modern" type="text" name="reviewed_comment" readonly>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-6">
+
+                <!-- Section Group Row 11 -->
+                <div class="row">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Approved By</label>
                         <select class="form-control receiver-select" name="approved_by">
                             <option value=""></option>
                             @foreach ($emp as $item)
                                 <option value="{{ $item->ms_employee_fullname }}"
-                                    {{ isset($doc->approved_by) &&  $doc->approved_by == $item->ms_employee_fullname ? 'selected' : '' }}>
+                                    {{ isset($doc->approved_by) && $doc->approved_by == $item->ms_employee_fullname ? 'selected' : '' }}>
                                     {{ $item->ms_employee_fullname }}
                                 </option>
                             @endforeach
                         </select>
-                        {{-- <input class="form-control" type="text" name="approved_by" readonly> --}}
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-12 form-group-custom">
                         <label>Date</label>
-                        <input class="form-control" type="date" name="approved_date" readonly>
+                        <input class="form-control-modern" type="date" name="approved_date" readonly>
                     </div>
                 </div>
-                <br>
-                <div class="col-12 col-md-1">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary">
-                            บันทึก
-                         </button>
+
+                <!-- Submission Structural Layout Area -->
+                <div class="row mt-4">
+                    <div class="col-md-2 col-12">
+                        <button type="submit" class="btn-indigo-submit">
+                            <i class="fas fa-save mr-1"></i> บันทึกข้อมูล
+                        </button>
                     </div>
                 </div>
-                </form> 
-            </div>
+            </form> 
         </div>
     </div>
 </div>
-</div>
+
 @endsection
 
 @push('scriptjs')
-<!-- Sweet Alerts js -->
+<!-- Functional Plugin Logic Core Engine Extensions -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function () {
-    // init select2
+    // Initialize standard Select2 structures
     $('.receiver-select').select2({
         placeholder: 'กรุณาเลือกเอกสาร',
         allowClear: true,
         width: '100%'
     });
 
-    // เมื่อเลือก Document No ให้เติม Document Name
+    // Populate document identification metadata fields upon selection
     $(document).on('select2:select', '.receiver-select', function (e) {
         const jobName = $(this).find(':selected').data('job') || '';
         $(this).closest('.card-body').find('.position-input').val(jobName);
     });
 
-    // ถ้าล้างค่า select ให้ล้าง Document Name ด้วย
+    // Reset targeted metadata buffers when dropdown state becomes voided
     $(document).on('select2:clear', '.receiver-select', function (e) {
         $(this).closest('.card-body').find('.position-input').val('');
     });
