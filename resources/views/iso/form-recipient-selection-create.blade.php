@@ -1,654 +1,771 @@
 @extends('layouts.main')
 @section('content')
-{{-- @push('styles') --}}
+
 <!-- Sweet Alert-->
 <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-{{-- @endpush --}}
-<div class="mt-4"><br>
-<div class="row">  
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header text-center">
-                <h5>ESSOM CO.,LTD<br>ใบคัดเลือกผู้รับจ้างช่วงและประเมิน (SUBCONTRACTOR QUALIFICATION AND EVALUATION)</h5><p class="text-right">F8411.2<br>15 Aug. 19</p>              
-            </div>
-            <div class="card-body">     
-                <form method="POST" class="form-horizontal" action="{{ route('recipient-selection.store') }}" enctype="multipart/form-data">
-                @csrf            
-                <div class="row mt-3">  
-                    <div class="col-3">
-                        <label for="recipient_selection_hd_type">ประเภทจัดซื้อ</label>
-                        <select class="form-control" name="recipient_selection_hd_type">
-                            <option value="">กรุณาเลือก</option>
-                            <option value="โรงงาน">โรงงาน</option>
-                            <option value="สำนักงาน">สำนักงาน</option>
-                            <option value="ต่างประเทศ">ต่างประเทศ</option>
-                        </select>
-                    </div>
-                    <div class="col-3">
-                        <label for="recipient_selection_hd_name">ชื่อผู้รับจ้างช่าง</label>
-                        <input class="form-control" name="recipient_selection_hd_name">
-                    </div> 
-                    <div class="col-6">
-                        <label for="recipient_selection_hd_address">ที่อยู่</label>
-                        <input class="form-control" name="recipient_selection_hd_address">
-                    </div>   
-                </div>  
-                <div class="row mt-3">  
-                    <div class="col-4">
-                        <label for="recipient_selection_hd_contact">ชื่อผู้ติดต่อ</label>
-                        <input class="form-control" name="recipient_selection_hd_contact">
-                    </div> 
-                    <div class="col-4">
-                        <label for="recipient_selection_hd_tel">เบอร์โทร</label>
-                        <input class="form-control" name="recipient_selection_hd_tel">
-                    </div> 
-                    <div class="col-4">
-                        <label for="recipient_selection_hd_email">E-mail</label>
-                        <input class="form-control" name="recipient_selection_hd_email">
-                    </div>   
-                    <div class="col-3">
-                        <label for="product_type1">1.</label>
-                        <input type="text" class="form-control" name="product_type1" required>
-                    </div>
-                    <div class="col-3">
-                        <label for="product_type2">2.</label>
-                        <input type="text" class="form-control" name="product_type2">
-                    </div>
-                    <div class="col-3">
-                        <label for="product_type3">3.</label>
-                        <input type="text" class="form-control" name="product_type3">
-                    </div>
-                    <div class="col-3">
-                        <label for="product_type4">4.</label>
-                        <input type="text" class="form-control" name="product_type4">
-                    </div>
-                </div>          
-                <div class="row mt-3">  
-                    <table class="table table-bordered table-sm text-center">
-                        <thead>
-                            <tr>
-                                <th>ลักษณะสถานที่</th>
-                                <th>เครื่องมือ/อุปกรณ์</th>
-                                <th>บุคคลากร</th>
-                                <th>ลักษณะงานที่เหมาะสม</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        บ้าน 
-                                        <input class="form-control" style="width: 100px;" name="location_house">
-                                        ตรม
-                                    </div>
-                                </td>            
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องกลึง 
-                                        <input class="form-control" style="width: 100px;" name="tool_lathe">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        วิศวกร 
-                                        <input class="form-control" style="width: 100px;" name="person_engineer">
-                                    </div>
-                                </td>   
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_lathe">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> กลึง
-                                    </div>
-                                </td>                 
-                            </tr>   
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        ห้องแถว 
-                                        <input class="form-control" style="width: 100px;" name="location_rowhouse">
-                                        คูหา
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องมิลลิ่ง 
-                                        <input class="form-control" style="width: 100px;" name="tool_milling">
-                                        เครื่อง
-                                    </div>
-                                </td>    
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        หน. งาน 
-                                        <input class="form-control" style="width: 100px;" name="person_manager">
-                                    </div>
-                                </td>     
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_milling">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> มิงลิ่ง
-                                    </div>
-                                </td>    
-                            </tr> 
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        โรงงาน 
-                                        <input class="form-control" style="width: 100px;" name="location_factory">
-                                        ตรม
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องเชื่อมไฟฟ้า 
-                                        <input class="form-control" style="width: 100px;" name="tool_electricwelding">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        ช่าง
-                                        <input class="form-control" style="width: 100px;" name="person_tradesman1">
-                                    </div>
-                                </td>  
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_drill">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> เจาะ
-                                    </div>
-                                </td>        
-                            </tr> 
-                            <tr>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        อื่นๆ 
-                                        <input class="form-control" style="width: 100px;" name="location_other">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องเชื่อมCO2 
-                                        <input class="form-control" style="width: 100px;" name="tool_co2welding">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        ช่าง
-                                        <input class="form-control" style="width: 100px;" name="person_tradesman2">
-                                    </div>
-                                </td>    
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_roll">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> ม้วน
-                                    </div>
-                                </td>         
-                            </tr> 
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องเชื่อมอาร์กอน 
-                                        <input class="form-control" style="width: 100px;" name="tool_argonwelding">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        ช่าง
-                                        <input class="form-control" style="width: 100px;" name="person_tradesman3">
-                                    </div>
-                                </td> 
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_cut">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> ตัด
-                                    </div>
-                                </td>        
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องแก๊ส 
-                                        <input class="form-control" style="width: 100px;" name="tool_gas">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        ช่าง
-                                        <input class="form-control" style="width: 100px;" name="person_tradesman4">
-                                    </div>
-                                </td>     
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_fold">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> พับ
-                                    </div>
-                                </td>    
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องม้วนโลหะ 
-                                        <input class="form-control" style="width: 100px;" name="tool_metalwinding">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        ช่าง
-                                        <input class="form-control" style="width: 100px;" name="person_tradesman5">
-                                    </div>
-                                </td>  
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_link">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> เชื่อม
-                                    </div>
-                                </td>       
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องตัดโลหะ 
-                                        <input class="form-control" style="width: 100px;" name="tool_metalcutting">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                               <td></td>
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_handsome">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> หล่อ
-                                    </div>
-                                </td>  
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;"> 
-                                        เครื่องพับโลหะ 
-                                        <input class="form-control" style="width: 100px;" name="tool_metalfolding">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_assemble">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> ประกอบ
-                                    </div>
-                                </td>  
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องตัดท่อ 
-                                        <input class="form-control" style="width: 100px;" name="tool_pipecutting">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td></td>
-                                  <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_repair">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> ซ่อม
-                                    </div>
-                                </td>  
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องขัดโลหะ 
-                                        <input class="form-control" style="width: 100px;" name="tool_metalpolisher">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_paint">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> งานสี
-                                    </div>
-                                </td>  
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องเจาะโลหะ 
-                                        <input class="form-control" style="width: 100px;" name="tool_metaldrilling">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_lasercutting">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> ตัดเลเซอร์
-                                    </div>
-                                </td>  
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องมือวัด 
-                                        <input class="form-control" style="width: 100px;" name="tool_measuring">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td>
-                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                       <select class="form-control" style="width: 100px;" name="job_other">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                       </select> อื่นๆ
-                                    </div>
-                                </td>  
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องเลเซอร์ 
-                                        <input class="form-control" style="width: 100px;" name="tool_laser">
-                                        เครื่อง
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td></td>
-                            </tr>
-                              <tr>
-                                <td></td>
-                                <td>
-                                    <div style="display: flex; align-items: center; gap: 10px;">
-                                        เครื่องอื่นๆ
-                                        <input class="form-control" style="width: 100px;" name="tool_other">
-                                    </div>
-                                </td> 
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>                        
-                    </table>
-                </div> 
-                <div class="row mt-3">
-                    <div class="col-2">
-                        <label for="recipient_selection_hd_file">ไฟล์แนบ(หากมี)</label>
-                        <input type="file" class="form-control-file" name="recipient_selection_hd_file" >
-                    </div>   
-                </div>
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="requested_by">เสนอโดย</label>
-                        <input class="form-control" name="requested_by" value="{{auth()->user()->name}}" readonly>
-                    </div>
-                    <div class="col-3">
-                        <label for="requested_date">วันที่</label>
-                        <input class="form-control" type="date" name="requested_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+
+<style>
+    /* Custom Modern Indigo Theme */
+    :root {
+        --primary-indigo: #6366f1;
+        --primary-hover: #4f46e5;
+        --bg-light: #f8fafc;
+        --text-dark: #1e293b;
+        --text-muted: #64748b;
+        --border-color: #e2e8f0;
+    }
+
+    .custom-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.06);
+        background: #ffffff;
+        overflow: hidden;
+    }
+
+    .custom-card-header {
+        background: #ffffff;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 24px;
+    }
+
+    .form-title {
+        color: var(--primary-indigo);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .doc-number {
+        background: #e0e7ff;
+        color: var(--primary-hover);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .section-subtitle {
+        color: var(--primary-indigo);
+        font-weight: 600;
+        border-left: 4px solid var(--primary-indigo);
+        padding-left: 10px;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Form Controls Styling */
+    .form-group label {
+        color: #475569;
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px 14px;
+        height: auto;
+        color: var(--text-dark);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-indigo);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* Modern Table Styling */
+    .modern-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100% !important;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+    .modern-table thead th {
+        background-color: #f8fafc !important;
+        color: var(--text-dark);
+        font-weight: 600;
+        font-size: 0.85rem;
+        border-bottom: 2px solid var(--border-color) !important;
+        padding: 12px 8px !important;
+    }
+    .modern-table td {
+        padding: 12px 8px !important;
+        vertical-align: middle !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+        background: #fff;
+    }
+    .modern-table tbody tr:hover td {
+        background-color: #f8fafc;
+    }
+
+    /* Inline elements inside tables */
+    .table-flex-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+    .table-flex-cell .form-control {
+        padding: 6px 10px;
+    }
+
+    /* Submit Button */
+    .btn-indigo-submit {
+        background-color: var(--primary-indigo);
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 12px 24px;
+        border: none;
+        transition: all 0.2s;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+    .btn-indigo-submit:hover {
+        background-color: var(--primary-hover);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+    }
+</style>
+
+<div class="container-fluid py-4">
+    <div class="row">  
+        <div class="col-12">
+            <div class="card custom-card">
+                <div class="custom-card-header">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                        <div class="text-center text-md-left">
+                            <small class="text-muted font-weight-bold">ESSOM CO., LTD</small>
+                            <h4 class="form-title mb-0">ใบคัดเลือกผู้รับจ้างช่วงและประเมิน</h4>
+                            <span class="text-muted" style="font-size: 0.9rem;">SUBCONTRACTOR QUALIFICATION AND EVALUATION</span>
+                        </div>
+                        <div class="text-center text-md-right">
+                            <span class="doc-number mb-1">F8411.2</span>
+                            <div class="text-muted small">15 Aug. 19</div>
+                        </div>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="reviewed_by">ทบทวนโดย</label>
-                        <select class="form-control receiver-select" name="reviewed_by">
-                            <option value=""></option>
-                            @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                            @endforeach
-                        </select>
-                        {{-- <input class="form-control" name="reviewed_by" readonly> --}}
-                    </div>
-                    <div class="col-3">
-                        <label for="reviewed_date">วันที่</label>
-                        <input class="form-control" type="date" name="reviewed_date" readonly>
-                    </div>
-                </div> 
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="approved_by1">อนุมัติโดย</label>
-                        <select class="form-control receiver-select" name="approved_by1">
-                            <option value=""></option>
-                            @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                            @endforeach
-                        </select>
-                        {{-- <input class="form-control" name="approved_by1" readonly> --}}
-                    </div>
-                    <div class="col-3">
-                        <label for="approved_date1">วันที่</label>
-                        <input class="form-control" type="date" name="approved_date1" readonly>
-                    </div>
+                
+                <div class="card-body p-4">     
+                    <form method="POST" action="{{ route('recipient-selection.store') }}" enctype="multipart/form-data">
+                        @csrf            
+                        
+                        <!-- ข้อมูลทั่วไป -->
+                        <h5 class="section-subtitle mt-0">ข้อมูลทั่วไป</h5>
+                        <div class="row">  
+                            <div class="col-md-3 form-group">
+                                <label for="recipient_selection_hd_type">ประเภทจัดซื้อ</label>
+                                <select class="form-control" name="recipient_selection_hd_type">
+                                    <option value="">กรุณาเลือก</option>
+                                    <option value="โรงงาน">โรงงาน</option>
+                                    <option value="สำนักงาน">สำนักงาน</option>
+                                    <option value="ต่างประเทศ">ต่างประเทศ</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="recipient_selection_hd_name">ชื่อผู้รับจ้างช่วง</label>
+                                <input class="form-control" name="recipient_selection_hd_name">
+                            </div> 
+                            <div class="col-md-6 form-group">
+                                <label for="recipient_selection_hd_address">ที่อยู่</label>
+                                <input class="form-control" name="recipient_selection_hd_address">
+                            </div>   
+                        </div>  
+
+                        <div class="row">  
+                            <div class="col-md-4 form-group">
+                                <label for="recipient_selection_hd_contact">ชื่อผู้ติดต่อ</label>
+                                <input class="form-control" name="recipient_selection_hd_contact">
+                            </div> 
+                            <div class="col-md-4 form-group">
+                                <label for="recipient_selection_hd_tel">เบอร์โทร</label>
+                                <input class="form-control" name="recipient_selection_hd_tel">
+                            </div> 
+                            <div class="col-md-4 form-group">
+                                <label for="recipient_selection_hd_email">E-mail</label>
+                                <input class="form-control" name="recipient_selection_hd_email">
+                            </div>   
+                        </div>
+
+                        <!-- ผลิตภัณฑ์/งานจ้าง -->
+                        <h5 class="section-subtitle">ผลิตภัณฑ์ หรือ งานจ้างที่เสนอผลิตได้</h5>
+                        <div class="row">
+                            <div class="col-md-3 form-group">
+                                <label for="product_type1">ลำดับที่ 1 <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="product_type1" required>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="product_type2">ลำดับที่ 2</label>
+                                <input type="text" class="form-control" name="product_type2">
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="product_type3">ลำดับที่ 3</label>
+                                <input type="text" class="form-control" name="product_type3">
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="product_type4">ลำดับที่ 4</label>
+                                <input type="text" class="form-control" name="product_type4">
+                            </div>
+                        </div>          
+
+                        <!-- ตารางประเมินศักยภาพ -->
+                        <h5 class="section-subtitle">ข้อมูลโครงสร้างและขีดความสามารถ</h5>
+                        <div class="table-responsive mb-4">
+                            <table class="table modern-table text-center">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%;">ลักษณะสถานที่</th>
+                                        <th style="width: 25%;">เครื่องมือ / อุปกรณ์</th>
+                                        <th style="width: 25%;">บุคลากร</th>
+                                        <th style="width: 25%;">ลักษณะงานที่เหมาะสม</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>บ้าน</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="location_house">
+                                                <span class="text-muted">ตรม</span>
+                                            </div>
+                                        </td>            
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องกลึง</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_lathe">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>วิศวกร</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="person_engineer">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td>   
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_lathe">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>กลึง</span>
+                                            </div>
+                                        </td>                 
+                                    </tr>   
+                                    <tr>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>ห้องแถว</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="location_rowhouse">
+                                                <span class="text-muted">คูหา</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องมิลลิ่ง</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_milling">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td>    
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>หน. งาน</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="person_manager">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td>     
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_milling">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>มิลลิ่ง</span>
+                                            </div>
+                                        </td>    
+                                    </tr> 
+                                    <tr>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>โรงงาน</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="location_factory">
+                                                <span class="text-muted">ตรม</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องเชื่อมไฟฟ้า</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_electricwelding">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>ช่าง</span>
+                                                <input class="form-control text-center" style="width: 80px;" name="person_tradesman1">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td>  
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_drill">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>เจาะ</span>
+                                            </div>
+                                        </td>        
+                                    </tr> 
+                                    <tr>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>อื่นๆ</span> 
+                                                <input class="form-control" style="width: 120px;" name="location_other">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องเชื่อม CO2</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_co2welding">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>ช่าง</span>
+                                                <input class="form-control text-center" style="width: 80px;" name="person_tradesman2">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td>    
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_roll">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>ม้วน</span>
+                                            </div>
+                                        </td>         
+                                    </tr> 
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องเชื่อมอาร์กอน</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_argonwelding">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>ช่าง</span>
+                                                <input class="form-control text-center" style="width: 80px;" name="person_tradesman3">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_cut">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>ตัด</span>
+                                            </div>
+                                        </td>        
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องแก๊ส</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_gas">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>ช่าง</span>
+                                                <input class="form-control text-center" style="width: 80px;" name="person_tradesman4">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td>     
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_fold">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>พับ</span>
+                                            </div>
+                                        </td>    
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องม้วนโลหะ</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_metalwinding">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>ช่าง</span>
+                                                <input class="form-control text-center" style="width: 80px;" name="person_tradesman5">
+                                                <span class="text-muted">คน</span>
+                                            </div>
+                                        </td>  
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_link">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>เชื่อม</span>
+                                            </div>
+                                        </td>       
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องตัดโลหะ</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_metalcutting">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                       <td></td>
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_handsome">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>หล่อ</span>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell"> 
+                                                <span>เครื่องพับโลหะ</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_metalfolding">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_assemble">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>ประกอบ</span>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องตัดท่อ</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_pipecutting">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                          <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_repair">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>ซ่อม</span>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องขัดโลหะ</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_metalpolisher">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_paint">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>งานสี</span>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องเจาะโลหะ</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_metaldrilling">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_lasercutting">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>ตัดเลเซอร์</span>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องมือวัด</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_measuring">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                        <td>
+                                             <div class="table-flex-cell">
+                                               <select class="form-control" style="width: 70px;" name="job_other">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                               </select>
+                                               <span>อื่นๆ</span>
+                                            </div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องเลเซอร์</span> 
+                                                <input class="form-control text-center" style="width: 80px;" name="tool_laser">
+                                                <span class="text-muted">เครื่อง</span>
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <div class="table-flex-cell">
+                                                <span>เครื่องอื่นๆ</span>
+                                                <input class="form-control" style="width: 120px;" name="tool_other">
+                                            </div>
+                                        </td> 
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>                        
+                            </table>
+                        </div> 
+
+                        <!-- ไฟล์แนบและการเสนอข้อมูล -->
+                        <div class="row align-items-end">
+                            <div class="col-md-4 form-group">
+                                <label for="recipient_selection_hd_file"><i class="fas fa-paperclip mr-1 text-muted"></i> ไฟล์แนบ (หากมี)</label>
+                                <input type="file" class="form-control-file p-1" name="recipient_selection_hd_file">
+                            </div>   
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <label for="requested_by">เสนอโดย</label>
+                                <input class="form-control bg-light" name="requested_by" value="{{auth()->user()->name}}" readonly>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="requested_date">วันที่เสนอ</label>
+                                <input class="form-control" type="date" name="requested_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <label for="reviewed_by">ทบทวนโดย</label>
+                                <select class="form-control receiver-select" name="reviewed_by">
+                                    <option value=""></option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="reviewed_date">วันที่ทบทวน</label>
+                                <input class="form-control bg-light" type="date" name="reviewed_date" readonly>
+                            </div>
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <label for="approved_by1">อนุมัติโดย</label>
+                                <select class="form-control receiver-select" name="approved_by1">
+                                    <option value=""></option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="approved_date1">วันที่อนุมัติ</label>
+                                <input class="form-control bg-light" type="date" name="approved_date1" readonly>
+                            </div>
+                        </div>
+
+                        <!-- ส่วนประเมินผล -->
+                        <h5 class="section-subtitle">ใบประเมินผู้รับจ้างช่วง</h5>
+                        <div class="table-responsive mb-4">
+                            <table class="table modern-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left" style="width: 55%; padding-left: 20px !important;">รายการประเมิน</th>
+                                        <th class="text-center" style="width: 15%;">ดี</th>
+                                        <th class="text-center" style="width: 15%;">พอใช้</th>
+                                        <th class="text-center" style="width: 15%;">ไม่ดี</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $evaluation_items = [
+                                            1 => 'คุณภาพการใช้งานของสินค้า',
+                                            2 => 'ความเรียบร้อยของสินค้า',
+                                            3 => 'บริการของผู้รับจ้างช่วง',
+                                            4 => 'การให้บริการหลังการขาย'
+                                        ];
+                                    @endphp
+                                    @foreach($evaluation_items as $no => $name)
+                                    <tr>
+                                        <td class="text-left" style="padding-left: 20px !important; font-weight: 500;">
+                                            - {{ $name }}
+                                            <input type="hidden" value="{{ $no }}" name="recipient_selection_sub_listno[]">
+                                            <input type="hidden" value="{{ $name }}" name="recipient_selection_sub_name[]">
+                                        </td>
+                                        <td class="text-center">
+                                            <select class="form-control mx-auto" style="width: 70px;" name="recipient_selection_sub_results1[]">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <select class="form-control mx-auto" style="width: 70px;" name="recipient_selection_sub_results2[]">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <select class="form-control mx-auto" style="width: 70px;" name="recipient_selection_sub_results3[]">
+                                                <option value="0"></option>
+                                                <option value="1">/</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>  
+
+                        <!-- หมายเหตุและผู้ลงนามประเมิน -->
+                        <div class="row">
+                            <div class="col-12 form-group">
+                                <label for="recipient_selection_hd_remark">หมายเหตุ</label>
+                                <textarea class="form-control" rows="3" name="recipient_selection_hd_remark" placeholder="ระบุรายละเอียดเพิ่มเติม..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <label for="assessor_by">ผู้ประเมินสินค้า</label>
+                                 <select class="form-control receiver-select" name="assessor_by">
+                                    <option value=""></option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="assessor_date">วันที่ประเมินสินค้า</label>
+                                <input class="form-control bg-light" type="date" name="assessor_date" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <label for="purchase_by">ผู้ประเมินบริการ</label>
+                                 <select class="form-control receiver-select" name="purchase_by">
+                                    <option value=""></option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="purchase_date">วันที่ประเมินบริการ</label>
+                                <input class="form-control bg-light" type="date" name="purchase_date" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-9 form-group">
+                                <label for="approved_by2">ผู้อนุมัติ (ผลประเมิน)</label>
+                                 <select class="form-control receiver-select" name="approved_by2">
+                                    <option value=""></option>
+                                    @foreach ($emp as $item)
+                                        <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="approved_date2">วันที่อนุมัติ</label>
+                                <input class="form-control bg-light" type="date" name="approved_date2" readonly>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" style="border-color: #f1f5f9;">
+
+                        <!-- ปุ่ม Actions -->
+                        <div class="row">
+                            <div class="col-12 text-right">
+                                <button type="submit" class="btn btn-indigo-submit px-5">
+                                    <i class="fas fa-save mr-2"></i> บันทึกข้อมูลเอกสาร
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="row mt-3">
-                    <h5>ใบประเมินผู้รับจ้างช่วง</h5>
-                    <table class="table table-bordered table-sm">
-                        <thead>
-                            <tr>
-                                <th class="text-center">รายการประเมิน</th>
-                                <th class="text-center">ดี</th>
-                                <th class="text-center">พอใช้</th>
-                                <th class="text-center">ไม่ดี</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    - คุณภาพการใช้งานของสินค้า
-                                    <input type="hidden" value="1" name="recipient_selection_sub_listno[]">
-                                    <input type="hidden" value="คุณภาพการใช้งานของสินค้า" name="recipient_selection_sub_name[]">
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    - ความเรียบร้อยของสินค้า
-                                    <input type="hidden" value="2" name="recipient_selection_sub_listno[]">
-                                    <input type="hidden" value="ความเรียบร้อยของสินค้า" name="recipient_selection_sub_name[]">
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    - บริการของผู้รับจ้างช่วง
-                                    <input type="hidden" value="3" name="recipient_selection_sub_listno[]">
-                                    <input type="hidden" value="บริการของผู้รับจ้างช่วง" name="recipient_selection_sub_name[]">
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    - การให้บริการหลังการขาย
-                                    <input type="hidden" value="4" name="recipient_selection_sub_listno[]">
-                                    <input type="hidden" value="การให้บริการหลังการขาย" name="recipient_selection_sub_name[]">
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results1[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results2[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-control" name="recipient_selection_sub_results3[]">
-                                        <option value="0"></option>
-                                        <option value="1">/</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>  
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <label for="product_type1">หมายเหตุ</label>
-                        <textarea class="form-control" name="recipient_selection_hd_remark"></textarea>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="assessor_by">ผู้ประเมินสินค้า</label>
-                         <select class="form-control receiver-select" name="assessor_by">
-                            <option value=""></option>
-                            @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                            @endforeach
-                        </select>
-                        {{-- <input class="form-control" name="assessor_by" readonly> --}}
-                    </div>
-                    <div class="col-3">
-                        <label for="assessor_date">วันที่</label>
-                        <input class="form-control" type="date" name="assessor_date" readonly>
-                    </div>
-                </div>
-                 <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="assessor_by">ผู้ประเมินบริการ</label>
-                         <select class="form-control receiver-select" name="purchase_by">
-                            <option value=""></option>
-                            @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                            @endforeach
-                        </select>
-                        {{-- <input class="form-control" name="assessor_by" readonly> --}}
-                    </div>
-                    <div class="col-3">
-                        <label for="assessor_date">วันที่</label>
-                        <input class="form-control" type="date" name="purchase_date" readonly>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-9">
-                        <label for="approved_by2">ผู้อนุมัติ</label>
-                         <select class="form-control receiver-select" name="approved_by2">
-                            <option value=""></option>
-                            @foreach ($emp as $item)
-                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                            @endforeach
-                        </select>
-                        {{-- <input class="form-control" name="approved_by2" readonly> --}}
-                    </div>
-                    <div class="col-3">
-                        <label for="approved_date2">วันที่</label>
-                        <input class="form-control" type="date" name="approved_date2" readonly>
-                    </div>
-                </div>
-                 <br>
-                <div class="col-12 col-md-1">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary">
-                            บันทึก                           
-                         </button>
-                    </div>
-                </div>
-                </form>
             </div>
         </div>
-        
     </div>
 </div>
-</div>
 @endsection
+
 @push('scriptjs')
 <!-- Sweet Alerts js -->
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
 $(document).ready(function () {
-    // init select2 ให้กับ select ที่โหลดมาตั้งแต่แรก
+    // init select2 
     $('.receiver-select').select2({
         placeholder: 'กรุณาเลือกพนักงาน',
         width: '100%'
     });
 });
 </script>
-@endpush  
-    
+@endpush
