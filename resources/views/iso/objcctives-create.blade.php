@@ -216,7 +216,7 @@ Swal.fire({
     }
 </style>
 
-<form action="{{ route('objcctives.store') }}" method="POST">
+<form action="{{ route('objcctives.store') }}" method="POST" enctype="multipart/form-data">
 @csrf
 <div class="form-container">
     <div class="header-title-block">
@@ -225,7 +225,6 @@ Swal.fire({
         <div class="doc-meta text-right">F6200.1<br>9 Apr 24</div>
     </div>
 
-    <!-- Top Fields (Section & Period) -->
     <div class="section-top-fields">
         <div class="row">
             <div class="col-md-6 mb-3 mb-md-0">
@@ -239,7 +238,6 @@ Swal.fire({
         </div>
     </div>
 
-    <!-- Table Section -->
     <div class="table-responsive">
         <table id="objectiveTable">
             <thead>
@@ -263,6 +261,8 @@ Swal.fire({
                     <td>{{ $i+1 }}</td>
                     <td>
                         <textarea name="description[]" rows="3">{{ trim(old('description.'.$i)) }}</textarea>
+                        วัตถุประสงค์ : <input class="form-control" name="note1[]" value="{{ old('note1.'.$i) }}">
+                        สาเหตุ/แนวทางแก้ไข : <input class="form-control" name="note2[]" value="{{ old('note2.'.$i) }}">
                     </td>
                     <td>
                         <select class="form-control receiver-select" name="resp_person[]">
@@ -271,6 +271,8 @@ Swal.fire({
                                  <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
+                        <br>
+                        <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
                     </td>
                     <td><input type="text" name="previous[]" placeholder="Previous" value="{{ old('previous.'.$i) }}"></td>
                     <td><input type="text" name="plan[]" placeholder="Plan" value="{{ old('plan.'.$i) }}"></td>
@@ -290,7 +292,6 @@ Swal.fire({
     
     <button type="button" class="btn btn-indigo-add" id="addRowBtn"><i class="fas fa-plus mr-1"></i> เพิ่มแถวกิจกรรม</button>
 
-    <!-- Signatures Panel Grid -->
     <div class="signature-grid">
         <div class="signature-item">
             <label>Prepared by:</label>
@@ -354,7 +355,6 @@ Swal.fire({
         </div>
     </div>
 
-    <!-- Actions Panel -->
     <div class="actions">
         <button type="submit" class="primary-submit">บันทึกข้อมูล</button>
     </div>
@@ -408,9 +408,14 @@ document.addEventListener("DOMContentLoaded", function() {
     addRowBtn.addEventListener('click', () => {
         const rowCount = tableBody.rows.length + 1;
         const newRow = document.createElement('tr');
+        // 3. เพิ่ม Input File เข้าไปในโครงสร้างแถวใหม่ (ใช้ชื่อ attachment[] ให้ตรงกัน)
         newRow.innerHTML = `
             <td>${rowCount}</td>
-            <td><textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea></td>
+            <td>
+                <textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea>
+                วัตถุประสงค์ : <input class="form-control" name="note1[]" placeholder="วัตถุประสงค์">
+                สาเหตุ/แนวทางแก้ไข : <input class="form-control" name="note2[]" placeholder="สาเหตุ/แนวทางแก้ไข">
+            </td>
             <td>
                 <select class="form-control receiver-select" name="resp_person[]">
                     <option value=""></option>
@@ -418,6 +423,8 @@ document.addEventListener("DOMContentLoaded", function() {
                          <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                     @endforeach
                 </select>
+                <br>
+                <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
             </td>
             <td><input type="text" name="previous[]" placeholder="Previous"></td>
             <td><input type="text" name="plan[]" placeholder="Plan"></td>
