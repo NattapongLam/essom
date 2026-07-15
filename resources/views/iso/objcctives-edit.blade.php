@@ -178,6 +178,20 @@ Swal.fire({
         color: #ffffff;
     }
 
+    .inner-field-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #64748b;
+        text-align: left;
+        margin-top: 5px;
+        margin-bottom: 2px;
+    }
+    .old-file-info {
+        text-align: left;
+        margin-top: 4px;
+        font-size: 0.8rem;
+    }
+
     /* Signature Flow Card Grid */
     .signature-grid {
         display: grid;
@@ -216,7 +230,7 @@ Swal.fire({
     }
 </style>
 
-<form action="{{ route('objcctives.update', $objcctive->id) }}" method="POST">
+<form action="{{ route('objcctives.update', $objcctive->id) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
 <input type="hidden" name="checkdoc" value="Edit">
@@ -228,7 +242,6 @@ Swal.fire({
         <div class="doc-meta text-right">F6200.1<br>9 Apr 24</div>
     </div>
 
-    <!-- Top Fields (Section & Period) -->
     <div class="section-top-fields">
         <div class="row">
             <div class="col-md-6 mb-3 mb-md-0">
@@ -242,22 +255,21 @@ Swal.fire({
         </div>
     </div>
 
-    <!-- Table Section -->
     <div class="table-responsive">
         <table id="objectiveTable">
             <thead>
                 <tr>
                     <th rowspan="2" style="width: 5%">NO.</th>
-                    <th rowspan="2" style="width: 30%">DESCRIPTION OF ACTIVITIES</th>
+                    <th rowspan="2" style="width: 35%">DESCRIPTION OF ACTIVITIES</th>
                     <th rowspan="2" style="width: 20%">RESP. PERSON</th>
                     <th colspan="3" style="background-color: #f1f5f9; color: #475569;">OBJECTIVE</th>
                     <th rowspan="2" style="width: 20%">REMARKS/CORRECTIVE ACTION</th>
                     <th rowspan="2" style="width: 5%">ลบ</th>
                 </tr>
                 <tr>
-                    <th width="10%" style="background-color: #f8fafc; color: #475569;">Previous</th>
-                    <th width="10%" style="background-color: #f8fafc; color: #475569;">Plan</th>
-                    <th width="10%" style="background-color: #f8fafc; color: #475569;">Results</th>
+                    <th width="8%" style="background-color: #f8fafc; color: #475569;">Previous</th>
+                    <th width="8%" style="background-color: #f8fafc; color: #475569;">Plan</th>
+                    <th width="8%" style="background-color: #f8fafc; color: #475569;">Results</th>
                 </tr>
             </thead>
             <tbody>
@@ -270,6 +282,10 @@ Swal.fire({
                     <td>{{ $i+1 }}</td>
                     <td>
                         <textarea name="description[]" rows="3">{{ trim(old('description.'.$i, $act['description'] ?? '')) }}</textarea>
+                        <div class="inner-field-label">วัตถุประสงค์ :</div>
+                        <input class="form-control" name="note1[]" value="{{ old('note1.'.$i, $act['note1'] ?? '') }}">
+                        <div class="inner-field-label">สาเหตุ/แนวทางแก้ไข :</div>
+                        <input class="form-control" name="note2[]" value="{{ old('note2.'.$i, $act['note2'] ?? '') }}">
                     </td>
                     <td>
                         <select class="form-control receiver-select" name="resp_person[]">
@@ -281,6 +297,20 @@ Swal.fire({
                                 </option>
                             @endforeach
                         </select>
+                        <br>
+                        <div class="inner-field-label">ไฟล์แนบ :</div>
+                        <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
+                        
+                        @if(!empty($act['file_path']))
+                            <div class="old-file-info">
+                                <a href="{{ asset($act['file_path']) }}" target="_blank" style="color: #4f46e5; text-decoration: none;">
+                                    <i class="fas fa-paperclip"></i> ดูไฟล์เดิม
+                                </a>
+                                <input type="hidden" name="old_file_path[]" value="{{ $act['file_path'] }}">
+                            </div>
+                        @else
+                            <input type="hidden" name="old_file_path[]" value="">
+                        @endif
                     </td>
                     <td><input type="text" name="previous[]" value="{{ old('previous.'.$i, $act['previous'] ?? '') }}"></td>
                     <td><input type="text" name="plan[]" value="{{ old('plan.'.$i, $act['plan'] ?? '') }}"></td>
@@ -297,7 +327,13 @@ Swal.fire({
                 @for($i = 0; $i < 5; $i++)
                 <tr>
                     <td>{{ $i+1 }}</td>
-                    <td><textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea></td>
+                    <td>
+                        <textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea>
+                        <div class="inner-field-label">วัตถุประสงค์ :</div>
+                        <input class="form-control" name="note1[]" placeholder="วัตถุประสงค์">
+                        <div class="inner-field-label">สาเหตุ/แนวทางแก้ไข :</div>
+                        <input class="form-control" name="note2[]" placeholder="สาเหตุ/แนวทางแก้ไข">
+                    </td>
                     <td>
                         <select class="form-control receiver-select" name="resp_person[]">
                             <option value=""></option>
@@ -305,6 +341,10 @@ Swal.fire({
                                  <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
+                        <br>
+                        <div class="inner-field-label">ไฟล์แนบ :</div>
+                        <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
+                        <input type="hidden" name="old_file_path[]" value="">
                     </td>
                     <td><input type="text" name="previous[]" placeholder="Previous"></td>
                     <td><input type="text" name="plan[]" placeholder="Plan"></td>
@@ -323,7 +363,6 @@ Swal.fire({
     
     <button type="button" class="btn btn-indigo-add" id="addRowBtn"><i class="fas fa-plus mr-1"></i> เพิ่มแถวกิจกรรม</button>
 
-    <!-- Signatures Panel Grid -->
     <div class="signature-grid">
         <div class="signature-item">
             <label>Prepared by:</label>
@@ -407,7 +446,6 @@ Swal.fire({
         </div>
     </div>
 
-    <!-- Actions Panel -->
     <div class="actions">
         <button type="submit" class="primary-submit">อัปเดตข้อมูล</button>
     </div>
@@ -458,12 +496,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // [แก้ไข]: ปรับแต่งฟังก์ชันเพิ่มแถวให้มีโครงสร้างของฟิลด์ note1, note2 และ attachment ครบถ้วน
     addRowBtn.addEventListener('click', () => {
         const rowCount = tableBody.rows.length + 1;
         const newRow = document.createElement('tr');
         newRow.innerHTML = `
             <td>${rowCount}</td>
-            <td><textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea></td>
+            <td>
+                <textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea>
+                <div class="inner-field-label">วัตถุประสงค์ :</div>
+                <input class="form-control" name="note1[]" placeholder="วัตถุประสงค์">
+                <div class="inner-field-label">สาเหตุ/แนวทางแก้ไข :</div>
+                <input class="form-control" name="note2[]" placeholder="สาเหตุ/แนวทางแก้ไข">
+            </td>
             <td>
                 <select class="form-control receiver-select" name="resp_person[]">
                     <option value=""></option>
@@ -471,6 +516,10 @@ document.addEventListener("DOMContentLoaded", function() {
                          <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                     @endforeach
                 </select>
+                <br>
+                <div class="inner-field-label">ไฟล์แนบ :</div>
+                <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
+                <input type="hidden" name="old_file_path[]" value="">
             </td>
             <td><input type="text" name="previous[]" placeholder="Previous"></td>
             <td><input type="text" name="plan[]" placeholder="Plan"></td>
