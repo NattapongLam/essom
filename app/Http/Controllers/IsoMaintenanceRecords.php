@@ -49,25 +49,21 @@ class IsoMaintenanceRecords extends Controller
         $maintenance_items = $this->maintenanceItems();
         $machines = $this->machines();
 
-        // 1. ดึงข้อมูลและแปลงสถานะตามปกติ (นำ keyBy ออกก่อนเพื่อให้จัดกลุ่มด้วยปีได้)
         $records = MaintenanceRecord::all();
-
+        
+        // แปลง status ตามเดิม
         foreach ($records as $record) {
             $record->status = is_string($record->status) ? json_decode($record->status, true) : ($record->status ?? []);
         }
 
-        // 2. จัดกลุ่มด้วย "ปี" ของวันที่ตรวจ (inspection_date)
-        // และเลือกเอาเฉพาะรายการล่าสุด หรือรายการแรกของปีนั้นๆ มาแสดง 1 แถวต่อปี
-        $recordsByYear = $records->filter(function($record) {
-            return !empty($record->inspection_date);
-        })->groupBy(function($record) {
-            return \Carbon\Carbon::parse($record->inspection_date)->format('Y'); // จัดกลุ่มด้วยปี ค.ศ.
-        })->map(function($yearGroup) {
-            // เลือกแถวแรกของกลุ่มปีนั้น (หรือเปลี่ยนเป็น ->sortByDesc('inspection_date')->first() ถ้าต้องการข้อมูลล่าสุดของปี)
-            return $yearGroup->first(); 
-        })->sortByDesc(function($record, $year) {
-            return $year; // เรียงลำดับจากปีล่าสุดลงไป
+        // [ทดสอบ] ลองส่งตัวแปร $records ตรงๆ เข้า View ไปก่อนเพื่อเช็คว่าข้อมูลออกไหม
+        // โดยจำลองให้ตัวแปร $recordsByYear เก็บข้อมูลทั้งหมดแบบ Key เป็นปี (ถ้าไม่มี inspection_date ให้ใช้ปีปัจจุบันแทน)
+        $recordsByYear = $records->mapWithKeys(function($record, $key) {
+            $year = !empty($record->inspection_date) ? \Carbon\Carbon::parse($record->inspection_date)->format('Y') : '2026';
+            return [$year => $record];
         });
+
+        // dd($recordsByYear); // ลองเปิดดูตัวนี้อีกรอบว่ามีข้อมูลข้างในไหม
 
         return view('iso.maintenance-records-list', compact('maintenance_items', 'machines', 'recordsByYear'));
     }
