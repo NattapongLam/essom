@@ -296,7 +296,7 @@
                     <tbody>
                         @php $no = 1; @endphp
                         @foreach($recordsByYear as $year => $record)
-                            @if($record && $record->inspector)
+                            @if($record)
                             <tr>
                                 <td class="font-weight-bold text-secondary">{{ $no++ }}</td>
                                 <td><span class="badge px-3 py-2" style="background-color: #f5f3ff; color: #4f46e5; font-size: 0.9rem; border: 1px solid #ddd6fe;">{{ $year }}</span></td>
