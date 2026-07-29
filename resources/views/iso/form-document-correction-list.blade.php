@@ -81,19 +81,23 @@
         box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
     }
 
-    /* Custom Responsive Datatable Container */
-    .table-modern-wrapper {
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        overflow: hidden;
-        background-color: #ffffff;
-        margin-top: 15px;
-    }
+    /* แก้ไขปัญหาการเลื่อนตารางในแนวนอน */
+.table-modern-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
-    .table-modern {
-        margin-bottom: 0 !important;
-    }
+.table-modern {
+    width: 100% !important;
+    white-space: nowrap; /* ป้องกันไม่ให้ข้อความขึ้นบรรทัดใหม่จนตารางพัง */
+}
 
+/* หากต้องการให้บางคอลัมน์ตัดบรรทัดได้ตามปกติ เช่น Document Name หรือ Remark ให้กำหนดเพิ่มเฉพาะกิจได้ */
+.table-modern td.wrap-text, 
+.table-modern th.wrap-text {
+    white-space: normal;
+}
     .table-modern thead th {
         background-color: #f8fafc !important;
         color: #475569 !important;
@@ -188,6 +192,7 @@
                 <table id="tb_job" class="table table-modern text-center">
                     <thead>
                         <tr>
+                            <th style="min-width: 100px;">อนุมัติ</th>
                             <th style="min-width: 70px;">Type</th>
                             <th style="min-width: 110px;">DAR No.</th>
                             <th style="min-width: 100px;">Date</th>
@@ -198,13 +203,33 @@
                             <th style="min-width: 120px;">Requested By</th>
                             <th style="min-width: 120px;">เอกสารแนบ</th>
                             <th style="width: 50px;">แก้ไข</th>
-                            <th style="min-width: 100px;">อนุมัติ</th>
                             <th style="width: 50px;">ลบ</th>
                         </tr>
                     </thead>
                     <tbody>   
                         @foreach ($hd as $item)
                             <tr>
+                                 <td>
+                                    @if ($item->reviewed_status == "N")
+                                        @if ($item->reviewed_by == auth()->user()->name)
+                                           <a href="{{route('document-correction.show',$item->documentcorrections_id)}}" class="btn btn-sm btn-primary action-control-btn" title="ตรวจสอบสถานะ">
+                                                <i class="fas fa-user-check"></i>
+                                            </a>  
+                                        @else
+                                           <span class="badge-modern badge-modern-warning">รอทบทวน</span>
+                                        @endif
+                                    @elseif($item->approved_status == "N")
+                                        @if ($item->approved_by == auth()->user()->name)
+                                           <a href="{{route('document-correction.show',$item->documentcorrections_id)}}" class="btn btn-sm btn-primary action-control-btn" title="จัดการอนุมัติ">
+                                                <i class="fas fa-user-check"></i>
+                                            </a>  
+                                        @else
+                                           <span class="badge-modern badge-modern-warning">รออนุมัติ</span>
+                                        @endif
+                                    @else
+                                        <span class="badge-modern badge-modern-success"><i class="fas fa-check-circle"></i> อนุมัติ</span>
+                                    @endif
+                                </td>
                                 <td class="font-weight-bold text-dark">{{$item->documentcorrections_type}}</td>
                                 <td class="text-muted font-weight-bold">{{$item->documentcorrections_docuno}}</td>
                                 <td>{{$item->documentcorrections_date}}</td>
@@ -229,28 +254,7 @@
                                     <a href="{{route('document-correction.edit',$item->documentcorrections_id)}}" class="btn btn-sm btn-warning action-control-btn" title="แก้ไขข้อมูล">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                </td>
-                                <td>
-                                    @if ($item->reviewed_status == "N")
-                                        @if ($item->reviewed_by == auth()->user()->name)
-                                           <a href="{{route('document-correction.show',$item->documentcorrections_id)}}" class="btn btn-sm btn-primary action-control-btn" title="ตรวจสอบสถานะ">
-                                                <i class="fas fa-user-check"></i>
-                                            </a>  
-                                        @else
-                                           <span class="badge-modern badge-modern-warning">รอทบทวน</span>
-                                        @endif
-                                    @elseif($item->approved_status == "N")
-                                        @if ($item->approved_by == auth()->user()->name)
-                                           <a href="{{route('document-correction.show',$item->documentcorrections_id)}}" class="btn btn-sm btn-primary action-control-btn" title="จัดการอนุมัติ">
-                                                <i class="fas fa-user-check"></i>
-                                            </a>  
-                                        @else
-                                           <span class="badge-modern badge-modern-warning">รออนุมัติ</span>
-                                        @endif
-                                    @else
-                                        <span class="badge-modern badge-modern-success"><i class="fas fa-check-circle"></i> อนุมัติ</span>
-                                    @endif
-                                </td>
+                                </td>                              
                                 <td>
                                     <a href="javascript:void(0)" class="btn btn-danger btn-sm action-control-btn" title="ลบรายการ" onclick="confirmDel('{{ $item->documentcorrections_id }}')">
                                         <i class="fas fa-trash-alt"></i>
@@ -278,6 +282,8 @@ $(document).ready(function() {
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
+        "scrollX": true, // เปิดใช้งานการเลื่อนตารางแนวนอนของ DataTables
+        "autoWidth": false, // ปิดการคำนวณความกว้างอัตโนมัติเพื่อป้องกันตารางล้น
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -289,10 +295,6 @@ $(document).ready(function() {
         order: [
             [2, "asc"]
         ],
-        fixedHeader: {
-            header: false,
-            footer: false
-        },
         pagingType: "full_numbers",
         bSort: true,    
     });
