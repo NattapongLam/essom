@@ -88,10 +88,11 @@
     /* Table Component Design */
     .table-responsive-container {
         border-radius: 12px;
-        overflow: hidden;
+        overflow: auto;
         border: 1px solid #e2e8f0;
         margin-bottom: 5px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        width: 100%;
     }
 
     table.table-modern {

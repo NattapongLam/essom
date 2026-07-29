@@ -74,8 +74,9 @@
     /* Table Customization */
     .table-responsive {
         border-radius: 12px;
-        overflow: hidden;
+        overflow: auto;
         border: 1px solid #e2e8f0;
+        width: 100%;
     }
     #swotTable {
         margin: 0 !important;
