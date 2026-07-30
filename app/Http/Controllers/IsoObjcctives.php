@@ -63,7 +63,7 @@ class IsoObjcctives extends Controller
                     ];
                 }
             }
-
+           
             // บันทึกข้อมูลลงฐานข้อมูล
             Objective::create([
                 'section'           => $request->section[0] ?? null,
@@ -103,39 +103,39 @@ class IsoObjcctives extends Controller
                 // [แก้ไข]: ดึงอาร์เรย์ของไฟล์แนบมาจาก Request ไว้ในตัวแปร $attachments
                 $attachments = $request->file('attachment') ?? [];
 
-                if (!empty($request->description)) {
-                    foreach ($request->description as $i => $desc) {
-                        if (empty($desc) && empty($request->resp_person[$i])) continue;
+if (!empty($request->description)) {
+    foreach ($request->description as $i => $desc) {
+        if (empty($desc) && empty($request->resp_person[$i])) continue;
 
-                        // [แก้ไข]: ตั้งค่าเริ่มต้นเป็นไฟล์เดิมก่อน (ถ้ามีส่งมาจากฟอร์ม) เพื่อป้องกันไฟล์เดิมหาย
-                        $filePath = $request->old_file_path[$i] ?? null;
+        // ตั้งค่าเริ่มต้นเป็นไฟล์เดิมก่อน
+        $filePath = $request->old_file_path[$i] ?? null;
 
-                        // ตรวจสอบไฟล์แนบโดยเช็กว่ามี index นี้ส่งมาจากฟอร์มจริงๆ และไฟล์สมบูรณ์หรือไม่
-                        if (isset($attachments[$i]) && $attachments[$i]->isValid()) {
-                            $file = $attachments[$i];
-                            
-                            // บันทึกไฟล์ลง disk 'img' ในโฟลเดอร์ย่อย 'objective_files'
-                            $uploadedPath = $file->store('objective_files', 'img');
+        // [จุดปรับปรุง]: เช็กว่ามีไฟล์ถูกอัปโหลดส่งมาในช่องของ index นี้จริงหรือไม่
+        // โดยใช้ $request->hasFile("attachment.{$i}") เพื่อความแม่นยำสูง
+        if ($request->hasFile("attachment.{$i}") && $request->file("attachment.{$i}")->isValid()) {
+            $file = $request->file("attachment.{$i}");
+            
+            // บันทึกไฟล์ลง disk 'img' ในโฟลเดอร์ย่อย 'objective_files'
+            $uploadedPath = $file->store('objective_files', 'img');
+            
+            $filePath = 'img/' . $uploadedPath;
+        }
 
-                            // ปรับรูปแบบให้อยู่ในรูป 'img/objective_files/...' เพื่อให้เอาไปดึงใช้งานด้วย asset() ได้ง่าย
-                            $filePath = 'img/' . $uploadedPath;
-                        }
-
-                        $activities[] = [
-                            'no'          => $request->no[$i] ?? $i + 1,
-                            'description' => $desc,
-                            'resp_person' => $request->resp_person[$i] ?? '',
-                            'previous'    => $request->previous[$i] ?? '',
-                            'plan'        => $request->plan[$i] ?? '',
-                            'results'     => $request->results[$i] ?? '',
-                            'remarks'     => $request->remarks[$i] ?? '',
-                            'note1'       => $request->note1[$i] ?? '',
-                            'note2'       => $request->note2[$i] ?? '',
-                            'file_path'   => $filePath, // เก็บ Path ของไฟล์ใหม่หรือไฟล์เดิมลงในอาเรย์กิจกรรมแถวนั้นๆ
-                        ];
-                    }
-                }
-
+        $activities[] = [
+            'no'          => $request->no[$i] ?? $i + 1,
+            'description' => $desc,
+            'resp_person' => $request->resp_person[$i] ?? '',
+            'previous'    => $request->previous[$i] ?? '',
+            'plan'        => $request->plan[$i] ?? '',
+            'results'     => $request->results[$i] ?? '',
+            'remarks'     => $request->remarks[$i] ?? '',
+            'note1'       => $request->note1[$i] ?? '',
+            'note2'       => $request->note2[$i] ?? '',
+            'file_path'   => $filePath, 
+        ];
+    }
+}
+ 
                 $objcctive->update([
                     'section'           => $request->section[0] ?? null,
                     'period'            => $request->period[0] ?? null,
