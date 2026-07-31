@@ -310,17 +310,16 @@
                         <input class="form-control-modern" type="date" value="{{$doc->requested_date}}" name="requested_date" readonly>
                     </div>
                 </div>
-
                 <!-- Section Breakout: Conditional Structural Logic Flows -->
-                @if ($doc->reviewed_status == "Y")
+                
                     <div class="section-divider">
                         <h4><i class="fas fa-check-double mr-2"></i> การพิจารณาอนุมัติเอกสาร (Approval Section)</h4>
                     </div>
-
+                    @if ($doc->reviewed_status == "Y")
                     <div class="row">
                         <div class="col-12 form-group-custom">
                             <label>Audit Check List Revision</label>
-                            <input class="form-control-modern" type="text" name="documentcorrections_auditcheck" value="{{$doc->documentcorrections_auditcheck}}">
+                            <input class="form-control-modern" type="text" name="documentcorrections_auditcheck" value="{{$doc->documentcorrections_auditcheck}}" readonly>
                         </div>
                     </div>
                     <div class="row">
@@ -330,36 +329,14 @@
                         </div>
                         <div class="col-md-6 col-12 form-group-custom">
                             <label>Date</label>
-                            <input class="form-control-modern" type="date" name="reviewed_date" value="{{$doc->reviewed_date}}">
-                        </div>
-                    </div> 
-                    <div class="row">
-                        <div class="col-12 form-group-custom">
-                            <label>Deputy Managing Directors/Managing Directors Comment</label>
-                            <input class="form-control-modern" type="text" name="reviewed_comment" value="{{$doc->reviewed_comment}}">
+                            <input class="form-control-modern" type="date" name="reviewed_date" value="{{$doc->reviewed_date}}" readonly>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-12 form-group-custom">
-                            <label>Approved By</label>
-                            <input class="form-control-modern" type="text" name="approved_by" value="{{auth()->user()->name}}" readonly>
-                        </div>
-                        <div class="col-md-6 col-12 form-group-custom">
-                            <label>Date</label>
-                            <input class="form-control-modern" type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}">
-                        </div>
-                        <input type="hidden" name="reviewed_status" value="Y">
-                        <input type="hidden" name="approved_status" value="Y">
-                    </div>
-                @else
-                    <div class="section-divider">
-                        <h4><i class="fas fa-eye mr-2"></i> การพิจารณาตรวจสอบเอกสาร (Review Section)</h4>
-                    </div>
-
-                    <div class="row">
+                    @else 
+                     <div class="row">
                         <div class="col-12 form-group-custom">
                             <label>Audit Check List Revision</label>
-                            <input class="form-control-modern" type="text" name="documentcorrections_auditcheck">
+                            <input class="form-control-modern" type="text" name="documentcorrections_auditcheck" value="">
                         </div>
                     </div>
                     <div class="row">
@@ -371,27 +348,44 @@
                             <label>Date</label>
                             <input class="form-control-modern" type="date" name="reviewed_date" value="{{ old('date', now()->format('Y-m-d')) }}">
                         </div>
-                    </div> 
+                    </div>
+                    @endif
+                    @if ($doc->approved_status == "Y")
                     <div class="row">
                         <div class="col-12 form-group-custom">
                             <label>Deputy Managing Directors/Managing Directors Comment</label>
-                            <input class="form-control-modern" type="text" name="reviewed_comment">
+                            <input class="form-control-modern" type="text" name="reviewed_comment" value="{{$doc->reviewed_comment}}" readonly>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-12 form-group-custom">
                             <label>Approved By</label>
-                            <input class="form-control-modern" type="text" name="approved_by" readonly>
+                            <input class="form-control-modern" type="text" name="approved_by" value="{{$doc->approved_by}}" readonly>
                         </div>
                         <div class="col-md-6 col-12 form-group-custom">
                             <label>Date</label>
-                            <input class="form-control-modern" type="date" name="approved_date" readonly>
+                            <input class="form-control-modern" type="date" name="approved_date" value="{{$doc->approved_date}}" readonly>
                         </div>
-                        <input type="hidden" name="reviewed_status" value="Y">
-                        <input type="hidden" name="approved_status" value="N">
                     </div>
-                @endif                     
-                
+                    @else 
+                    <div class="row">
+                        <div class="col-12 form-group-custom">
+                            <label>Deputy Managing Directors/Managing Directors Comment</label>
+                            <input class="form-control-modern" type="text" name="reviewed_comment" value="" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-12 form-group-custom">
+                            <label>Approved By</label>
+                            <input class="form-control-modern" type="text" name="approved_by" value="{{auth()->user()->name}}" readonly>
+                        </div>
+                        <div class="col-md-6 col-12 form-group-custom">
+                            <label>Date</label>
+                            <input class="form-control-modern" type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}">
+                        </div>
+                    </div>
+                    @endif
+                    
                 <!-- Dynamic Conditional Submission Core Control Trigger -->
                 @if ($doc->approved_status == "N")
                     <div class="row mt-4">
