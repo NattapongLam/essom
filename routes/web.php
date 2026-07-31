@@ -17,7 +17,7 @@ use App\Http\Livewire\Employee\RolePermissionPage;
 |
 */
 
-Route::get('/',[DashboardController::class,'index'] );
+Route::get('/', [DashboardController::class, 'index'])->middleware(['auth']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
