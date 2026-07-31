@@ -1,4 +1,7 @@
-@extends('layouts.main')
+@extends('layouts.main') <!-- ปรับชื่อ Layout หลักของคุณให้ตรงกัน เช่น layouts.admin หรือโครงสร้างหลักที่คุณใช้ -->
+
+@section('title', 'รายการแจ้งเตือนเอกสารทั้งหมด')
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
