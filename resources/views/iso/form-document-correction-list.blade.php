@@ -210,6 +210,9 @@
                         @foreach ($hd as $item)
                             <tr>
                                  <td>
+                                    <a href="{{route('document-correction.show',$item->documentcorrections_id)}}" class="btn btn-sm btn-primary action-control-btn" title="ตรวจสอบสถานะ">
+                                                <i class="fas fa-user-check"></i>
+                                            </a>
                                     @if ($item->reviewed_status == "N")
                                         @if ($item->reviewed_by == auth()->user()->name)
                                            <a href="{{route('document-correction.show',$item->documentcorrections_id)}}" class="btn btn-sm btn-primary action-control-btn" title="ตรวจสอบสถานะ">

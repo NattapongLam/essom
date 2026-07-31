@@ -190,16 +190,24 @@ class IsoDocumentcorrection extends Controller
             }
         }
         else if($request->checkdoc == "Update"){
-            $data = [
-                'documentcorrections_auditcheck' => $request->documentcorrections_auditcheck,
-                'reviewed_by' => $request->reviewed_by,
-                'reviewed_date' => $request->reviewed_date,
-                'reviewed_comment' => $request->reviewed_comment,
-                'approved_by' => $request->approved_by,
-                'approved_date' => $request->approved_date,
-                'reviewed_status' => $request->reviewed_status,
-                'approved_status' => $request->approved_status
-            ];
+            $hd = Documentcorrection::find($id);
+            if($hd->reviewed_status == "N"){
+                $data = [
+                    'documentcorrections_auditcheck' => $request->documentcorrections_auditcheck,
+                    'reviewed_by' => $request->reviewed_by,
+                    'reviewed_date' => $request->reviewed_date,
+                    'reviewed_status' => "Y",
+                ];
+                
+
+            }elseif($hd->approved_status == "N"){
+                $data = [               
+                    'reviewed_comment' => $request->reviewed_comment,
+                    'approved_by' => $request->approved_by,
+                    'approved_date' => $request->approved_date,               
+                    'approved_status' => "Y",
+                ];
+            }           
             try{
 
                 DB::beginTransaction();
