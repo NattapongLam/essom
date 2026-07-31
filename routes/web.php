@@ -24,7 +24,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';  
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/notifications', [App\Http\Controllers\NotificationController::class, 'getNotifications']);
+    Route::get('/notifications/all', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+});
 Route::group([
     'prefix' => 'employees',
     'as' => 'employee.',
