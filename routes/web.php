@@ -163,6 +163,7 @@ Route::group([
     'middleware' =>  ['auth','permission:iso-objective']
 ],function(){
     Route::resource('/objcctives' , App\Http\Controllers\IsoObjcctives::class);
+    Route::get('/objectives/{id}/print', [App\Http\Controllers\IsoObjcctives::class, 'printView'])->name('objectives.print');
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-plan']

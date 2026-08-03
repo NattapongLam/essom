@@ -192,4 +192,10 @@ if (!empty($request->description)) {
             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
         }
     }
+    public function printView($id)
+    {
+        $objcctive = Objective::findOrFail($id);
+        
+        return view('iso.objcctives-print', compact('objcctive'));
+    }
 }

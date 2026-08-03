@@ -240,8 +240,10 @@ Swal.fire({
         <h2>ESSOM CO.,LTD.</h2>
         <h2 class="sub-title">Objective (แก้ไขข้อมูล)</h2>
         <div class="doc-meta text-right">F6200.1<br>9 Apr 24</div>
+        <a href="{{ route('objectives.print', $objcctive->id) }}" target="_blank" class="primary-submit" style="text-decoration: none;">
+            <i class="fas fa-print"></i> พิมพ์ฟอร์ม
+        </a>
     </div>
-
     <div class="section-top-fields">
         <div class="row">
             <div class="col-md-6 mb-3 mb-md-0">
@@ -282,9 +284,9 @@ Swal.fire({
                     <td>{{ $i+1 }}</td>
                     <td>
                         <textarea name="description[]" rows="3">{{ trim(old('description.'.$i, $act['description'] ?? '')) }}</textarea>
-                        <div class="inner-field-label">วัตถุประสงค์ :</div>
+                        <div class="inner-field-label">สาเหตุ :</div>
                         <input class="form-control" name="note1[]" value="{{ old('note1.'.$i, $act['note1'] ?? '') }}">
-                        <div class="inner-field-label">สาเหตุ/แนวทางแก้ไข :</div>
+                        <div class="inner-field-label">แนวทางแก้ไข :</div>
                         <input class="form-control" name="note2[]" value="{{ old('note2.'.$i, $act['note2'] ?? '') }}">
                     </td>
                     <td>
