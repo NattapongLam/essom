@@ -331,10 +331,10 @@ Swal.fire({
                     <td>{{ $i+1 }}</td>
                     <td>
                         <textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea>
-                        <div class="inner-field-label">วัตถุประสงค์ :</div>
-                        <input class="form-control" name="note1[]" placeholder="วัตถุประสงค์">
-                        <div class="inner-field-label">สาเหตุ/แนวทางแก้ไข :</div>
-                        <input class="form-control" name="note2[]" placeholder="สาเหตุ/แนวทางแก้ไข">
+                        <div class="inner-field-label">สาเหตุ :</div>
+                        <input class="form-control" name="note1[]" placeholder="สาเหตุ">
+                        <div class="inner-field-label">แนวทางแก้ไข :</div>
+                        <input class="form-control" name="note2[]" placeholder="แนวทางแก้ไข">
                     </td>
                     <td>
                         <select class="form-control receiver-select" name="resp_person[]">
