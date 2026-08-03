@@ -369,7 +369,7 @@ Swal.fire({
         <div class="signature-item">
             <label>Prepared by:</label>
             <select class="form-control receiver-select" name="prepared_by">
-                <option value=""></option>
+                <option value="NULL">ไม่ระบุ</option>
                 @foreach ($emp as $item)
                      <option value="{{ $item->ms_employee_fullname }}"
                           {{ (isset($objcctive->prepared_by) && $objcctive->prepared_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
@@ -385,7 +385,7 @@ Swal.fire({
         <div class="signature-item">
             <label>Reported by:</label>
             <select class="form-control receiver-select" name="reported_by">
-                <option value=""></option>
+                <option value="NULL">ไม่ระบุ</option>
                 @foreach ($emp as $item)
                      <option value="{{ $item->ms_employee_fullname }}"
                           {{ (isset($objcctive->reported_by) && $objcctive->reported_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
@@ -401,7 +401,7 @@ Swal.fire({
         <div class="signature-item">
              <label>Reviewed by:</label>
              <select class="form-control receiver-select" name="reviewed_by">
-                <option value=""></option>
+                <option value="NULL">ไม่ระบุ</option>
                 @foreach ($emp as $item)
                      <option value="{{ $item->ms_employee_fullname }}"
                           {{ (isset($objcctive->reviewed_by) && $objcctive->reviewed_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
@@ -417,7 +417,7 @@ Swal.fire({
         <div class="signature-item">
             <label>Acknowledged by:</label>
             <select class="form-control receiver-select" name="acknowledged_by">
-                <option value=""></option>
+                <option value="NULL">ไม่ระบุ</option>
                 @foreach ($emp as $item)
                      <option value="{{ $item->ms_employee_fullname }}"
                           {{ (isset($objcctive->acknowledged_by) && $objcctive->acknowledged_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
@@ -433,7 +433,7 @@ Swal.fire({
         <div class="signature-item">
             <label>Approved by:</label>
             <select class="form-control receiver-select" name="approved_by">
-                <option value=""></option>
+                <option value="NULL">ไม่ระบุ</option>
                 @foreach ($emp as $item)
                      <option value="{{ $item->ms_employee_fullname }}"
                           {{ (isset($objcctive->approved_by) && $objcctive->approved_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
