@@ -261,8 +261,8 @@ Swal.fire({
                     <td>{{ $i+1 }}</td>
                     <td>
                         <textarea name="description[]" rows="3">{{ trim(old('description.'.$i)) }}</textarea>
-                        วัตถุประสงค์ : <input class="form-control" name="note1[]" value="{{ old('note1.'.$i) }}">
-                        สาเหตุ/แนวทางแก้ไข : <input class="form-control" name="note2[]" value="{{ old('note2.'.$i) }}">
+                        สาเหตุ : <input class="form-control" name="note1[]" value="{{ old('note1.'.$i) }}">
+                        แนวทางแก้ไข : <input class="form-control" name="note2[]" value="{{ old('note2.'.$i) }}">
                     </td>
                     <td>
                         <select class="form-control receiver-select" name="resp_person[]">
