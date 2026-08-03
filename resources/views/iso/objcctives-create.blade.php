@@ -413,8 +413,8 @@ document.addEventListener("DOMContentLoaded", function() {
             <td>${rowCount}</td>
             <td>
                 <textarea name="description[]" rows="3" placeholder="Description of Activities"></textarea>
-                วัตถุประสงค์ : <input class="form-control" name="note1[]" placeholder="วัตถุประสงค์">
-                สาเหตุ/แนวทางแก้ไข : <input class="form-control" name="note2[]" placeholder="สาเหตุ/แนวทางแก้ไข">
+                สาเหตุ : <input class="form-control" name="note1[]" placeholder="สาเหตุ">
+                แนวทางแก้ไข : <input class="form-control" name="note2[]" placeholder="แนวทางแก้ไข">
             </td>
             <td>
                 <select class="form-control receiver-select" name="resp_person[]">

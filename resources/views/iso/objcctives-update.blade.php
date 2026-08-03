@@ -237,6 +237,10 @@ Swal.fire({
                     <td>{{ $i+1 }}</td>
                     <td>
                         <textarea name="description[]" rows="3" readonly>{{ trim(old('description.'.$i, $act['description'] ?? '')) }}</textarea>
+                        <div class="inner-field-label">สาเหตุ :</div>
+                        <input class="form-control" name="note1[]" value="{{ old('note1.'.$i, $act['note1'] ?? '') }}" readonly>
+                        <div class="inner-field-label">แนวทางแก้ไข :</div>
+                        <input class="form-control" name="note2[]" value="{{ old('note2.'.$i, $act['note2'] ?? '') }}" readonly>
                     </td>
                     <td>
                         <select class="form-control receiver-select" name="resp_person[]" disabled>
@@ -253,7 +257,7 @@ Swal.fire({
                     <td><input type="text" name="plan[]" value="{{ old('plan.'.$i, $act['plan'] ?? '') }}" readonly></td>
                     <td><input type="text" name="results[]" value="{{ old('results.'.$i, $act['results'] ?? '') }}" readonly></td>
                     <td>
-                        <textarea name="remarks[]" rows="3" readonly>{{ trim(old('remarks.'.$i, $act['remarks'] ?? '')) }}</textarea>
+                        <textarea name="remarks[]" rows="7" readonly>{{ trim(old('remarks.'.$i, $act['remarks'] ?? '')) }}</textarea>
                     </td>
                 </tr>
                 @empty
