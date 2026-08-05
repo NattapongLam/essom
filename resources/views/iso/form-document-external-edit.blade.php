@@ -180,14 +180,14 @@
 
                 <div class="card-body p-4">   
                     <form method="POST" action="{{ route('document-external.update', $hd->documentexternal_hd_id) }}" enctype="multipart/form-data">
-                        @csrf       
+                        @csrf      
                         @method('PUT') 
                         
                         <div class="row">
                             <div class="col-12 col-md-4 form-group">
                                 <label for="ms_year_name">ปีเอกสาร <span class="text-danger">*</span></label>
                                 <select class="form-control custom-form-control" name="ms_year_name" required>
-                                    <option value="">-- กรุณาเลือกปี --</option>       
+                                    <option value="">-- กรุณาเลือกปี --</option>      
                                     @foreach ($year as $item)
                                         <option value="{{$item->ms_year_name}}" {{ $item->ms_year_name == $hd->ms_year_name ? 'selected' : '' }}>
                                             {{$item->ms_year_name}}
@@ -199,11 +199,25 @@
 
                         <hr class="my-4" style="border-top: 1px dashed #cbd5e1;">
 
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="m-0 font-weight-bold" style="color: var(--text-dark);">รายการเอกสารแนบ (แก้ไข)</h6>
-                            <button type="button" class="btn btn-sm btn-indigo-action" onclick="addRow()">
-                                <i class="fas fa-plus-circle mr-1"></i> เพิ่มแถวเอกสาร
-                            </button>
+                        <!-- ส่วนหัวข้อและการค้นหา -->
+                        <div class="row align-items-center mb-3">
+                            <div class="col-12 col-md-5 mb-2 mb-md-0">
+                                <h6 class="m-0 font-weight-bold" style="color: var(--text-dark);">รายการเอกสารแนบ (แก้ไข)</h6>
+                            </div>
+                            <div class="col-12 col-md-7 d-flex justify-content-md-end align-items-center">
+                                <!-- ช่องค้นหาข้อมูลในตาราง -->
+                                <div class="input-group mr-2" style="max-width: 280px;">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white custom-form-control border-right-0" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                                            <i class="fas fa-search text-muted"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" id="tableSearchInput" class="form-control custom-form-control border-left-0" placeholder="ค้นหาในตาราง..." onkeyup="filterTable()" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                </div>
+                                <button type="button" class="btn btn-sm btn-indigo-action text-nowrap" onclick="addRow()">
+                                    <i class="fas fa-plus-circle mr-1"></i> เพิ่มแถวเอกสาร
+                                </button>
+                            </div>
                         </div>
 
                         <div class="table-responsive">
@@ -272,7 +286,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>     
+                    </form>    
                 </div>
             </div>
         </div>
@@ -283,6 +297,26 @@
 @push('scriptjs')
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+// ✅ ฟังก์ชันค้นหาข้อมูลในตารางแบบเรียลไทม์
+function filterTable() {
+    const input = document.getElementById("tableSearchInput");
+    const filter = input.value.toLowerCase();
+    const rows = document.querySelectorAll("#destroyTable tbody tr");
+
+    rows.forEach(row => {
+        let textContent = "";
+        row.querySelectorAll("input, textarea").forEach(inputElement => {
+            textContent += inputElement.value + " ";
+        });
+        
+        if (textContent.toLowerCase().indexOf(filter) > -1) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+
 // ✅ ฟังก์ชันเพิ่มแถวใหม่ (ระหว่างแก้ไขข้อมูล)
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");
@@ -328,6 +362,9 @@ function addRow() {
 
     tableBody.appendChild(row);
     updateRowNumbers();
+    
+    // เคลียร์ค่าช่องค้นหาหรืออัปเดตการแสดงผลเผื่อเปิดช่องค้นหาค้างไว้
+    filterTable();
 }
 
 // ✅ ฟังก์ชันลบแถว (สำหรับแถวที่เพิ่งเพิ่มใหม่ ยังไม่มีในฐานข้อมูล)
@@ -350,8 +387,7 @@ function updateRowNumbers() {
 }
 
 // ✅ ฟังก์ชันลบรายการย่อยแบบถาวร (สำหรับข้อมูลที่มีอยู่ใน DB แล้ว)
-confirmDel = (refid, button) => {       
-    // ตรวจสอบก่อนว่าถ้าเป็นแถวเพิ่มใหม่ที่ไม่มี refid ให้ลบออกแบบฝั่ง client ได้เลย
+confirmDel = (refid, button) => {      
     if(!refid) {
         removeRow(button);
         return;
@@ -388,7 +424,6 @@ confirmDel = (refid, button) => {
                             icon: 'success',
                             confirmButtonColor: '#4f46e5'
                         }).then(function() {
-                            // ลบแถวออกจากหน้าจอโดยไม่ต้องรีเฟรชหน้าทั้งหมด
                             const row = button.closest("tr");
                             row.remove();
                             updateRowNumbers();
