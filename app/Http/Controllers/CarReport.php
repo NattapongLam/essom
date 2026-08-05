@@ -139,7 +139,7 @@ class CarReport extends Controller
 
             DB::beginTransaction();
             $insertHD = IsoCar::create($hd);
-            $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+            $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
             $message = "📢 แจ้งเตือนเปิดเอกสาร CAR" . "\n"
                 . "🔹 เลขที่ : ".  $request->iso_car_docuno . "\n"
@@ -216,7 +216,7 @@ class CarReport extends Controller
                     $up['iso_car_filename2'] = $request->file('iso_car_filename2')->storeAs('img/car/', "CAR_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_car_filename2')->extension());
                 }
                 IsoCar::where('iso_car_id',$id)->update($up);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR" . "\n"
                     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
@@ -252,7 +252,7 @@ class CarReport extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR" . "\n"
                     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
@@ -271,7 +271,7 @@ class CarReport extends Controller
                     'followup_date' => Carbon::now(),
                     'iso_car_refdocuno' => $request->iso_car_refdocuno,
                 ]);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR" . "\n"
                     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
@@ -318,7 +318,7 @@ class CarReport extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนกรรมการลงนามแก้ไข/ป้องกันเอกสาร CAR" . "\n"
                     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
@@ -338,7 +338,7 @@ class CarReport extends Controller
                     'followup_date' => Carbon::now(),
                     'iso_car_refdocuno' => $request->iso_car_refdocuno,
                 ]);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR" . "\n"
                     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
@@ -374,7 +374,7 @@ class CarReport extends Controller
                     'followup_by' => Auth::user()->name,
                     'followup_date' => Carbon::now(),
                 ]);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนกรรมการลงนามปิดเอกสาร CAR" . "\n"
                     . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
