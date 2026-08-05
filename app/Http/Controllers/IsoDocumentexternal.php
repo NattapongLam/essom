@@ -118,38 +118,62 @@ class IsoDocumentexternal extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'listno' => ['required'],
+   public function update(Request $request, $id)
+{
+    $request->validate([
+        'listno' => ['required'],
+        'ms_year_name' => ['required'],
+    ]);
+
+    try {
+        DB::beginTransaction();
+
+        // 1. อัปเดตข้อมูลส่วนหัว (Header)
+        $hd = DocumentexternalHd::where('documentexternal_hd_id', $id)->firstOrFail();
+        $hd->update([
+            'ms_year_name' => $request->ms_year_name,
+            // เพิ่มฟิลด์อื่นๆ ของ Header ตรงนี้ถ้ามี
         ]);
-        try{
-            DB::beginTransaction();
-            $insertHD = DocumentexternalHd::where('documentexternal_hd_id',$id)->first();
+
+        // 2. วนลูปจัดการข้อมูลย่อย (Detail)
+        if ($request->has('listno')) {
             foreach ($request->listno as $key => $value) {
-                DocumentexternalDt::insert([
-                    'documentexternal_hd_id' => $insertHD->documentexternal_hd_id,
-                    'documentdestruction_dt_receive' => $request->documentdestruction_dt_receive[$key],
-                    'documentdestruction_dt_sentfrom' => $request->documentdestruction_dt_sentfrom[$key],
-                    'documentdestruction_dt_department' => $request->documentdestruction_dt_department[$key],
-                    'documentdestruction_dt_subject' => $request->documentdestruction_dt_subject[$key],
-                    'documentdestruction_dt_howtosend' => $request->documentdestruction_dt_howtosend[$key],
-                    'documentdestruction_dt_until' => $request->documentdestruction_dt_until[$key],
-                    'documentdestruction_dt_set' => $request->documentdestruction_dt_set[$key],
-                    'documentdestruction_dt_recipient' => $request->documentdestruction_dt_recipient[$key],
+                $dtId = $request->dt_id[$key] ?? null;
+
+                $data = [
+                    'documentexternal_hd_id' => $hd->documentexternal_hd_id,
+                    'documentdestruction_dt_receive' => $request->documentdestruction_dt_receive[$key] ?? null,
+                    'documentdestruction_dt_sentfrom' => $request->documentdestruction_dt_sentfrom[$key] ?? null,
+                    'documentdestruction_dt_department' => $request->documentdestruction_dt_department[$key] ?? null,
+                    'documentdestruction_dt_subject' => $request->documentdestruction_dt_subject[$key] ?? null,
+                    'documentdestruction_dt_howtosend' => $request->documentdestruction_dt_howtosend[$key] ?? null,
+                    'documentdestruction_dt_until' => $request->documentdestruction_dt_until[$key] ?? null,
+                    'documentdestruction_dt_set' => $request->documentdestruction_dt_set[$key] ?? null,
+                    'documentdestruction_dt_recipient' => $request->documentdestruction_dt_recipient[$key] ?? null,
                     'person_at' => Auth::user()->name,
                     'documentexternal_dt_flag' => true,
-                    'created_at' => Carbon::now(),   
-                ]);
+                ];
+
+                if (!empty($dtId)) {
+                    // ถ้ามี dt_id แสดงว่าเป็นข้อมูลเดิม ให้ทำการอัปเดต (Update)
+                    DocumentexternalDt::where('documentexternal_dt_id', $dtId)->update($data);
+                } else {
+                    // ถ้าไม่มี dt_id แสดงว่าเป็นแถวที่เพิ่มใหม่ ให้บันทึกเพิ่มเข้าไป (Insert)
+                    $data['created_at'] = Carbon::now();
+                    DocumentexternalDt::create($data);
+                }
             }
-            DB::commit();
-            return redirect()->route('document-external.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
-        }catch(\Exception $e){
-            Log::error($e->getMessage());
-            dd($e->getMessage());
-            return redirect()->route('document-external.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
         }
+
+        DB::commit();
+        return redirect()->route('document-external.index')->with('success', 'อัปเดตข้อมูลสำเร็จ');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        Log::error($e->getMessage());
+        return redirect()->back()->with('error', 'บันทึกข้อมูลไม่สำเร็จ: ' . $e->getMessage())->withInput();
     }
+}
 
     /**
      * Remove the specified resource from storage.
