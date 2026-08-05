@@ -177,7 +177,7 @@ class FinalInspection extends Controller
                 // "stickerId"      => 1988,
                 // );
                 // $res = $this->notify_message($params, $token);
-                $token = "7689108238:AAHXaHiXRgM1PmAWh28Pjb5KQ4MApKCjhgM";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
                 $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
                 $message = "📢 แจ้งเตือนเอกสารตรวจสอบขั้นตอนสุดท้าย" . "\n"
                     . "🔹 เลขที่ : ". $hd->productionopenjob_hd_docuno . "\n"
