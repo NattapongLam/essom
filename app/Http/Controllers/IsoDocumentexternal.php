@@ -118,8 +118,9 @@ class IsoDocumentexternal extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   public function update(Request $request, $id)
+public function update(Request $request, $id)
 {
+    dd($request->all());
     $request->validate([
         'listno' => ['required'],
         'ms_year_name' => ['required'],
@@ -132,7 +133,6 @@ class IsoDocumentexternal extends Controller
         $hd = DocumentexternalHd::where('documentexternal_hd_id', $id)->firstOrFail();
         $hd->update([
             'ms_year_name' => $request->ms_year_name,
-            // เพิ่มฟิลด์อื่นๆ ของ Header ตรงนี้ถ้ามี
         ]);
 
         // 2. วนลูปจัดการข้อมูลย่อย (Detail)
@@ -155,11 +155,14 @@ class IsoDocumentexternal extends Controller
                 ];
 
                 if (!empty($dtId)) {
-                    // ถ้ามี dt_id แสดงว่าเป็นข้อมูลเดิม ให้ทำการอัปเดต (Update)
+                    // ถ้ามี dt_id (ข้อมูลเก่า) ให้ทำการอัปเดต
                     DocumentexternalDt::where('documentexternal_dt_id', $dtId)->update($data);
                 } else {
-                    // ถ้าไม่มี dt_id แสดงว่าเป็นแถวที่เพิ่มใหม่ ให้บันทึกเพิ่มเข้าไป (Insert)
-                    $data['created_at'] = Carbon::now();
+                    // ถ้าไม่มี dt_id (แถวที่เพิ่มใหม่) ให้สร้างใหม่
+                    // เนื่องจากใน Model คุณกำหนด public $timestamps = false; 
+                    // ถ้าในตารางมีคอลัมน์ created_at สามารถยัดค่า Carbon::now() เพิ่มตรงนี้ได้ครับ
+                    $data['created_at'] = \Carbon\Carbon::now(); 
+                    
                     DocumentexternalDt::create($data);
                 }
             }
@@ -211,4 +214,47 @@ class IsoDocumentexternal extends Controller
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
     }
+    public function saveRow(Request $request, $id)
+{
+    try {
+        $dtId = $request->dt_id; // ถ้ามีค่าแสดงว่าอัปเดต, ถ้าไม่มีคือสร้างใหม่
+
+        $data = [
+            'documentexternal_hd_id' => $id,
+            'documentdestruction_dt_receive' => $request->documentdestruction_dt_receive,
+            'documentdestruction_dt_sentfrom' => $request->documentdestruction_dt_sentfrom,
+            'documentdestruction_dt_department' => $request->documentdestruction_dt_department,
+            'documentdestruction_dt_subject' => $request->documentdestruction_dt_subject,
+            'documentdestruction_dt_howtosend' => $request->documentdestruction_dt_howtosend,
+            'documentdestruction_dt_until' => $request->documentdestruction_dt_until,
+            'documentdestruction_dt_set' => $request->documentdestruction_dt_set,
+            'documentdestruction_dt_recipient' => $request->documentdestruction_dt_recipient,
+            'person_at' => Auth::user()->name,
+            'documentexternal_dt_flag' => true,
+        ];
+
+        if (!empty($dtId)) {
+            // อัปเดตแถวเดิม
+            DocumentexternalDt::where('documentexternal_dt_id', $dtId)->update($data);
+            $savedId = $dtId;
+        } else {
+            // สร้างแถวใหม่
+            $data['created_at'] = \Carbon\Carbon::now();
+            $newRecord = DocumentexternalDt::create($data);
+            $savedId = $newRecord->documentexternal_dt_id; // ส่ง ID กลับไปให้ Frontend ผูกกับแถว
+        }
+
+        return response()->json([
+            'status' => true, 
+            'dt_id' => $savedId,
+            'message' => 'บันทึกสำเร็จ'
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false, 
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
 }
