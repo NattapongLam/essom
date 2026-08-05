@@ -247,6 +247,7 @@ Route::group([
     Route::resource('/document-external' , App\Http\Controllers\IsoDocumentexternal::class);
     Route::post('/cancelExternalHd' , [App\Http\Controllers\IsoDocumentexternal::class , 'cancelExternalHd']);
     Route::post('/cancelExternalDt' , [App\Http\Controllers\IsoDocumentexternal::class , 'cancelExternalDt']);
+    Route::post('/document-external/save-row/{id}', [App\Http\Controllers\IsoDocumentexternal::class, 'saveRow'])->name('document-external.save-row');
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-referencedocuments']

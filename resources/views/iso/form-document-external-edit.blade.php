@@ -179,9 +179,9 @@
                 </div>
 
                 <div class="card-body p-4">   
-                    <form method="POST" action="{{ route('document-external.update', $hd->documentexternal_hd_id) }}" enctype="multipart/form-data">
+                    {{-- <form method="POST" action="{{ route('document-external.update', $hd->documentexternal_hd_id) }}" enctype="multipart/form-data">
                         @csrf      
-                        @method('PUT') 
+                        @method('PUT')  --}}
                         
                         <div class="row">
                             <div class="col-12 col-md-4 form-group">
@@ -221,103 +221,156 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table modern-table text-center w-100" id="destroyTable">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%">ลำดับ</th>
-                                        <th style="width: 10%">รับเอกสาร</th>
-                                        <th style="width: 10%">ส่งจาก</th>
-                                        <th style="width: 11%">แผนก/ถึง</th>
-                                        <th style="width: 22%">เรื่อง</th>
-                                        <th style="width: 10%">วิธีการส่ง</th>
-                                        <th style="width: 7%">จน.แผ่น</th>
-                                        <th style="width: 7%">ชุดเอกสาร</th>
-                                        <th style="width: 15%">ผู้รับ/หมายเหตุ</th>
-                                        <th style="width: 3%">ลบ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($dt as $index => $item)
-                                        <tr>
-                                            <td class="text-center font-weight-bold row-number" style="color: #64748b;">
-                                                {{ $index + 1 }}
-                                            </td>
-                                            <td>
-                                                <input type="hidden" name="listno[]" class="listno-hidden" value="{{ $index + 1 }}">
-                                                <input type="hidden" name="dt_id[]" value="{{ $item->documentexternal_dt_id }}">
-                                                <input type="text" class="form-control custom-form-control" placeholder="รับเอกสาร" name="documentdestruction_dt_receive[]" value="{{ $item->documentdestruction_dt_receive }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control custom-form-control" placeholder="ส่งจาก" name="documentdestruction_dt_sentfrom[]" value="{{ $item->documentdestruction_dt_sentfrom }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control custom-form-control" placeholder="แผนก/ถึง" name="documentdestruction_dt_department[]" value="{{ $item->documentdestruction_dt_department }}">
-                                            </td>
-                                            <td>
-                                                <textarea class="form-control custom-form-control" rows="1" placeholder="เรื่อง..." name="documentdestruction_dt_subject[]" style="resize: vertical; min-height: 38px;">{{ $item->documentdestruction_dt_subject }}</textarea>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control custom-form-control" placeholder="วิธีการส่ง" name="documentdestruction_dt_howtosend[]" value="{{ $item->documentdestruction_dt_howtosend }}">
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control custom-form-control text-center" placeholder="0" name="documentdestruction_dt_until[]" value="{{ $item->documentdestruction_dt_until }}">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control custom-form-control text-center" placeholder="1" name="documentdestruction_dt_set[]" value="{{ $item->documentdestruction_dt_set }}">
-                                            </td>
-                                            <td>
-                                                <textarea class="form-control custom-form-control" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;">{{ $item->documentdestruction_dt_recipient }}</textarea>
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn-row-delete" onclick="confirmDel('{{ $item->documentexternal_dt_id }}', this)" title="ลบแถวนี้จากระบบ">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>    
+    <table class="table modern-table text-center w-100" id="destroyTable">
+        <thead>
+            <tr>
+                <th style="width: 5%">ลำดับ</th>
+                <th style="width: 10%">รับเอกสาร</th>
+                <th style="width: 10%">ส่งจาก</th>
+                <th style="width: 11%">แผนก/ถึง</th>
+                <th style="width: 22%">เรื่อง</th>
+                <th style="width: 10%">วิธีการส่ง</th>
+                <th style="width: 7%">จน.แผ่น</th>
+                <th style="width: 7%">ชุดเอกสาร</th>
+                <th style="width: 15%">ผู้รับ/หมายเหตุ</th>
+                <th style="width: 3%">ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($dt as $index => $item)
+                <tr>
+                    <td class="text-center font-weight-bold row-number" style="color: #64748b;">
+                        {{ $index + 1 }}
+                    </td>
+                    <td>
+                        <input type="hidden" name="dt_id[]" class="dt-id" value="{{ $item->documentexternal_dt_id }}">
+                        <input type="text" class="form-control custom-form-control auto-save" placeholder="รับเอกสาร" name="documentdestruction_dt_receive[]" value="{{ $item->documentdestruction_dt_receive }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control custom-form-control auto-save" placeholder="ส่งจาก" name="documentdestruction_dt_sentfrom[]" value="{{ $item->documentdestruction_dt_sentfrom }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control custom-form-control auto-save" placeholder="แผนก/ถึง" name="documentdestruction_dt_department[]" value="{{ $item->documentdestruction_dt_department }}">
+                    </td>
+                    <td>
+                        <textarea class="form-control custom-form-control auto-save" rows="1" placeholder="เรื่อง..." name="documentdestruction_dt_subject[]" style="resize: vertical; min-height: 38px;">{{ $item->documentdestruction_dt_subject }}</textarea>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control custom-form-control auto-save" placeholder="วิธีการส่ง" name="documentdestruction_dt_howtosend[]" value="{{ $item->documentdestruction_dt_howtosend }}">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control custom-form-control text-center auto-save" placeholder="0" name="documentdestruction_dt_until[]" value="{{ $item->documentdestruction_dt_until }}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control custom-form-control text-center auto-save" placeholder="1" name="documentdestruction_dt_set[]" value="{{ $item->documentdestruction_dt_set }}">
+                    </td>
+                    <td>
+                        <textarea class="form-control custom-form-control auto-save" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;">{{ $item->documentdestruction_dt_recipient }}</textarea>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn-row-delete" onclick="confirmDel('{{ $item->documentexternal_dt_id }}', this)" title="ลบแถวนี้จากระบบ">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>    
                         
-                        <div class="row mt-4">
+                        {{-- <div class="row mt-4">
                             <div class="col-12 text-right">
                                 <button type="submit" class="btn btn-indigo-submit">
                                     <i class="fas fa-save mr-1"></i> อัปเดตข้อมูลทั้งหมด
                                 </button>
                             </div>
                         </div>
-                    </form>    
+                    </form>     --}}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-
 @push('scriptjs')
-<script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}"></script>
 <script>
-// ✅ ฟังก์ชันค้นหาข้อมูลในตารางแบบเรียลไทม์
-function filterTable() {
-    const input = document.getElementById("tableSearchInput");
-    const filter = input.value.toLowerCase();
-    const rows = document.querySelectorAll("#destroyTable tbody tr");
+// ✅ ฟังก์ชันบันทึกข้อมูลรายแถวอัตโนมัติเมื่อผู้ใช้พิมพ์เสร็จและคลิกออก (blur)
+$(document).on('change blur', '.auto-save', function() {
+    const row = $(this).closest('tr');
+    saveRowData(row);
+});
 
-    rows.forEach(row => {
-        let textContent = "";
-        row.querySelectorAll("input, textarea").forEach(inputElement => {
-            textContent += inputElement.value + " ";
-        });
-        
-        if (textContent.toLowerCase().indexOf(filter) > -1) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
+function saveRowData(row) {
+    const hdId = "{{ $hd->documentexternal_hd_id }}";
+    const dtId = row.find('.dt-id').val() || '';
+    const receive = row.find('input[name="documentdestruction_dt_receive[]"]').val();
+    const sentfrom = row.find('input[name="documentdestruction_dt_sentfrom[]"]').val();
+    const department = row.find('input[name="documentdestruction_dt_department[]"]').val();
+    const subject = row.find('textarea[name="documentdestruction_dt_subject[]"]').val();
+    const howtosend = row.find('input[name="documentdestruction_dt_howtosend[]"]').val();
+    const until = row.find('input[name="documentdestruction_dt_until[]"]').val();
+    const set = row.find('input[name="documentdestruction_dt_set[]"]').val();
+    const recipient = row.find('textarea[name="documentdestruction_dt_recipient[]"]').val();
+
+    // ทำเครื่องหมายว่ากำลังบันทึก (เปลี่ยนสีขอบช่องนิดหน่อยให้รู้ว่าระบบกำลังทำงาน)
+    row.find('.custom-form-control').css('border-color', '#fbbf24');
+
+    $.ajax({
+        url: `{{ url('/document-external/save-row') }}/${hdId}`,
+        type: "POST",
+        data: {
+            "_token": "{{ csrf_token() }}",
+            "dt_id": dtId,
+            "documentdestruction_dt_receive": receive,
+            "documentdestruction_dt_sentfrom": sentfrom,
+            "documentdestruction_dt_department": department,
+            "documentdestruction_dt_subject": subject,
+            "documentdestruction_dt_howtosend": howtosend,
+            "documentdestruction_dt_until": until,
+            "documentdestruction_dt_set": set,
+            "documentdestruction_dt_recipient": recipient
+        },
+        dataType: "json",
+        success: function(response) {
+            if (response.status) {
+                // คืนสีขอบช่องปกติ และแสดง Toast แจ้งเตือนว่าบันทึกแล้ว
+                row.find('.custom-form-control').css('border-color', '#10b981'); // สีเขียวชั่วคราว
+                setTimeout(() => {
+                    row.find('.custom-form-control').css('border-color', '');
+                }, 1500);
+
+                showToast('บันทึกข้อมูลเรียบร้อย', 'success');
+
+                if (!dtId && response.dt_id) {
+                    row.find('.dt-id').val(response.dt_id);
+                    row.find('.btn-row-delete').attr('onclick', `confirmDel('${response.dt_id}', this)`);
+                }
+            }
+        },
+        error: function(xhr) {
+            row.find('.custom-form-control').css('border-color', '#ef4444'); // สีแดงถ้าบันทึกไม่ผ่าน
+            showToast('บันทึกไม่สำเร็จ', 'error');
         }
     });
 }
 
-// ✅ ฟังก์ชันเพิ่มแถวใหม่ (ระหว่างแก้ไขข้อมูล)
+// ✅ ฟังก์ชันแสดง Toast แจ้งเตือนมุมจอแบบไม่กวนการทำงาน
+function showToast(message, iconType) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+    });
+    Toast.fire({
+        icon: iconType,
+        title: message
+    });
+}
+
+// ✅ ฟังก์ชันเพิ่มแถวใหม่
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");
     const rowCount = tableBody.querySelectorAll("tr").length + 1;
@@ -328,33 +381,32 @@ function addRow() {
             ${rowCount}
         </td>
         <td>
-            <input type="hidden" name="listno[]" class="listno-hidden" value="${rowCount}">
-            <input type="hidden" name="dt_id[]" value="">
-            <input type="text" class="form-control custom-form-control" placeholder="รับเอกสาร" name="documentdestruction_dt_receive[]">
+            <input type="hidden" name="dt_id[]" class="dt-id" value="">
+            <input type="text" class="form-control custom-form-control auto-save" placeholder="รับเอกสาร" name="documentdestruction_dt_receive[]">
         </td>
         <td>
-            <input type="text" class="form-control custom-form-control" placeholder="ส่งจาก" name="documentdestruction_dt_sentfrom[]">
+            <input type="text" class="form-control custom-form-control auto-save" placeholder="ส่งจาก" name="documentdestruction_dt_sentfrom[]">
         </td>
         <td>
-            <input type="text" class="form-control custom-form-control" placeholder="แผนก/ถึง" name="documentdestruction_dt_department[]">
+            <input type="text" class="form-control custom-form-control auto-save" placeholder="แผนก/ถึง" name="documentdestruction_dt_department[]">
         </td>
         <td>
-            <textarea class="form-control custom-form-control" rows="1" placeholder="เรื่อง..." name="documentdestruction_dt_subject[]" style="resize: vertical; min-height: 38px;"></textarea>
+            <textarea class="form-control custom-form-control auto-save" rows="1" placeholder="เรื่อง..." name="documentdestruction_dt_subject[]" style="resize: vertical; min-height: 38px;"></textarea>
         </td>
         <td>
-            <input type="text" class="form-control custom-form-control" placeholder="วิธีการส่ง" name="documentdestruction_dt_howtosend[]">
+            <input type="text" class="form-control custom-form-control auto-save" placeholder="วิธีการส่ง" name="documentdestruction_dt_howtosend[]">
         </td>
         <td>
-            <input type="number" class="form-control custom-form-control text-center" placeholder="0" name="documentdestruction_dt_until[]">
+            <input type="number" class="form-control custom-form-control text-center auto-save" placeholder="0" name="documentdestruction_dt_until[]">
         </td>
         <td>
-            <input type="text" class="form-control custom-form-control text-center" placeholder="1" name="documentdestruction_dt_set[]">
+            <input type="text" class="form-control custom-form-control text-center auto-save" placeholder="1" name="documentdestruction_dt_set[]">
         </td>
         <td>
-            <textarea class="form-control custom-form-control" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;"></textarea>
+            <textarea class="form-control custom-form-control auto-save" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;"></textarea>
         </td>
         <td class="text-center">
-            <button type="button" class="btn-row-delete" onclick="removeRow(this)" title="ลบแถวนี้">
+            <button type="button" class="btn-row-delete" onclick="confirmDel('', this)" title="ลบแถวนี้">
                 <i class="fas fa-trash-alt"></i>
             </button>
         </td>
@@ -362,34 +414,22 @@ function addRow() {
 
     tableBody.appendChild(row);
     updateRowNumbers();
-    
-    // เคลียร์ค่าช่องค้นหาหรืออัปเดตการแสดงผลเผื่อเปิดช่องค้นหาค้างไว้
-    filterTable();
 }
 
-// ✅ ฟังก์ชันลบแถว (สำหรับแถวที่เพิ่งเพิ่มใหม่ ยังไม่มีในฐานข้อมูล)
-function removeRow(button) {
-    const row = button.closest("tr");
-    row.remove();
-    updateRowNumbers();
-}
-
-// ✅ ฟังก์ชันจัดระเบียบเลขข้อในตาราง
+// ✅ ฟังก์ชันจัดระเบียบเลขข้อ
 function updateRowNumbers() {
     document.querySelectorAll("#destroyTable tbody tr").forEach((row, index) => {
         const number = index + 1;
         const rowNumDisplay = row.querySelector(".row-number");
         if(rowNumDisplay) rowNumDisplay.textContent = number;
-        
-        const hiddenInput = row.querySelector(".listno-hidden");
-        if(hiddenInput) hiddenInput.value = number;
     });
 }
 
-// ✅ ฟังก์ชันลบรายการย่อยแบบถาวร (สำหรับข้อมูลที่มีอยู่ใน DB แล้ว)
-confirmDel = (refid, button) => {      
+// ✅ ฟังก์ชันลบแถว
+function confirmDel(refid, button) { 
     if(!refid) {
-        removeRow(button);
+        $(button).closest("tr").remove();
+        updateRowNumbers();
         return;
     }
 
@@ -401,11 +441,7 @@ confirmDel = (refid, button) => {
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก',
         confirmButtonColor: '#4f46e5',
-        cancelButtonColor: '#ef4444',
-        customClass: {
-            confirmButton: 'btn btn-primary px-4 mx-2',
-            cancelButton: 'btn btn-danger px-4 mx-2'
-        }
+        cancelButtonColor: '#ef4444'
     }).then(function(result) {
         if (result.value) {
             $.ajax({
@@ -418,23 +454,10 @@ confirmDel = (refid, button) => {
                 dataType: "json",
                 success: function(data) {
                     if (data.status == true) {
-                        Swal.fire({
-                            title: 'สำเร็จ',
-                            text: 'ลบรายการเอกสารย่อยเรียบร้อยแล้ว',
-                            icon: 'success',
-                            confirmButtonColor: '#4f46e5'
-                        }).then(function() {
-                            const row = button.closest("tr");
-                            row.remove();
-                            updateRowNumbers();
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'ไม่สำเร็จ',
-                            text: 'ลบข้อมูลไม่สำเร็จกรุณาลองใหม่อีกครั้ง',
-                            icon: 'error',
-                            confirmButtonColor: '#4f46e5'
-                        });
+                        const row = button.closest("tr");
+                        row.remove();
+                        updateRowNumbers();
+                        showToast('ลบข้อมูลสำเร็จ', 'success');
                     }
                 }
             });
