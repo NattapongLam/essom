@@ -195,7 +195,46 @@ class CarReport extends Controller
     public function update(Request $request, $id)
     {
         $hd = IsoCar::where('iso_car_id',$id)->first();
-        try{
+        if($request->docall == "Edit"){
+            try{
+            DB::beginTransaction();
+             $up = [
+                    'iso_status_id' => 7,
+                    'updated_at' => Carbon::now(),
+                    'cause_remark' => $request->cause_remark,
+                    'prevent_remark' => $request->prevent_remark,
+                    'follow_remark' => $request->follow_remark,
+                    'iso_car_duedate' => $request->iso_car_duedate,
+                    'iso_car_by' => $request->iso_car_by,
+                    'iso_car_bydate' => $request->iso_car_bydate,
+                    'iso_car_by1' => $request->iso_car_by1,
+                    'iso_car_by2' => $request->iso_car_by2,
+                    'iso_car_by' => $request->iso_car_by,
+                    'iso_car_bydate' => $request->iso_car_bydate
+                ];
+                if ($request->hasFile('iso_car_filename2')) {
+                    $up['iso_car_filename2'] = $request->file('iso_car_filename2')->storeAs('img/car/', "CAR_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('iso_car_filename2')->extension());
+                }
+                IsoCar::where('iso_car_id',$id)->update($up);
+                $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
+                $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
+                $message = "📢 แจ้งเตือนบันทึกแก้ไข/ป้องกันเอกสาร CAR" . "\n"
+                    . "🔹 เลขที่ : ". $hd->iso_car_docuno . "\n"
+                    . "📅 วันที่แก้ไข/ป้องกัน : " . Carbon::now()->format('d/m/Y') . "\n"
+                    . "👤 ผู้แก้ไข/ป้องกัน : " . Auth::user()->name . "\n";
+        
+                // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
+                $this->notifyTelegram($message, $token, $chatId);
+                DB::commit();
+            return redirect()->route('car-report.edit',$id)->with('success', 'บันทึกข้อมูลสำเร็จ');
+        }catch(\Exception $e){
+            Log::error($e->getMessage());
+            dd($e->getMessage());
+            return redirect()->route('car-report.edit',$id)->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+        }
+
+        }else{
+             try{
             DB::beginTransaction();
             if($hd->iso_status_id == 1){
                 $up = [
@@ -391,6 +430,8 @@ class CarReport extends Controller
             dd($e->getMessage());
             return redirect()->route('car-report.edit',$id)->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
         }
+        }
+       
     }
 
     /**
