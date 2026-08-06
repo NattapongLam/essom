@@ -417,7 +417,7 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-3 mb-3 mb-md-0">
-                                <label for="iso_car_bydate">วันที่ดำเนินการเสร็จสิ้น :</label>
+                                <label for="iso_car_bydate">วันที่ :</label>
                                 <input type="date" class="form-control" value="{{$hd->iso_car_bydate}}" name="iso_car_bydate">
                             </div>
                             <div class="col-12 col-md-3">
@@ -428,6 +428,15 @@
                         
                         @if($hd->iso_status_id == 1)
                             <div class="row mt-4">
+                                <div class="col-12 text-right">
+                                    <button type="submit" class="btn btn-action-submit toastrDefaultSuccess">
+                                        <i class="fas fa-save mr-1"></i> บันทึกการแก้ไข/ป้องกัน
+                                    </button>
+                                </div>
+                            </div>
+                        @else
+                            <div class="row mt-4">
+                                <input type="hidden" name="docall" value="Edit">
                                 <div class="col-12 text-right">
                                     <button type="submit" class="btn btn-action-submit toastrDefaultSuccess">
                                         <i class="fas fa-save mr-1"></i> บันทึกการแก้ไข/ป้องกัน
