@@ -175,10 +175,10 @@ public function update(Request $request, $id)
 }
 
     public function destroy($id)
-    {
-        $record = DB::table('assessrisk_swot')->where('id',$id)->first();
-        $record->delete();
+{
+    // Delete directly using the query builder
+    DB::table('assessrisk_swot')->where('id', $id)->delete();
 
-        return redirect()->route('assessrisk-swot.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
-    }
+    return redirect()->route('assessrisk-swot.index')->with('success', 'ลบข้อมูลเรียบร้อยแล้ว');
+}
 }
