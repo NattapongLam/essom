@@ -252,6 +252,24 @@ Swal.fire({
                                 </option>
                             @endforeach
                         </select>
+                        <select class="form-control receiver-select" name="resp_person1[]" disabled>
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                 <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ (isset($act['resp_person1']) && $act['resp_person1'] == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <br>
+                          
+                        @if(!empty($act['file_path']))
+                            <div class="old-file-info">
+                                <a href="{{ asset($act['file_path']) }}" target="_blank" style="color: #4f46e5; text-decoration: none;">
+                                    <i class="fas fa-paperclip"></i> ดูไฟล์เดิม
+                                </a>
+                            </div>
+                        @endif
                     </td>
                     <td><input type="text" name="previous[]" value="{{ old('previous.'.$i, $act['previous'] ?? '') }}" readonly></td>
                     <td><input type="text" name="plan[]" value="{{ old('plan.'.$i, $act['plan'] ?? '') }}" readonly></td>

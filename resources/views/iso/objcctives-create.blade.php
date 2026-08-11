@@ -271,6 +271,12 @@ Swal.fire({
                                  <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
+                        <select class="form-control receiver-select" name="resp_person1[]">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
                         <br>
                         <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
                     </td>
@@ -418,6 +424,12 @@ document.addEventListener("DOMContentLoaded", function() {
             </td>
             <td>
                 <select class="form-control receiver-select" name="resp_person[]">
+                    <option value=""></option>
+                    @foreach ($emp as $item)
+                         <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                    @endforeach
+                </select>
+                <select class="form-control receiver-select" name="resp_person1[]">
                     <option value=""></option>
                     @foreach ($emp as $item)
                          <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>

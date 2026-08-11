@@ -240,6 +240,10 @@
                                             <a href="{{ route('document-destruction.show', $item->documentdestruction_hd_id) }}" class="btn-action-edit" title="อนุมัติเอกสาร">
                                                 <i class="fas fa-edit"></i> อนุมัติ
                                             </a>
+                                        @elseif($item->approved_by == null)
+                                            <a href="{{ route('document-destruction.show', $item->documentdestruction_hd_id) }}" class="btn-action-edit" title="อนุมัติเอกสาร">
+                                                <i class="fas fa-edit"></i> รออนุมัติ
+                                            </a>
                                         @else
                                             <span class="status-badge badge-approve-pending">รออนุมัติ</span>
                                         @endif

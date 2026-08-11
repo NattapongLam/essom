@@ -113,7 +113,7 @@ class NcrReport extends Controller
         ]);
         $hd = [
             'iso_ncr_observer' => $request->iso_ncr_observer,
-            'iso_ncr_docuno' => $docs,
+            'iso_ncr_docuno' => $request->iso_ncr_docuno,
             'iso_ncr_jobnumber' => $request->iso_ncr_jobnumber,
             'iso_ncr_productname' => $request->iso_ncr_productname,
             'iso_ncr_productcode' => $request->iso_ncr_productcode,
@@ -126,7 +126,7 @@ class NcrReport extends Controller
             'reported_date' => $request->reported_date,
             'created_at' => Carbon::now(),
             'created_person' => Auth::user()->name,
-            'iso_ncr_number' => $docs_number,
+            'iso_ncr_number' => 0,
             'iso_status_id' => 1,
             'iso_ncr_department' => $request->iso_ncr_department,
             'iso_ncr_note' => $request->iso_ncr_note,
