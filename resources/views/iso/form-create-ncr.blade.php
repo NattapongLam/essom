@@ -131,7 +131,7 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="iso_ncr_docuno" class="modern-label">เลขที่เอกสาร</label>
-                                <input type="text" class="form-control form-control-indigo" name="iso_ncr_docuno" value="{{$docs}}" readonly>
+                                <input type="text" class="form-control form-control-indigo" name="iso_ncr_docuno" value="{{$docs}}">
                                 <input type="hidden" name="iso_ncr_number" value="{{$docs_number}}">
                             </div>
                             <div class="col-12 col-md-3">

@@ -299,6 +299,15 @@ Swal.fire({
                                 </option>
                             @endforeach
                         </select>
+                         <select class="form-control receiver-select" name="resp_person1[]">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}"
+                                    {{ (isset($act['resp_person1']) && $act['resp_person1'] == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                    {{ $item->ms_employee_fullname }}
+                                </option>
+                            @endforeach
+                        </select>
                         <br>
                         <div class="inner-field-label">ไฟล์แนบ :</div>
                         <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
@@ -341,6 +350,12 @@ Swal.fire({
                             <option value=""></option>
                             @foreach ($emp as $item)
                                  <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
+                          <select class="form-control receiver-select" name="resp_person1[]">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                             @endforeach
                         </select>
                         <br>
@@ -518,6 +533,12 @@ document.addEventListener("DOMContentLoaded", function() {
                          <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
                     @endforeach
                 </select>
+                 <select class="form-control receiver-select" name="resp_person1[]">
+                            <option value=""></option>
+                            @foreach ($emp as $item)
+                                <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                            @endforeach
+                        </select>
                 <br>
                 <div class="inner-field-label">ไฟล์แนบ :</div>
                 <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
