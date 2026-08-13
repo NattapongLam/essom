@@ -62,6 +62,7 @@ thead th {
     top: 0;
     background-color: #f0f0f0;
     z-index: 2;
+    user-select: none;
 }
 th, td {
     border: 1px solid #ddd;
@@ -70,8 +71,12 @@ th, td {
     vertical-align: middle;
     word-wrap: break-word;
 }
+/* Soft transition สำหรับแถวตารางตอนค้นหาหรือเรียง A-Z */
+#activityTable tbody tr {
+    transition: transform 0.3s ease, opacity 0.3s ease-in-out;
+}
 tr:nth-child(even) { background-color: #fafafa; }
-tr:hover { background-color: #e0f2fe; transition: 0.2s; }
+tr:hover { background-color: #e0f2fe; transition: background-color 0.2s; }
 td a { color: #1e40af; text-decoration: none; font-weight: 500; }
 td a:hover { text-decoration: underline; }
 button.primary, button.edit, button.delete { transition: all 0.2s ease; }
@@ -150,10 +155,9 @@ input:focus, textarea:focus {
     <button id="printBtn" class="dt-button">print</button>
     <button id="exportExcelBtn" class="dt-button">excel</button>
 
-   <table id="activityTable" width="100%" border="1" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
-    <thead>
-        <tr>
-                {{-- <th>No</th> --}}
+    <table id="activityTable" width="100%" border="1" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
+        <thead>
+            <tr>
                 <th>Item</th>
                 <th>Email Account</th>
                 <th>Password</th>
@@ -169,7 +173,6 @@ input:focus, textarea:focus {
         <tbody>
             @forelse($records as $record)
             <tr>
-                {{-- <td>{{ $record->id }}</td> --}}
                 <td>{{ $record->item }}</td>
                 <td>{{ $record->email_account }}</td>
                 <td>{{ $record->password }}</td>
@@ -194,7 +197,7 @@ input:focus, textarea:focus {
             </tr>
             @empty
             <tr>
-                <td colspan="12" style="text-align:center;">ไม่มีข้อมูล</td>
+                <td colspan="10" style="text-align:center;">ไม่มีข้อมูล</td>
             </tr>
             @endforelse
         </tbody>
@@ -203,6 +206,105 @@ input:focus, textarea:focus {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
+let sortDirections = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const rows = document.querySelectorAll('#activityTable tbody tr');
+
+    // ✅ ระบบค้นหาแบบ Soft Transition (Fade In / Fade Out)
+    searchInput.addEventListener('input', function() {
+        const filter = this.value.toLowerCase().trim();
+        rows.forEach(row => {
+            const match = [...row.cells].some(cell => cell.innerText.toLowerCase().includes(filter));
+            if (match) {
+                row.style.display = "";
+                setTimeout(() => { row.style.opacity = "1"; }, 10);
+            } else {
+                row.style.opacity = "0";
+                setTimeout(() => {
+                    if (row.style.opacity === "0") {
+                        row.style.display = "none";
+                    }
+                }, 300);
+            }
+        });
+    });
+
+    // ✅ ตั้งค่าให้คลิกหัวตาราง (thead) เพื่อเรียง A-Z / Z-A
+    const headers = document.querySelectorAll("#activityTable thead th");
+    headers.forEach((th, index) => {
+        // ยกเว้นคอลัมน์สุดท้าย (ปุ่มลบ/แก้ไข)
+        if (index < headers.length - 1) {
+            th.style.cursor = "pointer";
+            th.title = "คลิกเพื่อเรียงข้อมูล A-Z / Z-A";
+            th.innerHTML += ` <i class="fas fa-sort text-muted" style="font-size: 0.75rem; opacity: 0.5;"></i>`;
+
+            th.addEventListener("click", function() {
+                sortTable(index, th);
+            });
+        }
+    });
+});
+
+// ✅ ฟังก์ชันเรียงลำดับข้อมูล A-Z พร้อม Soft Transition
+function sortTable(columnIndex, headerEl) {
+    const table = document.getElementById("activityTable");
+    const tbody = table.querySelector("tbody");
+    const rowsArray = Array.from(tbody.querySelectorAll("tr"));
+    
+    let direction = sortDirections[columnIndex] === "asc" ? "desc" : "asc";
+    sortDirections[columnIndex] = direction;
+
+    // รีเซ็ตไอคอนหัวตารางอื่น ๆ
+    document.querySelectorAll("#activityTable thead th i.fas").forEach(icon => {
+        icon.className = "fas fa-sort text-muted";
+        icon.style.opacity = "0.5";
+    });
+
+    // เปลี่ยนไอคอนหัวตารางที่กำลังเลือก
+    const currentIcon = headerEl.querySelector("i.fas");
+    if (currentIcon) {
+        currentIcon.className = direction === "asc" ? "fas fa-sort-up text-primary" : "fas fa-sort-down text-primary";
+        currentIcon.style.opacity = "1";
+    }
+
+    // Fade out แถวก่อนสลับตำแหน่ง
+    rowsArray.forEach(row => {
+        row.style.opacity = "0";
+        row.style.transform = "translateY(5px)";
+    });
+
+    setTimeout(() => {
+        rowsArray.sort((rowA, rowB) => {
+            const cellA = rowA.querySelectorAll("td")[columnIndex].innerText.trim();
+            const cellB = rowB.querySelectorAll("td")[columnIndex].innerText.trim();
+
+            const numA = parseFloat(cellA);
+            const numB = parseFloat(cellB);
+
+            if (!isNaN(numA) && !isNaN(numB)) {
+                return direction === "asc" ? numA - numB : numB - numA;
+            }
+
+            return direction === "asc" 
+                ? cellA.localeCompare(cellB, 'th') 
+                : cellB.localeCompare(cellA, 'th');
+        });
+
+        rowsArray.forEach(row => tbody.appendChild(row));
+
+        // Fade in แถวกลับเข้ามาพร้อมอนิเมชันเลื่อนขึ้นนุ่มนวล
+        rowsArray.forEach((row, idx) => {
+            setTimeout(() => {
+                row.style.opacity = "1";
+                row.style.transform = "translateY(0)";
+            }, idx * 25);
+        });
+    }, 250);
+}
+
+// 🖨️ ปุ่ม Print
 document.getElementById('printBtn').addEventListener('click', function() {
     const table = document.getElementById('activityTable');
     const actionColIndex = table.rows[0].cells.length - 1;
@@ -220,6 +322,7 @@ document.getElementById('printBtn').addEventListener('click', function() {
     hiddenCells.forEach(cell => cell.style.display = '');
 });
 
+// 📊 ปุ่ม Export Excel
 document.getElementById('exportExcelBtn').addEventListener('click', function() {
     const table = document.getElementById('activityTable');
     const rows = table.querySelectorAll('tr');
@@ -249,9 +352,7 @@ document.getElementById('exportExcelBtn').addEventListener('click', function() {
                 alignment: { vertical: "center", horizontal: "center", wrapText: true }
             };
             if (R === 0) {
-                ws[cell_address].s.fill = {
-                    fgColor: {rgb: "DCE6F1"} 
-                };
+                ws[cell_address].s.fill = { fgColor: {rgb: "DCE6F1"} };
                 ws[cell_address].s.font = { bold: true, color: { rgb: "000000" } };
             }
         }
@@ -265,19 +366,6 @@ document.getElementById('exportExcelBtn').addEventListener('click', function() {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "EmailRegistry");
     XLSX.writeFile(wb, "Email_Registry.xlsx");
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const rows = document.querySelectorAll('#activityTable tbody tr');
-
-    searchInput.addEventListener('input', function() {
-        const filter = this.value.toLowerCase();
-        rows.forEach(row => {
-            const match = [...row.cells].some(cell => cell.innerText.toLowerCase().includes(filter));
-            row.style.display = match ? '' : 'none';
-        });
-    });
 });
 </script>
 @endsection

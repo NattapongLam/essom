@@ -158,6 +158,10 @@
         color: #b91c1c;
         transform: scale(1.05);
     }
+    /* Animation สำหรับการเรียงลำดับแถว */
+#destroyTable tbody tr {
+    transition: transform 0.3s ease, opacity 0.3s ease-in-out;
+}
 </style>
 
 <div class="container-fluid py-4">
@@ -295,6 +299,102 @@
 @push('scriptjs')
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}"></script>
 <script>
+// ✅ กำหนดสถานะการเรียงลำดับของแต่ละคอลัมน์ (เก็บสถานะสลับ A-Z หรือ Z-A)
+let sortDirections = {};
+
+// ✅ ผูก Event คลิกที่หัวตาราง (thead th) เพื่อเรียงข้อมูล A-Z / Z-A
+document.addEventListener("DOMContentLoaded", function() {
+    const headers = document.querySelectorAll("#destroyTable thead th");
+    headers.forEach((th, index) => {
+        // ยกเว้นคอลัมน์แรก (ลำดับ) และคอลัมน์สุดท้าย (ปุ่มลบ)
+        if (index > 0 && index < headers.length - 1) {
+            th.style.cursor = "pointer";
+            th.title = "คลิกเพื่อเรียงข้อมูล A-Z / Z-A";
+            
+            // เพิ่มไอคอนบอกสถานะการเรียง
+            th.innerHTML += ` <i class="fas fa-sort text-muted" style="font-size: 0.75rem; opacity: 0.5;"></i>`;
+
+            th.addEventListener("click", function() {
+                sortTable(index, th);
+            });
+        }
+    });
+});
+
+// ✅ ฟังก์ชันเรียงข้อมูลพร้อมอนิเมชัน Soft Transition
+function sortTable(columnIndex, headerEl) {
+    const table = document.getElementById("destroyTable");
+    const tbody = table.querySelector("tbody");
+    const rowsArray = Array.from(tbody.querySelectorAll("tr"));
+    
+    // สลับทิศทางการเรียง (สลับระหว่าง asc และ desc)
+    let direction = sortDirections[columnIndex] === "asc" ? "desc" : "asc";
+    sortDirections[columnIndex] = direction;
+
+    // รีเซ็ตไอคอนหัวตารางอื่น ๆ ให้เป็นค่าเริ่มต้น
+    document.querySelectorAll("#destroyTable thead th i.fas").forEach(icon => {
+        icon.className = "fas fa-sort text-muted";
+        icon.style.opacity = "0.5";
+    });
+
+    // เปลี่ยนไอคอนของหัวตารางที่กำลังกดเรียง
+    const currentIcon = headerEl.querySelector("i.fas");
+    currentIcon.className = direction === "asc" ? "fas fa-sort-up text-indigo" : "fas fa-sort-down text-indigo";
+    currentIcon.style.opacity = "1";
+
+    // Soft Fade Out แถวทั้งหมดก่อนสลับตำแหน่ง
+    rowsArray.forEach(row => {
+        row.style.opacity = "0";
+        row.style.transform = "translateY(5px)";
+    });
+
+    setTimeout(() => {
+        // จัดเรียงข้อมูลใน Array
+        rowsArray.sort((rowA, rowB) => {
+            const cellA = getCellText(rowA, columnIndex);
+            const cellB = getCellText(rowB, columnIndex);
+
+            // เช็คว่าเป็นตัวเลขหรือไม่ เพื่อให้เรียงตามค่าทางคณิตศาสตร์ได้ถูกต้อง
+            const numA = parseFloat(cellA);
+            const numB = parseFloat(cellB);
+
+            if (!isNaN(numA) && !isNaN(numB)) {
+                return direction === "asc" ? numA - numB : numB - numA;
+            }
+
+            // ถ้าเป็นข้อความปกติ เรียงแบบ A-Z / ก-ฮ
+            return direction === "asc" 
+                ? cellA.localeCompare(cellB, 'th') 
+                : cellB.localeCompare(cellA, 'th');
+        });
+
+        // นำแถวที่เรียงแล้วใส่กลับเข้าไปใน tbody
+        rowsArray.forEach(row => tbody.appendChild(row));
+
+        // อัปเดตเลขลำดับหน้าตารางใหม่
+        updateRowNumbers();
+
+        // Soft Fade In แถวกลับเข้ามาพร้อมอนิเมชันเลื่อนขึ้น
+        rowsArray.forEach((row, idx) => {
+            setTimeout(() => {
+                row.style.opacity = "1";
+                row.style.transform = "translateY(0)";
+            }, idx * 30); // ไล่เฟดทีละแถวแบบนุ่มนวล
+        });
+    }, 250);
+}
+
+// ✅ ดึงข้อความจาก Cell (รองรับทั้ง Text, Input และ Textarea)
+function getCellText(row, columnIndex) {
+    const cell = row.querySelectorAll("td")[columnIndex];
+    if (!cell) return "";
+    const inputEl = cell.querySelector("input, textarea");
+    if (inputEl) {
+        return inputEl.value.trim();
+    }
+    return cell.textContent.trim();
+}
+
 // ✅ ฟังก์ชันบันทึกข้อมูลรายแถวอัตโนมัติเมื่อผู้ใช้พิมพ์เสร็จและคลิกออก (blur)
 $(document).on('change blur', '.auto-save', function() {
     const row = $(this).closest('tr');
@@ -313,7 +413,6 @@ function saveRowData(row) {
     const set = row.find('input[name="documentdestruction_dt_set[]"]').val();
     const recipient = row.find('textarea[name="documentdestruction_dt_recipient[]"]').val();
 
-    // ทำเครื่องหมายว่ากำลังบันทึก (เปลี่ยนสีขอบช่องนิดหน่อยให้รู้ว่าระบบกำลังทำงาน)
     row.find('.custom-form-control').css('border-color', '#fbbf24');
 
     $.ajax({
@@ -334,8 +433,7 @@ function saveRowData(row) {
         dataType: "json",
         success: function(response) {
             if (response.status) {
-                // คืนสีขอบช่องปกติ และแสดง Toast แจ้งเตือนว่าบันทึกแล้ว
-                row.find('.custom-form-control').css('border-color', '#10b981'); // สีเขียวชั่วคราว
+                row.find('.custom-form-control').css('border-color', '#10b981');
                 setTimeout(() => {
                     row.find('.custom-form-control').css('border-color', '');
                 }, 1500);
@@ -349,13 +447,13 @@ function saveRowData(row) {
             }
         },
         error: function(xhr) {
-            row.find('.custom-form-control').css('border-color', '#ef4444'); // สีแดงถ้าบันทึกไม่ผ่าน
+            row.find('.custom-form-control').css('border-color', '#ef4444');
             showToast('บันทึกไม่สำเร็จ', 'error');
         }
     });
 }
 
-// ✅ ฟังก์ชันแสดง Toast แจ้งเตือนมุมจอแบบไม่กวนการทำงาน
+// ✅ ฟังก์ชันแสดง Toast แจ้งเตือนมุมจอ
 function showToast(message, iconType) {
     const Toast = Swal.mixin({
         toast: true,
@@ -376,6 +474,8 @@ function addRow() {
     const rowCount = tableBody.querySelectorAll("tr").length + 1;
 
     const row = document.createElement("tr");
+    row.style.opacity = "0";
+    row.style.transform = "translateY(-10px)";
     row.innerHTML = `
         <td class="text-center font-weight-bold row-number" style="color: #64748b;">
             ${rowCount}
@@ -414,6 +514,12 @@ function addRow() {
 
     tableBody.appendChild(row);
     updateRowNumbers();
+
+    // เล่นเอฟเฟกต์เฟดอินตอนเพิ่มแถวใหม่
+    setTimeout(() => {
+        row.style.opacity = "1";
+        row.style.transform = "translateY(0)";
+    }, 10);
 }
 
 // ✅ ฟังก์ชันจัดระเบียบเลขข้อ
@@ -428,8 +534,12 @@ function updateRowNumbers() {
 // ✅ ฟังก์ชันลบแถว
 function confirmDel(refid, button) { 
     if(!refid) {
-        $(button).closest("tr").remove();
-        updateRowNumbers();
+        const row = $(button).closest("tr");
+        row.css({opacity: 0, transform: 'scale(0.95)'});
+        setTimeout(() => {
+            row.remove();
+            updateRowNumbers();
+        }, 300);
         return;
     }
 
@@ -454,15 +564,57 @@ function confirmDel(refid, button) {
                 dataType: "json",
                 success: function(data) {
                     if (data.status == true) {
-                        const row = button.closest("tr");
-                        row.remove();
-                        updateRowNumbers();
-                        showToast('ลบข้อมูลสำเร็จ', 'success');
+                        const row = $(button).closest("tr");
+                        row.css({opacity: 0, transform: 'scale(0.95)'});
+                        setTimeout(() => {
+                            row.remove();
+                            updateRowNumbers();
+                            showToast('ลบข้อมูลสำเร็จ', 'success');
+                        }, 300);
                     }
                 }
             });
         }
     });
 }
+
+// ✅ ฟังก์ชันค้นหาข้อมูลแบบ Soft Transition (Fade In / Fade Out)
+function filterTable() {
+    const input = document.getElementById('tableSearchInput');
+    const filter = input.value.toLowerCase().trim();
+    const rows = document.querySelectorAll("#destroyTable tbody tr");
+
+    rows.forEach(row => {
+        let found = false;
+        const tds = row.querySelectorAll('td');
+
+        for (let j = 0; j < tds.length - 1; j++) {
+            const cell = tds[j];
+            if (cell) {
+                const textValue = cell.textContent || cell.innerText;
+                const inputEl = cell.querySelector('input, textarea');
+                const inputVal = inputEl ? inputEl.value : '';
+
+                if (textValue.toLowerCase().includes(filter) || inputVal.toLowerCase().includes(filter)) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if (found) {
+            row.style.display = "";
+            setTimeout(() => { row.style.opacity = "1"; }, 10);
+        } else {
+            row.style.opacity = "0";
+            setTimeout(() => {
+                if (row.style.opacity === "0") {
+                    row.style.display = "none";
+                }
+            }, 300);
+        }
+    });
+}
 </script>
+
 @endpush
