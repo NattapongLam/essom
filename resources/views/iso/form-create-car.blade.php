@@ -213,7 +213,7 @@
                         <div class="row form-group-row">
                             <div class="col-12 col-md-3 mb-3 mb-md-0">
                                 <label for="iso_car_docuno">CAR No :</label>
-                                <input class="form-control font-weight-bold" name="iso_car_docuno" value="{{$docs}}" readonly style="background-color: #f8fafc; color: #4f46e5;">
+                                <input class="form-control font-weight-bold" name="iso_car_docuno" value="{{$docs}}" style="background-color: #f8fafc; color: #4f46e5;">
                                 <input type="hidden" name="iso_car_number" value="{{$docs_number}}">
                             </div>
                             <div class="col-12 col-md-3 mb-3 mb-md-0">
