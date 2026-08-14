@@ -44,9 +44,61 @@
           <div class="dropdown-divider"></div>
           <a href="{{ route('notifications.index') }}" class="dropdown-item dropdown-footer">ดูการแจ้งเตือนทั้งหมด</a>
         </div>
+      </li>
+      <!-- ปุ่มเปลี่ยนรหัสผ่าน -->
+      <li class="nav-item">
+        <a class="nav-link text-secondary" data-toggle="modal" data-target="#changePasswordModal" href="#" title="เปลี่ยนรหัสผ่าน" style="font-size: 1.1rem;">
+          <i class="fas fa-key"></i>
+        </a>
       </li>          
     </ul>
 </nav>
+<!-- Modal เปลี่ยนรหัสผ่าน -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="form-change-password" action="{{ route('password.update') }}" method="POST">
+        @csrf
+        @method('PUT') <!-- หรือเปลี่ยนเป็น POST ตาม Route ที่คุณตั้งไว้ -->
+        
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordModalLabel">เปลี่ยนรหัสผ่าน</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <div class="modal-body">
+          <!-- แสดงข้อความแจ้งเตือน Error (ถ้ามี) -->
+          <div id="password-error-alert" class="alert alert-danger d-none"></div>
+          
+          <!-- รหัสผ่านปัจจุบัน -->
+          <div class="form-group">
+            <label for="current_password">รหัสผ่านปัจจุบัน</label>
+            <input type="password" class="form-control" id="current_password" name="current_password" required>
+          </div>
+
+          <!-- รหัสผ่านใหม่ -->
+          <div class="form-group">
+            <label for="password">รหัสผ่านใหม่</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+
+          <!-- ยืนยันรหัสผ่านใหม่ -->
+          <div class="form-group">
+            <label for="password_confirmation">ยืนยันรหัสผ่านใหม่</label>
+            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-password">บันทึกรหัสผ่าน</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @push('scriptjs')
 <script>
 $(document).ready(function() {
@@ -104,6 +156,56 @@ $(document).ready(function() {
 
     // รีเฟรชข้อมูลทุกๆ 60 วินาที
     setInterval(loadNotifications, 60000);
+});
+// Script สำหรับจัดการฟอร์มเปลี่ยนรหัสผ่าน
+$('#form-change-password').on('submit', function(e) {
+    e.preventDefault();
+    
+    let form = $(this);
+    let submitBtn = $('#btn-save-password');
+    let errorAlert = $('#password-error-alert');
+    
+    submitBtn.prop('disabled', true).text('กำลังบันทึก...');
+    errorAlert.addClass('d-none').html('');
+
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: form.serialize(),
+        success: function(response) {
+            submitBtn.prop('disabled', false).text('บันทึกรหัสผ่าน');
+            $('#changePasswordModal').modal('hide');
+            form[0].reset();
+            
+            // แจ้งเตือนเมื่อสำเร็จ (แนะนำให้ใช้ SweetAlert2 ถ้ามีในโปรเจกต์)
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: 'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                alert('เปลี่ยนรหัสผ่านเรียบร้อยแล้ว');
+            }
+        },
+        error: function(xhr) {
+            submitBtn.prop('disabled', false).text('บันทึกรหัสผ่าน');
+            let errors = xhr.responseJSON.errors;
+            let errorMessage = '';
+            
+            if (errors) {
+                $.each(errors, function(key, value) {
+                    errorMessage += value[0] + '<br>';
+                });
+            } else {
+                errorMessage = xhr.responseJSON.message || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง';
+            }
+            
+            errorAlert.html(errorMessage).removeClass('d-none');
+        }
+    });
 });
 </script>
 @endpush
