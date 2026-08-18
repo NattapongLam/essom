@@ -28,6 +28,8 @@ protected $fillable = [
     'approved_date',
     'acknowledged_by',
     'acknowledged_date',
+    'approved_remark',
+    'approved_status'
 ];
 
 protected $casts = [

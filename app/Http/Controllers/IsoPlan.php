@@ -57,6 +57,7 @@ class IsoPlan extends Controller
             'approved_date' => $request->approved_date,
             'acknowledged_by' => $request->acknowledged_by,
             'acknowledged_date' => $request->acknowledged_date,
+            'approved_status' => 'N'
         ]);
 
         return redirect()->route('iso-plan.index')
@@ -104,6 +105,7 @@ class IsoPlan extends Controller
     if (isset($request->approved_by)) {
         $plan->approved_by = $request->approved_by;
         $plan->approved_date = $request->approved_date;
+        $plan->approved_status = 'Y';
     }
 
     if (isset($request->acknowledged_by)) {
