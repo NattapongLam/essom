@@ -69,6 +69,7 @@ class IsoObjcctives extends Controller
             Objective::create([
                 'section'           => $request->section[0] ?? null,
                 'period'            => $request->period[0] ?? null,
+                'docutype'          => $request->docutype[0] ?? null,
                 'activity_list'     => $activities, 
                 'prepared_by'       => $request->prepared_by,
                 'prepared_date'     => $request->prepared_date,
@@ -80,6 +81,7 @@ class IsoObjcctives extends Controller
                 'acknowledged_date' => $request->acknowledged_date,
                 'approved_by'       => $request->approved_by,
                 'approved_date'     => $request->approved_date,
+                'approved_status'   => 'N'
             ]);
 
             return redirect()->route('objcctives.index')->with('success', 'บันทึกข้อมูลสำเร็จ!');
@@ -141,6 +143,7 @@ if (!empty($request->description)) {
                 $objcctive->update([
                     'section'           => $request->section[0] ?? null,
                     'period'            => $request->period[0] ?? null,
+                    'docutype'          => $request->docutype[0] ?? null,
                     'activity_list'     => $activities,
                     'prepared_by'       => $request->prepared_by,
                     'prepared_date'     => $request->prepared_date,
@@ -152,6 +155,7 @@ if (!empty($request->description)) {
                     'acknowledged_date' => $request->acknowledged_date,
                     'approved_by'       => $request->approved_by,
                     'approved_date'     => $request->approved_date,
+                    'approved_status'   => 'N'
                 ]);
 
                 return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
@@ -168,7 +172,9 @@ if (!empty($request->description)) {
                 'acknowledged_by'   => $request->acknowledged_by,
                 'acknowledged_date' => $request->acknowledged_date,
                 'approved_by'       => $request->approved_by,
-                'approved_date'     => $request->approved_date
+                'approved_date'     => $request->approved_date,
+                'approved_remark'   => $request->approved_remark,
+                'approved_status'   => 'Y'
             ];
 
             try {

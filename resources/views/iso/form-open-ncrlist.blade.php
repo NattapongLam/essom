@@ -118,6 +118,33 @@
         border-bottom-right-radius: 8px;
     }
 
+    /* สไตล์แถบสีสถานะแบบมีตัวเลข (Badge with count indicator) */
+    .status-badge-wrapper {
+        display: inline-flex;
+        align-items: center;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 4px 10px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+    .status-color-bar {
+        width: 6px;
+        height: 16px;
+        border-radius: 4px;
+        margin-right: 8px;
+    }
+    .status-count-pill {
+        background: #e0e7ff;
+        color: #4338ca;
+        padding: 1px 6px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        margin-left: 8px;
+        font-weight: 700;
+    }
+
     /* ปุ่ม Action ขนาดเล็กในตาราง */
     .btn-action {
         width: 32px;
@@ -186,11 +213,10 @@
                                 </a>
                             </div>
                             <div class="col-12 col-xl-2 text-xl-end text-start mt-xl-3 mt-2 ms-xl-auto">
-                                
                                 <button class="btn btn-indigo-search w-100" type="submit">
                                     <i class="fas fa-search me-1"></i> ค้นหา
                                 </button>
-                            </div>                  
+                            </div>             
                         </div>
                     </form>
                 </div>
@@ -214,13 +240,28 @@
                             </thead>
                             <tbody>
                                 @foreach ($hd as $item)
+                                    @php
+                                        // คำนวณจำนวนวันที่ผ่านไปนับจาก reported_date ถึงปัจจุบัน
+                                        $reportedDate = \Carbon\Carbon::parse($item->reported_date);
+                                        $daysPassed = $reportedDate->diffInDays(\Carbon\Carbon::now());
+                                        
+                                        // กำหนดสีแถบตามเงื่อนไขความเก่าของวันที่ (ตัวอย่าง: เกิน 30 วัน สีแดง, เกิน 15 วัน สีเหลือง, ปกติสีเขียว/น้ำเงิน)
+                                        $barColor = '#10b981'; // เขียว
+                                        if ($daysPassed > 30) {
+                                            $barColor = '#ef4444'; // แดง
+                                        } elseif ($daysPassed > 15) {
+                                            $barColor = '#f59e0b'; // ส้ม/เหลือง
+                                        }
+                                    @endphp
                                     <tr>
                                         <td>
-                                            <span class="badge bg-soft-indigo p-2" style="background-color: #e0e7ff; color: #4338ca; border-radius: 6px; font-weight: 600;">
-                                                {{$item->iso_status_name}}
-                                            </span>
+                                            <div class="status-badge-wrapper">
+                                                <span class="status-color-bar" style="background-color: {{ $barColor }};"></span>
+                                                <span>{{$item->iso_status_name}}</span>
+                                                <span class="status-count-pill" title="จำนวนวันที่ผ่านมานับจากวันที่รายงาน">{{ $daysPassed }} วัน</span>
+                                            </div>
                                         </td>
-                                        <td class="fw-medium">{{\Carbon\Carbon::parse($item->reported_date)->format('Y/m/d')}}</td>
+                                        <td class="fw-medium">{{$reportedDate->format('Y/m/d')}}</td>
                                         <td>{{$item->iso_ncr_observer}}</td>
                                         <td class="fw-bold text-indigo-dark">{{$item->iso_ncr_docuno}}</td>
                                         <td>{{$item->iso_ncr_department}}</td>
@@ -253,7 +294,7 @@
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
 $(document).ready(function() {
-    $('#tb_job').DataTable({
+    var table = $('#tb_job').DataTable({
         "pageLength": 20,
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -277,12 +318,35 @@ $(document).ready(function() {
         pagingType: "full_numbers",
         bSort: true
     });
+
+    // เงื่อนไข: ซ่อนสถานะ "ปิดเอกสาร" อัตโนมัติในตาราง (คอลัมน์ที่ 0 คือสถานะ)
+    table.column(0).search('^(?!.*ปิดเอกสาร).*$', true, false).draw();
+
+    // ฟังก์ชันคำนวณวันเริ่มต้นบวกเพิ่ม 30 วันไปยังช่องวันที่สิ้นสุดอัตโนมัติ
+    $('#datestart').on('change', function() {
+        let startDateVal = $(this).val();
+        if (startDateVal) {
+            let startDate = new Date(startDateVal);
+            
+            // บวกเพิ่มไปอีก 30 วัน
+            startDate.setDate(startDate.getDate() + 30);
+            
+            let yyyy = startDate.getFullYear();
+            let mm = String(startDate.getMonth() + 1).padStart(2, '0');
+            let dd = String(startDate.getDate()).padStart(2, '0');
+            
+            let endDateVal = `${yyyy}-${mm}-${dd}`;
+            
+            // กำหนดค่าให้กับช่อง "ถึง" (dateend)
+            $('#dateend').val(endDateVal);
+        }
+    });
 }); 
 
-confirmDel = (docs, refid) => {       
+confirmDel = (docs, refid) => {      
     Swal.fire({
         title: 'คุณแน่ใจหรือไม่ !',
-        text: `คุณต้องการลบรายการ NCR เลขที่ ${docs} นี้หรือไม่ ?`, // แก้ไขข้อความแจ้งเตือนจาก CAR เป็น NCR ให้ตรงกับหน้างานจริง
+        text: `คุณต้องการลบรายการ NCR เลขที่ ${docs} นี้หรือไม่ ?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: '<i class="fas fa-check me-1"></i> ยืนยัน',
