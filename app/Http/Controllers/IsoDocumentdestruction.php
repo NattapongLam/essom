@@ -210,6 +210,7 @@ class IsoDocumentdestruction extends Controller
                 'reviewed_date'   => $request->reviewed_date,
                 'approved_by'     => $request->approved_by,
                 'approved_date'   => $request->approved_date,
+                'approved_remark'   => $request->approved_remark,
                 'reviewed_status' => $request->reviewed_status,
                 'approved_status' => $request->approved_status
             ];

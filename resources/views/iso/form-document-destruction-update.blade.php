@@ -250,6 +250,7 @@
                                 <label class="text-left" style="color: #4f46e5;"><i class="fas fa-pen-fancy"></i> ผู้อนุมัติ (การกระทำของคุณ)</label>
                                 <input class="form-control-modern mb-2" type="text" name="approved_by" value="{{ auth()->user()->name }}" readonly style="border: 1px solid #818cf8;">
                                 <input class="form-control-modern" type="date" name="approved_date" value="{{ old('date', now()->format('Y-m-d')) }}" style="border: 1px solid #818cf8;">
+                                <input class="form-control-modern" type="text" name="approved_remark">
                             </div>
                             <input type="hidden" name="reviewed_status" value="Y">
                             <input type="hidden" name="approved_status" value="Y">
@@ -263,6 +264,7 @@
                                 <label class="text-left">ผู้อนุมัติ</label>
                                 <input class="form-control-modern mb-2" type="text" name="approved_by" readonly placeholder="รอการทบทวนเสร็จสิ้น">
                                 <input class="form-control-modern" type="date" name="approved_date" readonly>
+                                <input class="form-control-modern" type="text" name="approved_remark" readonly>
                             </div>
                             <input type="hidden" name="reviewed_status" value="Y">
                             <input type="hidden" name="approved_status" value="N">
