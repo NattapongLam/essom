@@ -379,6 +379,10 @@ Swal.fire({
                 <label>Date:</label>
                 <input type="date" name="approved_date" class="form-control" value="{{ old('approved_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" readonly>
             </div>
+            <div class="signature-item">
+                <label>Note (ผู้อนุมัติสูงสุด):</label>
+                <input type="text" name="approved_remark" class="form-control" value="{{ old('approved_remark', $objcctive->approved_remark) }}" readonly>
+            </div>
         @elseif($objcctive->acknowledged_by)
             <div class="signature-item active-approval">
                 <label>Approved by (ผู้อนุมัติสูงสุด):</label>
@@ -387,6 +391,10 @@ Swal.fire({
             <div class="signature-item active-approval">
                 <label>Date (วันที่อนุมัติ):</label>
                 <input type="date" name="approved_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+            </div>
+            <div class="signature-item active-approval">
+                <label>Note (ผู้อนุมัติสูงสุด):</label>
+                <input type="text" name="approved_remark" class="form-control" value="">
             </div>
         @endif
     </div>

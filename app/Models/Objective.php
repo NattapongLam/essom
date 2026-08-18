@@ -25,6 +25,9 @@ class Objective extends Model
         'acknowledged_date',
         'approved_by',
         'approved_date',
+        'docutype',
+        'approved_remark',
+        'approved_status'
     ];
 
     protected $casts = [

@@ -180,9 +180,6 @@ Swal.fire({
 
     /* Signature Flow Card Grid */
     .signature-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 20px;
         background: #f8fafc;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
@@ -193,6 +190,7 @@ Swal.fire({
         display: flex;
         flex-direction: column;
         gap: 6px;
+        margin-bottom: 15px;
     }
 
     .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; }
@@ -227,13 +225,21 @@ Swal.fire({
 
     <div class="section-top-fields">
         <div class="row">
-            <div class="col-md-6 mb-3 mb-md-0">
+            <div class="col-md-4">
                 <label>Section:</label>
                 <input type="text" name="section[]" value="{{ old('section.0') }}" class="form-control" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label>Period:</label>
                 <input type="text" name="period[]" value="{{ old('period.0') }}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label>Type:</label>
+                <select class="form-control" name="docutype[]">
+                    <option value="-"></option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Semi-annual">Semi-annual</option>
+                </select>
             </div>
         </div>
     </div>
@@ -299,65 +305,88 @@ Swal.fire({
     <button type="button" class="btn btn-indigo-add" id="addRowBtn"><i class="fas fa-plus mr-1"></i> เพิ่มแถวกิจกรรม</button>
 
     <div class="signature-grid">
-        <div class="signature-item">
-            <label>Prepared by:</label>
-            <input type="text" name="prepared_by" value="{{ auth()->user()->name }}" readonly>
+        <div class="row">
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Reported by:</label>
+                    {{-- <select class="form-control receiver-select" name="reported_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select> --}}
+                    <input type="text" name="reported_by" value="{{ auth()->user()->name }}" readonly>
+                </div>
+                <div class="signature-item">
+                    <label>Date:</label>
+                    {{-- <input type="date" name="reported_date" value="{{ old('reported_date') }}" readonly> --}}
+                    <input type="date" name="reported_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Prepared by:</label>
+                    <input type="text" name="prepared_by" value="{{ auth()->user()->name }}" readonly>
+                </div>
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="prepared_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                </div>
+            </div>
         </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="prepared_date" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Reviewed by:</label>
+                    <select class="form-control receiver-select" name="reviewed_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" readonly>
+                </div> 
+            </div>
+            
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Acknowledged by:</label>
+                    <select class="form-control receiver-select" name="acknowledged_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" readonly>
+                </div>
+            </div>
         </div>
-        <div class="signature-item">
-            <label>Reported by:</label>
-            <select class="form-control receiver-select" name="reported_by">
-                <option value=""></option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="reported_date" value="{{ old('reported_date') }}" readonly>
-        </div>
-        <div class="signature-item">
-             <label>Reviewed by:</label>
-             <select class="form-control receiver-select" name="reviewed_by">
-                <option value=""></option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-             <label>Date:</label>
-            <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" readonly>
-        </div> 
-        <div class="signature-item">
-            <label>Acknowledged by:</label>
-            <select class="form-control receiver-select" name="acknowledged_by">
-                <option value=""></option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" readonly>
-        </div>          
-        <div class="signature-item">
-            <label>Approved by:</label>
-            <select class="form-control receiver-select" name="approved_by">
-                <option value=""></option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-             <label>Date:</label>
-            <input type="date" name="approved_date" value="{{ old('approved_date') }}" readonly>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Approved by:</label>
+                    <select class="form-control receiver-select" name="approved_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="approved_date" value="{{ old('approved_date') }}" readonly>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -414,7 +443,6 @@ document.addEventListener("DOMContentLoaded", function() {
     addRowBtn.addEventListener('click', () => {
         const rowCount = tableBody.rows.length + 1;
         const newRow = document.createElement('tr');
-        // 3. เพิ่ม Input File เข้าไปในโครงสร้างแถวใหม่ (ใช้ชื่อ attachment[] ให้ตรงกัน)
         newRow.innerHTML = `
             <td>${rowCount}</td>
             <td>

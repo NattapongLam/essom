@@ -246,13 +246,21 @@ Swal.fire({
     </div>
     <div class="section-top-fields">
         <div class="row">
-            <div class="col-md-6 mb-3 mb-md-0">
+            <div class="col-md-4 mb-3 mb-md-0">
                 <label>Section:</label>
                 <input type="text" name="section[]" value="{{ old('section.0', $objcctive->section) }}" class="form-control" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label>Period:</label>
                 <input type="text" name="period[]" value="{{ old('period.0', $objcctive->period) }}" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label>Type:</label>
+                <select class="form-control" name="docutype[]">
+                    <option value="{{$objcctive->docutype}}">{{$objcctive->docutype}}</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Semi-annual">Semi-annual</option>
+                </select>
             </div>
         </div>
     </div>
@@ -380,86 +388,109 @@ Swal.fire({
     
     <button type="button" class="btn btn-indigo-add" id="addRowBtn"><i class="fas fa-plus mr-1"></i> เพิ่มแถวกิจกรรม</button>
 
-    <div class="signature-grid">
-        <div class="signature-item">
-            <label>Prepared by:</label>
-            <select class="form-control receiver-select" name="prepared_by">
-                <option value="NULL">ไม่ระบุ</option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}"
-                          {{ (isset($objcctive->prepared_by) && $objcctive->prepared_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
-                        {{ $item->ms_employee_fullname }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="prepared_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->prepared_date))->format('Y-m-d')) }}" required>
-        </div>
-        <div class="signature-item">
-            <label>Reported by:</label>
-            <select class="form-control receiver-select" name="reported_by">
-                <option value="NULL">ไม่ระบุ</option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}"
-                          {{ (isset($objcctive->reported_by) && $objcctive->reported_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
-                        {{ $item->ms_employee_fullname }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="reported_date" value="{{ old('reported_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" required>
-        </div>
-        <div class="signature-item">
-             <label>Reviewed by:</label>
-             <select class="form-control receiver-select" name="reviewed_by">
-                <option value="NULL">ไม่ระบุ</option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}"
-                          {{ (isset($objcctive->reviewed_by) && $objcctive->reviewed_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
-                        {{ $item->ms_employee_fullname }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-             <label>Date:</label>
-            <input type="date" name="reviewed_date" value="{{ old('reviewed_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" required>
-        </div> 
-        <div class="signature-item">
-            <label>Acknowledged by:</label>
-            <select class="form-control receiver-select" name="acknowledged_by">
-                <option value="NULL">ไม่ระบุ</option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}"
-                          {{ (isset($objcctive->acknowledged_by) && $objcctive->acknowledged_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
-                        {{ $item->ms_employee_fullname }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}" required>
-        </div>          
-        <div class="signature-item">
-            <label>Approved by:</label>
-            <select class="form-control receiver-select" name="approved_by">
-                <option value="NULL">ไม่ระบุ</option>
-                @foreach ($emp as $item)
-                     <option value="{{ $item->ms_employee_fullname }}"
-                          {{ (isset($objcctive->approved_by) && $objcctive->approved_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
-                        {{ $item->ms_employee_fullname }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="signature-item">
-             <label>Date:</label>
-            <input type="date" name="approved_date" value="{{ old('approved_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" required>
+<div class="signature-grid">
+        <div class="row w-100 m-0">
+            <!-- Reported by -->
+            <div class="col-md-6 mb-3">
+                <div class="signature-item">
+                    <label>Reported by:</label>
+                    <select class="form-control receiver-select" name="reported_by">
+                        <option value="NULL">ไม่ระบุ</option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ (isset($objcctive->reported_by) && $objcctive->reported_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item mt-2">
+                    <label>Date:</label>
+                    <input type="date" name="reported_date" value="{{ old('reported_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" required>
+                </div>
+            </div>
+
+            <!-- Prepared by -->
+            <div class="col-md-6 mb-3">
+                <div class="signature-item">
+                    <label>Prepared by:</label>
+                    <select class="form-control receiver-select" name="prepared_by">
+                        <option value="NULL">ไม่ระบุ</option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ (isset($objcctive->prepared_by) && $objcctive->prepared_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item mt-2">
+                    <label>Date:</label>
+                    <input type="date" name="prepared_date" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->prepared_date))->format('Y-m-d')) }}" required>
+                </div>
+            </div>
+
+            <!-- Reviewed by -->
+            <div class="col-md-6 mb-3">
+                <div class="signature-item">
+                    <label>Reviewed by:</label>
+                    <select class="form-control receiver-select" name="reviewed_by">
+                        <option value="NULL">ไม่ระบุ</option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ (isset($objcctive->reviewed_by) && $objcctive->reviewed_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item mt-2">
+                    <label>Date:</label>
+                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" required>
+                </div>
+            </div>
+
+            <!-- Acknowledged by -->
+            <div class="col-md-6 mb-3">
+                <div class="signature-item">
+                    <label>Acknowledged by:</label>
+                    <select class="form-control receiver-select" name="acknowledged_by">
+                        <option value="NULL">ไม่ระบุ</option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ (isset($objcctive->acknowledged_by) && $objcctive->acknowledged_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item mt-2">
+                    <label>Date:</label>
+                    <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}" required>
+                </div>
+            </div>
+
+            <!-- Approved by (จัดให้อยู่คู่กัน หรือเต็มแถวตามความเหมาะสม) -->
+            <div class="col-md-6 mb-3">
+                <div class="signature-item">
+                    <label>Approved by:</label>
+                    <select class="form-control receiver-select" name="approved_by">
+                        <option value="NULL">ไม่ระบุ</option>
+                        @foreach ($emp as $item)
+                            <option value="{{ $item->ms_employee_fullname }}"
+                                {{ (isset($objcctive->approved_by) && $objcctive->approved_by == $item->ms_employee_fullname) ? 'selected' : '' }}>
+                                {{ $item->ms_employee_fullname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="approved_date" value="{{ old('approved_date', optional(\Carbon\Carbon::parse($objcctive->approved_date))->format('Y-m-d')) }}" required>
+                </div>
+            </div>
         </div>
     </div>
 
