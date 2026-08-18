@@ -317,6 +317,10 @@ function readonlyStep($plan, $field, $prevField = null) {
                             <span class="field-label">Date</span>
                             <input class="form-control-modern" type="date" name="approved_date" value="{{ isset($plan->approved_date) ? date('Y-m-d', strtotime($plan->approved_date)) : now()->format('Y-m-d') }}" {{ readonlyStep($plan, 'approved_date', 'reported_by') }}>
                         </div>
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <span class="field-label">Note</span>
+                            <input class="form-control-modern" type="text" name="approved_remark" value="{{ $plan->approved_remark ?? '-' }}"  {{ readonlyStep($plan, 'approved_by', 'reported_by') }}>
+                        </div>
                         <div class="col-md-4 mb-3 mb-md-0">
                             <span class="field-label">Acknowledged by</span> 
                             <input class="form-control-modern" type="text" name="acknowledged_by" value="{{ $plan->acknowledged_by ?? auth()->user()->name }}" {{ readonlyStep($plan, 'acknowledged_by', 'approved_by') }}>
