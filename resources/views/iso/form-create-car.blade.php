@@ -230,7 +230,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-3">
-                                <label for="iso_car_filename1">ไฟล์แนบหลักฐาน (หากมี) :</label>
+                                <label for="iso_car_filename1">แนบเอกสาร (หากมี) :</label>
                                 <input type="file" class="form-control-file" name="iso_car_filename1">
                             </div>
                         </div>
