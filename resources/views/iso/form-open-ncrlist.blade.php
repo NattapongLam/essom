@@ -227,9 +227,10 @@
                             <thead>
                                 <tr>
                                     <th>สถานะ</th>
-                                    <th>วันที่</th>
+                                    <th>วันที่</th>                                 
                                     <th>ผู้พบเห็น</th>
                                     <th>เลขที่</th>
+                                    <th>เลขที่ CAR</th>
                                     <th>หน่วยงานที่เกี่ยวข้อง</th>
                                     <th>เลขที่งาน</th>
                                     <th>ผลิตภัณฑ์</th>
@@ -261,9 +262,15 @@
                                                 <span class="status-count-pill" title="จำนวนวันที่ผ่านมานับจากวันที่รายงาน">{{ $daysPassed }} วัน</span>
                                             </div>
                                         </td>
-                                        <td class="fw-medium">{{$reportedDate->format('Y/m/d')}}</td>
+                                        <td class="fw-medium">{{$reportedDate->format('Y/m/d')}}</td>                                       
                                         <td>{{$item->iso_ncr_observer}}</td>
                                         <td class="fw-bold text-indigo-dark">{{$item->iso_ncr_docuno}}</td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm car-docuno-input" 
+                                                    data-id="{{ $item->iso_ncr_id }}" 
+                                                    value="{{ $item->iso_car_docuno }}" 
+                                                    placeholder="ระบุเลขที่ CAR">
+                                        </td>
                                         <td>{{$item->iso_ncr_department}}</td>
                                         <td><span class="text-muted">{{$item->iso_ncr_jobnumber}}</span></td>
                                         <td>{{$item->iso_ncr_productname}}</td>
@@ -403,5 +410,51 @@ confirmDel = (docs, refid) => {
         }
     });
 } 
+$(document).on('blur change', '.car-docuno-input', function() {
+    let input = $(this);
+    let ncrId = input.data('id');
+    let carDocuno = input.val();
+
+    // ป้องกันการยิงซ้ำถ้าค่าเดิมไม่เปลี่ยน
+    if (input.data('val') === carDocuno) return;
+
+    $.ajax({
+        url: "{{ route('ncr-report.update-car') }}", // กำหนด Route สำหรับอัปเดตเฉพาะช่องนี้
+        type: "POST",
+        data: {
+            "_token": "{{ csrf_token() }}",
+            "id": ncrId,
+            "iso_car_docuno": carDocuno
+        },
+        dataType: "json",
+        success: function(response) {
+            if (response.status) {
+                input.data('val', carDocuno); // บันทึกค่าล่าสุดไว้เทียบ
+                // แสดงแจ้งเตือนแบบเล็กๆ มุมจอ (ตัวอย่างใช้ SweetAlert2 แบบ Toast)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: 'บันทึกเลขที่ CAR สำเร็จ'
+                });
+            } else {
+                Swal.fire('ผิดพลาด', response.message || 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+            }
+        },
+        error: function() {
+            Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
+        }
+    });
+});
+
+// เก็บค่าเริ่มต้นไว้เทียบตอนโหลดหน้าเสร็จ
+$('.car-docuno-input').each(function() {
+    $(this).data('val', $(this).val());
+});
 </script>
 @endpush

@@ -421,7 +421,7 @@
                                 <input type="date" class="form-control" value="{{$hd->iso_car_bydate}}" name="iso_car_bydate">
                             </div>
                             <div class="col-12 col-md-3">
-                                <label for="iso_car_filename2">อัปโหลดไฟล์หลักฐานแนบ :</label>
+                                <label for="iso_car_filename2">แนบเอกสาร :</label>
                                 <input type="file" class="form-control-file" name="iso_car_filename2" >
                             </div>
                         </div>

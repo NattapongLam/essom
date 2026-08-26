@@ -138,6 +138,7 @@ Route::group([
 ],function(){
     Route::resource('/ncr-report' , App\Http\Controllers\NcrReport::class);
     Route::post('/cancelDocsNcr' , [App\Http\Controllers\NcrReport::class , 'cancelDocsNcr']);
+    Route::post('/ncr-report/update-car', [App\Http\Controllers\NcrReport::class, 'updateCarDocuno'])->name('ncr-report.update-car');
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-car']

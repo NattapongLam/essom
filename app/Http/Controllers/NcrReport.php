@@ -375,4 +375,22 @@ class NcrReport extends Controller
     //     $res = json_decode($result);
     //     return $res;
     // }
+
+    public function updateCarDocuno(Request $request)
+    {
+        try {
+            $ncr = IsoNcr::find($request->id); // เปลี่ยน Model ตามที่คุณใช้งานจริง
+            
+            if (!$ncr) {
+                return response()->json(['status' => false, 'message' => 'ไม่พบข้อมูลเอกสาร']);
+            }
+
+            $ncr->iso_car_docuno = $request->iso_car_docuno;
+            $ncr->save();
+
+            return response()->json(['status' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
+        }
+    }
 }
