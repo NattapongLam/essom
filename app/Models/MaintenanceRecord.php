@@ -16,6 +16,7 @@ class MaintenanceRecord extends Model
         'status',
         'inspector',
         'inspection_date',
+        'year'
     ];
 
     protected $casts = [

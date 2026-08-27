@@ -177,6 +177,7 @@ Route::group([
     'middleware' =>  ['auth','permission:iso-maintenancerecords']
 ],function(){
     Route::resource('/maintenance-records' , App\Http\Controllers\IsoMaintenanceRecords::class);
+    Route::delete('/maintenance-records/{id}', [App\Http\Controllers\IsoMaintenanceRecords::class, 'destroy'])->name('maintenance-records.destroy');
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-machinehistorys']

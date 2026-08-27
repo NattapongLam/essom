@@ -97,15 +97,26 @@ input:focus {
 </style>
 
 <div class="form-container">
-    <h2>บันทึกการบำรุงเครื่องจักร EQUIPMENT MAINTENANCE RECORD</h2>
-
+    <h2>บันทึกการบำรุงเครื่องจักร EQUIPMENT MAINTENANCE RECORD        
+    </h2>
+   
     <form action="{{ route('maintenance-records.store') }}" method="POST" class="form-container">
         @csrf
 
         @php
             $machinesPerStep = 9;
         @endphp
-
+        <select class="form-control" name="year">
+            <option value="" selected disabled>-- กรุณาเลือกปี --</option>
+            @php
+                $currentYear = date('Y');
+            @endphp
+            @for ($i = $currentYear; $i >= $currentYear - 5; $i--)
+                {{-- แปลงเป็นปี พ.ศ. (ถ้าต้องการ) หรือใช้ ค.ศ. $i ปกติ --}}
+                @php $yearTh = $i + 543; @endphp
+                <option value="{{ $i }}">{{ $yearTh }} ({{ $i }})</option>
+            @endfor
+        </select>
         <table id="maintenanceTable">
             <thead>
                 <tr>
@@ -117,7 +128,7 @@ input:focus {
                     <th style="width: 20%">วันที่ตรวจ</th>
                 </tr>
             </thead>
- <tbody>
+<tbody>
 @foreach($machines as $i => $machine)
     @php
         $step = ($i < 11) ? 1 : (($i < 22) ? 2 : 3);
@@ -125,19 +136,13 @@ input:focus {
 
     @if($i === 0)
     <tr class="form-header">
-        <td colspan="{{ count($maintenance_items)+3 }}" 
-            style="text-align: right; font-weight: 600; padding-right: 12px;">
-            F7132.1 1/2
-        </td>
+        <td colspan="{{ count($maintenance_items)+3 }}" style="text-align: right; font-weight: 600; padding-right: 12px;">F7132.1 1/2</td>
     </tr>
     <tr><td colspan="{{ count($maintenance_items)+3 }}" style="border-bottom: 2px solid #d1d5db;"></td></tr>
     @endif
     @if($machine === 'HP1 แท่นไฮดรอลิก')
     <tr class="form-header">
-        <td colspan="{{ count($maintenance_items)+3 }}" 
-            style="text-align: right; font-weight: 600; padding-right: 12px;">
-            F7132.1 2/2
-        </td>
+        <td colspan="{{ count($maintenance_items)+3 }}" style="text-align: right; font-weight: 600; padding-right: 12px;">F7132.1 2/2</td>
     </tr>
     <tr><td colspan="{{ count($maintenance_items)+3 }}" style="border-bottom: 2px solid #d1d5db;"></td></tr>
     @endif
@@ -145,21 +150,173 @@ input:focus {
     <tr class="step step-{{ $step }}">
         <td>{{ $machine }}</td>
         @foreach($maintenance_items as $indexItem => $item)
+            @php
+                // กำหนดค่าเริ่มต้นเป็น 0 (ปกติ/ช่องขาว)
+                $defaultState = 0;
+
+                // --- ตัวอย่างการกำหนดช่องทึบ (สีดำ) ตามเครื่องจักร ---
+                // หมายเหตุ: $indexItem เริ่มจาก 0 ถึง 17 (แทนข้อ 1 ถึง 18)
+                // ตัวอย่างเช่น ถ้าเครื่องจักร SB1 ไม่ต้องตรวจข้อ 1 และ 2 ให้กำหนดเป็นสถานะ 2 (ช่องดำ)
+                if ($machine === 'SB1 ตู้พ่นสีแบบแห้ง' && in_array($indexItem, [0,1,4,8,9,10,11,15,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SB2 ตู้พ่นสีผง' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SB3 ตู้อบสี' && in_array($indexItem, [0,1,4,10,11,14,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SB4 เครื่องพ่นสีผง' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SB5 ห้องพ่นสีใหญ่' && in_array($indexItem, [0,1,4,8,10,11,14,15,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SB6 ตู้พ่นทราย' && in_array($indexItem, [0,1,2,3,4,9,10,11,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'WE3 เครื่องเชื่อมอาก้อน' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'WE4 เครื่องเชื่อมมิกซ์' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'WA3 เครื่องเชื่อม Spot' && in_array($indexItem, [0,1,2,3,4,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML1 เครื่องกลึง' && in_array($indexItem, [8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML2 เครื่องกลึง' && in_array($indexItem, [8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML3 เครื่องกลึง' && in_array($indexItem, [8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML4 เครื่องกลึง' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML5 เครื่องต๊าปเกลียวท่อ' && in_array($indexItem, [1,2,3,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML6 เครื่องกลึง' && in_array($indexItem, [8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'ML7 เครื่องกลึง COMP' && in_array($indexItem, [8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MM1 เครื่องมิลลิ่ง' && in_array($indexItem, [0,1,8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MM2 เครื่องมิลลิ่ง' && in_array($indexItem, [1,2,3,4,8,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MM3 เครื่องมิลลิ่ง' && in_array($indexItem, [1,8,9,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MM4 เครื่องมิลลิ่ง CNC' && in_array($indexItem, [2,3,4,8,9,11,14,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MS2 เครื่องตัดแผ่นเหล็ก' && in_array($indexItem, [1,4,8,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MS5 เครื่องม้วนเหล็กเล็ก' && in_array($indexItem, [1,2,4,11,14,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MD1 แท่นเจาะตั้งพื้น' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MD2 แท่นเจาะตั้งพื้น' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MD3 แท่นเจาะตั้งพื้น' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MD7 แท่นเจาะตั้งพื้น' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MD12 แท่นเจาะตั้งพื้น' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MG5 เครื่องลับดอกส่วน' && in_array($indexItem, [0,1,2,3,4,9,10,11,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'AC1 ปั้มลม' && in_array($indexItem, [1,4,8,9,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'AC2 ปั้มลม' && in_array($indexItem, [1,4,8,9,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'AC3 ปั้มลม' && in_array($indexItem, [1,4,8,9,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'HP1 แท่นไฮดรอลิก' && in_array($indexItem, [1,2,3,4,5,11,12,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'HQ1: เครนไฟฟ้า' && in_array($indexItem, [1,2,3,8,11,14,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'HQ6: เครนไฟฟ้า' && in_array($indexItem, [1,2,3,8,11,14,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'HQ4 รถยก' && in_array($indexItem, [1,2,3,4,5,8,11,12,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'HQ8 รถยกสูง' && in_array($indexItem, [1,2,5,8,11,12,14,15,16])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SA1: เครื่องเลื่อย' && in_array($indexItem, [0,1,4,8,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SA2: เครื่องเลื่อย' && in_array($indexItem, [0,1,4,8,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SA5 เครื่องเลื่อยสายพาน' && in_array($indexItem, [4,8,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'CF1: เครื่องตัดไฟเบอร์' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'CP1 เครื่องตัดพลาสม่า' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'GE เครื่องปั่นไฟ 60 Hz' && in_array($indexItem, [0,1,4,8,9,10,11,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MDB1: ตู้ควบคุมไฟฟ้า' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MDB2: ตู้ควบคุมไฟฟ้า' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MDB3 ตู้ควบคุมไฟโซลาร์เซลล์ (เล็ก)' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'MDB4 ตู้ควบคุมไฟโซลาร์เซลล์ (ใหญ่)' && in_array($indexItem, [0,1,2,3,4,8,9,10,11,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SC1: แผงโซลาร์เซลล์ (เล็ก)' && in_array($indexItem, [0,1,2,3,4,5,8,9,10,11,12,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                if ($machine === 'SC2: แผงโซลาร์เซลล์ (ใหญ่)' && in_array($indexItem, [0,1,2,3,4,5,8,9,10,11,12,13,14,15,16,17])) {
+                    $defaultState = 2; // 2 หมายถึงช่องทึบสีดำ
+                }
+                // คุณสามารถเพิ่มเงื่อนไขของเครื่องจักรอื่นๆ ตามไฟล์ PDF จริงได้ตรงนี้ครับ
+            @endphp
             <td>
-                <input type="hidden" name="status[{{ $machine }}][{{ $indexItem }}]" value="0">
+                <input type="hidden" name="status[{{ $machine }}][{{ $indexItem }}]" value="{{ $defaultState }}">
                 <div class="triple-checkbox" 
                      data-name="status[{{ $machine }}][{{ $indexItem }}]" 
-                     data-state="0"></div>
+                     data-state="{{ $defaultState }}"></div>
             </td>
         @endforeach
         <td>
-            <select class="form-control receiver-select" name="inspector[{{ $machine }}]"  placeholder="กรุณาเลือกพนักงาน">
-                        <option value=""></option>
-                        @foreach ($emp as $item)
-                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                        @endforeach
-                </select>
-            {{-- <input type="text" name="inspector[{{ $machine }}]" value=""> --}}
+            <select class="form-control receiver-select" name="inspector[{{ $machine }}]" placeholder="กรุณาเลือกพนักงาน">
+                <option value=""></option>
+                @foreach ($emp as $item)
+                    <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                @endforeach
+            </select>
         </td>
         <td><input type="date" name="inspection_date[{{ $machine }}]" value=""></td>
     </tr>
@@ -238,6 +395,23 @@ document.addEventListener('DOMContentLoaded', function() {
             cancelButtonText: 'ยกเลิก'
         }).then(result => { if(result.isConfirmed) form.submit(); });
     });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const select = document.getElementById('yearSelect');
+    if (!select) return;
+
+    const currentYear = new Date().getFullYear();
+    
+    // วนลูปสร้างตัวเลือกย้อนหลัง 10 ปี
+    for (let i = 0; i < 10; i++) {
+        let yearAd = currentYear - i;
+        let yearTh = yearAd + 543; // แปลงเป็น พ.ศ.
+        
+        let option = document.createElement('option');
+        option.value = yearAd;
+        option.textContent = `${yearTh} (${yearAd})`;
+        select.appendChild(option);
+    }
 });
 </script>
 @endpush  
