@@ -34,12 +34,11 @@ class IsoMaintenanceRecords extends Controller
             'MS2 เครื่องตัดแผ่นเหล็ก', 'MS5 เครื่องม้วนเหล็กเล็ก', 'MD1 แท่นเจาะตั้งพื้น',
             'MD2 แท่นเจาะตั้งพื้น', 'MD3 แท่นเจาะตั้งพื้น', 'MD7 แท่นเจาะตั้งพื้น', 'MD12 แท่นเจาะตั้งพื้น',
             'MG5 เครื่องลับดอกส่วน', 'AC1 ปั้มลม', 'AC2 ปั้มลม', 'AC3 ปั้มลม',
-
             'HP1 แท่นไฮดรอลิก','HQ1: เครนไฟฟ้า','HQ6: เครนไฟฟ้า','HQ4 รถยก',
-            'HQ8 รถยกสูง','SA1: เครื่องเลื่อย','SA2 เครื่องเลื่อย','SA5 เครื่องเลื่อยสายพาน',
+            'HQ8 รถยกสูง','SA1: เครื่องเลื่อย','SA2: เครื่องเลื่อย','SA5 เครื่องเลื่อยสายพาน',
             'CF1: เครื่องตัดไฟเบอร์','CP1 เครื่องตัดพลาสม่า','GE เครื่องปั่นไฟ 60 Hz','MDB1: ตู้ควบคุมไฟฟ้า',
-            'MMDB2 ตู้ควบคุมไฟฟ้า','MDB3 ตู้ควบคุมไฟโซลาร์เซลล์ (เล็ก)','MDB4 ตู้ควบคุมไฟโซลาร์เซลล์ (ใหญ่)',
-            'SC1 แผงโซลาร์เซลล์ (เล็ก)','SC2: แผงโซลาร์เซลล์ (ใหญ่)'
+            'MDB2: ตู้ควบคุมไฟฟ้า','MDB3 ตู้ควบคุมไฟโซลาร์เซลล์ (เล็ก)','MDB4 ตู้ควบคุมไฟโซลาร์เซลล์ (ใหญ่)',
+            'SC1: แผงโซลาร์เซลล์ (เล็ก)','SC2: แผงโซลาร์เซลล์ (ใหญ่)'
         ];
     }
 
@@ -79,12 +78,20 @@ class IsoMaintenanceRecords extends Controller
  
     public function store(Request $request)
     {
+        // รับค่าปีที่ส่งมาจากฟอร์ม (สมชื่อ input ว่า year หรือเลือกปีอะไรเข้ามา)
+        $yearInput = $request->input('year'); // หรือจะรับแบบอาเรย์แยกตามเครื่องก็ได้ครับ
+
         $statusData = $request->input('status', []);
         $inspectorData = $request->input('inspector', []);
         $inspectionDateData = $request->input('inspection_date', []);
 
         foreach ($statusData as $machine => $statuses) {
-            $record = MaintenanceRecord::firstOrNew(['machine_name' => $machine]);
+            // ค้นหาโดยใช้ทั้ง machine_name และ year ร่วมกัน เพื่อให้ข้อมูลแยกตามปีได้
+            $record = MaintenanceRecord::firstOrNew([
+                'machine_name' => $machine,
+                'year' => $yearInput // เพิ่มเงื่อนไขปีเข้าไปตรงนี้
+            ]);
+
             $record->status = json_encode(array_map('intval', $statuses), JSON_UNESCAPED_UNICODE);
             $record->inspector = $inspectorData[$machine] ?? null;
             $record->inspection_date = $inspectionDateData[$machine] ?? null;
@@ -99,17 +106,13 @@ class IsoMaintenanceRecords extends Controller
     {
         $maintenance_items = $this->maintenanceItems();
         $machines = $this->machines();
+        
+        // ดึงข้อมูลและใช้ machine_name เป็น Key
         $records = MaintenanceRecord::all()->keyBy('machine_name');
 
         foreach ($records as $record) {
-            // 1. แปลงโครงสร้างจาก String JSON ให้เป็น Array
-            $statusArray = is_string($record->status) ? json_decode($record->status, true) : ($record->status ?? []);
-            
-            // 2. ตรวจสอบอาเรย์: ถ้าเจอค่าที่เป็น "0" ให้เปลี่ยนเป็น 2 (ช่องสีดำ) ทันที
-            // แต่ถ้าเป็น "1" (เช็คถูก) หรือค่าอื่นๆ ให้คงไว้ตามเดิม
-            $record->status = array_map(function($value) {
-                return (string)$value === '0' ? 2 : $value;
-            }, $statusArray);
+            // แปลง JSON string เป็น Array ตามปกติโดยไม่ต้องไปเปลี่ยนค่า 0 เป็น 2
+            $record->status = is_string($record->status) ? json_decode($record->status, true) : ($record->status ?? []);
         }
 
         return view('iso.maintenance-records-edit', compact('records', 'maintenance_items', 'machines'));
@@ -137,7 +140,9 @@ class IsoMaintenanceRecords extends Controller
 
     public function destroy($id)
     {
-        MaintenanceRecord::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'ลบข้อมูลเรียบร้อยแล้ว!');
+        // ลบข้อมูลทั้งหมดที่ตรงกับเงื่อนไขทันที
+        MaintenanceRecord::where('year', $id)->delete();
+
+        return redirect()->route('maintenance-records.index')->with('success', 'ลบข้อมูลสำเร็จเรียบร้อยแล้ว');
     }
 }

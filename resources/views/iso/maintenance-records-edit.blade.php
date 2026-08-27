@@ -32,6 +32,7 @@ Swal.fire({
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     border: 1px solid #e0e0e0;
     margin-bottom: 25px;
+    background: #ffffff;
 }
 h2 {
     text-align: center;
@@ -61,7 +62,7 @@ th {
 tr:nth-child(even) { background-color: #f1f5f9; }
 tr:hover { background-color: #e0f2fe; }
 
-button.active {
+.pagination-btn {
     background: linear-gradient(180deg, #e1e4ebff, #e6e9eeff);
     color: #1e293b;
     border: none;
@@ -71,7 +72,7 @@ button.active {
     cursor: pointer;
     transition: all 0.2s ease;
 }
-button.active:hover { transform: scale(1.05); }
+.pagination-btn:hover { transform: scale(1.05); }
 
 input[type=text], input[type=date] {
     border: 1px solid #000;
@@ -89,6 +90,7 @@ input:focus {
     outline: none;
 }
 
+/* 3 สถานะ: 0=ช่องขาว, 1=เครื่องหมายถูก, 2=ช่องดำ */
 .triple-checkbox {
     width: 22px;
     height: 22px;
@@ -97,12 +99,29 @@ input:focus {
     cursor: pointer;
     margin: 0 auto;
     transition: all 0.2s ease;
-    background-color: #f8fafc;
 }
-.triple-checkbox[data-state="0"] { background-color: #f8fafc; border-color: #94a3b8; }
-.triple-checkbox[data-state="1"] { background-color: #16a34a; border-color: #16a34a; position: relative; }
-.triple-checkbox[data-state="1"]::after { content: '✔'; color: white; font-size: 14px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.triple-checkbox[data-state="2"] { background-color: #111827; border-color: #111827; }
+.triple-checkbox[data-state="0"] { 
+    background-color: #ffffff; 
+    border-color: #94a3b8; 
+}
+.triple-checkbox[data-state="1"] { 
+    background-color: #16a34a; 
+    border-color: #16a34a; 
+    position: relative; 
+}
+.triple-checkbox[data-state="1"]::after { 
+    content: '✔'; 
+    color: white; 
+    font-size: 14px; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}
+.triple-checkbox[data-state="2"] { 
+    background-color: #111827; 
+    border-color: #111827; 
+}
 
 .rotated-text {
     writing-mode: vertical-rl;
@@ -116,130 +135,110 @@ input:focus {
     text-align: right;
     background-color: #f1f5f9;
 }
-.print-btn {
-    background: linear-gradient(135deg, #475569, #1e293b);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-.print-btn:hover {
-    background: linear-gradient(135deg, #64748b, #334155);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-}
-
-.print-btn:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
 </style>
 
-<div class="form-container">
-    <h2>แก้ไขบันทึกการบำรุงเครื่องจักร EQUIPMENT MAINTENANCE RECORD</h2>
+<div class="container-fluid">
+    <div class="form-container">
+        <h2>แก้ไขบันทึกการบำรุงเครื่องจักร EQUIPMENT MAINTENANCE RECORD</h2>
 
-    <form action="{{ route('maintenance-records.update', $record_id ?? 0) }}" method="POST" class="form-container">
-        @csrf
-        @method('PUT')
-        <table id="maintenanceTable">
-            <thead>
-                <tr>
-                    <th>เครื่องจักร / รายการบำรุงรักษา</th>
-                    @foreach($maintenance_items as $item)
-                        <th><div class="rotated-text">{{ $item }}</div></th>
-                    @endforeach
-                    <th>ผู้ตรวจ</th>
-                    <th>วันที่ตรวจ</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($machines as $i => $machine)
-                    @php
-                        // แก้ไขตรงนี้: เปลี่ยนเติมช่องว่างเริ่มต้นจาก 0 (สีขาว) เป็น 2 (ช่องสีดำ)
-                        $data = $records[$machine] ?? [
-                            'status' => array_fill(0, count($maintenance_items), 2), 
-                            'inspector' => '',
-                            'inspection_date' => ''
-                        ];
-                    @endphp
-                    @if($i === 0)
-                    <tr class="form-header">
-                        <td colspan="{{ count($maintenance_items)+3 }}">F7132.1 1/2</td>
-                    </tr>
-                    @endif
-                    @if($machine === 'HP1 แท่นไฮดรอลิก')
-                    <tr class="form-header">
-                        <td colspan="{{ count($maintenance_items)+3 }}">F7132.1 2/2</td>
-                    </tr>
-                    @endif
-
-                    <tr class="step step-{{ $i < 11 ? 1 : ($i < 22 ? 2 : 3) }}">
-                        <td>{{ $machine }}</td>
-                        @foreach($maintenance_items as $index => $item)
-                            @php 
-                                // เช็คว่าถ้าไม่มีใน Array หรือเป็น null ให้ fallback ไปที่สถานะ 2 (ช่องสีดำ)
-                                $state = isset($data['status'][$index]) ? $data['status'][$index] : 2; 
-                            @endphp
-                            <td>
-                                <input type="hidden" name="status[{{ $machine }}][{{ $index }}]" value="{{ $state }}">
-                                <div class="triple-checkbox" data-name="status[{{ $machine }}][{{ $index }}]" data-state="{{ $state }}"></div>
-                            </td>
+        <form id="maintenanceForm" action="{{ route('maintenance-records.update', $record_id ?? 0) }}" method="POST">
+            @csrf
+            @method('PUT')
+            
+            <table id="maintenanceTable">
+                <thead>
+                    <tr>
+                        <th>เครื่องจักร / รายการบำรุงรักษา</th>
+                        @foreach($maintenance_items as $item)
+                            <th><div class="rotated-text">{{ $item }}</div></th>
                         @endforeach
-                        <td><input type="text" name="inspector[{{ $machine }}]" value="{{ $data['inspector'] }}"></td>
-                        <td><input type="date" name="inspection_date[{{ $machine }}]" value="{{ $data['inspection_date'] ? \Carbon\Carbon::parse($data['inspection_date'])->format('Y-m-d') : '' }}"></td>
+                        <th>ผู้ตรวจ</th>
+                        <th>วันที่ตรวจ</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($machines as $i => $machine)
+                        @php
+                            // ดึงข้อมูลที่เตรียมไว้จาก Controller โดยตรง
+                            $recordData = $records[$machine] ?? null;
+                            
+                            $data = [
+                                'status' => $recordData ? $recordData->status : [],
+                                'inspector' => $recordData->inspector ?? '',
+                                'inspection_date' => $recordData->inspection_date ?? ''
+                            ];
+                        @endphp
+                        
+                        @if($i === 0)
+                        <tr class="form-header">
+                            <td colspan="{{ count($maintenance_items)+3 }}">F7132.1 1/2</td>
+                        </tr>
+                        @endif
+                        
+                        @if($machine === 'HP1 แท่นไฮดรอลิก')
+                        <tr class="form-header">
+                            <td colspan="{{ count($maintenance_items)+3 }}">F7132.1 2/2</td>
+                        </tr>
+                        @endif
 
-        <center style="margin-top:15px;">
-            <p>หมายเหตุ: ลง✔ ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจและทำตามรายการเรียบร้อย <br> คลิกให้เป็นช่อง ■ ที่ว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อทำการเปลี่ยนตามรายการเรียบร้อย<br> ช่อง⬛คือช่องที่ไม่ต้องตรวจเช็ค</p>
-        </center>
-    </form>
+                        <tr class="step-row" data-step="{{ $i < 11 ? 1 : ($i < 22 ? 2 : 3) }}">
+                            <td>{{ $machine }}</td>
+                            @foreach($maintenance_items as $index => $item)
+                                @php 
+                                    // ดึงค่าสถานะตรงๆ (0=ขาว, 1=ถูก, 2=ดำ) ถ้าไม่มีให้เป็น 0
+                                    $state = $data['status'][$index] ?? 0; 
+                                @endphp
+                                <td>
+                                    <input type="hidden" name="status[{{ $machine }}][{{ $index }}]" value="{{ $state }}">
+                                    <div class="triple-checkbox" data-name="status[{{ $machine }}][{{ $index }}]" data-state="{{ $state }}"></div>
+                                </td>
+                            @endforeach
+                            <td><input type="text" name="inspector[{{ $machine }}]" value="{{ $data['inspector'] }}"></td>
+                            <td><input type="date" name="inspection_date[{{ $machine }}]" value="{{ $data['inspection_date'] ? \Carbon\Carbon::parse($data['inspection_date'])->format('Y-m-d') : '' }}"></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <center style="margin-top:15px;">
+                <p>หมายเหตุ: ลง✔ ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจและทำตามรายการเรียบร้อย <br> คลิกให้เป็นช่อง ■ ที่ว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อทำการเปลี่ยนตามรายการเรียบร้อย<br> ช่อง⬛คือช่องที่ไม่ต้องตรวจเช็ค</p>
+            </center>
+
+            <div id="pagination" style="text-align: center; margin-top: 20px;">
+                <button type="button" id="prevStep" class="pagination-btn">ก่อนหน้า</button>
+                <span id="pageInfo" style="font-weight:bold; margin:0 15px;">หน้า 1 / 3</span>
+                <button type="button" id="nextStep" class="pagination-btn">ถัดไป</button>
+                <button type="submit" id="submitBtn" class="pagination-btn" style="background: #1e3a8a; color: white; display: none; margin-left: 10px;">บันทึกข้อมูล</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // ปรับ Logic การคลิกวนลูปสถานะ
+    // ลูปเปลี่ยนสถานะเมื่อคลิก: 0 (ขาว) -> 1 (✔) -> 2 (ดำ) -> กลับมา 0 (ขาว)
     document.querySelectorAll('.triple-checkbox').forEach(cb => {
         cb.addEventListener('click', function() {
             let input = document.querySelector(`input[name="${this.dataset.name}"]`);
+            if (!input) return;
             
-            // ลำดับการวน: 2 (ดำ) -> 0 (ว่าง) -> 1 (เช็คถูก ✔) -> วนกลับมา 2 (ดำ)
-            if (this.dataset.state === '2') { 
-                this.dataset.state = '0'; 
-                input.value = '0'; 
-            } else if (this.dataset.state === '0') { 
+            if (this.dataset.state === '0') { 
                 this.dataset.state = '1'; 
                 input.value = '1'; 
-            } else { 
+            } else if (this.dataset.state === '1') { 
                 this.dataset.state = '2'; 
                 input.value = '2'; 
+            } else { 
+                this.dataset.state = '0'; 
+                input.value = '0'; 
             }
         });
     });
 
-    const steps = Array.from(document.querySelectorAll('.step'));
-    const totalSteps = 3; 
+    // ระบบ Pagination
+    const rows = Array.from(document.querySelectorAll('.step-row'));
+    const totalSteps = 3;
     let currentStep = 1;
-
-    const pagination = document.createElement('div');
-    pagination.id = 'pagination';
-    pagination.style.textAlign = 'center';
-    pagination.style.marginTop = '15px';
-    pagination.innerHTML = `
-        <button type="button" id="prevStep" class="active">ก่อนหน้า</button>
-        <span id="pageInfo" style="font-weight:bold; margin:0 10px;">หน้า ${currentStep} / ${totalSteps}</span>
-        <button type="button" class="active" id="nextStep">ถัดไป</button>
-        <button type="submit" class="active" id="submitBtn" style="margin-left:10px; display:none;">บันทึก</button>
-    `;
-    document.querySelector('form.form-container').appendChild(pagination);
 
     const prevBtn = document.getElementById('prevStep');
     const nextBtn = document.getElementById('nextStep');
@@ -247,19 +246,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const pageInfo = document.getElementById('pageInfo');
 
     function showStep(step) {
-        steps.forEach(row => row.style.display = row.classList.contains(`step-${step}`) ? '' : 'none');
-        prevBtn.style.display = step === 1 ? 'none' : 'inline-block';
-        nextBtn.style.display = step === totalSteps ? 'none' : 'inline-block';
-        submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
+        rows.forEach(row => {
+            const rowStep = parseInt(row.getAttribute('data-step'));
+            row.style.display = (rowStep === step) ? '' : 'none';
+        });
+
+        prevBtn.style.display = (step === 1) ? 'none' : 'inline-block';
+        nextBtn.style.display = (step === totalSteps) ? 'none' : 'inline-block';
+        submitBtn.style.display = (step === totalSteps) ? 'inline-block' : 'none';
         pageInfo.textContent = `หน้า ${step} / ${totalSteps}`;
     }
 
-    prevBtn.addEventListener('click', () => { if(currentStep > 1) { currentStep--; showStep(currentStep); } });
-    nextBtn.addEventListener('click', () => { if(currentStep < totalSteps) { currentStep++; showStep(currentStep); } });
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+
     showStep(currentStep);
 
-    const form = document.querySelector('form.form-container');
-    form.addEventListener('submit', function(e){
+    // SweetAlert2 ยืนยันการบันทึก
+    const form = document.getElementById('maintenanceForm');
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
         Swal.fire({
             title: 'ยืนยันการบันทึกข้อมูล?',
@@ -270,13 +286,12 @@ document.addEventListener('DOMContentLoaded', function() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'บันทึก',
             cancelButtonText: 'ยกเลิก'
-        }).then(result => { if(result.isConfirmed) form.submit(); });
+        }).then(result => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
     });
-});
-
-// ดักจับปุ่ม print เผื่อกรณีปุ่มถูกเรียกใช้งานภายนอก
-document.getElementById('printBtn')?.addEventListener('click', function() {
-    window.print();
 });
 </script>
 @endsection

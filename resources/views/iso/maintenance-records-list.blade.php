@@ -300,7 +300,7 @@
                             @if($record)
                             <tr>
                                 <td class="font-weight-bold text-secondary">{{ $no++ }}</td>
-                                <td><span class="badge px-3 py-2" style="background-color: #f5f3ff; color: #4f46e5; font-size: 0.9rem; border: 1px solid #ddd6fe;">{{ $year }}</span></td>
+                                <td><span class="badge px-3 py-2" style="background-color: #f5f3ff; color: #4f46e5; font-size: 0.9rem; border: 1px solid #ddd6fe;">{{ $record->year }}</span></td>
                                 <td class="text-left px-4">{{ $record->inspector }}</td>
                                 <td>
                                     <a href="{{ route('maintenance-records.edit', $record->id) }}" class="btn-table-edit">
@@ -308,13 +308,9 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('maintenance-records.destroy', $record->id) }}" method="POST" class="delete-form" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn-table-delete" onclick="confirmDeleteYear(this)">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn-table-delete" onclick="deleteRecord({{ $record->year }})">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </td>
                             </tr>
                             @endif
@@ -328,37 +324,32 @@
         </div>
     </div>
 </div>
-
+<form id="globalDeleteForm" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
 @endsection
 
 @push('scriptjs')
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script>
+    console.log("Script loaded successfully!");
+
+    function deleteRecord(id) {
+        const form = document.getElementById('globalDeleteForm');
+        form.action = `/maintenance-records/${id}`;
+        
+        // ลองเช็คว่า URL ที่แสดงถูกต้องตาม Route ของโปรเจกต์คุณหรือไม่
+        // alert("กำลังจะส่งไปที่ URL: " + form.action); 
+        
+        if (confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?')) {
+            form.submit();
+        }
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <script>
-// ✅ ฟังก์ชัน SweetAlert2 ยืนยันการลบแบบโมเดิร์น
-function confirmDeleteYear(button) {
-    const form = button.closest('.delete-form');
-    
-    Swal.fire({
-        title: 'ยืนยันการลบข้อมูล?',
-        text: "คุณต้องการลบข้อมูลการบำรุงรักษาทั้งหมดของปีนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนคืนได้!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'ใช่, ฉันต้องการลบ',
-        cancelButtonText: 'ยกเลิก',
-        customClass: {
-            confirmButton: 'swal-confirm-btn',
-            cancelButton: 'swal-cancel-btn'
-        },
-        buttonsStyling: false
-    }).then((result) => {
-        if (result.isConfirmed) {
-            form.submit();
-        }
-    });
-}
-
 // ✅ ระบบจัดการการค้นหาภายในตาราง (Search Engine)
 document.getElementById('searchInput')?.addEventListener('input', function() {
     const filter = this.value.toLowerCase();
