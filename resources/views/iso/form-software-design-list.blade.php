@@ -124,20 +124,24 @@
     <div class="row justify-content-center">  
         <div class="col-12 col-xl-11">
             <div class="card card-modern">
-                <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-                    <div class="text-center text-md-left">
-                        <h5 class="m-0">ESSOM CO.,LTD</h5>
-                        <p class="m-0 opacity-75 small">การออกแบบซอฟต์แวร์, ทบทวนและทวนสอบ (SOFTWARE DESIGN, REVIEW AND VERIFICATION)</p>
-                    </div>
-                    
-                    <div class="d-flex align-items-center gap-3 align-self-stretch align-self-md-center justify-content-between justify-content-md-end">
-                        <a href="{{ route('software-design.create') }}" class="btn btn-add-document">
-                            ➕ เพิ่มเอกสารใหม่
-                        </a>
-                        <div style="text-align: right; font-size: 0.8rem; opacity: 0.9; line-height: 1.3;">
-                            <strong>FS8302.1</strong><br>4 Nov. 24
+                <div class="card-header py-3 px-4">
+                    <div class="row align-items-center g-3">
+                        <!-- ฝั่งซ้าย: หัวข้อและรายละเอียด (กินพื้นที่ส่วนใหญ่) -->
+                        <div class="col-12 col-md-7 text-center text-md-start">
+                            <h5 class="m-0">ESSOM CO.,LTD</h5>
+                            <p class="m-0 opacity-75 small">การออกแบบซอฟต์แวร์, ทบทวนและทวนสอบ (SOFTWARE DESIGN, REVIEW AND VERIFICATION)</p>
                         </div>
-                    </div>             
+                        
+                        <!-- ฝั่งขวา: ปุ่มเพิ่มเอกสาร และ เลขที่เอกสาร (จัดเรียงสวยงาม ไม่เบียด) -->
+                        <div class="col-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-end gap-3">
+                            <a href="{{ route('software-design.create') }}" class="btn-add-document">
+                                <i class="fas fa-plus-circle"></i> เพิ่มเอกสารใหม่
+                            </a> &nbsp;&nbsp;
+                            <div class="text-end border-start ps-3 border-light opacity-75" style="font-size: 0.8rem; line-height: 1.3;">
+                                <strong>FS8302.1</strong><br>4 Nov. 24
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card-body p-4">      
