@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Objective;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class IsoObjcctives extends Controller
 {
@@ -97,93 +98,89 @@ class IsoObjcctives extends Controller
         return view('iso.objcctives-edit', compact('objcctive','emp'));
     }
 
-    public function update(Request $request, Objective $objcctive)
+    public function update(Request $request, $id) // หรือใช้ Model Binding เช่น (Request $request, Objective $objcctive)
     {
+        $objcctive = Objective::findOrFail($id); // ปรับชื่อ Model ตามที่คุณใช้งานจริง
+
         if ($request->checkdoc == "Edit") {
             try {
                 $activities = [];
                 
-                // [แก้ไข]: ดึงอาร์เรย์ของไฟล์แนบมาจาก Request ไว้ในตัวแปร $attachments
+                // ดึงอาร์เรย์ของไฟล์แนบมาจาก Request
                 $attachments = $request->file('attachment') ?? [];
 
-if (!empty($request->description)) {
-    foreach ($request->description as $i => $desc) {
-        if (empty($desc) && empty($request->resp_person[$i])) continue;
+                if (!empty($request->description)) {
+                    foreach ($request->description as $i => $desc) {
+                        if (empty($desc) && empty($request->resp_person[$i])) continue;
 
-        // ตั้งค่าเริ่มต้นเป็นไฟล์เดิมก่อน
-        $filePath = $request->old_file_path[$i] ?? null;
+                        // ตั้งค่าเริ่มต้นเป็นไฟล์เดิมก่อน
+                        $filePath = $request->old_file_path[$i] ?? "";
 
-        // [จุดปรับปรุง]: เช็กว่ามีไฟล์ถูกอัปโหลดส่งมาในช่องของ index นี้จริงหรือไม่
-        // โดยใช้ $request->hasFile("attachment.{$i}") เพื่อความแม่นยำสูง
-        if ($request->hasFile("attachment.{$i}") && $request->file("attachment.{$i}")->isValid()) {
-            $file = $request->file("attachment.{$i}");
-            
-            // บันทึกไฟล์ลง disk 'img' ในโฟลเดอร์ย่อย 'objective_files'
-            $uploadedPath = $file->store('objective_files', 'img');
-            
-            $filePath = 'img/' . $uploadedPath;
+                        // ตรวจสอบสถานะการลบหรือการเปลี่ยนไฟล์ใหม่
+                        $deleteFlag = $request->delete_file[$i] ?? '0';
+                        $hasNewFile = $request->hasFile("attachment.{$i}") && $request->file("attachment.{$i}")->isValid();
+
+                        // ถ้ามีการกดปุ่มลบไฟล์ หรือมีการอัปโหลดไฟล์ใหม่มาทับ ให้ลบไฟล์เก่าทิ้งก่อน
+                        if ($deleteFlag === '1' || $hasNewFile) {
+                            $this->removeExistingFile($filePath);
+                            
+                            if ($deleteFlag === '1') {
+                                $filePath = ""; // ถ้ากดลบ ให้เซ็ตค่าใน array เป็นค่าว่าง ""
+                            }
+                        }
+
+                        // ถ้ามีการอัปโหลดไฟล์ใหม่เข้ามาในแถวนี้
+                        if ($hasNewFile) {
+                            $file = $request->file("attachment.{$i}");
+                            
+                            // บันทึกไฟล์ลง disk 'img' ในโฟลเดอร์ย่อย 'objective_files'
+                            $uploadedPath = $file->store('objective_files', 'img');
+                            
+                            $filePath = 'img/' . $uploadedPath;
+                        }
+
+                        $activities[] = [
+                            'no'           => $request->no[$i] ?? $i + 1,
+                            'description'  => $desc,
+                            'resp_person'  => $request->resp_person[$i] ?? '',
+                            'resp_person1' => $request->resp_person1[$i] ?? '',
+                            'previous'     => $request->previous[$i] ?? '',
+                            'plan'         => $request->plan[$i] ?? '',
+                            'results'      => $request->results[$i] ?? '',
+                            'remarks'      => $request->remarks[$i] ?? '',
+                            'note1'        => $request->note1[$i] ?? '',
+                            'note2'        => $request->note2[$i] ?? '',
+                            'file_path'    => $filePath, // บันทึกเป็น path หรือค่าว่าง ""
+                        ];
+                    }
+                }
+
+                // บันทึกข้อมูลส่วนหัวและรายการกิจกรรมลงใน Model
+                $objcctive->section       = $request->input('section.0');
+                $objcctive->period        = $request->input('period.0');
+                $objcctive->docutype      = $request->input('docutype.0');
+                $objcctive->activity_list = $activities;
+                
+                // ข้อมูลลายเซ็นและวันที่
+                $objcctive->reported_by       = $request->reported_by;
+                $objcctive->reported_date     = $request->reported_date;
+                $objcctive->prepared_by       = $request->prepared_by;
+                $objcctive->prepared_date     = $request->prepared_date;
+                $objcctive->reviewed_by       = $request->reviewed_by;
+                $objcctive->reviewed_date     = $request->reviewed_date;
+                $objcctive->acknowledged_by   = $request->acknowledged_by;
+                $objcctive->acknowledged_date = $request->acknowledged_date;
+                $objcctive->approved_by       = $request->approved_by;
+                $objcctive->approved_date     = $request->approved_date;
+
+                $objcctive->save();
+
+                return redirect()->back()->with('success', 'อัปเดตข้อมูลสำเร็จเรียบร้อยแล้ว');
+
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+            }
         }
-
-        $activities[] = [
-            'no'          => $request->no[$i] ?? $i + 1,
-            'description' => $desc,
-            'resp_person' => $request->resp_person[$i] ?? '',
-            'resp_person1' => $request->resp_person1[$i] ?? '',
-            'previous'    => $request->previous[$i] ?? '',
-            'plan'        => $request->plan[$i] ?? '',
-            'results'     => $request->results[$i] ?? '',
-            'remarks'     => $request->remarks[$i] ?? '',
-            'note1'       => $request->note1[$i] ?? '',
-            'note2'       => $request->note2[$i] ?? '',
-            'file_path'   => $filePath, 
-        ];
-    }
-}
- 
-                $objcctive->update([
-                    'section'           => $request->section[0] ?? null,
-                    'period'            => $request->period[0] ?? null,
-                    'docutype'          => $request->docutype[0] ?? null,
-                    'activity_list'     => $activities,
-                    'prepared_by'       => $request->prepared_by,
-                    'prepared_date'     => $request->prepared_date,
-                    'reported_by'       => $request->reported_by,
-                    'reported_date'     => $request->reported_date,
-                    'reviewed_by'       => $request->reviewed_by,
-                    'reviewed_date'     => $request->reviewed_date,
-                    'acknowledged_by'   => $request->acknowledged_by,
-                    'acknowledged_date' => $request->acknowledged_date,
-                    'approved_by'       => $request->approved_by,
-                    'approved_date'     => $request->approved_date,
-                    'approved_status'   => 'N'
-                ]);
-
-                return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
-            }
-            
-        } elseif ($request->checkdoc == "Update") { // [แก้ไข]: เปลี่ยนจาก = เป็น == เพื่อให้เงื่อนไขทำงานถูกต้อง
-            $data = [
-                'reported_by'       => $request->reported_by,
-                'reported_date'     => $request->reported_date,
-                'reviewed_by'       => $request->reviewed_by,
-                'reviewed_date'     => $request->reviewed_date,
-                'acknowledged_by'   => $request->acknowledged_by,
-                'acknowledged_date' => $request->acknowledged_date,
-                'approved_by'       => $request->approved_by,
-                'approved_date'     => $request->approved_date,
-                'approved_remark'   => $request->approved_remark,
-                'approved_status'   => 'Y'
-            ];
-
-            try {
-                $objcctive->update($data);
-                return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
-            }
-        }        
     }
     public function show(Objective $objcctive)
     {
@@ -205,5 +202,25 @@ if (!empty($request->description)) {
         $objcctive = Objective::findOrFail($id);
         
         return view('iso.objcctives-print', compact('objcctive'));
+    }
+    
+    private function removeExistingFile(?string $filePath)
+    {
+        if (!empty($filePath)) {
+            // ตัดคำว่า 'img/' ออกเพื่อให้ตรงกับ Disk 'img' ที่ตั้งค่าไว้ใน filesystems.php
+            $pathWithoutDisk = str_replace('img/', '', $filePath);
+            
+            if (Storage::disk('img')->exists($pathWithoutDisk)) {
+                Storage::disk('img')->delete($pathWithoutDisk);
+            }
+        }
+    }
+    public function duplicate($id)
+    {
+        $objective = Objective::findOrFail($id);    
+        $newObjective = $objective->replicate();
+        $objectiveDetails = $objective->activity_list ?? [];
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.objcctives-new', compact('newObjective', 'objectiveDetails', 'emp'));
     }
 }

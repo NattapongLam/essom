@@ -221,7 +221,53 @@ Swal.fire({
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         height: 36px !important;
     }
+    /* Header Action Buttons Styling */
+    .header-actions-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+    }
+    
+    .btn-action-custom {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-action-custom:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
 
+    .btn-print-custom {
+        background: #ffffff;
+        color: #4f46e5 !important;
+        border: 1px solid #c7d2fe;
+    }
+    .btn-print-custom:hover {
+        background: #eef2ff;
+        border-color: #4f46e5;
+    }
+
+    .btn-duplicate-custom {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: #ffffff !important;
+        border: none;
+    }
+    .btn-duplicate-custom:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        color: #ffffff !important;
+    }
     @media (max-width: 1024px){
         .form-container { padding: 20px; }
     }
@@ -236,13 +282,22 @@ Swal.fire({
 <input type="hidden" name="checkdoc" value="Edit">
 
 <div class="form-container">
-    <div class="header-title-block">
+   <div class="header-title-block">
         <h2>ESSOM CO.,LTD.</h2>
         <h2 class="sub-title">Objective (แก้ไขข้อมูล)</h2>
         <div class="doc-meta text-right">F6200.1<br>9 Apr 24</div>
-        <a href="{{ route('objectives.print', $objcctive->id) }}" target="_blank" class="primary-submit" style="text-decoration: none;">
-            <i class="fas fa-print"></i> พิมพ์ฟอร์ม
-        </a>
+        
+        <div class="header-actions-wrapper">
+            <!-- ปุ่มพิมพ์ฟอร์มเดิม -->
+            <a href="{{ route('objectives.print', $objcctive->id) }}" target="_blank" class="btn-action-custom btn-print-custom">
+                <i class="fas fa-print"></i> พิมพ์ฟอร์ม
+            </a>
+            
+            <!-- ปุ่มสร้างเอกสารใหม่จากข้อมูลนี้ (Duplicate) -->
+            <a href="{{ route('objectives.duplicate', $objcctive->id) }}" class="btn-action-custom btn-duplicate-custom">
+                <i class="fas fa-copy"></i> สร้างเอกสารใหม่จากข้อมูลนี้
+            </a>
+        </div>
     </div>
     <div class="section-top-fields">
         <div class="row">
@@ -318,17 +373,27 @@ Swal.fire({
                         </select>
                         <br>
                         <div class="inner-field-label">ไฟล์แนบ :</div>
-                        <input type="file" class="form-control-file" name="attachment[]" style="font-size: 0.75rem;">
-                        
+                        <input type="file" class="form-control-file" name="attachment[{{ $i }}]" style="font-size: 0.75rem;">
+        
                         @if(!empty($act['file_path']))
-                            <div class="old-file-info">
+                            <div class="old-file-info" id="file-wrapper-{{ $i }}">
                                 <a href="{{ asset($act['file_path']) }}" target="_blank" style="color: #4f46e5; text-decoration: none;">
                                     <i class="fas fa-paperclip"></i> ดูไฟล์เดิม
                                 </a>
-                                <input type="hidden" name="old_file_path[]" value="{{ $act['file_path'] }}">
+                                
+                                <!-- ปุ่มลบไฟล์เดิม -->
+                                <button type="button" class="btn btn-sm text-danger p-0 ml-2 remove-old-file" data-row="{{ $i }}" title="ลบไฟล์นี้">
+                                    <i class="fas fa-times-circle"></i> ลบไฟล์
+                                </button>
+
+                                <!-- เก็บ path เดิมไว้ -->
+                                <input type="hidden" name="old_file_path[{{ $i }}]" value="{{ $act['file_path'] }}">
+                                <!-- Input บอกสถานะว่าต้องการลบไฟล์นี้ไหม (0 = เก็บไว้, 1 = ลบออก) -->
+                                <input type="hidden" name="delete_file[{{ $i }}]" value="0" id="delete_file_{{ $i }}">
                             </div>
                         @else
-                            <input type="hidden" name="old_file_path[]" value="">
+                            <input type="hidden" name="old_file_path[{{ $i }}]" value="">
+                            <input type="hidden" name="delete_file[{{ $i }}]" value="0">
                         @endif
                     </td>
                     <td><input type="text" name="previous[]" value="{{ old('previous.'.$i, $act['previous'] ?? '') }}"></td>
@@ -589,6 +654,37 @@ document.addEventListener("DOMContentLoaded", function() {
             placeholder: 'กรุณาเลือกพนักงาน',
             width: '100%'
         });
+    });
+});
+// จัดการการคลิกปุ่มลบไฟล์เดิม (แบบเก็บเป็น Array Index)
+$(document).on('click', '.remove-old-file', function () {
+    const rowIndex = $(this).data('row');
+    
+    Swal.fire({
+        title: 'ลบไฟล์แนบ?',
+        text: "คุณต้องการลบไฟล์แนบนี้ใช่หรือไม่?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'ใช่, ลบเลย',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // เซ็ตค่าเป็น 1 เพื่อบอก Controller ว่าให้ลบไฟล์นี้ทิ้ง
+            $('#delete_file_' + rowIndex).val('1');
+            
+            // ซ่อนการแสดงผลแถวไฟล์เดิม
+            $('#file-wrapper-' + rowIndex).fadeOut();
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'ลบไฟล์สำเร็จ',
+                text: 'ไฟล์จะถูกลบเมื่อกดอัปเดตข้อมูล',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }
     });
 });
 </script>
