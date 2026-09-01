@@ -219,7 +219,7 @@ Swal.fire({
 <div class="form-container">
     <div class="header-title-block">
         <h2>ESSOM CO.,LTD.</h2>
-        <h2 class="sub-title">Objective @if(isset($newObjective)) (ทำสำเนาข้อมูลเดิม) @endif</h2>
+        <h2 class="sub-title">OBJECTIVES @if(isset($newObjective)) (ทำสำเนาข้อมูลเดิม) @endif</h2>
         <div class="doc-meta text-right">F6200.1<br>9 Apr 24</div>
     </div>
 
