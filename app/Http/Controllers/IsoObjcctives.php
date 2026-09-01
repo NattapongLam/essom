@@ -175,8 +175,27 @@ class IsoObjcctives extends Controller
 
                 $objcctive->save();
 
-                return redirect()->back()->with('success', 'อัปเดตข้อมูลสำเร็จเรียบร้อยแล้ว');
+                 return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จเรียบร้อยแล้ว');
 
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
+            }
+        }elseif ($request->checkdoc == "Update") {
+            $data = [
+                'reported_by'       => $request->reported_by,
+                'reported_date'     => $request->reported_date,
+                'reviewed_by'       => $request->reviewed_by,
+                'reviewed_date'     => $request->reviewed_date,
+                'acknowledged_by'   => $request->acknowledged_by,
+                'acknowledged_date' => $request->acknowledged_date,
+                'approved_by'       => $request->approved_by,
+                'approved_date'     => $request->approved_date,
+                'approved_remark'   => $request->approved_remark,
+                'approved_status'   => 'Y'
+            ];
+            try {
+                $objcctive->update($data);
+                return redirect()->route('objcctives.index')->with('success', 'อัปเดตข้อมูลสำเร็จ!');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage());
             }

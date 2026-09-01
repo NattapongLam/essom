@@ -76,11 +76,55 @@ input:focus {
     margin: 0 auto;
     transition: all 0.2s ease;
     background-color: #f8fafc;
+    position: relative; /* สำคัญเพื่อให้ตัวหนังสืออ้างอิงตำแหน่งได้ */
+}
+
+.triple-checkbox[data-state="0"] { background-color: #f8fafc; border-color: #94a3b8; }
+
+.triple-checkbox[data-state="1"] { 
+    background-color: #16a34a; 
+    border-color: #16a34a; 
+}
+.triple-checkbox[data-state="1"]::after { 
+    content: '✔'; 
+    color: white; 
+    font-size: 14px; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}
+
+.triple-checkbox[data-state="2"] { 
+    background-color: #111827; 
+    border-color: #111827; 
+}
+
+/* แก้ไขตรงส่วนของตัว P ให้บังคับแสดงผลชัดเจน */
+.triple-checkbox[data-state="P"] { 
+    background-color: #0284c7; 
+    border-color: #0284c7; 
+}
+.triple-checkbox[data-state="P"]::after { 
+    content: 'ป' !important; 
+    color: white !important; 
+    font-size: 14px !important; 
+    font-weight: bold !important; 
+    position: absolute !important; 
+    top: 50% !important; 
+    left: 50% !important; 
+    transform: translate(-50%, -50%) !important; 
+    display: block !important; 
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 .triple-checkbox[data-state="0"] { background-color: #f8fafc; border-color: #94a3b8; }
 .triple-checkbox[data-state="1"] { background-color: #16a34a; border-color: #16a34a; position: relative; }
 .triple-checkbox[data-state="1"]::after { content: '✔'; color: white; font-size: 14px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .triple-checkbox[data-state="2"] { background-color: #111827; border-color: #111827; }
+.triple-checkbox[data-state="P"] { background-color: #0284c7; border-color: #0284c7; }
+.triple-checkbox[data-state="P"]::after { content: 'ป'; color: white; font-size: 13px; font-weight: bold; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
 
 .rotated-text {
     writing-mode: vertical-rl;
@@ -326,8 +370,8 @@ input:focus {
         </table>
 
         <center>
-            <p>หมายเหตุ: ลง✔ ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจ และทำตามรายการเรียบร้อย <br>
-            คลิกให้เป็นช่อง ■ ที่ว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อทำการเปลี่ยนตามรายการเรียบร้อย<br>
+            <p>หมายเหตุ: ลง ✔ ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจ และทำตามรายการเรียบร้อย <br>
+            ลง ป ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจ และทำตามรายการเรียบร้อย <br>
             ช่อง⬛คือช่องที่ไม่ต้องตรวจเช็ค</p>
         </center>
 
@@ -353,9 +397,21 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.triple-checkbox').forEach(cb => {
         cb.addEventListener('click', function() {
             let input = document.querySelector(`input[name="${this.dataset.name}"]`);
-            if(this.dataset.state === '0') { this.dataset.state = '1'; input.value = '1'; }
-            else if(this.dataset.state === '1') { this.dataset.state = '2'; input.value = '2'; }
-            else { this.dataset.state = '0'; input.value = '0'; }
+            
+            // เพิ่มการสลับสถานะให้ครบ: 0 -> 1 -> 2 -> P -> 0
+            if(this.dataset.state === '0') { 
+                this.dataset.state = '1'; 
+                input.value = '1'; 
+            } else if(this.dataset.state === '1') { 
+                this.dataset.state = '2'; 
+                input.value = '2'; 
+            } else if(this.dataset.state === '2') { 
+                this.dataset.state = 'P'; 
+                input.value = 'P'; 
+            } else { 
+                this.dataset.state = '0'; 
+                input.value = '0'; 
+            }
         });
     });
     const steps = Array.from(document.querySelectorAll('.step'));

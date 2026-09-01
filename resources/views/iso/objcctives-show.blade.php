@@ -149,7 +149,7 @@
     
     <div class="header-title-block">
         <h2>ESSOM CO.,LTD.</h2>
-        <h2 class="sub-title">รายละเอียด ISO Objective</h2>
+        <h2 class="sub-title">OBJECTIVES</h2>
     </div>
 
     <div class="info-overview-grid">

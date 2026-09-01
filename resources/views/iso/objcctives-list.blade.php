@@ -166,7 +166,7 @@
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                         <div>
                             <div class="company-title">ESSOM CO., LTD.</div>
-                            <h5 class="main-title">คำขอแก้ไข Objective</h5>
+                            <h5 class="main-title">OBJECTIVES</h5>
                         </div>
                         <div class="text-md-right mt-2 mt-md-0 doc-meta">
                             <strong>Form No:</strong> F6200.1<br>

@@ -164,7 +164,7 @@
         <div class="doc-meta-top-right">
             F6200.1<br>9 Apr 24
         </div>
-        <h2>คำขอแก้ไข Objective</h2>
+        <h2>OBJECTIVES</h2>
     </div>
 
     <div class="section-top-fields">

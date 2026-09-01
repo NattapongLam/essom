@@ -90,7 +90,7 @@ input:focus {
     outline: none;
 }
 
-/* 3 สถานะ: 0=ช่องขาว, 1=เครื่องหมายถูก, 2=ช่องดำ */
+/* 4 สถานะ: 0=ช่องขาว, 1=เครื่องหมายถูก, 2=ช่องดำ, P=ตัวอักษร ป */
 .triple-checkbox {
     width: 22px;
     height: 22px;
@@ -99,6 +99,7 @@ input:focus {
     cursor: pointer;
     margin: 0 auto;
     transition: all 0.2s ease;
+    position: relative;
 }
 .triple-checkbox[data-state="0"] { 
     background-color: #ffffff; 
@@ -107,7 +108,6 @@ input:focus {
 .triple-checkbox[data-state="1"] { 
     background-color: #16a34a; 
     border-color: #16a34a; 
-    position: relative; 
 }
 .triple-checkbox[data-state="1"]::after { 
     content: '✔'; 
@@ -121,6 +121,20 @@ input:focus {
 .triple-checkbox[data-state="2"] { 
     background-color: #111827; 
     border-color: #111827; 
+}
+.triple-checkbox[data-state="P"] { 
+    background-color: #0284c7; 
+    border-color: #0284c7; 
+}
+.triple-checkbox[data-state="P"]::after { 
+    content: 'ป'; 
+    color: white; 
+    font-size: 14px; 
+    font-weight: bold; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
 }
 
 .rotated-text {
@@ -159,7 +173,6 @@ input:focus {
                 <tbody>
                     @foreach($machines as $i => $machine)
                         @php
-                            // ดึงข้อมูลที่เตรียมไว้จาก Controller โดยตรง
                             $recordData = $records[$machine] ?? null;
                             
                             $data = [
@@ -185,7 +198,7 @@ input:focus {
                             <td>{{ $machine }}</td>
                             @foreach($maintenance_items as $index => $item)
                                 @php 
-                                    // ดึงค่าสถานะตรงๆ (0=ขาว, 1=ถูก, 2=ดำ) ถ้าไม่มีให้เป็น 0
+                                    // รองรับค่าเริ่มต้น (0, 1, 2 หรือ 'P')
                                     $state = $data['status'][$index] ?? 0; 
                                 @endphp
                                 <td>
@@ -201,7 +214,9 @@ input:focus {
             </table>
 
             <center style="margin-top:15px;">
-                <p>หมายเหตุ: ลง✔ ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจและทำตามรายการเรียบร้อย <br> คลิกให้เป็นช่อง ■ ที่ว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อทำการเปลี่ยนตามรายการเรียบร้อย<br> ช่อง⬛คือช่องที่ไม่ต้องตรวจเช็ค</p>
+                <p>หมายเหตุ: ลง ✔ ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจและทำตามรายการเรียบร้อย <br>
+                ลง ป ในช่องว่างและลงชื่อผู้ตรวจพร้อมวันที่ เมื่อตรวจและทำตามรายการเรียบร้อย <br>
+                ช่อง ⬛ คือช่องที่ไม่ต้องตรวจเช็ค</p>
             </center>
 
             <div id="pagination" style="text-align: center; margin-top: 20px;">
@@ -216,18 +231,23 @@ input:focus {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // ลูปเปลี่ยนสถานะเมื่อคลิก: 0 (ขาว) -> 1 (✔) -> 2 (ดำ) -> กลับมา 0 (ขาว)
+    // ลูปสลับสถานะเมื่อคลิก: 0 (ขาว) -> 1 (✔) -> 2 (ดำ) -> P (ป) -> กลับมา 0 (ขาว)
     document.querySelectorAll('.triple-checkbox').forEach(cb => {
         cb.addEventListener('click', function() {
             let input = document.querySelector(`input[name="${this.dataset.name}"]`);
             if (!input) return;
             
-            if (this.dataset.state === '0') { 
+            let currentState = String(this.dataset.state);
+
+            if (currentState === '0') { 
                 this.dataset.state = '1'; 
                 input.value = '1'; 
-            } else if (this.dataset.state === '1') { 
+            } else if (currentState === '1') { 
                 this.dataset.state = '2'; 
                 input.value = '2'; 
+            } else if (currentState === '2') { 
+                this.dataset.state = 'P'; 
+                input.value = 'P'; 
             } else { 
                 this.dataset.state = '0'; 
                 input.value = '0'; 
