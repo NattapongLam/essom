@@ -194,7 +194,7 @@ Swal.fire({
 <div class="form-container">
     <div class="header-title-block">
         <h2>ESSOM CO.,LTD.</h2>
-        <h2 class="sub-title">OBJECTIVES (การอนุมัติเอกสาร)</h2>
+        <h2 class="sub-title">OBJECTIVES</h2>
         <div class="doc-meta text-right">F6200.1<br>9 Apr 24</div>
     </div>
 
@@ -296,16 +296,7 @@ Swal.fire({
     </div>
 
     <div class="signature-grid">
-        <div class="signature-item">
-            <label>Prepared by:</label>
-            <input type="text" name="prepared_by" class="form-control" value="{{ old('prepared_by', $objcctive->prepared_by) }}" readonly>
-        </div>
-        <div class="signature-item">
-            <label>Date:</label>
-            <input type="date" name="prepared_date" class="form-control" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->prepared_date))->format('Y-m-d')) }}" readonly>
-        </div>
-
-        @if ($objcctive->reported_by)
+        @if ($objcctive->docutype == "Monthly")
             <div class="signature-item">
                 <label>Reported by:</label>
                 <input type="text" name="reported_by" class="form-control" value="{{$objcctive->reported_by}}" readonly>
@@ -315,19 +306,59 @@ Swal.fire({
                 <input type="date" name="reported_date" class="form-control" value="{{ old('reported_date', optional(\Carbon\Carbon::parse($objcctive->reported_date))->format('Y-m-d')) }}" readonly>
             </div>
         @else
-            <div class="signature-item active-approval">
-                <label>Reported by (ผู้อนุมัติ):</label>
-                <input type="text" name="reported_by" class="form-control" value="{{auth()->user()->name}}" readonly>
+            <div class="signature-item">
+                <label>Reported by:</label>
+                <input type="text" name="reported_by" class="form-control" value="-" readonly>
             </div>
-            <div class="signature-item active-approval">
-                <label>Date (วันที่อนุมัติ):</label>
-                <input type="date" name="reported_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+            <div class="signature-item">
+                <label>Date:</label>
+                <input type="date" name="reported_date" class="form-control" value="" readonly>
             </div>
-        @endif          
+        @endif
+        @if ($objcctive->docutype == "Semi-annual")
+            <div class="signature-item">
+                <label>Prepared by:</label>
+                <input type="text" name="prepared_by" class="form-control" value="{{ old('prepared_by', $objcctive->prepared_by) }}" readonly>
+            </div>
+            <div class="signature-item">
+                <label>Date:</label>
+                <input type="date" name="prepared_date" class="form-control" value="{{ old('prepared_date', optional(\Carbon\Carbon::parse($objcctive->prepared_date))->format('Y-m-d')) }}" readonly>
+            </div>
+        @else
+            <div class="signature-item">
+                <label>Prepared by:</label>
+                <input type="text" name="prepared_by" class="form-control" value="-" readonly>
+            </div>
+            <div class="signature-item">
+                <label>Date:</label>
+                <input type="date" name="prepared_date" class="form-control" value="" readonly>
+            </div>
+        @endif                
     </div>
 
     <div class="signature-grid" style="margin-top: 20px;">
-        @if ($objcctive->reviewed_by)
+        @if ($objcctive->docutype == "Monthly")
+            @if ($objcctive->acknowledged_by)
+                <div class="signature-item">
+                    <label>Acknowledged by:</label>
+                    <input type="text" name="acknowledged_by" class="form-control" value="{{auth()->user()->name}}" readonly>
+                </div>
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="acknowledged_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
+                </div>   
+            @endif               
+        @else         
+            <div class="signature-item">
+                <label>Acknowledged by:</label>
+                <input type="text" name="acknowledged_by" class="form-control" value="-" readonly>
+            </div>
+            <div class="signature-item">
+                <label>Date:</label>
+                <input type="date" name="acknowledged_date" class="form-control" value="" readonly>
+            </div>   
+        @endif
+        @if ($objcctive->docutype == "Semi-annual")
             <div class="signature-item">
                 <label>Reviewed by:</label>
                 <input type="text" name="reviewed_by" class="form-control" value="{{ old('reviewed_by', $objcctive->reviewed_by) }}" readonly>
@@ -335,40 +366,20 @@ Swal.fire({
             <div class="signature-item">
                 <label>Date:</label>
                 <input type="date" name="reviewed_date" class="form-control" value="{{ old('reviewed_date', optional(\Carbon\Carbon::parse($objcctive->reviewed_date))->format('Y-m-d')) }}" readonly>
-            </div>  
-        @elseif($objcctive->reported_by)
-            <div class="signature-item active-approval">
-                <label>Reviewed by (ผู้อนุมัติ):</label>
-                <input type="text" name="reviewed_by" class="form-control" value="{{auth()->user()->name}}" readonly>
-            </div>
-            <div class="signature-item active-approval">
-                <label>Date (วันที่อนุมัติ):</label>
-                <input type="date" name="reviewed_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
             </div> 
-        @endif   
-
-        @if ($objcctive->acknowledged_by)
-            <div class="signature-item">
-                <label>Acknowledged by:</label>
-                <input type="text" name="acknowledged_by" class="form-control" value="{{ old('acknowledged_by', $objcctive->acknowledged_by) }}" readonly>
+        @else
+             <div class="signature-item">
+                <label>Reviewed by:</label>
+                <input type="text" name="reviewed_by" class="form-control" value="-" readonly>
             </div>
             <div class="signature-item">
                 <label>Date:</label>
-                <input type="date" name="acknowledged_date" class="form-control" value="{{ old('acknowledged_date', optional(\Carbon\Carbon::parse($objcctive->acknowledged_date))->format('Y-m-d')) }}" readonly>
-            </div>   
-        @elseif($objcctive->reviewed_by)
-            <div class="signature-item active-approval">
-                <label>Acknowledged by (ผู้อนุมัติ):</label>
-                <input type="text" name="acknowledged_by" class="form-control" value="{{auth()->user()->name}}" readonly>
-            </div>
-            <div class="signature-item active-approval">
-                <label>Date (วันที่อนุมัติ):</label>
-                <input type="date" name="acknowledged_date" class="form-control" value="{{ old('date', now()->format('Y-m-d')) }}" required>
-            </div>   
-        @endif                 
+                <input type="date" name="reviewed_date" class="form-control" value="" readonly>
+            </div> 
+        @endif               
     </div>
 
-    @if ($objcctive->approved_by || $objcctive->acknowledged_by)
+    @if ($objcctive->approved_by || $objcctive->reviewed_by)
     <div class="signature-grid" style="margin-top: 20px;">
         @if ($objcctive->approved_by)
             <div class="signature-item">
@@ -383,7 +394,7 @@ Swal.fire({
                 <label>Note (ผู้อนุมัติสูงสุด):</label>
                 <input type="text" name="approved_remark" class="form-control" value="{{ old('approved_remark', $objcctive->approved_remark) }}" readonly>
             </div>
-        @elseif($objcctive->acknowledged_by)
+        @elseif($objcctive->reviewed_by)
             <div class="signature-item active-approval">
                 <label>Approved by (ผู้อนุมัติสูงสุด):</label>
                 <input type="text" name="approved_by" class="form-control" value="{{auth()->user()->name}}" readonly>

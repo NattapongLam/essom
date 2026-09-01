@@ -338,22 +338,6 @@ Swal.fire({
         <div class="row">
             <div class="col-6">
                 <div class="signature-item">
-                    <label>Reviewed by:</label>
-                    <select class="form-control receiver-select" name="reviewed_by">
-                        <option value=""></option>
-                        @foreach ($emp as $item)
-                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="signature-item">
-                    <label>Date:</label>
-                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" readonly>
-                </div> 
-            </div>
-            
-            <div class="col-6">
-                <div class="signature-item">
                     <label>Acknowledged by:</label>
                     <select class="form-control receiver-select" name="acknowledged_by">
                         <option value=""></option>
@@ -366,6 +350,21 @@ Swal.fire({
                     <label>Date:</label>
                     <input type="date" name="acknowledged_date" value="{{ old('acknowledged_date') }}" readonly>
                 </div>
+            </div>
+            <div class="col-6">
+                <div class="signature-item">
+                    <label>Reviewed by:</label>
+                    <select class="form-control receiver-select" name="reviewed_by">
+                        <option value=""></option>
+                        @foreach ($emp as $item)
+                             <option value="{{ $item->ms_employee_fullname }}">{{ $item->ms_employee_fullname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="signature-item">
+                    <label>Date:</label>
+                    <input type="date" name="reviewed_date" value="{{ old('reviewed_date') }}" readonly>
+                </div> 
             </div>
         </div>
 
