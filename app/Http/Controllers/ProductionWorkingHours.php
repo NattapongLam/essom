@@ -102,8 +102,7 @@ class ProductionWorkingHours extends Controller
         ->where('created_person',$emp->ms_employee_fullname)
         ->where('workinghours_hd_date',$request->workinghours_hd_date)
         ->first();
-        if ($ckdocu) {
-            // กรณีพบข้อมูล ให้หยุดการทำงานและแจ้งเตือน
+        if (Auth::user()->name !== "ไพฑูรย์ อ่อนทา" && $ckdocu) {
             return back()->with('error', 'ไม่สามารถบันทึกได้ เนื่องจากข้อมูลของวันที่นี้มีอยู่แล้วในระบบ');
         }
         $hd = [
