@@ -49,17 +49,35 @@ class IsoDocumentexternal extends Controller
         $request->validate([
             'ms_year_name' => ['required'],
             'listno' => ['required'],
+            'documentdestruction_dt_file.*' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx', 'max:10240'], // ตัวอย่างกำหนดประเภทและขนาดไฟล์ (ไม่เกิน 10MB)
         ]);
+
         $data = [
             'ms_year_name' => $request->ms_year_name,
             'person_at' => Auth::user()->name,
             'documentexternal_hd_flag' => true,
             'created_at' => Carbon::now(),   
         ];
-        try{
+
+        try {
             DB::beginTransaction();
+            
             $insertHD = DocumentexternalHd::create($data);
+
             foreach ($request->listno as $key => $value) {
+                $fileName = null;
+
+                // ตรวจสอบว่ามีไฟล์ถูกอัปโหลดมาในแถวนี้หรือไม่
+                if ($request->hasFile('documentdestruction_dt_file.' . $key)) {
+                    $file = $request->file('documentdestruction_dt_file.' . $key);
+                    
+                    // ตั้งชื่อไฟล์ใหม่เพื่อป้องกันชื่อซ้ำ เช่น: external_1726635000_0.pdf
+                    $fileName = 'external_' . time . '_' . $key . '.' . $file->getClientOriginalExtension();
+                    
+                    // ย้ายไฟล์ไปเก็บไว้ที่ public/img/documentexternal
+                    $file->move(public_path('img/documentexternal'), $fileName);
+                }
+
                 DocumentexternalDt::insert([
                     'documentexternal_hd_id' => $insertHD->documentexternal_hd_id,
                     'documentdestruction_dt_receive' => $request->documentdestruction_dt_receive[$key],
@@ -70,17 +88,24 @@ class IsoDocumentexternal extends Controller
                     'documentdestruction_dt_until' => $request->documentdestruction_dt_until[$key],
                     'documentdestruction_dt_set' => $request->documentdestruction_dt_set[$key],
                     'documentdestruction_dt_recipient' => $request->documentdestruction_dt_recipient[$key],
+                    
+                    // บันทึกชื่อไฟล์ลงฐานข้อมูล (ตรวจสอบชื่อคอลัมน์ในตารางของคุณว่าชื่ออะไร เช่น file_path หรือ documentdestruction_dt_file)
+                    'documentdestruction_dt_file' => $fileName, 
+
                     'person_at' => Auth::user()->name,
                     'documentexternal_dt_flag' => true,
                     'created_at' => Carbon::now(),   
                 ]);
             }
+
             DB::commit();
             return redirect()->route('document-external.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
-        }catch(\Exception $e){
+
+        } catch (\Exception $e) {
+            DB::rollBack();
             Log::error($e->getMessage());
-            dd($e->getMessage());
-            return redirect()->route('document-external.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+            // dd($e->getMessage()); // แนะนำให้ปิด dd() ไว้ตอนใช้งานจริง เพื่อให้ redirect ไปหน้า error ได้ปกติ
+            return redirect()->back()->withInput()->with('error', 'บันทึกข้อมูลไม่สำเร็จ: ' . $e->getMessage());
         }
     }
 
@@ -214,10 +239,10 @@ public function update(Request $request, $id)
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
     }
-    public function saveRow(Request $request, $id)
+public function saveRow(Request $request, $id)
 {
     try {
-        $dtId = $request->dt_id; // ถ้ามีค่าแสดงว่าอัปเดต, ถ้าไม่มีคือสร้างใหม่
+        $dtId = $request->dt_id;
 
         $data = [
             'documentexternal_hd_id' => $id,
@@ -233,15 +258,21 @@ public function update(Request $request, $id)
             'documentexternal_dt_flag' => true,
         ];
 
+        // ตรวจสอบว่ามีการอัปโหลดไฟล์แนบมาด้วยหรือไม่
+        if ($request->hasFile('documentdestruction_dt_file')) {
+            $file = $request->file('documentdestruction_dt_file');
+            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/documents'), $fileName);
+            $data['documentdestruction_dt_file'] = 'uploads/documents/' . $fileName; // บันทึก Path ลง Database (ชื่อคอลัมน์ปรับตามจริง)
+        }
+
         if (!empty($dtId)) {
-            // อัปเดตแถวเดิม
             DocumentexternalDt::where('documentexternal_dt_id', $dtId)->update($data);
             $savedId = $dtId;
         } else {
-            // สร้างแถวใหม่
             $data['created_at'] = \Carbon\Carbon::now();
             $newRecord = DocumentexternalDt::create($data);
-            $savedId = $newRecord->documentexternal_dt_id; // ส่ง ID กลับไปให้ Frontend ผูกกับแถว
+            $savedId = $newRecord->documentexternal_dt_id;
         }
 
         return response()->json([
