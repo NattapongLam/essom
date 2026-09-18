@@ -229,7 +229,7 @@
         <thead>
             <tr>
                 <th style="width: 5%">ลำดับ</th>
-                <th style="width: 10%">รับเอกสาร</th>
+                <th style="width: 8%">รับเอกสาร</th>
                 <th style="width: 10%">ส่งจาก</th>
                 <th style="width: 11%">แผนก/ถึง</th>
                 <th style="width: 22%">เรื่อง</th>
@@ -237,6 +237,7 @@
                 <th style="width: 7%">จน.แผ่น</th>
                 <th style="width: 7%">ชุดเอกสาร</th>
                 <th style="width: 15%">ผู้รับ/หมายเหตุ</th>
+                <th style="width: 5%">แนบเอกสาร</th>
                 <th style="width: 3%">ลบ</th>
             </tr>
         </thead>
@@ -270,6 +271,9 @@
                     </td>
                     <td>
                         <textarea class="form-control custom-form-control auto-save" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;">{{ $item->documentdestruction_dt_recipient }}</textarea>
+                    </td>
+                    <td>
+                         <input type="file" class="form-control custom-form-control p-1 auto-save" name="documentdestruction_dt_file[]" style="height: auto; font-size: 0.8rem;">
                     </td>
                     <td class="text-center">
                         <button type="button" class="btn-row-delete" onclick="confirmDel('{{ $item->documentexternal_dt_id }}', this)" title="ลบแถวนี้จากระบบ">
@@ -504,6 +508,9 @@ function addRow() {
         </td>
         <td>
             <textarea class="form-control custom-form-control auto-save" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;"></textarea>
+        </td>
+        <td>
+            <input type="file" class="form-control custom-form-control p-1 auto-save" name="documentdestruction_dt_file[]" style="height: auto; font-size: 0.8rem;">
         </td>
         <td class="text-center">
             <button type="button" class="btn-row-delete" onclick="confirmDel('', this)" title="ลบแถวนี้">

@@ -67,7 +67,7 @@
     /* Table Dynamic Styling */
     .modern-table {
         border-collapse: separate;
-        border-spacing: 0 6px; /* ระยะห่างระหว่างแถวแบบโปร่ง */
+        border-spacing: 0 6px; 
     }
 
     .modern-table thead th {
@@ -161,7 +161,7 @@
 </style>
 
 <div class="container-fluid py-4">
-    <div class="row">  
+    <div class="row">   
         <div class="col-12">
             <div class="card custom-card">
                 <div class="card-header custom-card-header">
@@ -186,8 +186,8 @@
                             <div class="col-12 col-md-4 form-group">
                                 <label for="ms_year_name">ปีเอกสาร <span class="text-danger">*</span></label>
                                 <select class="form-control custom-form-control" name="ms_year_name" required>
-                                    <option value="">-- กรุณาเลือกปี --</option>       
-                                    @foreach ($hd as $item)
+                                    <option value="">-- กรุณาเลือกปี --</option>      
+                                    @foreach ($hd as$item)
                                         <option value="{{$item->ms_year_name}}">{{$item->ms_year_name}}</option> 
                                     @endforeach 
                                 </select>
@@ -208,19 +208,20 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 5%">ลำดับ</th>
-                                        <th style="width: 10%">รับเอกสาร</th>
+                                        <th style="width: 7%">รับเอกสาร</th>
                                         <th style="width: 10%">ส่งจาก</th>
                                         <th style="width: 11%">แผนก/ถึง</th>
                                         <th style="width: 22%">เรื่อง</th>
                                         <th style="width: 10%">วิธีการส่ง</th>
-                                        <th style="width: 7%">จน.แผ่น</th>
-                                        <th style="width: 7%">ชุดเอกสาร</th>
+                                        <th style="width: 6%">จน.แผ่น</th>
+                                        <th style="width: 6%">ชุดเอกสาร</th>
                                         <th style="width: 15%">ผู้รับ/หมายเหตุ</th>
+                                        <th style="width: 5%">แนบเอกสาร</th>
                                         <th style="width: 3%">ลบ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <script>window.onload = function() { addRow(); };</script>
+                                    {{-- แถวแรกจะถูกเพิ่มอัตโนมัติผ่าน JavaScript ด้านล่าง --}}
                                 </tbody>
                             </table>
                         </div>    
@@ -232,7 +233,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>     
+                    </form>    
                 </div>
             </div>
         </div>
@@ -243,6 +244,10 @@
 @push('scriptjs')
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    addRow(); // เพิ่มแถวแรกให้อัตโนมัติเมื่อหน้าเว็บโหลดเสร็จ
+});
+
 // ✅ ฟังก์ชันเพิ่มแถว
 function addRow() {
     const tableBody = document.querySelector("#destroyTable tbody");
@@ -278,6 +283,9 @@ function addRow() {
         <td>
             <textarea class="form-control custom-form-control" rows="1" placeholder="หมายเหตุ..." name="documentdestruction_dt_recipient[]" style="resize: vertical; min-height: 38px;"></textarea>
         </td>
+        <td>
+            <input type="file" class="form-control custom-form-control p-1" name="documentdestruction_dt_file[]" style="height: auto; font-size: 0.8rem;">
+        </td>
         <td class="text-center">
             <button type="button" class="btn-row-delete" onclick="removeRow(this)" title="ลบแถวนี้">
                 <i class="fas fa-trash-alt"></i>
@@ -286,25 +294,40 @@ function addRow() {
     `;
 
     tableBody.appendChild(row);
-    updateRowNumbers(); // จัดการรันเลขแถวให้ถูกต้อง
+    updateRowNumbers();
 }
 
 // ✅ ฟังก์ชันลบแถว
 function removeRow(button) {
+    const tableBody = document.querySelector("#destroyTable tbody");
+    
+    // ป้องกันไม่ให้ลบจนหมดแถวสุดท้าย (ถ้าต้องการให้เหลืออย่างน้อย 1 แถวเสมอ)
+    if (tableBody.querySelectorAll("tr").length <= 1) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'แจ้งเตือน',
+                text: 'ต้องมีรายการเอกสารอย่างน้อย 1 แถว',
+                confirmButtonColor: '#4f46e5'
+            });
+        } else {
+            alert('ต้องมีรายการเอกสารอย่างน้อย 1 แถว');
+        }
+        return;
+    }
+
     const row = button.closest("tr");
     row.remove();
-    updateRowNumbers(); // รีเลขลำดับใหม่ทุกครั้งหลังลบ
+    updateRowNumbers();
 }
 
-// ✅ ฟังก์ชันอัปเดตและรันเลขลำดับแถวใหม่ (แก้บั๊กชื่อ Class แล้ว)
+// ✅ ฟังก์ชันอัปเดตและรันเลขลำดับแถวใหม่
 function updateRowNumbers() {
     document.querySelectorAll("#destroyTable tbody tr").forEach((row, index) => {
         const number = index + 1;
-        // ใส่ลำดับในคอลัมน์แรกให้เห็นชัดเจน
         const rowNumDisplay = row.querySelector(".row-number");
         if(rowNumDisplay) rowNumDisplay.textContent = number;
         
-        // ผูกค่าส่งกลับไปยัง Backend ใน input hidden
         const hiddenInput = row.querySelector(".listno-hidden");
         if(hiddenInput) hiddenInput.value = number;
     });
