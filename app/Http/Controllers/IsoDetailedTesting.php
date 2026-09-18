@@ -68,6 +68,12 @@ class IsoDetailedTesting extends Controller
         if ($request->hasFile('detailed_testings_file')) {
             $data['detailed_testings_file'] = $request->file('detailed_testings_file')->storeAs('img/detailedtestings', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('detailed_testings_file')->extension());
         }
+        if ($request->hasFile('detailed_testings_file1')) {
+            $data['detailed_testings_file1'] = $request->file('detailed_testings_file1')->storeAs('img/detailedtestings', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('detailed_testings_file1')->extension());
+        }
+        if ($request->hasFile('detailed_testings_file2')) {
+            $data['detailed_testings_file2'] = $request->file('detailed_testings_file2')->storeAs('img/detailedtestings', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('detailed_testings_file2')->extension());
+        }
         try
         {
             DB::beginTransaction();

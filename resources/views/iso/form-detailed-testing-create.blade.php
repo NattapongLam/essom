@@ -161,7 +161,6 @@
         box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
     }
 </style>
-
 <div class="container-fluid py-2">
     <div class="row justify-content-center"> 
         <div class="col-xl-10 col-12">
@@ -226,11 +225,25 @@
                                 <label>3.1 Data Content <span class="text-danger">*</span></label>
                                 <textarea class="form-control form-control-modern" rows="8" name="detailed_testings_data" placeholder="กรอกข้อมูลการทดสอบ..." required></textarea>
                             </div>
-                            <div class="col-md-6 col-12 form-group mb-4">
+                            <div class="col-md-4 col-12 form-group mb-4">
                                 <label>ไฟล์แนบ (หากมี)</label>
                                 <div class="file-upload-wrapper">
                                     <i class="fas fa-cloud-upload-alt text-muted fa-2x mb-2"></i>
                                     <input type="file" class="form-control-file" id="detailed_testings_file" name="detailed_testings_file" style="cursor: pointer;">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12 form-group mb-4">
+                                <label>ไฟล์แนบ (หากมี)</label>
+                                <div class="file-upload-wrapper">
+                                    <i class="fas fa-cloud-upload-alt text-muted fa-2x mb-2"></i>
+                                    <input type="file" class="form-control-file" id="detailed_testings_file1" name="detailed_testings_file1" style="cursor: pointer;">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12 form-group mb-4">
+                                <label>ไฟล์แนบ (หากมี)</label>
+                                <div class="file-upload-wrapper">
+                                    <i class="fas fa-cloud-upload-alt text-muted fa-2x mb-2"></i>
+                                    <input type="file" class="form-control-file" id="detailed_testings_file2" name="detailed_testings_file2" style="cursor: pointer;">
                                 </div>
                             </div>
                         </div>
