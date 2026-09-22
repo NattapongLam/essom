@@ -203,7 +203,7 @@
                             </div>
                             <div class="col-6 col-xl-1-5 col-md-3 d-flex align-items-center justify-content-start">
                                 <label class="custom-chk-container mb-0">
-                                    <input type="checkbox" id="checkboxPrimary1" name="ck_sta">
+                                    <input type="checkbox" id="checkboxPrimary1" name="ck_sta" {{ request('ck_sta') ? 'checked' : '' }}>
                                     <span class="fw-bold text-secondary">รออนุมัติ</span>
                                 </label>
                             </div>
@@ -216,7 +216,7 @@
                                 <button class="btn btn-indigo-search w-100" type="submit">
                                     <i class="fas fa-search me-1"></i> ค้นหา
                                 </button>
-                            </div>             
+                            </div>            
                         </div>
                     </form>
                 </div>
@@ -227,7 +227,7 @@
                             <thead>
                                 <tr>
                                     <th>สถานะ</th>
-                                    <th>วันที่</th>                                 
+                                    <th>วันที่</th>                           
                                     <th>ผู้พบเห็น</th>
                                     <th>เลขที่</th>
                                     <th>เลขที่ CAR</th>
@@ -240,29 +240,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($hd as $item)
+                                @foreach ($hd as$item)
                                     @php
-                                        // คำนวณจำนวนวันที่ผ่านไปนับจาก reported_date ถึงปัจจุบัน
-                                        $reportedDate = \Carbon\Carbon::parse($item->reported_date);
-                                        $daysPassed = $reportedDate->diffInDays(\Carbon\Carbon::now());
-                                        
-                                        // กำหนดสีแถบตามเงื่อนไขความเก่าของวันที่ (ตัวอย่าง: เกิน 30 วัน สีแดง, เกิน 15 วัน สีเหลือง, ปกติสีเขียว/น้ำเงิน)
-                                        $barColor = '#10b981'; // เขียว
-                                        if ($daysPassed > 30) {
-                                            $barColor = '#ef4444'; // แดง
-                                        } elseif ($daysPassed > 15) {
-                                            $barColor = '#f59e0b'; // ส้ม/เหลือง
+                                        $reportedDate = \Carbon\Carbon::parse($item->reported_date);$daysPassed = $reportedDate->diffInDays(\Carbon\Carbon::now());$barColor = '#10b981'; // เขียว
+                                        if ($daysPassed > 30) {$barColor = '#ef4444'; // แดง
+                                        } elseif ($daysPassed > 15) {$barColor = '#f59e0b'; // ส้ม/เหลือง
                                         }
                                     @endphp
                                     <tr>
                                         <td>
-                                            <div class="status-badge-wrapper">
+                                            <!-- เพิ่ม data-status-id เพื่อให้เช็คผ่านรหัสสถานะได้โดยตรงและแม่นยำ -->
+                                            <div class="status-badge-wrapper" data-status-id="{{ $item->iso_status_id ?? '' }}">
                                                 <span class="status-color-bar" style="background-color: {{ $barColor }};"></span>
                                                 <span>{{$item->iso_status_name}}</span>
                                                 <span class="status-count-pill" title="จำนวนวันที่ผ่านมานับจากวันที่รายงาน">{{ $daysPassed }} วัน</span>
                                             </div>
                                         </td>
-                                        <td class="fw-medium">{{$reportedDate->format('Y/m/d')}}</td>                                       
+                                        <td class="fw-medium">{{$reportedDate->format('Y/m/d')}}</td>                            
                                         <td>{{$item->iso_ncr_observer}}</td>
                                         <td class="fw-bold text-indigo-dark">{{$item->iso_ncr_docuno}}</td>
                                         <td>
@@ -281,7 +275,7 @@
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a href="javascript:void(0)" class="btn btn-danger btn-action" 
-                                               onclick="confirmDel('{{ $item->iso_ncr_docuno }}','{{ $item->iso_ncr_id }}')" title="ลบ">
+                                               onclick="confirmDel('{{ $item->iso_ncr_docuno }}','{{$item->iso_ncr_id }}')" title="ลบ">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
@@ -326,16 +320,35 @@ $(document).ready(function() {
         bSort: true
     });
 
-    // เงื่อนไข: ซ่อนสถานะ "ปิดเอกสาร" อัตโนมัติในตาราง (คอลัมน์ที่ 0 คือสถานะ)
-    table.column(0).search('^(?!.*ปิดเอกสาร).*$', true, false).draw();
+    // เงื่อนไขใหม่: ปรับปรุง Custom Filter ให้ตรวจสอบจาก attribute 'data-status-id' โดยตรง
+    // หรือเช็คคำว่า "ปิดเอกสาร" แบบตรงตัว (Exact Match) เพื่อป้องกันไม่ให้กระทบสถานะอื่น เช่น 742
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            var rowNode = table.row(dataIndex).node();
+            var statusId = $(rowNode).find('.status-badge-wrapper').attr('data-status-id');
+
+            // หากคุณมีรหัสสถานะที่ต้องการซ่อนจริงๆ (เช่น รหัสปิดเอกสารคือ '999') สามารถใส่เพิ่มตรงนี้ได้เลย
+            // ตัวอย่าง: var closedStatusIds = ['999'];
+            // if (closedStatusIds.includes(statusId)) { return false; }
+
+            // กรณีเช็คจากชื่อสถานะ (ใช้การเช็คแบบเป๊ะๆ เพื่อไม่ให้ไปบล็อกสถานะ 742)
+            var statusText = $(rowNode).find('.status-badge-wrapper span:nth-child(2)').text().trim();
+            
+            // ปรับเงื่อนไขคำที่ต้องการซ่อน (เช่น ถ้าต้องการซ่อนคำว่า "ปิดเอกสาร" แบบตรงตัว)
+            if (statusText === "ปิดเอกสาร") {
+                return false;
+            }
+
+            return true;
+        }
+    );
+    table.draw();
 
     // ฟังก์ชันคำนวณวันเริ่มต้นบวกเพิ่ม 30 วันไปยังช่องวันที่สิ้นสุดอัตโนมัติ
     $('#datestart').on('change', function() {
         let startDateVal = $(this).val();
         if (startDateVal) {
             let startDate = new Date(startDateVal);
-            
-            // บวกเพิ่มไปอีก 30 วัน
             startDate.setDate(startDate.getDate() + 30);
             
             let yyyy = startDate.getFullYear();
@@ -343,8 +356,6 @@ $(document).ready(function() {
             let dd = String(startDate.getDate()).padStart(2, '0');
             
             let endDateVal = `${yyyy}-${mm}-${dd}`;
-            
-            // กำหนดค่าให้กับช่อง "ถึง" (dateend)
             $('#dateend').val(endDateVal);
         }
     });
@@ -410,16 +421,16 @@ confirmDel = (docs, refid) => {
         }
     });
 } 
+
 $(document).on('blur change', '.car-docuno-input', function() {
     let input = $(this);
     let ncrId = input.data('id');
     let carDocuno = input.val();
 
-    // ป้องกันการยิงซ้ำถ้าค่าเดิมไม่เปลี่ยน
     if (input.data('val') === carDocuno) return;
 
     $.ajax({
-        url: "{{ route('ncr-report.update-car') }}", // กำหนด Route สำหรับอัปเดตเฉพาะช่องนี้
+        url: "{{ route('ncr-report.update-car') }}",
         type: "POST",
         data: {
             "_token": "{{ csrf_token() }}",
@@ -429,18 +440,21 @@ $(document).on('blur change', '.car-docuno-input', function() {
         dataType: "json",
         success: function(response) {
             if (response.status) {
-                input.data('val', carDocuno); // บันทึกค่าล่าสุดไว้เทียบ
-                // แสดงแจ้งเตือนแบบเล็กๆ มุมจอ (ตัวอย่างใช้ SweetAlert2 แบบ Toast)
+                input.data('val', carDocuno);
+                
+                let currentTime = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 1500,
+                    timer: 2000,
                     timerProgressBar: true
                 });
                 Toast.fire({
                     icon: 'success',
-                    title: 'บันทึกเลขที่ CAR สำเร็จ'
+                    title: 'บันทึกเลขที่ CAR สำเร็จ',
+                    text: 'เวลาบันทึก: ' + currentTime
                 });
             } else {
                 Swal.fire('ผิดพลาด', response.message || 'ไม่สามารถบันทึกข้อมูลได้', 'error');
@@ -452,9 +466,8 @@ $(document).on('blur change', '.car-docuno-input', function() {
     });
 });
 
-// เก็บค่าเริ่มต้นไว้เทียบตอนโหลดหน้าเสร็จ
 $('.car-docuno-input').each(function() {
-    $(this).data('val', $(this).val());
+    $(this).data('val',$(this).val());
 });
 </script>
 @endpush

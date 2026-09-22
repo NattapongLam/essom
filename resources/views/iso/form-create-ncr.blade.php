@@ -100,7 +100,7 @@
 </style>
 
 <div class="container-fluid mt-4">
-    <div class="row justify-content-center">  
+    <div class="row justify-content-center">   
         <div class="col-12 col-xl-11">
             <div class="card modern-card border-0">
                 <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex align-items-center justify-content-between">
@@ -126,13 +126,16 @@
                                     <option selected disabled>กรุณาเลือก</option>
                                     @foreach ($emp as $item)
                                         <option value="{{$item->ms_employee_fullname}}">{{$item->ms_employee_fullname}}</option>
-                                    @endforeach                                  
+                                    @endforeach                            
                                 </select>
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="iso_ncr_docuno" class="modern-label">เลขที่เอกสาร</label>
-                                <input type="text" class="form-control form-control-indigo" name="iso_ncr_docuno" value="{{$docs}}">
+                                <input type="text" class="form-control form-control-indigo @error('iso_ncr_docuno') is-invalid @enderror" name="iso_ncr_docuno" value="{{$docs}}">
                                 <input type="hidden" name="iso_ncr_number" value="{{$docs_number}}">
+                                @error('iso_ncr_docuno')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="iso_ncr_department" class="modern-label">หน่วยงานที่เกี่ยวข้อง</label>
@@ -140,11 +143,11 @@
                                     <option selected disabled>กรุณาเลือก</option>
                                     @foreach ($dep as $item)
                                         <option value="{{$item->ms_department_name}}">{{$item->ms_department_name}}</option>
-                                    @endforeach        
+                                    @endforeach       
                                 </select>
                             </div>
                             <div class="col-12 col-md-3">
-                                <label for="iso_ncr_jobnumber" class="modern-label">เลขที่งาน (Job No.)</label>                       
+                                <label for="iso_ncr_jobnumber" class="modern-label">เลขที่งาน (Job No.)</label>                     
                                 <input type="text" class="form-control form-control-indigo" name="iso_ncr_jobnumber" placeholder="ระบุเลขที่งาน">
                             </div>
                         </div>
@@ -203,7 +206,10 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="reported_date" class="modern-label">วันที่รายงาน</label>
-                                <input type="date" class="form-control form-control-indigo" name="reported_date" value="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control form-control-indigo @error('reported_date') is-invalid @enderror" name="reported_date" value="{{date('Y-m-d')}}">
+                                @error('reported_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-12 col-md-9">
                                 <label for="iso_ncr_note" class="modern-label">หมายเหตุ</label>
@@ -218,7 +224,7 @@
                                 <button type="button" onclick="history.back()" class="btn btn-muted-cancel me-2">
                                     ยกเลิก
                                 </button>
-                                <button type="submit" class="btn btn-indigo-save toastrDefaultSuccess">
+                               <button type="submit" class="btn btn-indigo-save">
                                     <i class="fas fa-save me-1"></i> บันทึกข้อมูล
                                 </button>
                             </div>
@@ -235,7 +241,10 @@
 @push('scriptjs')
 <script>
     $(document).ready(function() {
-        // สามารถเพิ่มการตั้งค่าหรือ Event ลิสเนอร์ของหน้าจอนี้เพิ่มเติมได้ที่นี่
+        // เปิดใช้งาน Select2 ให้กับฟิลด์ที่มีคลาส select2 ทั้งหมด
+        $('.select2').select2({
+            width: '100%'
+        });
     });
 </script>
 @endpush
