@@ -38,29 +38,25 @@ class NcrReport extends Controller
      */
     public function index(Request $request)
     {
-        if($request->dateend){
-            $dateend = $request->dateend;
-        }
-        else{
-            $dateend = date("Y-m-d");
-        }
-        if($request->datestart){
-            $datestart = $request->datestart;
-        }
-        else{
-            $datestart = date("Y-m-d",strtotime("-6 month",strtotime($dateend))); 
+        // 1. กำหนดค่าวันที่
+        $dateend = $request->input('dateend', date("Y-m-d"));
+        $datestart = $request->input('datestart', date("Y-m-d", strtotime("-6 month", strtotime($dateend)))); 
+
+        $query = IsoNcr::leftjoin('iso_status', 'iso_ncr.iso_status_id', '=', 'iso_status.iso_status_id');
+
+        // 2. ใช้ whereDate เพื่อเทียบเฉพาะ "วันที่" โดยไม่สนเวลา (แก้ปัญหาเอกสารวันนี้ไม่โชว์ได้เด็ดขาด)
+        $query->whereDate('iso_ncr.reported_date', '>=', $datestart)
+            ->whereDate('iso_ncr.reported_date', '<=', $dateend);
+        // 3. เงื่อนไขสถานะ
+        if($request->has('ck_sta')){
+            $query->where('iso_ncr.iso_status_id', 2);
+        } else {
+            $query->where('iso_ncr.iso_status_id', '<>', 5);
         } 
-        if($request->ck_sta){
-            $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')
-            ->whereIN('iso_ncr.iso_status_id',[2])
-            ->get();
-        }else {
-            $hd = IsoNcr::leftjoin('iso_status','iso_ncr.iso_status_id','=','iso_status.iso_status_id')
-            ->where('iso_ncr.iso_status_id','<>',5)
-            ->whereBetween('iso_ncr.reported_date',[$datestart,$dateend])
-            ->get();
-        }     
-        return view('iso.form-open-ncrlist',compact('hd','dateend','datestart'));
+
+        $hd = $query->get();
+
+        return view('iso.form-open-ncrlist', compact('hd', 'dateend', 'datestart'));
     }
 
     /**
@@ -95,18 +91,8 @@ class NcrReport extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        
-        $docs_last = DB::table('iso_ncr')
-        ->where('iso_ncr_docuno', 'like', '%' . date('y') . '%')
-        ->orderBy('iso_ncr_id', 'desc')->first();
-        if ($docs_last) {
-        $docs = date('y').'-'. str_pad($docs_last->iso_ncr_number + 1, 5, '0', STR_PAD_LEFT);
-        $docs_number = $docs_last->iso_ncr_number + 1;
-        } else {
-        $docs = date('y').'-'. str_pad(1, 5, '0', STR_PAD_LEFT);
-        $docs_number = 1;
-        }
+    {    
+       
         $request->validate([
             'iso_ncr_docuno' => ['required'],
             'reported_date' => ['required'],
@@ -130,7 +116,7 @@ class NcrReport extends Controller
             'iso_status_id' => 1,
             'iso_ncr_department' => $request->iso_ncr_department,
             'iso_ncr_note' => $request->iso_ncr_note,
-        ];
+        ];        
         try{
 
             DB::beginTransaction();
@@ -146,16 +132,16 @@ class NcrReport extends Controller
             //     "stickerId"      => 1988,
             //     );
             //     $res = $this->notify_message($params, $token);
+            DB::commit(); 
             $token = "7689108238:AAFEqRv6GVXw_-pxsHiNHvl2EayqyTbqcCk";  // 🔹 ใส่ Token ที่ได้จาก BotFather
             $chatId = "-4790813354";            // 🔹 ใส่ Chat ID ของกลุ่มหรือผู้ใช้
             $message = "📢 แจ้งเตือนเปิดเอกสาร NCR" . "\n"
-                . "🔹 เลขที่ : ". $docs . "\n"
+                . "🔹 เลขที่ : ". $request->iso_ncr_docuno . "\n"
                 . "📅 วันที่เปิดเอกสาร : " . Carbon::now()->format('d/m/Y') . "\n"
                 . "👤 ผู้เปิดเอกสาร : " . Auth::user()->name . "\n";
     
             // เรียกใช้ฟังก์ชัน notifyTelegram() ภายใน Controller
             $this->notifyTelegram($message, $token, $chatId);
-            DB::commit();
             return redirect()->route('ncr-report.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
         }catch(\Exception $e){
             Log::error($e->getMessage());
