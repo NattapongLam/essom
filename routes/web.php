@@ -339,3 +339,34 @@ Route::group([
     Route::post('/approvedSoftwareDesign' , [App\Http\Controllers\IsoSoftwareDesign::class , 'approvedSoftwareDesign']);
 });
 // ISO 30 //
+Route::group([
+    'middleware' =>  ['auth','permission:iso-officerepairrequest']
+],function(){
+    Route::resource('/office-repairreques' , App\Http\Controllers\IsoOfficeRepairrequest::class);
+    Route::post('/cancelOfficeRepairrequeHd' , [App\Http\Controllers\IsoOfficeRepairrequest::class , 'cancelOfficeRepairrequeHd']);
+    Route::post('/cancelOfficeRepairrequeDt' , [App\Http\Controllers\IsoOfficeRepairrequest::class , 'cancelOfficeRepairrequeDt']);
+});
+Route::group([
+    'middleware' =>  ['auth','permission:iso-itservicerequest']
+],function(){
+    Route::resource('/itservice-requests' , App\Http\Controllers\IsoItServiceRequest::class);
+    Route::post('/cancelItserviceRequests' , [App\Http\Controllers\IsoItServiceRequest::class , 'cancelItserviceRequests']);
+});
+Route::group([
+    'middleware' =>  ['auth','permission:iso-itloanreturn']
+],function(){
+    Route::resource('/it-loanreturns' , App\Http\Controllers\IsoItLoanReturn::class);
+    Route::post('/it-loanreturns/auto-save', [App\Http\Controllers\IsoItLoanReturn::class, 'autoSave'])->name('it_loan_returns.auto_save');
+    Route::delete('/it-loanreturns/auto-delete/{id}', [App\Http\Controllers\IsoItLoanReturn::class, 'autoDelete'])->name('it_loan_returns.auto_delete');
+});
+Route::group([
+    'middleware' =>  ['auth','permission:iso-calibrationresultfactory']
+],function(){
+    Route::resource('/calibration-resultfactory' , App\Http\Controllers\IsoCalibrationResultFactory::class);
+    Route::get('/calibration/create-1', [App\Http\Controllers\IsoCalibrationResultFactory::class, 'create1'])->name('calibration.create1');
+    Route::get('/calibration/create-2', [App\Http\Controllers\IsoCalibrationResultFactory::class, 'create2'])->name('calibration.create2');
+    Route::post('/cancelCalibrationFactory' , [App\Http\Controllers\IsoCalibrationResultFactory::class , 'cancelCalibrationFactory']);
+});
+
+
+
