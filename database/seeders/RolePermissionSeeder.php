@@ -64,5 +64,9 @@ class RolePermissionSeeder extends Seeder
         // Permission::create(['name' => 'iso-recipientselection']);
         // Permission::create(['name' => 'iso-selectedproduct']);
         // Permission::create(['name' => 'iso-softwaredesign']);
+        // Permission::create(['name' => 'iso-officerepairrequest']);
+        // Permission::create(['name' => 'iso-itservicerequest']);
+        // Permission::create(['name' => 'iso-itloanreturn']);
+        // Permission::create(['name' => 'iso-calibrationresultfactory']);
     }
 }

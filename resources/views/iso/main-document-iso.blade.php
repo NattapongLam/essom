@@ -173,12 +173,12 @@
                                 <p>F6200.1</p>
                             </div>
                             <div class="icon">
-                                <i class="fa fa-target"></i>
+                                <i class="fa fa-bullseye"></i> <!-- เปลี่ยนจาก fa-target เป็น fa-bullseye -->
                             </div>
                             <a href="{{route('objcctives.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    @endcan 
+                    @endcan
 
                     @can('iso-plan')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
@@ -584,6 +584,66 @@
                         </div>
                     </div>
                     @endcan
+
+                    @can('iso-officerepairrequest')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-1">
+                            <div class="inner text-center">
+                                <h6>ใบแจ้งซ่อมอุปกรณ์สำนักงาน</h6>
+                                <p>F7131.1</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-tools"></i>
+                            </div>
+                            <a href="{{route('office-repairreques.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
+
+                    @can('iso-itservicerequest')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-2">
+                            <div class="inner text-center">
+                                <h6>แบบฟอร์มร้องขอดำเนินการด้าน IT</h6>
+                                <p>F7134.3</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-laptop-code"></i>
+                            </div>
+                            <a href="{{route('itservice-requests.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
+
+                    @can('iso-itloanreturn')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-3">
+                            <div class="inner text-center">
+                                <h6>บันทึกการยืม-คืน อุปกรณ์ด้าน IT</h6>
+                                <p>F7134.4</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-laptop"></i>
+                            </div>
+                            <a href="{{route('it-loanreturns.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
+
+                    @can('iso-calibrationresultfactory')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-4">
+                            <div class="inner text-center">
+                                <h6>ผลการสอบเทียบเครื่องมือวัดในโรงงาน</h6>
+                                {{-- <p>F7150.1</p> --}}
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-balance-scale"></i>
+                            </div>
+                            <a href="{{route('calibration-resultfactory.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -596,7 +656,6 @@
 <script>
 document.getElementById('searchBox').addEventListener('keyup', function() {
   const keyword = this.value.toLowerCase();
-  // อัปเดต Selector ตัวชี้เป้าให้ตรงกับคลาสการ์ดและ Grid ใหม่ (.iso-boxes [class*="col-"])
   const boxes = document.querySelectorAll('.iso-boxes [class*="col-"]');
 
   boxes.forEach(box => {
