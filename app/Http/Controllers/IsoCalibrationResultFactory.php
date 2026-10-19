@@ -411,7 +411,7 @@ class IsoCalibrationResultFactory extends Controller
     {
         //
     }
-    public function cancelCalibrationFactory(Request $request)
+    public function cancelCustomerserviceComplaint(Request $request)
     {
         $hd = CalibrationResultfactoryHd::where('calibration_resultfactory_hds_id',$request->refid)->update([
             'calibration_resultfactory_hds_flag' => 0,

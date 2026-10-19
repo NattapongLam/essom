@@ -347,7 +347,7 @@ confirmDel = (refid) =>{
     }).then(function(result) {
         if (result.value) {
             $.ajax({
-                url: `{{ url('/cancelRecipientSelection') }}`,
+                url: `{{ url('/cancelCalibrationFactory') }}`,
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
