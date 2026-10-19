@@ -188,6 +188,7 @@
                                 <tr>
                                     <th style="width: 45%;">SECTION</th>
                                     <th style="width: 37%;">FOR PERIOD.</th>
+                                    <th style="width: 37%;">TYPE</th>
                                     <th style="width: 6%;">แก้ไข</th>
                                     <th style="width: 6%;">อนุมัติ</th>
                                     <th style="width: 6%;">ลบ</th>
@@ -198,6 +199,7 @@
                                     <tr>
                                         <td class="text-left font-weight-bold">{{ $objective->section ?? '-' }}</td>
                                         <td>{{ $objective->period ?? '-' }}</td>
+                                        <td>{{ $objective->docutype ?? '-' }}</td>
                                         <td>
                                             <a href="{{ route('objcctives.edit', $objective->id) }}" class="btn-action-edit" title="แก้ไข">
                                                 <i class="fas fa-edit"></i>

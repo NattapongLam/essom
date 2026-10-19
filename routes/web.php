@@ -367,6 +367,11 @@ Route::group([
     Route::get('/calibration/create-2', [App\Http\Controllers\IsoCalibrationResultFactory::class, 'create2'])->name('calibration.create2');
     Route::post('/cancelCalibrationFactory' , [App\Http\Controllers\IsoCalibrationResultFactory::class , 'cancelCalibrationFactory']);
 });
-
+Route::group([
+    'middleware' =>  ['auth','permission:iso-customerservicecomplaint']
+],function(){
+Route::resource('/customerservice-complaints' , App\Http\Controllers\IsoCustomerServiceComplaint::class);
+Route::post('/cancelCustomerserviceComplaint' , [App\Http\Controllers\IsoCustomerServiceComplaint::class , 'cancelCustomerserviceComplaint']);
+});
 
 

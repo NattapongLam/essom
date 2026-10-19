@@ -644,6 +644,66 @@
                         </div>
                     </div>
                     @endcan
+
+                    @can('iso-customerservicecomplaint')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-1">
+                            <div class="inner text-center">
+                                <h6>ใบบันทึกคำร้องเรียนจากลูกค้าและบริการหลังขาย</h6>
+                                <p>F8204.1</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-comments"></i>
+                            </div>
+                            <a href="{{route('customerservice-complaints.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
+
+                    {{-- @can('iso-f8510-2') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-2">
+                            <div class="inner text-center">
+                                <h6>แผนผลิตรวม</h6>
+                                <p>F8510.2</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-calendar-alt"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
+
+                    {{-- @can('iso-f8510-3-l') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-3">
+                            <div class="inner text-center">
+                                <h6>Individual Group Planning</h6>
+                                <p>F8510.3 (L)</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
+
+                    {{-- @can('iso-f8510-3-s') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-4">
+                            <div class="inner text-center">
+                                <h6>Electrical, Machining, and Painting Group Planning</h6>
+                                <p>F8510.3 (S)</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
                 </div>
             </div>
         </div>
