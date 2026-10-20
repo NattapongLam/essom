@@ -373,5 +373,11 @@ Route::group([
 Route::resource('/customerservice-complaints' , App\Http\Controllers\IsoCustomerServiceComplaint::class);
 Route::post('/cancelCustomerserviceComplaint' , [App\Http\Controllers\IsoCustomerServiceComplaint::class , 'cancelCustomerserviceComplaint']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-companylimited']
+],function(){
+Route::resource('/company-limiteds' , App\Http\Controllers\IsoCompanyLimited::class);
+Route::post('/cancelCompanylimited' , [App\Http\Controllers\IsoCompanyLimited::class , 'cancelCompanylimited']);
+});
 
 
