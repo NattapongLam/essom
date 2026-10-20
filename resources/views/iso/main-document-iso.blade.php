@@ -660,7 +660,7 @@
                     </div>
                     @endcan
 
-                    {{-- @can('iso-f8510-2') --}}
+                    @can('iso-companylimited')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-2">
                             <div class="inner text-center">
@@ -670,10 +670,10 @@
                             <div class="icon">
                                 <i class="fa fa-calendar-alt"></i>
                             </div>
-                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                            <a href="{{route('company-limiteds.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
 
                     {{-- @can('iso-f8510-3-l') --}}
                     <div class="col-xl-3 col-lg-4 col-sm-6">
