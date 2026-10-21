@@ -690,7 +690,7 @@
                     </div>
                     @endcan
 
-                    {{-- @can('iso-f8510-3-s') --}}
+                    @can('iso-elemchptgplanning')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-4">
                             <div class="inner text-center">
@@ -700,10 +700,10 @@
                             <div class="icon">
                                 <i class="fa fa-cogs"></i>
                             </div>
-                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                            <a href="{{route('elemchptg-plannings.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
                 </div>
             </div>
         </div>

@@ -385,5 +385,11 @@ Route::group([
 Route::resource('/individual-plannings' , App\Http\Controllers\IsoIndividualPlanning::class);
 Route::post('/cancelIndividualplanning' , [App\Http\Controllers\IsoIndividualPlanning::class , 'cancelIndividualplanning']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-elemchptgplanning']
+],function(){
+Route::resource('/elemchptg-plannings' , App\Http\Controllers\IsoEleMchPtgPlanning::class);
+Route::post('/cancelElemchptgplanning' , [App\Http\Controllers\IsoEleMchPtgPlanning::class , 'cancelElemchptgplanning']);
+});
 
 
