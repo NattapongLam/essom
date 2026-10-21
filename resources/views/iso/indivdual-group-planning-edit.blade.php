@@ -176,13 +176,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Budget Time</label>
+                                    <label>Budget Time (MH)</label>
                                     <input class="form-control" type="text" name="budget_time" value="{{ old('budget_time', $hd->budget_time) }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>MH For Date</label>
+                                    <label>For Date</label>
                                     <input class="form-control" type="date" name="mh_for_date" value="{{ old('mh_for_date', $hd->mh_for_date) }}">
                                 </div>
                             </div>
