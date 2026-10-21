@@ -379,5 +379,11 @@ Route::group([
 Route::resource('/company-limiteds' , App\Http\Controllers\IsoCompanyLimited::class);
 Route::post('/cancelCompanylimited' , [App\Http\Controllers\IsoCompanyLimited::class , 'cancelCompanylimited']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-individualplanning']
+],function(){
+Route::resource('/individual-plannings' , App\Http\Controllers\IsoIndividualPlanning::class);
+Route::post('/cancelIndividualplanning' , [App\Http\Controllers\IsoIndividualPlanning::class , 'cancelIndividualplanning']);
+});
 
 
