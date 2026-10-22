@@ -292,7 +292,7 @@ class IsoCustomerServiceComplaint extends Controller
         //
     }
     
-    public function cancelCalibrationFactory(Request $request)
+    public function cancelCustomerserviceComplaint(Request $request)
     {
         $hd = CustomerserviceComplaintHd::where('customerservice_complaint_hds_id',$request->refid)->update([
             'customerservice_complaint_hds_flag' => 0,
