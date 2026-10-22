@@ -72,5 +72,6 @@ class RolePermissionSeeder extends Seeder
         // Permission::create(['name' => 'iso-companylimited']);
         // Permission::create(['name' => 'iso-individualplanning']);
         // Permission::create(['name' => 'iso-elemchptgplanning']);
+        // Permission::create(['name' => 'iso-internalauditplan']);
     }
 }

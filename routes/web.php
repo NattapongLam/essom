@@ -391,5 +391,10 @@ Route::group([
 Route::resource('/elemchptg-plannings' , App\Http\Controllers\IsoEleMchPtgPlanning::class);
 Route::post('/cancelElemchptgplanning' , [App\Http\Controllers\IsoEleMchPtgPlanning::class , 'cancelElemchptgplanning']);
 });
-
+Route::group([
+    'middleware' =>  ['auth','permission:iso-internalauditplan']
+],function(){
+Route::resource('/internalaudit-plans' , App\Http\Controllers\IsoInternalAuditPlan::class);
+Route::post('/cancelInternalauditplan' , [App\Http\Controllers\IsoInternalAuditPlan::class , 'cancelInternalauditplan']);
+});
 

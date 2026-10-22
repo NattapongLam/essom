@@ -18,7 +18,7 @@ class IsoItServiceRequest extends Controller
      */
     public function index()
     {
-        $hd = ItserviceRequest::get();
+        $hd = ItserviceRequest::where('docs_status','<>','C')->get();
         return view('iso.itservice-request-list', compact('hd'));
     }
 

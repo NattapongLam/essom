@@ -29,8 +29,8 @@ class IsoCustomerServiceComplaint extends Controller
      */
     public function create()
     {
-        $hd = null;
-        return view('iso.customerservice-complaint-create', compact('hd'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();
+        return view('iso.customerservice-complaint-create', compact('emp'));
     }
 
     /**
@@ -45,7 +45,10 @@ class IsoCustomerServiceComplaint extends Controller
         'customer_notice_date' => ['required'],
         'notice_no' => ['required'],
     ]);
-
+    $docsStatus = '1'; // ค่าเริ่มต้น (หรือปรับเปลี่ยนตามต้องการ)
+    if ($request->evaluation_round == "ออกใบ CAR") {
+        $docsStatus = '7'; // หรือค่าที่ต้องการเมื่อตรงเงื่อนไขนี้
+    }
     $data = [
         'customerservice_complaint_hds_flag' => true,
         'customer_notice_date' => $request->customer_notice_date,
@@ -59,11 +62,10 @@ class IsoCustomerServiceComplaint extends Controller
         'car_date' => $request->car_date,
         'recorder' => $request->recorder,
         'recorded_date' => $request->recorded_date,
-        'docs_status' => '1',
+        'docs_status' => $docsStatus,
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
     ];
-
     try {
         DB::beginTransaction();
         $insertHD = CustomerserviceComplaintHd::create($data);
