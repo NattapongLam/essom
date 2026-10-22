@@ -299,7 +299,7 @@
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
-                                    <label class="col-form-label">วันที่รแล้วเสร็จ</label>
+                                    <label class="col-form-label">วันที่แล้วเสร็จ</label>
                                     <input class="form-control" type="date" value="{{$hd->operator_date}}" name="operator_date" readonly>
                                 </div>
                             </div>

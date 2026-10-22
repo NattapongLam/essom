@@ -9,8 +9,45 @@
     .card-header { background: #ffffff !important; padding: 1.5rem 1.75rem !important; border-bottom: 1px solid #f1f5f9 !important; }
     .main-title { font-size: 1.35rem; font-weight: 700; color: #1e293b; margin: 0; }
     .doc-meta { font-size: 0.8rem; color: #94a3b8; font-weight: 500; }
-    .table-responsive { border-radius: 12px; overflow: auto; border: 1px solid #e2e8f0; width: 100%; }
-    #destroyTable thead th { background-color: #f8fafc !important; color: #475569 !important; font-weight: 700 !important; border-bottom: 2px solid #e2e8f0 !important; padding: 0.85rem 0.5rem !important; font-size: 0.85rem; text-align: center; }
+
+    /* ✅ ตรึงหัวตารางและจำกัดความสูงให้เลื่อนได้แบบ Excel */
+    .table-responsive { 
+        border-radius: 12px; 
+        max-height: 65vh; 
+        overflow-y: auto;  
+        border: 1px solid #e2e8f0; 
+        width: 100%; 
+    }
+    
+    /* ✅ ตกแต่งหัวตาราง รองรับ Sticky และกดเรียงลำดับ */
+    #destroyTable thead th { 
+        position: sticky; 
+        top: 0; 
+        z-index: 10; 
+        background-color: #f8fafc !important; 
+        color: #475569 !important; 
+        font-weight: 700 !important; 
+        border-bottom: 2px solid #e2e8f0 !important; 
+        padding: 0.85rem 0.5rem !important; 
+        font-size: 0.85rem; 
+        text-align: center; 
+        user-select: none;
+        transition: background-color 0.2s;
+    }
+    #destroyTable thead th:hover {
+        background-color: #f1f5f9 !important;
+    }
+    #destroyTable thead th.sort-asc::after {
+        content: " ▲";
+        font-size: 0.7rem;
+        color: #6366f1;
+    }
+    #destroyTable thead th.sort-desc::after {
+        content: " ▼";
+        font-size: 0.7rem;
+        color: #6366f1;
+    }
+
     #destroyTable tbody td { padding: 0.65rem 0.5rem !important; vertical-align: middle !important; color: #334155; font-size: 0.85rem; border-bottom: 1px solid #f1f5f9 !important; }
     .form-control-modern { border: 1px solid #cbd5e1 !important; border-radius: 8px !important; padding: 0.4rem 0.6rem !important; font-size: 0.85rem !important; color: #334155 !important; background-color: #ffffff; width: 100%; }
     .form-control-modern:focus { border-color: #6366f1 !important; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important; outline: none; }
@@ -26,23 +63,24 @@
                 <div class="card-header">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                         <div>
-                            <h5 class="main-title"><i class="fas fa-laptop text-indigo mr-2"></i> บันทึกการยืม-คืน อุปกรณ์ด้าน IT (Auto Save Mode)</h5>
+                            <h5 class="main-title"><i class="fas fa-laptop text-indigo mr-2"></i> บันทึกการยืม-คืน อุปกรณ์ด้าน IT</h5>
                         </div>
                         <div class="text-md-right mt-2 mt-md-0 doc-meta">
                             <strong>Form No:</strong> F7134.4<br>
                             <strong>Date:</strong> {{ date('d M y') }}
                         </div>
-                    </div>             
+                    </div>            
                 </div>
 
                 <div class="card-body">    
-                    <!-- ✅ เพิ่มปุ่มเพิ่มแถวตรงนี้ -->
+                    <!-- ปุ่มเพิ่มแถว -->
                     <div class="mb-3 text-right">
                         <button type="button" class="btn btn-primary btn-sm" onclick="addRow()" style="background: #6366f1; border: none; border-radius: 8px; padding: 0.5rem 1rem;">
                             <i class="fas fa-plus-circle"></i> เพิ่มแถวรายการ
                         </button>
                     </div>
-                                    <div class="table-responsive mb-4">
+                    
+                    <div class="table-responsive mb-4">
                         <table class="table table-bordered text-center" id="destroyTable">
                             <thead>
                                 <tr>
@@ -56,7 +94,7 @@
                                     <th style="width: 130px;">วันที่คืน</th>
                                     <th style="width: 130px;">รับคืนโดย</th>
                                     <th>Remark</th>
-                                    <th style="width: 50px;"></th>
+                                    {{-- <th style="width: 50px;"></th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,11 +112,11 @@
                                         <td><input type="date" class="form-control form-control-modern" name="return_date" value="{{ $item->return_date }}" onchange="autoSaveRow(this)"></td>
                                         <td><input type="text" class="form-control form-control-modern" name="return_by" value="{{ $item->return_by }}" placeholder="ผู้รับคืน" onblur="autoSaveRow(this)"></td>
                                         <td><textarea class="form-control form-control-modern" rows="1" name="remark" placeholder="หมายเหตุ" onblur="autoSaveRow(this)">{{ $item->remark }}</textarea></td>
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             <button type="button" class="btn-danger-light" onclick="removeRow(this)" title="ลบแถว">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                     @endforeach
                                 @endif
@@ -103,9 +141,12 @@
         } else {
             updateRowNumbers();
         }
+
+        // เปิดใช้งานระบบคลิกหัวตารางเพื่อเรียงลำดับ
+        makeTableSortable();
     });
 
-    // ✅ ฟังก์ชันเพิ่มแถวใหม่ (ว่างเปล่าสำหรับพิมพ์เพิ่ม)
+    // ฟังก์ชันเพิ่มแถวใหม่ (ว่างเปล่าสำหรับพิมพ์เพิ่ม)
     function addRow() {
         const tableBody = document.querySelector("#destroyTable tbody");
         const row = document.createElement("tr");
@@ -121,17 +162,12 @@
             <td><input type="date" class="form-control form-control-modern" name="return_date" onchange="autoSaveRow(this)"></td>
             <td><input type="text" class="form-control form-control-modern" name="return_by" placeholder="ผู้รับคืน" oninput="checkAutoInsert(this)" onblur="autoSaveRow(this)"></td>
             <td><textarea class="form-control form-control-modern" rows="1" name="remark" placeholder="หมายเหตุ" oninput="checkAutoInsert(this)" onblur="autoSaveRow(this)"></textarea></td>
-            <td class="text-center">
-                <button type="button" class="btn-danger-light" onclick="removeRow(this)" title="ลบแถว">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
         `;
         tableBody.appendChild(row);
         updateRowNumbers();
     }
 
-    // ✅ [Auto Insert] เช็คว่าถ้าพิมพ์ที่แถวสุดท้าย ให้สร้างแถวใหม่เพิ่มทันที
+    // [Auto Insert] เช็คว่าถ้าพิมพ์ที่แถวสุดท้าย ให้สร้างแถวใหม่เพิ่มทันที
     function checkAutoInsert(element) {
         const tableBody = document.querySelector("#destroyTable tbody");
         const rows = Array.from(tableBody.querySelectorAll("tr"));
@@ -150,7 +186,7 @@
         }
     }
 
-    // ✅ [Auto Save / Update] ทำงานเมื่อผู้ใช้พิมพ์เสร็จและคลิกออกนอกช่อง (blur) หรือเปลี่ยนค่า Date
+    // [Auto Save / Update] ทำงานเมื่อผู้ใช้พิมพ์เสร็จและคลิกออกนอกช่อง (blur) หรือเปลี่ยนค่า Date
     function autoSaveRow(element) {
         const row = element.closest("tr");
         const id = row.getAttribute("data-id");
@@ -187,7 +223,6 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                // ถ้าพึ่งบันทึกครั้งแรก (สร้างใหม่) ให้เก็บ ID ไว้ที่ tr เพื่อใช้อัปเดตในครั้งถัดไป
                 if (!id && data.id) {
                     row.setAttribute("data-id", data.id);
                 }
@@ -196,14 +231,13 @@
         .catch(error => console.error('Error:', error));
     }
 
-    // ✅ [Auto Delete] ลบข้อมูลออกจากฐานข้อมูลทันทีเมื่อกดถังขยะ หรือช่องว่างเปล่า
+    // [Auto Delete] ลบข้อมูลออกจากฐานข้อมูลทันทีเมื่อกดถังขยะ หรือช่องว่างเปล่า
     function removeRow(button) {
         const row = button.closest("tr");
         const id = row.getAttribute("data-id");
         const tableBody = document.querySelector("#destroyTable tbody");
 
         if (tableBody.querySelectorAll("tr").length <= 1) {
-            // ถ้าเหลือแถวสุดท้าย ให้ใช้วิธีเคลียร์ค่าแทนการลบแถว
             row.querySelectorAll("input, textarea").forEach(input => {
                 if (input.name === 'quantity') input.value = '1';
                 else if (input.name === 'borrow_date') input.value = '{{ date('Y-m-d') }}';
@@ -241,6 +275,53 @@
             if (rowNumDisplay) {
                 rowNumDisplay.textContent = number;
             }
+        });
+    }
+
+    // ฟังก์ชันสำหรับคลิกหัวตารางเพื่อเรียงลำดับ (Sorting)
+    function makeTableSortable() {
+        const table = document.querySelector("#destroyTable");
+        const headers = table.querySelectorAll("thead th");
+
+        headers.forEach((th, columnIndex) => {
+            if (columnIndex === 0 || columnIndex === headers.length - 1) return; // ข้ามคอลัมน์ลำดับและปุ่มลบ
+
+            th.style.cursor = "pointer";
+            th.title = "คลิกเพื่อเรียงลำดับ";
+
+            th.addEventListener("click", function() {
+                const tbody = table.querySelector("tbody");
+                const rows = Array.from(tbody.querySelectorAll("tr"));
+                
+                const isAscending = th.classList.contains("sort-asc");
+                
+                headers.forEach(h => h.classList.remove("sort-asc", "sort-desc"));
+                
+                th.classList.toggle("sort-asc", !isAscending);
+                th.classList.toggle("sort-desc", isAscending);
+
+                rows.sort((rowA, rowB) => {
+                    const inputA = rowA.cells[columnIndex].querySelector("input, textarea");
+                    const inputB = rowB.cells[columnIndex].querySelector("input, textarea");
+
+                    const cellA = inputA ? inputA.value.trim() : rowA.cells[columnIndex].innerText.trim();
+                    const cellB = inputB ? inputB.value.trim() : rowB.cells[columnIndex].innerText.trim();
+
+                    const numA = parseFloat(cellA);
+                    const numB = parseFloat(cellB);
+
+                    if (!isNaN(numA) && !isNaN(numB)) {
+                        return isAscending ? numB - numA : numA - numB;
+                    }
+
+                    return isAscending 
+                        ? cellB.localeCompare(cellA, 'th') 
+                        : cellA.localeCompare(cellB, 'th');
+                });
+
+                rows.forEach(row => tbody.appendChild(row));
+                updateRowNumbers();
+            });
         });
     }
 </script>

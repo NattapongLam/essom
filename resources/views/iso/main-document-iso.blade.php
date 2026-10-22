@@ -704,6 +704,65 @@
                         </div>
                     </div>
                     @endcan
+                    @can('iso-internalauditplan')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-1">
+                            <div class="inner text-center">
+                                <h6>แผนตรวจสอบภายใน</h6>
+                                <p>F9200.1</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-comments"></i>
+                            </div>
+                            <a href="{{route('internalaudit-plans.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
+
+                    {{-- @can('') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-2">
+                            <div class="inner text-center">
+                                <h6>รายงานการตรวจสอบภายใน</h6>
+                                <p>F9200.2</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-calendar-alt"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
+
+                    {{-- @can('') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-3">
+                            <div class="inner text-center">
+                                <h6>Individual Group Planning</h6>
+                                <p>F9200.3 </p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
+
+                    {{-- @can('') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-4">
+                            <div class="inner text-center">
+                                <h6>หนังสือเชิญประชุมทบทวนโดยฝ่ายบริหาร</h6>
+                                <p>F9300.1</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
                 </div>
             </div>
         </div>

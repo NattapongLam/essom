@@ -196,9 +196,16 @@
                                             @elseif ($item->docs_status == "4")
                                                 <span class="bg-gradient-success">โรงงานอนุมัติ</span>
                                             @elseif ($item->docs_status == "5")
+                                                <span class="bg-gradient-info">วิเคราะห์หาสาเหตุ</span> 
+                                            @elseif ($item->docs_status == "6")
                                                 <span class="bg-gradient-info">ขอปิดเอกสาร</span>     
-                                            @elseif ($item->docs_status == "5")
-                                                <span class="bg-gradient-success">อนุมัติปิดเอกสาร</span>                                             
+                                            @elseif ($item->docs_status == "7")
+                                                <span class="bg-gradient-success">
+                                                    อนุมัติปิดเอกสาร
+                                                    @if ($item->car_no)
+                                                    Car No.{{$item->car_no}}
+                                                    @endif
+                                                </span>                                             
                                             @endif
                                         </td>
                                         <td>{{$item->customer_notice_date}}</td>

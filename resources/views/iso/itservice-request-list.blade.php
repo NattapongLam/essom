@@ -186,6 +186,7 @@
                             <thead>
                               <tr>
                                 <th>สถานะ</th>
+                                <th>จำนวนวันแล้วเสร็จ</th>
                                 <th>วันที่</th>
                                 <th>วัตถุประสงค์</th>
                                 <th>รายละเอียด</th>
@@ -207,6 +208,13 @@
                                             <span class="badge-info">รอตรวจสอบ</span>
                                         @elseif ($item->docs_status == "Y")
                                             <span class="badge-success">ดำเนินการเรียบร้อย</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->operator_date && $item->itservice_requests_date)
+                                            {{ \Carbon\Carbon::parse($item->itservice_requests_date)->diffInDays(\Carbon\Carbon::parse($item->operator_date)) }} วัน
+                                        @else
+                                            -
                                         @endif
                                     </td>
                                     <td>{{$item->itservice_requests_date}}</td>
@@ -302,7 +310,7 @@ confirmDel = (refid) => {
     }).then(function(result) {
         if (result.value) {
             $.ajax({
-                url: `{{ url('/cancelOfficeRepairrequeHd') }}`,
+                url: `{{ url('/cancelItserviceRequests') }}`,
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
