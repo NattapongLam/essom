@@ -397,4 +397,10 @@ Route::group([
 Route::resource('/internalaudit-plans' , App\Http\Controllers\IsoInternalAuditPlan::class);
 Route::post('/cancelInternalauditplan' , [App\Http\Controllers\IsoInternalAuditPlan::class , 'cancelInternalauditplan']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-internalauditreport']
+],function(){
+Route::resource('/internalaudit-reports' , App\Http\Controllers\IsoInternalAuditReport::class);
+Route::post('/cancelInternalauditreport' , [App\Http\Controllers\IsoInternalAuditReport::class , 'cancelInternalauditreport']);
+});
 
