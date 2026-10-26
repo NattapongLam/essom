@@ -738,8 +738,8 @@
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-3">
                             <div class="inner text-center">
-                                <h6>Audit Check List</h6>
-                                <p>F9200.3</p>
+                                <h6>แบบฟอร์มการตรวจประเมินผลกิจกรรม 5 ส.โรงงาน (ตรวจกลุ่มช่าง)</h6>
+                                <p>GF113.1-F</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-users"></i>
@@ -749,7 +749,7 @@
                     </div>
                     {{-- @endcan --}}
 
-                    {{-- @can('') --}}
+                    @can('iso-managementreview')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-4">
                             <div class="inner text-center">
@@ -759,10 +759,10 @@
                             <div class="icon">
                                 <i class="fa fa-cogs"></i>
                             </div>
-                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                            <a href="{{route('management-reviews.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
                 </div>
             </div>
         </div>

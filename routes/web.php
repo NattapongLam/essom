@@ -404,3 +404,9 @@ Route::resource('/internalaudit-reports' , App\Http\Controllers\IsoInternalAudit
 Route::post('/cancelInternalauditreport' , [App\Http\Controllers\IsoInternalAuditReport::class , 'cancelInternalauditreport']);
 });
 
+Route::group([
+    'middleware' =>  ['auth','permission:iso-managementreview']
+],function(){
+Route::resource('/management-reviews' , App\Http\Controllers\IsoManagementReview::class);
+Route::post('/cancelManagementreview' , [App\Http\Controllers\IsoManagementReview::class , 'cancelManagementreview']);
+});
