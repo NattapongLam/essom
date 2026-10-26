@@ -165,7 +165,7 @@
                 <div class="card-header">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                         <div>
-                            <h5 class="main-title">ใบแจ้งซ่อมและประวัติซ่อมอุปกรณืสำนักงาน</h5>
+                            <h5 class="main-title">ใบแจ้งซ่อมและประวัติซ่อมอุปกรณ์สำนักงาน</h5>
                         </div>
                         <div class="text-md-right mt-2 mt-md-0 doc-meta">
                             <strong>Form No:</strong> F7131.1<br>
