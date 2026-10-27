@@ -66,6 +66,7 @@ class IsoOfficeRepairrequest extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                     'office_repairrequest_hds_id' => $insertHD->office_repairrequest_hds_id, 
+                    'note'  => $request->note[$key],
                 ]);
             }
             DB::commit();
@@ -148,6 +149,7 @@ class IsoOfficeRepairrequest extends Controller
                                 'office_repairrequest_dts_flag' => true,
                                 'person_at' => Auth::user()->name,
                                 'updated_at' => Carbon::now(),
+                                'note'  => $request->note[$key],
                             ]);
                         } else {
                             // เพิ่มข้อมูลรายการใหม่ (กรณีผู้ใช้กดปุ่มเพิ่มแถวในหน้าจอ)
@@ -161,6 +163,7 @@ class IsoOfficeRepairrequest extends Controller
                                 'person_at' => Auth::user()->name,
                                 'created_at' => Carbon::now(),
                                 'updated_at' => Carbon::now(),
+                                'note'  => $request->note[$key],
                             ]);
                         }
                     }
@@ -187,7 +190,10 @@ class IsoOfficeRepairrequest extends Controller
                         'receiver_name' => Auth::user()->name,
                         'receiver_status' => 'Y',
                         'tracking_status' => $request->tracking_status,
-                        'tracking_remark' => $request->tracking_remark
+                        'tracking_remark' => $request->tracking_remark,
+                        'tracking_remark1' => $request->tracking_remark1,
+                        'tracking_remark2' => $request->tracking_remark2,
+                        'tracking_remark3' => $request->tracking_remark3
                     ]);
                 }elseif($header->approver_status == "N"){
                     $header->update([

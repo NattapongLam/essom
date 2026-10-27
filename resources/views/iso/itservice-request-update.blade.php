@@ -260,19 +260,19 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label">รายละเอียด/สาเหตุ</label>
-                                <textarea class="form-control" rows="5" name="itservice_requests_causes"></textarea>
+                                <textarea class="form-control" rows="5" name="itservice_requests_causes">{{$hd->itservice_requests_causes}}</textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label">การดำเนินการ/การแก้ไข</label>
-                                <textarea class="form-control" rows="5" name="itservice_requests_correction"></textarea>
+                                <textarea class="form-control" rows="5" name="itservice_requests_correction">{{$hd->itservice_requests_correction}}</textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="col-form-label">อื่นๆ</label>
-                                <textarea class="form-control" rows="5" name="itservice_requests_other"></textarea>
+                                <textarea class="form-control" rows="5" name="itservice_requests_other">{{$hd->itservice_requests_other}}</textarea>
                             </div>
                         </div>
                     </div>

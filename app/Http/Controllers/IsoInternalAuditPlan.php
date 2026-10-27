@@ -75,6 +75,7 @@ class IsoInternalAuditPlan extends Controller
                     'internalaudit_plan_dts_flag' => true,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
+                    'area' => $item['area'] ?? null,
                 ]);  
             }
 
@@ -164,6 +165,7 @@ class IsoInternalAuditPlan extends Controller
                         'internalaudit_plan_dts_flag' => true,
                         'created_at' => Carbon::now(), // เปิดใช้งานถ้าตารางมีคอลัมน์นี้
                         'updated_at' => Carbon::now(), // เปิดใช้งานถ้าตารางมีคอลัมน์นี้
+                        'area' => $item['area'] ?? null,
                     ]);  
                 }
 

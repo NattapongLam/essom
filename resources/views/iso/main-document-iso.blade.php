@@ -734,20 +734,20 @@
                     </div>
                     @endcan
 
-                    {{-- @can('') --}}
+                    @can('iso-inspectionrecode')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-3">
                             <div class="inner text-center">
-                                <h6>แบบฟอร์มการตรวจประเมินผลกิจกรรม 5 ส.โรงงาน (ตรวจกลุ่มช่าง)</h6>
-                                <p>GF113.1-F</p>
+                                <h6>บันทึกผลการตรวจรับอุปกรณ์ที่สั่งทำจากภายนอก</h6>
+                                <p>GF409.1</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-users"></i>
                             </div>
-                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                            <a href="{{route('inspection-recodes.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
 
                     @can('iso-managementreview')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
