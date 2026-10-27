@@ -21,6 +21,7 @@ class InternalauditPlanDt extends Model
         'person_at', 
         'internalaudit_plan_dts_flag',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'area'
     ];
 }

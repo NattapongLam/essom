@@ -157,8 +157,9 @@
                                     <tr>
                                         <th style="width: 8%;">No</th>
                                         <th style="width: 22%;">Date</th>
-                                        <th style="width: 30%;">Process</th>
-                                        <th style="width: 20%;">Auditee</th>
+                                        <th style="width: 10%;">Area</th>
+                                        <th style="width: 25%;">Process</th>
+                                        <th style="width: 15%;">Auditee</th>
                                         <th style="width: 15%;">Auditor</th>
                                         <th style="width: 5%;">Action</th>
                                     </tr>
@@ -171,6 +172,9 @@
                                             <td class="row-no font-weight-bold">{{ $index + 1 }}</td>
                                             <td>
                                                 <input type="date" class="form-control form-control-sm" name="audit[{{ $index }}][date]" value="{{ $item->date }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-sm" name="audit[{{ $index }}][area]" placeholder="ระบุ Area" value="{{ $item->area }}">
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control form-control-sm" name="audit[{{ $index }}][process]" placeholder="ระบุ Process" value="{{ $item->process }}">
@@ -283,6 +287,7 @@ $(document).ready(function() {
             $(this).find('.row-no').text(index + 1);
 
             $(this).find('input[name*="[date]"]').attr('name', `audit[${index}][date]`);
+            $(this).find('input[name*="[area]"]').attr('name', `audit[${index}][area]`);
             $(this).find('input[name*="[process]"]').attr('name', `audit[${index}][process]`);
             $(this).find('input[name*="[auditee]"]').attr('name', `audit[${index}][auditee]`);
             $(this).find('input[name*="[auditor]"]').attr('name', `audit[${index}][auditor]`);
@@ -306,6 +311,9 @@ $(document).ready(function() {
                 <td class="row-no font-weight-bold">${rowCount + 1}</td>
                 <td>
                     <input type="date" class="form-control form-control-sm" name="audit[${rowCount}][date]">
+                </td>
+                <td>
+                    <input type="text" class="form-control form-control-sm" name="audit[${rowCount}][area]" placeholder="ระบุ Area">
                 </td>
                 <td>
                     <input type="text" class="form-control form-control-sm" name="audit[${rowCount}][process]" placeholder="ระบุ Process">

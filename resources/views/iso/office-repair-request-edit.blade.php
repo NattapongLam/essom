@@ -176,6 +176,7 @@
                                             <th style="width: 8%">ลำดับ</th>
                                             <th style="width: 37%">ลักษณะอาการที่ชำรุดหรือเสีย (อย่างละเอียด)</th>
                                             <th style="width: 37%">การแก้ไข</th>
+                                            <th style="width: 10%">ข้อเสนอแนะ</th>
                                             <th style="width: 10%">หมายเหตุ</th>
                                             <th style="width: 8%">ลบ</th>
                                         </tr>
@@ -193,6 +194,9 @@
                                                 </td>
                                                 <td>
                                                     <input class="form-control" name="repair_action[]" value="{{$item->repair_action}}">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" name="note[]" value="{{$item->note}}">
                                                 </td>
                                                 <td>
                                                     <input class="form-control" name="remark[]" value="{{$item->remark}}">
@@ -234,14 +238,18 @@
                                     <div class="checkbox-indigo-container">
                                         <input type="checkbox" id="track_type1" name="tracking_status[]" value="send_company">
                                         <label for="track_type1">จัดส่งบริษัทเพื่อซ่อม</label>
+                                        <input class="form-control" name="tracking_remark1" readonly>
+                                    </div>
                                     </div>
                                     <div class="checkbox-indigo-container">
                                         <input type="checkbox" id="track_type2" name="tracking_status[]" value="wait_quotation">
                                         <label for="track_type2">รอใบเสนอราคา</label>
+                                        <input class="form-control" name="tracking_remark2" readonly>
                                     </div>
                                     <div class="checkbox-indigo-container">
                                         <input type="checkbox" id="track_type3" name="tracking_status[]" value="wait_parts">
                                         <label for="track_type3">รอสั่งซื้ออุปกรณ์</label>
+                                        <input class="form-control" name="tracking_remark3" readonly>
                                     </div>
                                     <div class="checkbox-indigo-container">
                                         <input type="checkbox" id="track_type4" name="tracking_status[]" value="other">

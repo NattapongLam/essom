@@ -162,8 +162,9 @@
                                     <tr>
                                         <th style="width: 8%;">No</th>
                                         <th style="width: 22%;">Date</th>
-                                        <th style="width: 30%;">Process</th>
-                                        <th style="width: 20%;">Auditee</th>
+                                        <th style="width: 10%;">Area</th>
+                                        <th style="width: 25%;">Process</th>
+                                        <th style="width: 15%;">Auditee</th>
                                         <th style="width: 15%;">Auditor</th>
                                         <th style="width: 5%;">Action</th>
                                     </tr>
@@ -174,6 +175,9 @@
                                         <td class="row-no font-weight-bold">1</td>
                                         <td>
                                             <input type="date" class="form-control form-control-sm" name="audit[0][date]">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" name="audit[0][area]" placeholder="ระบุ Area">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control form-control-sm" name="audit[0][process]" placeholder="ระบุ Process">
@@ -285,6 +289,9 @@ $(document).ready(function() {
                 <td class="row-no font-weight-bold">${rowCount + 1}</td>
                 <td>
                     <input type="date" class="form-control form-control-sm" name="audit[${rowCount}][date]">
+                </td>
+                <td>
+                    <input type="text" class="form-control form-control-sm" name="audit[${rowCount}][area]" placeholder="ระบุ Area">
                 </td>
                 <td>
                     <input type="text" class="form-control form-control-sm" name="audit[${rowCount}][process]" placeholder="ระบุ Process">

@@ -403,10 +403,15 @@ Route::group([
 Route::resource('/internalaudit-reports' , App\Http\Controllers\IsoInternalAuditReport::class);
 Route::post('/cancelInternalauditreport' , [App\Http\Controllers\IsoInternalAuditReport::class , 'cancelInternalauditreport']);
 });
-
 Route::group([
     'middleware' =>  ['auth','permission:iso-managementreview']
 ],function(){
 Route::resource('/management-reviews' , App\Http\Controllers\IsoManagementReview::class);
 Route::post('/cancelManagementreview' , [App\Http\Controllers\IsoManagementReview::class , 'cancelManagementreview']);
+});
+Route::group([
+    'middleware' =>  ['auth','permission:iso-inspectionrecode']
+],function(){
+Route::resource('/inspection-recodes' , App\Http\Controllers\IsoInspectionRecode::class);
+Route::post('/cancelInspectionrecode' , [App\Http\Controllers\IsoInspectionRecode::class , 'cancelInspectionrecode']);
 });

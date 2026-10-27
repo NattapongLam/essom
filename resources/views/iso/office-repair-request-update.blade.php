@@ -176,6 +176,7 @@
                                             <th style="width: 8%">ลำดับ</th>
                                             <th style="width: 37%">ลักษณะอาการที่ชำรุดหรือเสีย (อย่างละเอียด)</th>
                                             <th style="width: 37%">การแก้ไข</th>
+                                             <th style="width: 10%">ข้อเสนอแนะ</th>
                                             <th style="width: 10%">หมายเหตุ</th>
                                             {{-- <th style="width: 8%">ลบ</th> --}}
                                         </tr>
@@ -191,6 +192,9 @@
                                                 </td>
                                                 <td>
                                                     {{$item->repair_action}}
+                                                </td>
+                                                <td>
+                                                    {{$item->note}}
                                                 </td>
                                                 <td>
                                                     {{$item->remark}}
@@ -259,6 +263,9 @@
                                             {{ $hd->receiver_status == "Y" ? 'disabled' : '' }}
                                             {{ in_array('send_company', $trackingStatus) ? 'checked' : '' }}>
                                         <label for="track_type1">จัดส่งบริษัทเพื่อซ่อม</label>
+                                        <input class="form-control mt-1" name="tracking_remark" 
+                                            value="{{ $hd->tracking_remark1 }}"
+                                            {{ $hd->receiver_status == "Y" ? 'readonly' : '' }}>
                                     </div>
 
                                     {{-- รายการที่ 2: รอใบเสนอราคา --}}
@@ -267,6 +274,9 @@
                                             {{ $hd->receiver_status == "Y" ? 'disabled' : '' }}
                                             {{ in_array('wait_quotation', $trackingStatus) ? 'checked' : '' }}>
                                         <label for="track_type2">รอใบเสนอราคา</label>
+                                         <input class="form-control mt-1" name="tracking_remark" 
+                                            value="{{ $hd->tracking_remark2 }}"
+                                            {{ $hd->receiver_status == "Y" ? 'readonly' : '' }}>
                                     </div>
 
                                     {{-- รายการที่ 3: รอสั่งซื้ออุปกรณ์ --}}
@@ -275,6 +285,9 @@
                                             {{ $hd->receiver_status == "Y" ? 'disabled' : '' }}
                                             {{ in_array('wait_parts', $trackingStatus) ? 'checked' : '' }}>
                                         <label for="track_type3">รอสั่งซื้ออุปกรณ์</label>
+                                        <input class="form-control mt-1" name="tracking_remark" 
+                                            value="{{ $hd->tracking_remark3 }}"
+                                            {{ $hd->receiver_status == "Y" ? 'readonly' : '' }}>
                                     </div>
 
                                     {{-- รายการที่ 4: อื่นๆ พร้อมช่องกรอกหมายเหตุ --}}
