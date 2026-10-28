@@ -774,20 +774,20 @@
                         </div>
                     </div>
                     @endcan
-                    {{-- @can('') --}}
+                    @can('iso-activity5soff')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-2">
                             <div class="inner text-center">
-                                <h6>การตรวจพื้นที่ประจำเดือน (สำนักงาน) </h6>
+                                <h6>การตรวจพื้นที่ประจำเดือน (สำนักงาน)</h6>
                                 <p>GF113.2-O</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-calendar-alt"></i>
                             </div>
-                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                            <a href="{{route('activity-5soffs.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
                     {{-- @can('') --}}
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-3">
