@@ -718,7 +718,6 @@
                         </div>
                     </div>
                     @endcan
-
                     @can('iso-internalauditreport')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-2">
@@ -733,7 +732,6 @@
                         </div>
                     </div>
                     @endcan
-
                     @can('iso-inspectionrecode')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-3">
@@ -748,7 +746,6 @@
                         </div>
                     </div>
                     @endcan
-
                     @can('iso-managementreview')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-4">
@@ -763,6 +760,62 @@
                         </div>
                     </div>
                     @endcan
+                    @can('iso-activity5spdt')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-1">
+                            <div class="inner text-center">
+                                <h6>กิจกรรม 5ส (โรงงาน)</h6>
+                                <p></p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-comments"></i>
+                            </div>
+                            <a href="{{route('activity-5spdts.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    @endcan
+                    {{-- @can('') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-2">
+                            <div class="inner text-center">
+                                <h6>การตรวจพื้นที่ประจำเดือน (สำนักงาน) </h6>
+                                <p>GF113.2-O</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-calendar-alt"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
+                    {{-- @can('') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-3">
+                            <div class="inner text-center">
+                                <h6>ใบบันทึกผลการตรวจสอบอุปกรณ์ที่สั่งทำจากภายนอก</h6>
+                                <p>GF409 HB</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
+                    {{-- @can('') --}}
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="iso-card bg-indigo-4">
+                            <div class="inner text-center">
+                                <h6>ใบตรวจสอบสินค้าต่างประเทศ (จากบริษัท SDM)</h6>
+                                <p>GF409 SDM</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    {{-- @endcan --}}
                 </div>
             </div>
         </div>
