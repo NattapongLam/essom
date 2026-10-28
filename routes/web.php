@@ -415,3 +415,11 @@ Route::group([
 Route::resource('/inspection-recodes' , App\Http\Controllers\IsoInspectionRecode::class);
 Route::post('/cancelInspectionrecode' , [App\Http\Controllers\IsoInspectionRecode::class , 'cancelInspectionrecode']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-activity5spdt']
+],function(){
+Route::resource('/activity-5spdts' , App\Http\Controllers\IsoActivity5sPdt::class);
+Route::get('/activity-5spdt/create-1', [App\Http\Controllers\IsoActivity5sPdt::class, 'create1'])->name('activity-5spdts.create1');
+Route::get('/activity-5spdt/create-2', [App\Http\Controllers\IsoActivity5sPdt::class, 'create2'])->name('activity-5spdts.create2');
+Route::post('/cancelActivity5spdt' , [App\Http\Controllers\IsoActivity5sPdt::class , 'cancelActivity5spdt']);
+});
