@@ -423,3 +423,9 @@ Route::get('/activity-5spdt/create-1', [App\Http\Controllers\IsoActivity5sPdt::c
 Route::get('/activity-5spdt/create-2', [App\Http\Controllers\IsoActivity5sPdt::class, 'create2'])->name('activity-5spdts.create2');
 Route::post('/cancelActivity5spdt' , [App\Http\Controllers\IsoActivity5sPdt::class , 'cancelActivity5spdt']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-activity5soff']
+],function(){
+Route::resource('/activity-5soffs' , App\Http\Controllers\IsoActivity5sOff::class);
+Route::post('/cancelActivity5off' , [App\Http\Controllers\IsoActivity5sOff::class , 'cancelActivity5off']);
+});
