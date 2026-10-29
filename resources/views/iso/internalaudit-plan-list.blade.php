@@ -175,9 +175,9 @@
                                             @if ($item->docs_status == "1")
                                                 <span class="bg-gradient-warning">เปิดเอกสาร</span>
                                             @elseif ($item->docs_status == "2")
-                                                <span class="bg-gradient-warning">ตรวจสอบเรียบร้อย</span>
+                                                <span class="bg-gradient-info">ตรวจสอบเรียบร้อย</span>
                                             @elseif ($item->docs_status == "3")
-                                                <span class="bg-gradient-warning">อนุมัติ</span>
+                                                <span class="bg-gradient-success">อนุมัติ</span>
                                             @endif
                                         </td>
                                         <td>{{$item->period}}</td>

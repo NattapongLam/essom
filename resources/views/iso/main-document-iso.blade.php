@@ -788,7 +788,7 @@
                         </div>
                     </div>
                     @endcan
-                    {{-- @can('') --}}
+                    @can('iso-inspectionrecordhb')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-3">
                             <div class="inner text-center">
@@ -798,10 +798,10 @@
                             <div class="icon">
                                 <i class="fa fa-users"></i>
                             </div>
-                            <a href="#" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
+                            <a href="{{route('inspection-record-hbs.index')}}" class="iso-card-footer" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ <i class="fa fa-arrow-circle-right ms-1"></i></a>
                         </div>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
                     {{-- @can('') --}}
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="iso-card bg-indigo-4">
