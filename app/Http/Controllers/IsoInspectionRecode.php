@@ -267,7 +267,7 @@ class IsoInspectionRecode extends Controller
     {
         //
     }
-    public function cancelCompacancelInspectionrecodenylimited(Request $request)
+    public function cancelInspectionrecode(Request $request)
     {
         $hd = InspectionRecordHd::where('inspection_record_hds_id',$request->refid)->update([
             'inspection_record_hds_flag' => 0,
