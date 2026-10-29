@@ -435,3 +435,9 @@ Route::group([
 Route::resource('/inspection-record-hbs' , App\Http\Controllers\IsoInspectionRecordHb::class);
 Route::post('/cancelInspectionrecordhb' , [App\Http\Controllers\IsoInspectionRecordHb::class , 'cancelInspectionrecordhb']);
 });
+Route::group([
+    'middleware' =>  ['auth','permission:iso-inspectionrecordsdm']
+],function(){
+Route::resource('/inspection-record-sdms' , App\Http\Controllers\IsoInspectionRecordSdm::class);
+Route::post('/cancelInspectionrecordsdm' , [App\Http\Controllers\IsoInspectionRecordSdm::class , 'cancelInspectionrecordsdm']);
+});

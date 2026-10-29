@@ -78,6 +78,7 @@ class RolePermissionSeeder extends Seeder
         // Permission::create(['name' => 'iso-inspectionrecode']);
         // Permission::create(['name' => 'iso-activity5spdt']);
         // Permission::create(['name' => 'iso-activity5soff']);
-        Permission::create(['name' => 'iso-inspectionrecordhb']);
+        // Permission::create(['name' => 'iso-inspectionrecordhb']);
+        // Permission::create(['name' => 'iso-inspectionrecordsdm']);
     }
 }
