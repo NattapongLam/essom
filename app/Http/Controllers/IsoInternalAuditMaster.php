@@ -56,6 +56,7 @@ class IsoInternalAuditMaster extends Controller
             'person_at' => auth()->user()->name ?? null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+            'document_type' => $request->document_type
         ];
         try {
             DB::beginTransaction();
@@ -132,6 +133,7 @@ class IsoInternalAuditMaster extends Controller
                     'effective_date'=> $request->effective_date,
                     'updated_at' => Carbon::now(),
                     'person_at' => auth()->user()->name ?? null,
+                    'document_type' => $request->document_type
                 ]);
                 InternalauditMasterDt::where('internalaudit_master_hds_id', $id)->delete();
                 if ($request->has('audit') && is_array($request->audit)) {

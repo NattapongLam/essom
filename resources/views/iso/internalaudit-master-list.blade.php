@@ -149,6 +149,7 @@
                                     <th>Name</th>  
                                     <th>Rev.</th>   
                                     <th>Effective Date</th>   
+                                    <th>Type</th>   
                                     <th>แก้ไข</th>    
                                     <th>ลบ</th>                                                         
                                 </tr>                     
@@ -160,6 +161,7 @@
                                         <td>{{ $item->document_name }}</td>  
                                         <td>{{ $item->revision }}</td>  
                                         <td>{{ $item->effective_date }}</td>  
+                                        <td>{{ $item->document_type }}</td>  
                                         <td>
                                             <a href="{{ route('internalaudit-masters.edit', $item->internalaudit_master_hds_id) }}" class="btn btn-sm btn-warning action-btn text-white" style="background-color: #f59e0b;" title="แก้ไข">
                                                 <i class="fas fa-edit"></i>
