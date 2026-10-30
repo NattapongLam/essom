@@ -122,7 +122,7 @@
 </style>
 
 <div class="container-fluid py-4">
-      <form action="{{ route('internalaudit-reports.store') }}" method="POST">
+    <form action="{{ route('internalaudit-reports.store') }}" method="POST">
         @csrf
         <div class="row">  
             <div class="col-12">
@@ -137,31 +137,20 @@
                         </div>
                     </div>
 
-                    <div class="card-body p-4">      
+                    <div class="card-body p-4">     
                         <!-- Header Information Form -->
                         <div class="row g-3 mb-4">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="font-weight-bold text-dark mb-1">Refer to Standard Document No.</label>
-                                    <input class="form-control" type="text" name="document_no" placeholder="ระบุเลขที่เอกสารอ้างอิง">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="font-weight-bold text-dark mb-1">Name</label>
-                                    <input class="form-control" type="text" name="document_name" placeholder="ระบุชื่อเอกสาร/กระบวนการ">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="font-weight-bold text-dark mb-1">Rev.</label>
-                                    <input class="form-control" type="text" name="revision" placeholder="เช่น 00, 01">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label class="font-weight-bold text-dark mb-1">Effective Date</label>
-                                    <input class="form-control" type="date" name="effective_date" value="{{ date('Y-m-d') }}">
+                                    <select class="form-control" name="internalaudit_master_hds_id" id="masterDocSelect">
+                                        <option value="-">กรุณาเลือก</option>
+                                        @foreach ($hd as $item)
+                                            <option value="{{ $item->internalaudit_master_hds_id }}">
+                                                No : {{ $item->document_no }} Name : {{ $item->document_name }} Rev : {{ $item->revision }} Effective Date : {{ $item->effective_date }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +178,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Row 1 (Default) -->
+                                    <!-- Default Row (ถ้ายังไม่เลือก จะมี 1 แถวว่าง) -->
                                     <tr>
                                         <td class="row-no text-center font-weight-bold">1</td>
                                         <td>
@@ -284,25 +273,30 @@
         function updateRowNumbers() {
             const rows = document.querySelectorAll('#auditTable tbody tr');
             rows.forEach((row, index) => {
-                row.querySelector('.row-no').innerText = index + 1;
+                const rowNoEl = row.querySelector('.row-no');
+                if (rowNoEl) rowNoEl.innerText = index + 1;
             });
         }
 
-        // เพิ่มแถวใหม่
+        // เพิ่มแถวใหม่ด้วยปุ่ม
         document.getElementById('addRowBtn').addEventListener('click', function () {
+            addRow();
+        });
+
+        function addRow(checklistText = '') {
             const tableBody = document.querySelector('#auditTable tbody');
             const newRow = document.createElement('tr');
 
             newRow.innerHTML = `
                 <td class="row-no text-center font-weight-bold"></td>
                 <td>
-                    <textarea class="form-control form-control-sm table-input" name="audit[${rowIndex}][checklist]" rows="2" placeholder="ระบุรายการที่ตรวจสอบ"></textarea>
+                    <textarea class="form-control form-control-sm table-input" name="audit[${rowIndex}][checklist]" rows="2" placeholder="ระบุรายการที่ตรวจสอบ">${checklistText}</textarea>
                 </td>
                 <td>
                     <textarea class="form-control form-control-sm table-input" name="audit[${rowIndex}][finding]" rows="2" placeholder="ระบุสิ่งที่พบจากการตรวจ"></textarea>
                 </td>
                 <td>
-                    <input class="form-control form-control-sm table-input" name="audit[${rowIndex}][conclusion]">                   
+                    <input class="form-control form-control-sm table-input" name="audit[${rowIndex}][conclusion]">                    
                 </td>
                 <td>
                     <textarea class="form-control form-control-sm table-input" name="audit[${rowIndex}][comment]" rows="2" placeholder="ข้อคิดเห็น"></textarea>
@@ -320,6 +314,42 @@
             tableBody.appendChild(newRow);
             rowIndex++;
             updateRowNumbers();
+        }
+
+        // Event ดึงข้อมูล Checklists เมื่อเปลี่ยน Master Document Dropdown
+        $('#masterDocSelect').on('change', function () {
+            let masterId = $(this).val();
+            
+            if (masterId && masterId !== '-') {
+                $.ajax({
+                    url: `{{ url('/get-internalaudit-master-details') }}/${masterId}`,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        const tableBody = document.querySelector('#auditTable tbody');
+                        tableBody.innerHTML = ''; // ล้างข้อมูลแถวเก่าทั้งหมด
+                        rowIndex = 0; // รีเซ็ต index แถว
+
+                        if (response.status && response.data.length > 0) {
+                            // วนลูปสร้างแถวตามรายการ checklist จากฐานข้อมูล
+                            response.data.forEach(function (item) {
+                                addRow(item.checklist);
+                            });
+                        } else {
+                            // ถ้าไม่มีข้อมูล ให้สร้างแถวว่างไว้ 1 แถว
+                            addRow();
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถดึงข้อมูลรายการตรวจสอบได้',
+                            confirmButtonColor: '#4f46e5'
+                        });
+                    }
+                });
+            }
         });
 
         // ลบแถว

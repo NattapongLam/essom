@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InternalauditMasterHd;
 use App\Models\InternalauditReportDt;
 use App\Models\InternalauditReportHd;
 use Carbon\Carbon;
@@ -29,7 +30,7 @@ class IsoInternalAuditReport extends Controller
      */
     public function create()
     {
-        $hd = null;
+        $hd = InternalauditMasterHd::where('internalaudit_master_hds_flag',true)->get();
         return view('iso.internalaudit-report-create', compact('hd'));
     }
 
@@ -41,18 +42,19 @@ class IsoInternalAuditReport extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'document_no' => ['required'],
-            'document_name' => ['required'],
-            'revision' => ['required'],
-            'effective_date' => ['required'],
-        ]);
+        // $request->validate([
+        //     'document_no' => ['required'],
+        //     'document_name' => ['required'],
+        //     'revision' => ['required'],
+        //     'effective_date' => ['required'],
+        // ]);
+        $hd = InternalauditMasterHd::find($request->internalaudit_master_hds_id);
         $data = [
             'internalaudit_report_hds_flag' => true,
-            'document_no' => $request->document_no,
-            'document_name' => $request->document_name,
-            'revision' => $request->revision,
-            'effective_date' => $request->effective_date,
+            'document_no' => $hd->document_no,
+            'document_name' => $hd->document_name,
+            'revision' => $hd->revision,
+            'effective_date' => $hd->effective_date,
             'auditor_name' => $request->auditor_name,
             'auditor_date' => $request->auditor_date,
             'auditee_name' => $request->auditee_name,
