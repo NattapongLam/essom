@@ -402,6 +402,9 @@ Route::group([
 ],function(){
 Route::resource('/internalaudit-reports' , App\Http\Controllers\IsoInternalAuditReport::class);
 Route::post('/cancelInternalauditreport' , [App\Http\Controllers\IsoInternalAuditReport::class , 'cancelInternalauditreport']);
+Route::resource('/internalaudit-masters' , App\Http\Controllers\IsoInternalAuditMaster::class);
+Route::post('/cancelInternalauditmaster' , [App\Http\Controllers\IsoInternalAuditMaster::class , 'cancelInternalauditmaster']);
+Route::get('/get-internalaudit-master-details/{id}', [App\Http\Controllers\IsoInternalAuditMaster::class, 'getDetails']);
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-managementreview']

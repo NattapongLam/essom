@@ -94,18 +94,6 @@
         border-bottom: 1px solid #e2e8f0 !important;
     }
 
-    .set-badge {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
-        font-weight: 600;
-        display: inline-block;
-        margin-bottom: 2px;
-    }
-    .badge-elec { background-color: #e0e7ff; color: #4338ca; }
-    .badge-mach { background-color: #f1f5f9; color: #334155; }
-    .badge-paint { background-color: #fce7f3; color: #be185d; }
-
     /* Action Buttons */
     .action-btn {
         width: 34px;
@@ -145,9 +133,13 @@
                             <h5 class="m-0 font-weight-normal" style="font-size: 1.1rem; opacity: 0.9;">INTERNAL AUDIT REPORT (รายงานการตรวจสอบภายใน)</h5>
                             <span class="doc-code">ฟอร์มเอกสาร: F9200.2 (01 April 17)</span>
                         </div>
-                        <div class="text-center text-md-right">
-                            <a href="{{ route('internalaudit-reports.create') }}" class="btn-indigo-add">
+                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                            <a href="{{ route('internalaudit-reports.create') }}" class="btn-indigo-add mb-2 mb-md-0">
                                 <i class="fas fa-plus"></i> เพิ่มเอกสาร
+                            </a>
+                            &nbsp;
+                            <a href="{{ route('internalaudit-masters.index') }}" class="btn-indigo-add">
+                                <i class="fas fa-cog"></i> ตั้งค่ารายการตรวจสอบ
                             </a>
                         </div>
                     </div>
@@ -157,31 +149,33 @@
                     <div class="table-responsive">
                         <table id="tb_job" class="table modern-table text-center w-100">
                             <thead>  
-                                <tr>       
+                                <tr>      
                                     <th>Status</th>
-                                    <th>Document No.</th>           
+                                    <th>Document No.</th>          
                                     <th>Name</th>  
                                     <th>Rev.</th>   
                                     <th>Effective Date</th>   
                                     <th>แก้ไข</th>   
                                     <th>อัพเดท</th>  
-                                    <th>ลบ</th>                                                      
-                                </tr>                      
+                                    <th>ลบ</th>                                                         
+                                </tr>                     
                             </thead>
                             <tbody>  
                                 @foreach ($hd as $item)
                                     <tr>
                                         <td>
                                             @if ($item->docs_status == "1")
-                                                <span class="bg-gradient-warning">เปิดเอกสาร</span>
+                                                <span class="badge bg-warning text-dark px-2 py-1">เปิดเอกสาร</span>
                                             @elseif ($item->docs_status == "2")
-                                                <span class="bg-gradient-warning">อนุมัติ</span>
+                                                <span class="badge bg-success px-2 py-1">อนุมัติ</span>
+                                            @else
+                                                <span class="badge bg-secondary px-2 py-1">ไม่ระบุ</span>
                                             @endif
                                         </td>
-                                        <td>{{$item->document_no}}</td>   
-                                        <td>{{$item->document_name}}</td>   
-                                        <td>{{$item->revision}}</td>   
-                                        <td>{{$item->effective_date}}</td>  
+                                        <td>{{ $item->document_no }}</td>  
+                                        <td>{{ $item->document_name }}</td>  
+                                        <td>{{ $item->revision }}</td>  
+                                        <td>{{ $item->effective_date }}</td>  
                                         <td>
                                             <a href="{{ route('internalaudit-reports.edit', $item->internalaudit_report_hds_id) }}" class="btn btn-sm btn-warning action-btn text-white" style="background-color: #f59e0b;" title="แก้ไข">
                                                 <i class="fas fa-edit"></i>
@@ -199,7 +193,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach                     
+                                @endforeach                    
                             </tbody>
                         </table>
                     </div>
@@ -214,7 +208,8 @@
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
 <script>
-$(document).ready(function() {$('#tb_job').DataTable({
+$(document).ready(function() {
+    $('#tb_job').DataTable({
         "pageLength": 50,
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -228,11 +223,11 @@ $(document).ready(function() {$('#tb_job').DataTable({
             [0, "asc"]
         ],
         pagingType: "full_numbers",
-        bSort: true,    
+        bSort: true    
     });
 });
 
-confirmDel = (refid) =>{      
+function confirmDel(refid) {      
     Swal.fire({
         title: 'คุณแน่ใจหรือไม่ !',
         text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
