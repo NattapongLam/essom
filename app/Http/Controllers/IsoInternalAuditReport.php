@@ -62,6 +62,7 @@ class IsoInternalAuditReport extends Controller
             'docs_status' => "1",
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+            'document_type' => $hd->document_type
         ];
         try {
             DB::beginTransaction();
@@ -153,6 +154,7 @@ class IsoInternalAuditReport extends Controller
                     'auditee_date' => $request->auditee_date,
                     'docs_status' => "1",
                     'updated_at' => Carbon::now(),
+                    'document_type' => $hd->document_type
                 ]);
 
                 // 3. จัดการข้อมูล Detail (รายการตรวจสอบในตาราง)

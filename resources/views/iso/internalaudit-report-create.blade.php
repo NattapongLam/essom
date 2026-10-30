@@ -147,7 +147,7 @@
                                         <option value="-">กรุณาเลือก</option>
                                         @foreach ($hd as $item)
                                             <option value="{{ $item->internalaudit_master_hds_id }}">
-                                                No : {{ $item->document_no }} Name : {{ $item->document_name }} Rev : {{ $item->revision }} Effective Date : {{ $item->effective_date }}
+                                                No : {{ $item->document_no }} Name : {{ $item->document_name }} Rev : {{ $item->revision }} Effective Date : {{ $item->effective_date }} Type : {{ $item->document_type }}
                                             </option>
                                         @endforeach
                                     </select>

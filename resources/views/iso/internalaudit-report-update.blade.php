@@ -143,13 +143,13 @@
                     <div class="card-body p-4">      
                         <!-- Header Information Form -->
                         <div class="row g-3 mb-4">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold text-dark mb-1">Refer to Standard Document No.</label>
                                     <input class="form-control" type="text" name="document_no" placeholder="ระบุเลขที่เอกสารอ้างอิง" value="{{ $hd->document_no }}">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold text-dark mb-1">Name</label>
                                     <input class="form-control" type="text" name="document_name" placeholder="ระบุชื่อเอกสาร/กระบวนการ" value="{{ $hd->document_name }}">
@@ -165,6 +165,12 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold text-dark mb-1">Effective Date</label>
                                     <input class="form-control" type="date" name="effective_date" value="{{ $hd->effective_date }}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="font-weight-bold text-dark mb-1">Type</label>
+                                    <input class="form-control" type="text" name="document_type" value="{{ $hd->document_type }}">
                                 </div>
                             </div>
                         </div>
