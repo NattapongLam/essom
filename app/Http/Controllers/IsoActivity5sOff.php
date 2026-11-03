@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivitysOffDt;
 use App\Models\ActivitysOffHd;
+use App\Models\ActivitysoffMasterHd;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,7 @@ class IsoActivity5sOff extends Controller
      */
     public function create()
     {
-        $hd = null;
+        $hd = ActivitysoffMasterHd::with('details')->where('activitysoff_master_hds_flag', true)->get();
         return view('iso.activity-5soff-create', compact('hd'));
     }
 
@@ -40,34 +41,48 @@ class IsoActivity5sOff extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validate ข้อมูล
+        // 1. Validate ข้อมูลพื้นฐาน
         $validated = $request->validate([
-            'department_name' => 'required|string|max:255',
-            'floor'           => 'required|string|max:255',
-            'score'           => 'required|array',
-            'auditor_1'       => 'required|string|max:255',
-            'audit_date'      => 'required|date',
+            'activitysoff_master_hds_id' => 'required',
+            'items'                     => 'required|array',
+            'items.*.score'             => 'nullable|integer|min:0|max:5', // อนุญาตให้คะแนนเป็น 0, ค่าว่าง, หรือ 1-5 ได้
+            'auditor_1'                 => 'required|string|max:255',
+            'audit_date'                => 'required|date',
         ]);
 
-        $scores = $request->input('score');
+        $items = $request->input('items', []);
         $totalScore = 0;
-        
-        // คำนวณคะแนนรวมจากข้อมูลที่ส่งมา
-        foreach ($scores as $val) {
-            $valInt = intval($val);
-            if ($valInt >= 1 && $valInt <= 5) {
-                $totalScore += $valInt;
-            }
-        }
-        $percentageScore = round(($totalScore / 105) * 100, 2);
+        $totalMaxScore = 0; // คะแนนเต็มรวม (คำนวณจาก Master จริง เพื่อความยืดหยุ่น)
+
+        // ดึงข้อมูล Master และ Details มาตรวจสอบคะแนนเต็ม
+        $masterHd = ActivitysoffMasterHd::with('details')->findOrFail($request->activitysoff_master_hds_id);
 
         DB::beginTransaction();
         try {
+            // วนลูปคำนวณคะแนนรวมและคะแนนเต็ม
+            foreach ($items as $index => $itemData) {
+                $scoreVal = isset($itemData['score']) ? intval($itemData['score']) : 0;
+                if ($scoreVal >= 1 && $scoreVal <= 5) {
+                    $totalScore += $scoreVal;
+                }
+                
+                // หาคะแนนเต็มของข้อนั้นๆ จากฐานข้อมูล Master Detail
+                if (isset($itemData['activitysoff_master_dts_id'])) {
+                    $detailMaster = $masterHd->details->where('activitysoff_master_dts_id', $itemData['activitysoff_master_dts_id'])->first();
+                    if ($detailMaster) {
+                        $totalMaxScore += intval($detailMaster->score);
+                    }
+                }
+            }
+
+            // ป้องกันผลหารด้วย 0 กรณีคะแนนเต็มรวมเป็น 0
+            $percentageScore = $totalMaxScore > 0 ? round(($totalScore / $totalMaxScore) * 100, 2) : 0;
+
             // 2. บันทึกข้อมูลลงตารางหลัก (Header)
             $header = ActivitysOffHd::create([
                 'activitys_off_hds_flag' => true,
-                'department_name'        => $request->department_name,
-                'floor'                  => $request->floor,
+                'department_name'        => $masterHd->department_name,
+                'floor'                  => $masterHd->floor,
                 'total_score'            => $totalScore,
                 'percentage_score'       => $percentageScore,
                 'strength'               => $request->strength,
@@ -79,23 +94,21 @@ class IsoActivity5sOff extends Controller
                 'scores'                 => '-'
             ]);
 
-            // Map key ของ array (1 ถึง 21) ให้เป็นรหัสข้อ (1.1 ถึง 3.6)
-            $itemCodesMap = [
-                1 => '1.1',  2 => '1.2',  3 => '1.3',  4 => '1.4.1', 5 => '1.4.2', 
-                6 => '1.4.3', 7 => '1.4.4', 8 => '1.4.5', 9 => '1.4.6',
-                10 => '2.1', 11 => '2.2', 12 => '2.3', 13 => '2.4', 14 => '2.5', 15 => '2.6',
-                16 => '3.1', 17 => '3.2', 18 => '3.3', 19 => '3.4', 20 => '3.5', 21 => '3.6'
-            ];
+            // 3. วนลูปบันทึกคะแนนรายข้อลงตารางย่อย (Detail) ตามข้อมูลที่ส่งมาจากหน้าฟอร์ม
+            foreach ($items as $itemData) {
+                if (isset($itemData['activitysoff_master_dts_id'])) {
+                    $detailMaster = $masterHd->details->where('activitysoff_master_dts_id', $itemData['activitysoff_master_dts_id'])->first();
+                    
+                    if ($detailMaster) {
+                        $scoreVal = isset($itemData['score']) ? intval($itemData['score']) : 0;
 
-            // 3. วนลูปบันทึกคะแนนรายข้อลงตารางย่อย (Detail)
-            foreach ($scores as $key => $scoreVal) {
-                if (isset($itemCodesMap[$key]) && !is_null($scoreVal) && $scoreVal !== '') {
-                    ActivitysOffDt::create([
-                        'activitys_off_hds_id' => $header->activitys_off_hds_id,
-                        'item_code'            => $itemCodesMap[$key],
-                        'max_score'            => 5,
-                        'score'                => intval($scoreVal),
-                    ]);
+                        ActivitysOffDt::create([
+                            'activitys_off_hds_id' => $header->activitys_off_hds_id,
+                            'item_code'            => $detailMaster->code,
+                            'max_score'            => $detailMaster->score,
+                            'score'                => $scoreVal,
+                        ]);
+                    }
                 }
             }
 
@@ -104,7 +117,6 @@ class IsoActivity5sOff extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // หากยังมีจุดที่ผิดพลาดตรงฐานข้อมูล จะเด้งข้อความนี้ขึ้นมาให้เห็นทันที
             return redirect()->back()->with('error', 'เกิดข้อผิดพลาด: ' . $e->getMessage())->withInput();
         }
     }
@@ -145,29 +157,46 @@ class IsoActivity5sOff extends Controller
         $validated = $request->validate([
             'department_name' => 'required|string|max:255',
             'floor'           => 'required|string|max:255',
-            'score'           => 'required|array',
+            'items'           => 'required|array',
+            'items.*.score'   => 'nullable|integer|min:0|max:5', // รองรับคะแนน 0, ว่าง หรือ 1-5
             'auditor_1'       => 'required|string|max:255',
             'audit_date'      => 'required|date',
         ]);
 
-        $scores = $request->input('score');
+        $items = $request->input('items', []);
         $totalScore = 0;
-        
-        // คำนวณคะแนนรวมใหม่
-        foreach ($scores as $val) {
-            $valInt = intval($val);
-            if ($valInt >= 1 && $valInt <= 5) {
-                $totalScore += $valInt;
-            }
-        }
-        $percentageScore = round(($totalScore / 105) * 100, 2);
+        $totalMaxScore = 0;
+
+        // ค้นหา Header เดิม
+        $header = ActivitysOffHd::findOrFail($id);
+
+        // ค้นหา Master Details เพื่อดึงคะแนนเต็ม (max_score) และ item_code ตามหน่วยงานและชั้น
+        $masterDetails = \App\Models\ActivitysoffMasterDt::whereHas('header', function($q) use ($request) {
+            $q->where('department_name', $request->department_name)
+            ->where('floor', $request->floor);
+        })->get()->keyBy('activitysoff_master_dts_id');
 
         DB::beginTransaction();
         try {
-            // 2. ค้นหา Header เดิม
-            $header = ActivitysOffHd::findOrFail($id);
+            // วนลูปคำนวณคะแนนรวมและคะแนนเต็มจริง
+            foreach ($items as $itemData) {
+                $scoreVal = isset($itemData['score']) ? intval($itemData['score']) : 0;
+                if ($scoreVal >= 1 && $scoreVal <= 5) {
+                    $totalScore += $scoreVal;
+                }
 
-            // 3. อัปเดตข้อมูลตารางหลัก
+                if (isset($itemData['activitysoff_master_dts_id'])) {
+                    $masterDetail = $masterDetails->get($itemData['activitysoff_master_dts_id']);
+                    if ($masterDetail) {
+                        $totalMaxScore += intval($masterDetail->score);
+                    }
+                }
+            }
+
+            // ป้องกันหารด้วย 0
+            $percentageScore = $totalMaxScore > 0 ? round(($totalScore / $totalMaxScore) * 100, 2) : 0;
+
+            // 2. อัปเดตข้อมูลตารางหลัก (Header)
             $header->update([
                 'department_name'  => $request->department_name,
                 'floor'            => $request->floor,
@@ -181,24 +210,23 @@ class IsoActivity5sOff extends Controller
                 'audit_date'       => $request->audit_date,
             ]);
 
-            // 4. ลบรายการคะแนนข้อย่อยเดิมทิ้ง แล้วสร้างใหม่ (หรือจะใช้วิธี updateOrCreate ก็ได้)
+            // 3. ลบรายการคะแนนข้อย่อยเดิมทิ้ง แล้วสร้างใหม่ตาม Master ปัจจุบัน
             $header->details()->delete();
 
-            $itemCodesMap = [
-                1 => '1.1',  2 => '1.2',  3 => '1.3',  4 => '1.4.1', 5 => '1.4.2', 
-                6 => '1.4.3', 7 => '1.4.4', 8 => '1.4.5', 9 => '1.4.6',
-                10 => '2.1', 11 => '2.2', 12 => '2.3', 13 => '2.4', 14 => '2.5', 15 => '2.6',
-                16 => '3.1', 17 => '3.2', 18 => '3.3', 19 => '3.4', 20 => '3.5', 21 => '3.6'
-            ];
+            foreach ($items as $itemData) {
+                if (isset($itemData['activitysoff_master_dts_id'])) {
+                    $masterDetail = $masterDetails->get($itemData['activitysoff_master_dts_id']);
 
-            foreach ($scores as $key => $scoreVal) {
-                if (isset($itemCodesMap[$key]) && !is_null($scoreVal) && $scoreVal !== '') {
-                    ActivitysOffDt::create([
-                        'activitys_off_hds_id' => $header->activitys_off_hds_id,
-                        'item_code'            => $itemCodesMap[$key],
-                        'max_score'            => 5,
-                        'score'                => intval($scoreVal),
-                    ]);
+                    if ($masterDetail) {
+                        $scoreVal = isset($itemData['score']) ? intval($itemData['score']) : 0;
+
+                        ActivitysOffDt::create([
+                            'activitys_off_hds_id' => $header->activitys_off_hds_id,
+                            'item_code'            => $masterDetail->code,
+                            'max_score'            => $masterDetail->score,
+                            'score'                => $scoreVal,
+                        ]);
+                    }
                 }
             }
 
@@ -221,7 +249,7 @@ class IsoActivity5sOff extends Controller
     {
         //
     }
-    public function cancelActivity5spdt(Request $request)
+    public function cancelActivity5off(Request $request)
     {
         $hd = ActivitysOffHd::where('activitys_off_hds_id',$request->refid)->update([
             'activitys_off_hds_flag' => 0,

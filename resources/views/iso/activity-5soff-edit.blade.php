@@ -180,154 +180,71 @@
                                 </thead>
                                 <tbody>
                                     @php
+                                        // 1. ดึงคะแนนเก่าที่เคยบันทึกไว้ในตาราง Detail ของ Transaction นี้
                                         $savedScores = $hd->details->pluck('score', 'item_code')->toArray();
+
+                                        // 2. ดึงข้อมูล Master Details ที่ตรงกับ Department และ Floor ของ Header นี้
+                                        $masterDetails = \App\Models\ActivitysoffMasterDt::whereHas('header', function($q) use ($hd) {
+                                            $q->where('department_name', $hd->department_name)
+                                            ->where('floor', $hd->floor);
+                                        })->orderBy('code')->get(); // <--- อย่าลืมใส่ ->get() ตรงนี้ครับ
+
+                                        // จัดกลุ่มตามหมวดหมู่หลัก (ดูจากตัวเลขตัวแรกของ code เช่น 1.1 -> หมวด 1)
+                                        $groupedDetails = $masterDetails->groupBy(function($item) {
+                                            return explode('.', $item->code)[0];
+                                        });
+
+                                        $categoryLabels = [
+                                            '1' => ['name' => 'บริเวณทำงาน', 'sub' => 'ตึกงานบริหารงานขายอุปกรณ์อุตสาหกรรมและงานขายอุปกรณ์การศึกษา'],
+                                            '2' => ['name' => 'พื้นที่ส่วนกลาง', 'sub' => 'ตรวจงานบริหาร'],
+                                            '3' => ['name' => 'สโตร์ และ Shop พ่นสี', 'sub' => 'ตรวจงานบริหารและงานขายอุปกรณ์อุตสาหกรรม']
+                                        ];
+
+                                        $globalIndex = 0;
+                                        $totalMaxScore = 0;
                                     @endphp
 
-                                    <!-- ================= หมวดที่ 1 ================= -->
-                                    <tr>
-                                        <td rowspan="10" class="category-cell">1. บริเวณทำงาน<br><small class="text-muted fw-normal">ตึกงานบริหารงานขายอุปกรณ์อุตสาหกรรมและงานขายอุปกรณ์การศึกษา</small></td>
-                                        <td>1.1</td>
-                                        <td class="text-start">วางสิ่งของบริเวณโต๊ะทำงานให้เป็นระเบียบและนำมาใช้ได้สะดวก</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[1]" value="{{ old('score.1', $savedScores['1.1'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.2</td>
-                                        <td class="text-start">ไม่มีเศษขยะบริเวณโต๊ะทำงาน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[2]" value="{{ old('score.2', $savedScores['1.2'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.3</td>
-                                        <td class="text-start">เครื่องใช้สำนักงานส่วนกลางต้องไม่มีสิ่งของที่ไม่เกี่ยวข้องปะปน บริเวณเครื่องใช้มีชื่อผู้รับผิดชอบมีความสะอาดพร้อมใช้งาน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[3]" value="{{ old('score.3', $savedScores['1.3'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4</td>
-                                        <td class="text-start fw-bold" colspan="3" style="text-align: left !important;">ตู้เอกสาร/ตู้เก็บอุปกรณ์</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4.1</td>
-                                        <td class="text-start">ไม่มีของที่ไม่เกี่ยวข้องเก็บในตู้</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[4]" value="{{ old('score.4', $savedScores['1.4.1'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4.2</td>
-                                        <td class="text-start">ติดชื่อผู้รับผิดชอบตู้และจัดแบ่งพื้นที่ในตู้ให้เป็นระเบียบ มีป้ายชี้บ่ง</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[5]" value="{{ old('score.5', $savedScores['1.4.2'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4.3</td>
-                                        <td class="text-start">รักษาความสะอาดบริเวณตู้เอกสารไม่มีเทป/คราบกาวติดตู้</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[6]" value="{{ old('score.6', $savedScores['1.4.3'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4.4</td>
-                                        <td class="text-start">ไม่วางสิ่งของหน้าตู้เอกสาร</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[7]" value="{{ old('score.7', $savedScores['1.4.4'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4.5</td>
-                                        <td class="text-start">การวางสิ่งของบนหลังตู้เอกสารให้วางแฟ้มให้เป็นระเบียบหรือมีชั้นเก็บเอกสารหรือกล่องเก็บ</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[8]" value="{{ old('score.8', $savedScores['1.4.5'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>1.4.6</td>
-                                        <td class="text-start">ปิดตู้ทุกครั้งหลังใช้งาน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[9]" value="{{ old('score.9', $savedScores['1.4.6'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-
-                                    <!-- ================= หมวดที่ 2 ================= -->
-                                    <tr>
-                                        <td rowspan="6" class="category-cell">2. พื้นที่ส่วนกลาง<br><small class="text-muted fw-normal">ตรวจงานบริหาร</small></td>
-                                        <td>2.1</td>
-                                        <td class="text-start">พื้นที่มีความสะอาดไม่มีเศษขยะ เช่น ทางเดิน ห้องโถง บันได พื้นที่โดยรอบสำนักงาน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[10]" value="{{ old('score.10', $savedScores['2.1'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.2</td>
-                                        <td class="text-start">บริเวณพื้นที่จอดรถยนต์/จักรยานยนต์ จอดตรงตามช่องจอด</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[11]" value="{{ old('score.11', $savedScores['2.2'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.3</td>
-                                        <td class="text-start">วางสิ่งของเป็นระเบียบในบริเวณพื้นที่ที่กำหนด</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[12]" value="{{ old('score.12', $savedScores['2.3'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.4</td>
-                                        <td class="text-start">ห้องประชุม กระดานไวท์บอร์ด ต้องสะอาดและโต๊ะประชุม, เก้าอี้จัดวางเรียบร้อยอยู่ในสภาพพร้อมใช้งาน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[13]" value="{{ old('score.13', $savedScores['2.4'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.5</td>
-                                        <td class="text-start">บอร์ดติดประกาศชั้น 1 มีข้อมูลไม่เกิน 3 เดือน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[14]" value="{{ old('score.14', $savedScores['2.5'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.6</td>
-                                        <td class="text-start">ห้องระบบไฟฟ้า ไม่วางสิ่งของอื่นไว้ภายใน (ยกเว้นชั้น 3 ให้วางไว้อย่างมีระเบียบ)</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[15]" value="{{ old('score.15', $savedScores['2.6'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-
-                                    <!-- ================= หมวดที่ 3 ================= -->
-                                    <tr>
-                                        <td rowspan="6" class="category-cell">3. สโตร์ และ Shop พ่นสี<br><small class="text-muted fw-normal">ตรวจงานบริหารและงานขายอุปกรณ์อุตสาหกรรม</small></td>
-                                        <td>3.1</td>
-                                        <td class="text-start">ไม่มีสิ่งของที่ไม่เกี่ยวข้องปะปนกับอุปกรณ์</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[16]" value="{{ old('score.16', $savedScores['3.1'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.2</td>
-                                        <td class="text-start">อุปกรณ์ เครื่องมือ ถูกเก็บอยู่ในกล่องหรือตู้เก็บอุปกรณ์หรือชั้นวางเป็นระเบียบเรียบร้อย มีป้ายชี้บ่ง สามารถนำมาใช้ได้สะดวก</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[17]" value="{{ old('score.17', $savedScores['3.2'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.3</td>
-                                        <td class="text-start">ห้องสโตร์ กระดานไวท์บอร์ด ต้องสะอาดและอยู่ในสภาพพร้อมใช้งาน</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[18]" value="{{ old('score.18', $savedScores['3.3'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.4</td>
-                                        <td class="text-start">พื้นที่มีความสะอาด ไม่มีเศษขยะ</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[19]" value="{{ old('score.19', $savedScores['3.4'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.5</td>
-                                        <td class="text-start">วางสิ่งของให้เป็นระเบียบ ในพื้นที่ที่กำหนด</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[20]" value="{{ old('score.20', $savedScores['3.5'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.6</td>
-                                        <td class="text-start">เครื่องมือเครื่องใช้ที่มีอันตราย เช่น มีความแหลมคม ไวไฟ มีการจัดเก็บในภาชนะอย่างปลอดภัย</td>
-                                        <td>5</td>
-                                        <td><input type="number" class="form-control score-input" name="score[21]" value="{{ old('score.21', $savedScores['3.6'] ?? '') }}" min="1" max="5"></td>
-                                    </tr>
+                                    @foreach ($groupedDetails as $groupKey => $items)
+                                        @php
+                                            $catInfo = $categoryLabels[$groupKey] ?? ['name' => 'พื้นที่ตรวจเช็คอื่นๆ', 'sub' => ''];
+                                        @endphp
+                                        @foreach ($items as $idx => $detail)
+                                            @php
+                                                $scoreVal = $savedScores[$detail->code] ?? '';
+                                                $maxScore = $detail->score;
+                                                $totalMaxScore += intval($maxScore);
+                                            @endphp
+                                            <tr>
+                                                @if ($idx === 0)
+                                                    <td rowspan="{{ $items->count() }}" class="category-cell align-middle">
+                                                        {{ $groupKey }}. {{ $catInfo['name'] }}
+                                                        <br><small class="text-muted fw-normal">{{ $catInfo['sub'] }}</small>
+                                                    </td>
+                                                @endif
+                                                <td>{{ $detail->code }}</td>
+                                                <td class="text-start">{{ $detail->detail }}</td>
+                                                <td>{{ $maxScore }}</td>
+                                                <td>
+                                                    <input type="hidden" name="items[{{ $globalIndex }}][activitysoff_master_dts_id]" value="{{ $detail->activitysoff_master_dts_id }}">
+                                                    
+                                                    @if (intval($maxScore) > 0)
+                                                        <input type="number" class="form-control score-input" name="items[{{ $globalIndex }}][score]" value="{{ old('items.' . $globalIndex . '.score', $scoreVal) }}" min="1" max="5" required>
+                                                    @else
+                                                        <input type="hidden" name="items[{{ $globalIndex }}][score]" value="0">
+                                                        <span class="text-muted">-</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @php $globalIndex++; @endphp
+                                        @endforeach
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr class="bg-light">
                                         <td colspan="3" class="text-start ps-3">
                                             <small class="text-muted"><strong>เกณฑ์การให้คะแนน:</strong> 5 = ดีมาก , 4 = ดี , 3 = พอใช้ , 2 = ควรปรับปรุง , 1 = แย่มาก</small>
                                         </td>
-                                        <td class="text-center fw-bold text-dark">คะแนนเต็ม<br>105</td>
+                                        <td class="text-center fw-bold text-dark">คะแนนเต็ม<br><span id="maxScoreText">{{ $totalMaxScore }}</span></td>
                                         <td>
                                             <div class="input-group input-group-sm mb-1">
                                                 <input type="text" id="total_score" class="form-control score-input bg-white fw-bold text-primary" readonly value="0">
@@ -380,7 +297,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>วันที่ตรวจ <span class="text-danger">*</span></label>
-                                    <input class="form-control bg-white" type="date" name="audit_date" value="{{ old('audit_date', optional($hd->audit_date)->format('Y-m-d') ?? $hd->audit_date) }}" required>
+                                    <input class="form-control bg-white" type="date" name="audit_date" value="{{ old('audit_date', $hd->audit_date) }}" required>
                                 </div>
                             </div>
                         </div> 
@@ -407,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const scoreInputs = document.querySelectorAll('.score-input');
     const totalScoreInput = document.getElementById('total_score');
     const percentScoreInput = document.getElementById('percent_score');
-    const maxScore = 105;
+    const maxScore = parseInt(document.getElementById('maxScoreText').textContent) || 105;
 
     function calculateTotal() {
         let total = 0;
@@ -419,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         
         totalScoreInput.value = total;
-        let percent = (total / maxScore) * 100;
+        let percent = maxScore > 0 ? (total / maxScore) * 100 : 0;
         percentScoreInput.value = percent.toFixed(2);
     }
 
@@ -449,7 +366,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // คำนวณครั้งแรกตอนโหลดหน้าเว็บ เพื่อรวมคะแนนเก่าขึ้นแสดงผลทันที
     calculateTotal();
 });
 </script>
