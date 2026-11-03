@@ -213,21 +213,25 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-3">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
                         <!-- Left Info -->
                         <div>
                             <div class="company-title">ESSOM CO., LTD.</div>
-                            <h5 class="main-title">
+                            <h5 class="main-title mb-1">
                                 การตรวจพื้นที่ประจำเดือน (สำนักงาน)
                             </h5>
-                            <span class="doc-code">ฟอร์มเอกสาร: GF113.2-O (20 Feb. 19)</span>
+                            <span class="doc-code text-muted">ฟอร์มเอกสาร: GF113.2-O (20 Feb. 19)</span>
                         </div>
-                    </div>
-                    
-                    <div class="action-buttons-group mt-4 pt-3 border-top border-light">
-                        <a href="{{ route('activity-5soffs.create') }}" class="btn-indigo-add">
-                            <i class="fas fa-plus-circle"></i> เพิ่มข้อมูลใหม่
-                        </a>
+
+                        <!-- Right Action Buttons (Grouped in one line) -->
+                        <div class="action-buttons-group">
+                            <a href="{{ route('activity-5soffs.create') }}" class="btn-indigo-add">
+                                <i class="fas fa-plus-circle"></i> เพิ่มข้อมูลใหม่
+                            </a>
+                            <a href="{{route('activityoff-masters.index')}}" class="btn-indigo-add btn-alt">
+                                <i class="fas fa-cog"></i> ตั้งค่ารายการตรวจสอบ
+                            </a>
+                        </div>
                     </div>
                 </div>
 

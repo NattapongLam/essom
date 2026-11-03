@@ -431,6 +431,8 @@ Route::group([
 ],function(){
 Route::resource('/activity-5soffs' , App\Http\Controllers\IsoActivity5sOff::class);
 Route::post('/cancelActivity5off' , [App\Http\Controllers\IsoActivity5sOff::class , 'cancelActivity5off']);
+Route::resource('/activityoff-masters' , App\Http\Controllers\IsoActivityOffMaster::class);
+Route::post('/cancelActivityoffmaster' , [App\Http\Controllers\IsoActivityOffMaster::class , 'cancelActivityoffmaster']);
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-inspectionrecordhb']
