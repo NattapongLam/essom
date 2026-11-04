@@ -230,6 +230,7 @@
                                     <th>วันที่</th>
                                     <th>อ้างถึง</th>
                                     <th>เลขที่</th>
+                                    <th>ผู้ออกเอกสาร</th>
                                     <th>ผู้แก้ปัญหา</th>
                                     <th>ข้อบกพร่องที่พบ</th>
                                     <th class="text-center" style="width: 90px">จัดการ</th>
@@ -263,6 +264,7 @@
                                         <td>{{$item->iso_car_refertype}}</td>
                                         <td class="fw-bold text-indigo-dark">{{$item->iso_car_docuno}}</td>
                                         <td>{{$item->problem_by}}</td>
+                                        <td>{{$item->problem_add}} , {{$item->problem_add1}} , {{$item->problem_add2}}</td>
                                         <td><div class="text-truncate" style="max-width: 220px;" title="{{$item->found_bugs}}">{{$item->found_bugs}}</div></td>
                                         <td class="text-center">
                                             <a href="{{route('car-report.edit',$item->iso_car_id)}}" class="btn btn-warning btn-action text-white" title="แก้ไข">
