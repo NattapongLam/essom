@@ -242,6 +242,7 @@
                                 <tr>
                                     <th>หน่วยงานที่ถูกตรวจ</th>
                                     <th>ชั้นที่ถูกตรวจ</th>
+                                    <th>%</th>
                                     <th>วันที่</th>
                                     <th>แก้ไข</th>
                                     <th>ลบ</th>
@@ -252,6 +253,7 @@
                                     <tr>
                                         <td>{{$item->department_name}}</td>
                                         <td>{{$item->floor}}</td>
+                                        <td>{{$item->percentage_score}}</td>
                                         <td>{{$item->audit_date}}</td>
                                         <td>
                                             <a href="{{route('activity-5soffs.edit',$item->activitys_off_hds_id)}}" class="btn btn-sm btn-warning action-btn text-white" style="background-color: #f59e0b;" title="ประเมิน">

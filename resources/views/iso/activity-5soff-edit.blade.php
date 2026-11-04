@@ -173,7 +173,7 @@
                                     <tr>
                                         <th style="width: 20%;">พื้นที่ตรวจเช็ค</th>
                                         <th style="width: 8%;">ข้อ</th>
-                                        <th style="width: 47%; text-align: left; padding-left: 1rem !important;">รายละเอียด</th>
+                                        <th style="width: 47%;">รายละเอียด</th>
                                         <th style="width: 10%;">เต็ม</th>
                                         <th style="width: 15%;">คะแนน (1-5)</th>
                                     </tr>
@@ -222,7 +222,7 @@
                                                     </td>
                                                 @endif
                                                 <td>{{ $detail->code }}</td>
-                                                <td class="text-start">{{ $detail->detail }}</td>
+                                                <td class="text-start" style="text-align: left; padding-left: 1rem !important;">{{ $detail->detail }}</td>
                                                 <td>{{ $maxScore }}</td>
                                                 <td>
                                                     <input type="hidden" name="items[{{ $globalIndex }}][activitysoff_master_dts_id]" value="{{ $detail->activitysoff_master_dts_id }}">
