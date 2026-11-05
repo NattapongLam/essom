@@ -223,6 +223,7 @@ class IsoProductSelection extends Controller
                 'assessor_date' => $request->assessor_date,
                 'purchase_by' => $request->purchase_by,
                 'purchase_date' => $request->purchase_date,
+                'reviewed_by' => $request->reviewed_by,
                 'approved_by1' => $request->approved_by1
             ];
             try{
