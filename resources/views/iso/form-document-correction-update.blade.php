@@ -332,7 +332,7 @@
                             <input class="form-control-modern" type="date" name="reviewed_date" value="{{$doc->reviewed_date}}" readonly>
                         </div>
                     </div>
-                    @else 
+                    @elseif ($doc->reviewed_status == "N")
                      <div class="row">
                         <div class="col-12 form-group-custom">
                             <label>Audit Check List Revision</label>
@@ -367,7 +367,7 @@
                             <input class="form-control-modern" type="date" name="approved_date" value="{{$doc->approved_date}}" readonly>
                         </div>
                     </div>
-                    @else 
+                    @elseif ($doc->approved_status == "N") 
                     <div class="row">
                         <div class="col-12 form-group-custom">
                             <label>Deputy Managing Directors/Managing Directors Comment</label>
@@ -387,11 +387,19 @@
                     @endif
                     
                 <!-- Dynamic Conditional Submission Core Control Trigger -->
-                @if ($doc->approved_status == "N")
+                @if ($doc->reviewed_status == "N")
                     <div class="row mt-4">
                         <div class="col-md-2 col-12">
                             <button type="submit" class="btn-indigo-submit">
-                                <i class="fas fa-save mr-1"></i> บันทึกการตรวจสอบ
+                                <i class="fas fa-save mr-1"></i> บันทึกทบทวน
+                            </button>
+                        </div>
+                    </div>
+                @elseif ($doc->approved_status == "N")
+                    <div class="row mt-4">
+                        <div class="col-md-2 col-12">
+                            <button type="submit" class="btn-indigo-submit">
+                                <i class="fas fa-save mr-1"></i> บันทึกอนุมัติ
                             </button>
                         </div>
                     </div>
