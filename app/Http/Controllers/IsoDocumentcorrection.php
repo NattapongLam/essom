@@ -191,35 +191,50 @@ class IsoDocumentcorrection extends Controller
         }
         else if($request->checkdoc == "Update"){
             $hd = Documentcorrection::find($id);
-            if($hd->reviewed_status == "N"){
+            if (!$hd) {
+                return redirect()->route('document-correction.index')->with('error', 'ไม่พบข้อมูลเอกสาร');
+            }
+
+            $data = [];
+
+            // เช็กสถานะการอนุมัติก่อน (เนื่องจากขั้นตอนนี้ทำทีหลังสุด)
+            if ($hd->reviewed_status == "Y" && $hd->approved_status == "N") {
+                $data = [               
+                    'reviewed_comment' => $request->reviewed_comment,
+                    'approved_by' => $request->approved_by,
+                    'approved_date' => $request->approved_date,               
+                    'approved_status' => "Y",
+                    // สังเกตว่าเราไม่ได้แตะต้อง reviewed_status ตรงนี้ มันจึงยังคงค่าเดิมเป็น "Y" ไว้
+                ];
+            } 
+            // เช็กสถานะการรีวิวก่อน (ขั้นแรก)
+            elseif ($hd->reviewed_status == "N") {
                 $data = [
                     'documentcorrections_auditcheck' => $request->documentcorrections_auditcheck,
                     'reviewed_by' => $request->reviewed_by,
                     'reviewed_date' => $request->reviewed_date,
                     'reviewed_status' => "Y",
                 ];
-                
+            } else {
+                return redirect()->route('document-correction.index')->with('error', 'เอกสารนี้ผ่านการรีวิวและอนุมัติครบถ้วนแล้ว');
+            }         
 
-            }elseif($hd->approved_status == "N"){
-                $data = [               
-                    'reviewed_comment' => $request->reviewed_comment,
-                    'approved_by' => $request->approved_by,
-                    'approved_date' => $request->approved_date,               
-                    'approved_status' => "Y",
-                ];
-            }           
-            try{
-
+            try {
                 DB::beginTransaction();
-                $insertHD = Documentcorrection::where('documentcorrections_id',$id)->update($data);
+
+                // อัปเดตข้อมูลผ่าน Model
+                $hd->update($data);
+
                 DB::commit();
+
                 return redirect()->route('document-correction.index')->with('success', 'บันทึกข้อมูลสำเร็จ');
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
+                DB::rollBack();
                 Log::error($e->getMessage());
-                dd($e->getMessage());
-                return redirect()->route('document-correction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ');
+
+                return redirect()->route('document-correction.index')->with('error', 'บันทึกข้อมูลไม่สำเร็จ: ' . $e->getMessage());
             }
-        }        
+        }
     }
 
     /**
