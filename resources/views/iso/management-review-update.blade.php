@@ -243,6 +243,102 @@
         background: #ef4444;
         color: #ffffff;
     }
+
+    /* ==========================================
+       CSS สำหรับการพิมพ์เอกสาร (Print Styles)
+       ========================================== */
+    @media print {
+        .card-header,
+        .d-flex.justify-content-end,
+        button,
+        .btn,
+        nav,
+        aside,
+        footer,
+        .app-header,
+        .main-header {
+            display: none !important;
+        }
+
+        @page {
+            size: A4;
+            margin: 10mm 15mm;
+        }
+
+        body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            font-size: 13px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .container-fluid,
+        .col-xl-10 {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .custom-card {
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        .card-body {
+            padding: 0 !important;
+        }
+
+        .form-control-custom,
+        .form-inline-input,
+        .table-input {
+            border: none !important;
+            border-bottom: 1px solid #94a3b8 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            padding: 2px 4px !important;
+            box-shadow: none !important;
+        }
+
+        textarea.table-input {
+            border: 1px solid #cbd5e1 !important;
+            resize: none;
+        }
+
+        .table-modern-form {
+            border: 1px solid #94a3b8 !important;
+        }
+
+        .table-modern-form thead th {
+            background-color: #f1f5f9 !important;
+            color: #000000 !important;
+            border-bottom: 2px solid #94a3b8 !important;
+        }
+
+        .table-modern-form tbody td {
+            border-bottom: 1px solid #cbd5e1 !important;
+        }
+
+        .recipient-card,
+        .meeting-details-box,
+        .signature-card,
+        .note-box {
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: none !important;
+        }
+
+        /* บังคับให้รายชื่อ 2 คอลัมน์แสดงเค้าโครงคู่ขนานกันตอนพิมพ์ */
+        .recipient-card .row > div {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+        }
+
+        tr, .signature-card, .recipient-card {
+            page-break-inside: avoid;
+        }
+    }
 </style>
 
 <div class="container-fluid py-4">
@@ -426,6 +522,9 @@
                             <a href="{{ route('management-reviews.index') }}" class="btn btn-light px-4" style="border-radius: 8px; line-height: 2.2;">
                                 ยกเลิก
                             </a>
+                            <button type="button" class="btn btn-secondary px-4" onclick="window.print()" style="border-radius: 8px; line-height: 2.2;">
+                                <i class="fas fa-print mr-1"></i> พิมพ์เอกสาร
+                            </button>
                             <button type="submit" class="btn btn-indigo-add shadow-sm">
                                 <i class="fas fa-save mr-1"></i> บันทึกการแก้ไข
                             </button>
@@ -456,7 +555,7 @@
             tr.innerHTML = `
                 <td class="row-number font-weight-bold text-muted">${rowCount}</td>
                 <td>
-                    <input type="text" name="agenda_topic[]" class="table-input" placeholder="หัวข้อการประชุม" value="${data.agenda_topic || ''}">
+                    <textarea name="agenda_topic[]" class="table-input"  rows="7" placeholder="หัวข้อการประชุม">${data.agenda_topic || ''}</textarea>
                 </td>
                 <td>
                     <input type="text" name="agenda_type[]" class="table-input" placeholder="วาระการประชุม" value="${data.agenda_type || ''}">
