@@ -464,7 +464,7 @@
             tr.innerHTML = `
                 <td class="row-number font-weight-bold text-muted">${rowCount}</td>
                 <td>
-                    <input type="text" name="agenda_topic[]" class="table-input" placeholder="หัวข้อการประชุม" value="${data.topic || ''}">
+                    <textarea name="agenda_topic[]" class="table-input" rows="7" placeholder="หัวข้อการประชุม" >${data.topic || ''}</textarea>
                 </td>
                 <td>
                     <input type="text" name="agenda_type[]" class="table-input" placeholder="วาระการประชุม" value="${data.type || ''}">
