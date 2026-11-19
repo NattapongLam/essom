@@ -84,6 +84,7 @@ class IsoInternalAuditReport extends Controller
                         'internalaudit_report_dts_flag' => true,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
+                        'action'  => $item['action'] ?? null,
                 ]);  
             }
             DB::commit();
@@ -180,6 +181,7 @@ class IsoInternalAuditReport extends Controller
                                 'person_at' => auth()->user()->name ?? null,
                                 'created_at' => Carbon::now(),
                                 'updated_at' => Carbon::now(),
+                                'action'  => $item['action'] ?? null,
                             ]);
                         }
                     }
