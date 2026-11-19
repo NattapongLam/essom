@@ -182,6 +182,8 @@
                                 <tr>
                                     <th>ประเภทสินค้า</th>
                                     <th>ประเภทจัดซื้อ</th>
+                                    <th>กลุ่มสินค้า</th>
+                                    <th>แผนก</th>
                                     <th>ผู้จัดทำ</th>
                                     <th>ผู้ทบทวน</th>
                                     <th>ผู้อนุมัติ</th>
@@ -211,6 +213,12 @@
                                             <span class="badge p-2" style="background-color: #e0f2fe; color: #0369a1;">
                                                 {{$item->product_selection_hd_type}}
                                             </span>
+                                        </td>
+                                        <td>
+                                            {{$item->product_selection_hd_group}}
+                                        </td>
+                                        <td>
+                                            {{$item->product_selection_hd_department}}
                                         </td>
                                         <td>
                                             <span class="font-weight-600 text-dark">{{$item->requested_by}}</span>

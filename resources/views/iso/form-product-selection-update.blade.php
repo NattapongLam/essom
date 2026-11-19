@@ -358,7 +358,7 @@
                             </div>
                             <input class="form-control mb-2" name="reviewed_by" value="{{$hd->reviewed_by}}" readonly>
                             <label class="small text-muted mb-1">วันที่ทบทวน</label>
-                            <input class="form-control" type="date" name="reviewed_date" value="{{ $hd->reviewed_date }}" readonly>
+                            <input class="form-control" type="date" name="reviewed_date" value="{{ $hd->reviewed_date }}">
                         </div> 
 
                         <!-- อนุมัติโดย (ขั้นแรก) -->
@@ -379,7 +379,7 @@
                             </div>
                             <input class="form-control mb-2" name="approved_by1" value="{{$hd->approved_by1}}" readonly>
                             <label class="small text-muted mb-1">วันที่อนุมัติ</label>
-                            <input class="form-control" type="date" name="approved_date1" value="{{ $hd->approved_date1 }}" readonly>
+                            <input class="form-control" type="date" name="approved_date1" value="{{ $hd->approved_date1 }}">
                         </div>                       
 
                         <!-- ผู้ประเมินสินค้า -->
@@ -387,7 +387,7 @@
                             <label class="font-weight-bold text-dark mb-1">ผู้ประเมินสินค้า</label>
                             <input class="form-control mb-2" name="assessor_by" value="{{$hd->assessor_by}}" readonly>
                             <label class="small text-muted mb-1">วันที่ประเมิน</label>
-                            <input class="form-control" type="date" name="assessor_date" value="{{$hd->assessor_date }}" readonly>
+                            <input class="form-control" type="date" name="assessor_date" value="{{$hd->assessor_date }}">
                         </div>
 
                         <!-- ผู้ประเมินบริการ -->
@@ -395,7 +395,7 @@
                             <label class="font-weight-bold text-dark mb-1">ผู้ประเมินบริการ</label>
                             <input class="form-control mb-2" name="purchase_by" value="{{$hd->purchase_by}}" readonly>
                             <label class="small text-muted mb-1">วันที่ประเมิน</label>
-                            <input class="form-control" type="date" name="purchase_date" value="{{$hd->purchase_date }}" readonly>
+                            <input class="form-control" type="date" name="purchase_date" value="{{$hd->purchase_date }}">
                         </div>
 
                         <!-- ผู้อนุมัติขั้นสุดท้าย -->
@@ -416,7 +416,7 @@
                             </div>
                             <input class="form-control mb-2" name="approved_by2" value="{{$hd->approved_by2}}" readonly>
                             <label class="small text-muted mb-1">วันที่อนุมัติ</label>
-                            <input class="form-control" type="date" name="approved_date2" value="{{ $hd->approved_date2}}" readonly>
+                            <input class="form-control" type="date" name="approved_date2" value="{{ $hd->approved_date2}}">
                         </div>                 
                     </div>
 

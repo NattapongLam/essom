@@ -143,13 +143,30 @@
                                 <h5 class="section-title">ประเภทสินค้า</h5>
                                 <input type="hidden" name="checkdoc" value="Edit">  
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label class="font-weight-500 text-secondary" for="product_selection_hd_type">ประเภทจัดซื้อ</label>
                                 <select class="form-control" name="product_selection_hd_type">
                                     <option value="{{$hd->product_selection_hd_type}}">{{$hd->product_selection_hd_type}}</option>
                                     <option value="โรงงาน">โรงงาน</option>
                                     <option value="สำนักงาน">สำนักงาน</option>
                                     <option value="ต่างประเทศ">ต่างประเทศ</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="product_selection_hd_type">กลุ่มสินค้า</label>
+                                <select class="form-control text-center" name="product_selection_hd_group">
+                                    <option value="{{$hd->product_selection_hd_group}}">{{$hd->product_selection_hd_group}}</option>
+                                    <option value="สินค้า">สินค้า</option>
+                                    <option value="บริการ">บริการ</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="product_selection_hd_type">แผนก</label>
+                                <select class="form-control text-center" name="product_selection_hd_department">
+                                    <option value="{{$hd->product_selection_hd_department}}">{{$hd->product_selection_hd_department}}</option>
+                                    @foreach ($dep as $item)
+                                        <option value="{{$item->ms_department_name}}">{{$item->ms_department_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-12">
