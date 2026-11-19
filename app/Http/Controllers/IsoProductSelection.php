@@ -39,8 +39,9 @@ class IsoProductSelection extends Controller
     public function create()
     {
         $hd = null;
-        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();      
-        return view('iso.form-product-selection-create',compact('hd','emp'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get(); 
+        $dep = DB::table('ms_department')->where('ms_department_flag',true)->get();      
+        return view('iso.form-product-selection-create',compact('hd','emp','dep'));
     }
 
     /**
@@ -74,7 +75,9 @@ class IsoProductSelection extends Controller
             'assessor_status' => "N",
             'approved_status2' => "N",
             'product_selection_hd_type' => $request->product_selection_hd_type,
-            'purchase_by' => $request->purchase_by
+            'purchase_by' => $request->purchase_by,
+            'product_selection_hd_group' => $request->product_selection_hd_group,
+            'product_selection_hd_department' => $request->product_selection_hd_department,
         ];
         try{
             DB::beginTransaction();
@@ -190,8 +193,9 @@ class IsoProductSelection extends Controller
             ->orderBy('product_selection_sub_vendorlistno')
             ->get()
             ->groupBy('product_selection_sub_vendorlistno');  
-        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();      
-        return view('iso.form-product-selection-edit',compact('hd','dt','sub','emp'));
+        $emp = DB::table('ms_employee')->where('ms_employee_flag',true)->get();   
+        $dep = DB::table('ms_department')->where('ms_department_flag',true)->get();         
+        return view('iso.form-product-selection-edit',compact('hd','dt','sub','emp','dep'));
     }
 
     /**
@@ -224,7 +228,9 @@ class IsoProductSelection extends Controller
                 'purchase_by' => $request->purchase_by,
                 'purchase_date' => $request->purchase_date,
                 'reviewed_by' => $request->reviewed_by,
-                'approved_by1' => $request->approved_by1
+                'approved_by1' => $request->approved_by1,
+                'product_selection_hd_group' => $request->product_selection_hd_group,
+                'product_selection_hd_department' => $request->product_selection_hd_department,
             ];
             try{
                 DB::beginTransaction();
