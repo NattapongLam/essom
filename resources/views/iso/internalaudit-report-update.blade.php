@@ -190,10 +190,11 @@
                                     <tr>
                                         <th style="width: 3%;">Item</th>
                                         <th style="width: 25%;">Check List</th>
-                                        <th style="width: 30%;">Finding</th>
+                                        <th style="width: 25%;">Finding</th>
                                         <th style="width: 15%;">Conclusion</th>
                                         <th style="width: 15%;">Comment by MD or DMD</th>
                                         <th style="width: 9%;">Acknowledgement</th>
+                                        <th style="width: 15%;">Action</th>
                                         <th style="width: 3%;"></th>
                                     </tr>
                                 </thead>
@@ -219,6 +220,14 @@
                                             </td>
                                             <td class="text-center">
                                                 <input class="form-control form-control-sm table-input" name="audit[{{ $index }}][acknowledgement]" value="{{ $detail->acknowledgement ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <select class="form-control form-control-sm table-input" name="audit[{{ $index }}][action]">
+                                                    <option value="{{ $detail->action }}">{{ $detail->action }}</option>
+                                                    <option value="NC">NC</option>
+                                                    <option value="OFI">OFI</option>
+                                                    <option value="OBS">OBS</option>
+                                                </select>
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-outline-danger btn-sm action-btn delete-row" title="ลบแถว">
@@ -246,6 +255,14 @@
                                             <td class="text-center">
                                                 <input class="form-control form-control-sm table-input" name="audit[0][acknowledgement]">
                                             </td>
+                                            <td>
+                                                <select class="form-control form-control-sm table-input" name="audit[0][action]">
+                                                    <option value="-">กรุณาเลือก</option>
+                                                    <option value="NC">NC</option>
+                                                    <option value="OFI">OFI</option>
+                                                    <option value="OBS">OBS</option>
+                                                </select>
+                                            </td>                                           
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-outline-danger btn-sm action-btn delete-row" title="ลบแถว">
                                                     <i class="fas fa-trash-alt"></i>
@@ -350,6 +367,14 @@
                 </td>
                 <td class="text-center">
                     <input class="form-control form-control-sm table-input" name="audit[${rowIndex}][acknowledgement]">
+                </td>
+                <td>
+                    <select class="form-control form-control-sm table-input" name="audit[${rowIndex}][action]">
+                        <option value="-">กรุณาเลือก</option>
+                        <option value="NC">NC</option>
+                        <option value="OFI">OFI</option>
+                        <option value="OBS">OBS</option>
+                    </select>
                 </td>
                 <td class="text-center">
                     <button type="button" class="btn btn-outline-danger btn-sm action-btn delete-row" title="ลบแถว">
