@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class IsoCustomerServiceComplaint extends Controller
 {
@@ -65,7 +66,11 @@ class IsoCustomerServiceComplaint extends Controller
         'docs_status' => $docsStatus,
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
+        'customerservice_complaint_hds_group' => $request->customerservice_complaint_hds_group,
     ];
+    if ($request->hasFile('customerservice_complaint_hds_file1')) {
+        $data['customerservice_complaint_hds_file1'] = $request->file('customerservice_complaint_hds_file1')->storeAs('img/customerservicecomplaint', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('customerservice_complaint_hds_file1')->extension());
+    }
     try {
         DB::beginTransaction();
         $insertHD = CustomerserviceComplaintHd::create($data);
@@ -87,6 +92,7 @@ class IsoCustomerServiceComplaint extends Controller
                     'table_type' => $item['table_type'] ?? 'off',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
+                    'action' => $item['action'] ?? '-',
             ]);  
         }
 
@@ -171,7 +177,11 @@ class IsoCustomerServiceComplaint extends Controller
                 'recorded_date' => $request->recorded_date,
                 'docs_status' => '1',
                 'updated_at' => Carbon::now(),
+                'customerservice_complaint_hds_group' => $request->customerservice_complaint_hds_group,
             ];
+            if ($request->hasFile('customerservice_complaint_hds_file1')) {
+                $data['customerservice_complaint_hds_file1'] = $request->file('customerservice_complaint_hds_file1')->storeAs('img/customerservicecomplaint', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('customerservice_complaint_hds_file1')->extension());
+            }
             try {
                 DB::beginTransaction();
                 $insertHD = CustomerserviceComplaintHd::where('customerservice_complaint_hds_id',$id)->update($data);
@@ -187,6 +197,7 @@ class IsoCustomerServiceComplaint extends Controller
                             'price' => 0,
                             'table_type' => $item['table_type'] ?? 'off',
                             'updated_at' => Carbon::now(),
+                            'action' =>  $item['action'] ?? '-',
                     ]);  
                 }
                 DB::commit();
@@ -209,8 +220,7 @@ class IsoCustomerServiceComplaint extends Controller
                         'approved_date' => $request->approved_date,
                     ]);
                 }elseif($hd->docs_status == "2"){
-                    CustomerserviceComplaintHd::where('customerservice_complaint_hds_id',$id)
-                    ->update([
+                    $data = [
                         'docs_status' => '3',
                         'factory_action_type' => $request->factory_action_type,
                         'inspection_date' => $request->inspection_date,
@@ -222,7 +232,11 @@ class IsoCustomerServiceComplaint extends Controller
                         'due_date' => $request->due_date,
                         'factory_reporter' => $request->factory_reporter,
                         'factory_reported_date' => $request->factory_reported_date,
-                    ]);
+                    ];
+                    if ($request->hasFile('customerservice_complaint_hds_file2')) {
+                        $data['customerservice_complaint_hds_file2'] = $request->file('customerservice_complaint_hds_file2')->storeAs('img/customerservicecomplaint', "IMG_" . carbon::now()->format('Ymdhis') . "_" . Str::random(5) . "." . $request->file('customerservice_complaint_hds_file2')->extension());
+                    }
+                    CustomerserviceComplaintHd::where('customerservice_complaint_hds_id',$id)->update($data);
                     $factoryItems = $request->input('factory_items', []);
                     foreach ($factoryItems as $item) {
                         // บันทึกเฉพาะแถวที่มีการกรอกข้อมูล (รหัสสินค้า, สาเหตุ หรือ แนวทางแก้ไข)

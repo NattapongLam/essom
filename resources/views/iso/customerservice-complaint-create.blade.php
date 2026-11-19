@@ -184,6 +184,16 @@
                                     <input class="form-control" type="text" name="notice_no" placeholder="ระบุเลขที่ใบแจ้ง">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>กลุ่ม</label>
+                                    <select class="form-control" name="customerservice_complaint_hds_group">
+                                        <option value="-">กรุณาเลือก</option>
+                                        <option value="การศึกษา">การศึกษา</option>
+                                        <option value="พ่นสี">พ่นสี</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- ส่วนที่ 1 -->
@@ -224,9 +234,10 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 5%">ลำดับ</th>
-                                        <th style="width: 20%">รหัสสินค้า</th>
-                                        <th style="width: 20%">หมายเลขเครื่อง</th>
+                                        <th style="width: 15%">รหัสสินค้า</th>
+                                        <th style="width: 15%">หมายเลขเครื่อง</th>
                                         <th style="width: 55%">อาการเบื้องต้น</th>
+                                        <th style="width: 15%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -246,6 +257,14 @@
                                             <input class="form-control form-control-sm" name="items[{{ $i }}][initial_symptom]">
                                             <input type="hidden" name="items[{{ $i }}][table_type]" value="off">
                                         </td> 
+                                        <td>
+                                            <select class="form-control" name="items[{{ $i }}][action]">
+                                                <option value="-">กรุณาเลือก</option>
+                                                <option value="NC">NC</option>
+                                                <option value="OFI">OFI</option>
+                                                <option value="OBS">OBS</option>
+                                            </select>
+                                        </td>
                                     </tr>
                                     @endfor
                                 </tbody>
@@ -288,6 +307,14 @@
                                     <input class="form-control" type="date" name="recorded_date"  value="{{date('Y-m-d')}}" >
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>แนบเอกสาร</label>
+                                    <input class="form-control-file" type="file" name="customerservice_complaint_hds_file1">
+                                </div>
+                            </div>                         
+                        </div>
+                        <div class="row g-3 mb-4">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>ผู้อนุมัติ</label>
