@@ -382,8 +382,11 @@ Route::post('/cancelCompanylimited' , [App\Http\Controllers\IsoCompanyLimited::c
 Route::group([
     'middleware' =>  ['auth','permission:iso-individualplanning']
 ],function(){
+Route::get('/individual-plannings/descriptions', [App\Http\Controllers\IsoIndividualPlanning::class, 'getDescriptionsByProductCode'])->name('individual-plannings.descriptions');
 Route::resource('/individual-plannings' , App\Http\Controllers\IsoIndividualPlanning::class);
 Route::post('/cancelIndividualplanning' , [App\Http\Controllers\IsoIndividualPlanning::class , 'cancelIndividualplanning']);
+Route::resource('/individual-masters' , App\Http\Controllers\IsoIndividualgroupMaster::class);
+Route::post('/cancelIndividualmaster' , [App\Http\Controllers\IsoIndividualgroupMaster::class , 'cancelIndividualmaster']);
 });
 Route::group([
     'middleware' =>  ['auth','permission:iso-elemchptgplanning']

@@ -163,7 +163,11 @@
                             <a href="{{ route('individual-plannings.create') }}" class="btn-indigo-add">
                                 <i class="fas fa-plus"></i> เพิ่มเอกสาร
                             </a>
-                        </div>
+                            &nbsp;
+                            <a href="{{ route('individual-masters.index') }}" class="btn-indigo-add">
+                                <i class="fas fa-cog"></i> ตั้งค่ารายการตรวจสอบ
+                            </a>
+                        </div>                       
                     </div>
                 </div>
 
@@ -278,7 +282,7 @@ confirmDel = (refid) =>{
     }).then(function(result) {
         if (result.value) {
             $.ajax({
-                url: `{{ url('/cancelCompanylimited') }}`,
+                url: `{{ url('/cancelIndividualplanning') }}`,
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",

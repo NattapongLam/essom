@@ -115,10 +115,10 @@
 
 <div class="container-fluid py-4">
     <form action="{{ route('individual-plannings.store') }}" method="POST">
-        @csrf          
-        <div class="row">  
+        @csrf
+        <div class="row">
             <div class="col-12">
-               
+
                 <div class="card custom-card">
                     <div class="card-header custom-card-header">
                         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
@@ -126,36 +126,61 @@
                                 <h5 class="m-0">ESSOM CO.,LTD</h5>
                                 <h5 class="m-0 font-weight-normal" style="font-size: 1.1rem; opacity: 0.9;">Individual Group Planning</h5>
                                 <span class="doc-code">ฟอร์มเอกสาร: F8510.3(L) (4 Nov. 24)</span>
-                            </div>                     
+                            </div>
                         </div>
                     </div>
 
-                    <div class="card-body p-4">     
-                             
+                    <div class="card-body p-4">
+
+                        @if (session('success'))
+                            <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <!-- Header Inputs -->
                         <div class="row g-3 mb-3">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Section</label>
-                                    <input class="form-control" type="text" name="section" value="">
+                                    <input class="form-control" type="text" name="section" value="{{ old('section') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Product Code</label>
-                                    <input class="form-control" type="text" name="product_code" value="">
+                                    <select class="form-control" id="productCodeSelect" name="product_code">
+                                        <option value="-">กรุณาเลือก</option>
+                                        @foreach ($hd as $item)
+                                            <option value="{{ $item->product_code }}" {{ old('product_code') == $item->product_code ? 'selected' : '' }}>
+                                                {{ $item->product_code }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Job No</label>
-                                    <input class="form-control" type="text" name="job_no" value="">
+                                    <input class="form-control" type="text" name="job_no" value="{{ old('job_no') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Qty</label>
-                                    <input class="form-control" type="number" name="qty" value="">
+                                    <input class="form-control" type="number" name="qty" value="{{ old('qty') }}">
                                 </div>
                             </div>
                         </div>
@@ -164,25 +189,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Customer</label>
-                                    <input class="form-control" type="text" name="customer" value="">
+                                    <input class="form-control" type="text" name="customer" value="{{ old('customer') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Responsible</label>
-                                    <input class="form-control" type="text" name="responsible" value="">
+                                    <input class="form-control" type="text" name="responsible" value="{{ old('responsible') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Budget Time (MH)</label>
-                                    <input class="form-control" type="text" name="budget_time" value="">
+                                    <input class="form-control" type="text" name="budget_time" value="{{ old('budget_time') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>For Date</label>
-                                    <input class="form-control" type="date" name="mh_for_date" value="">
+                                    <input class="form-control" type="date" name="mh_for_date" value="{{ old('mh_for_date') }}">
                                 </div>
                             </div>
                         </div>
@@ -191,13 +216,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>To Date</label>
-                                    <input class="form-control" type="date" name="to_date" value="">
+                                    <input class="form-control" type="date" name="to_date" value="{{ old('to_date') }}">
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label>Remark</label>
-                                    <input class="form-control" type="text" name="remark" value="">
+                                    <input class="form-control" type="text" name="remark" value="{{ old('remark') }}">
                                 </div>
                             </div>
                         </div>
@@ -229,7 +254,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
-                                    <!-- แถวเริ่มต้นแถวที่ 0 -->
                                     <tr>
                                         <td><input class="form-control text-start" type="text" name="details[0][description]" placeholder="รายละเอียดงาน..."></td>
                                         @for($i=0; $i<18; $i++)
@@ -333,7 +357,7 @@
                                 <i class="fa fa-save me-1"></i> บันทึกข้อมูล
                             </button>
                         </div>
-                    
+
                     </div>
                 </div>
             </div>
@@ -347,46 +371,124 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        let rowIndex = 1;
+        const tbody = document.getElementById('tableBody');
+        const addRowBtn = document.getElementById('addRowBtn');
+        const productCodeSelect = document.getElementById('productCodeSelect');
+        const descriptionsUrl = "{{ route('individual-plannings.descriptions') }}";
 
-        // ฟังก์ชันสำหรับเพิ่มแถวใหม่
-        document.getElementById('addRowBtn').addEventListener('click', function () {
-            let tbody = document.getElementById('tableBody');
-            
-            let newRow = document.createElement('tr');
-            
-            let html = `<td><input class="form-control" type="text" name="details[${rowIndex}][description]" placeholder="รายละเอียดงาน"></td>`;
+        let rowIndex = tbody.rows.length;
+
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function createRow(index, description = '') {
+            const tr = document.createElement('tr');
+            let html = `<td><input class="form-control text-start" type="text" name="details[${index}][description]" value="${escapeHtml(description)}" placeholder="รายละเอียดงาน..."></td>`;
             for (let i = 0; i < 18; i++) {
-                html += `<td><input class="form-control" type="text" name="details[${rowIndex}][val_${i}]"></td>`;
+                html += `<td><input class="form-control px-1 text-center" type="text" name="details[${index}][val_${i}]"></td>`;
             }
             html += `<td>
                         <button type="button" class="btn-action-delete remove-row" title="ลบแถว">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>`;
-            
-            newRow.innerHTML = html;
-            tbody.appendChild(newRow);
+            tr.innerHTML = html;
+            return tr;
+        }
+
+        function reindexRows() {
+            Array.from(tbody.rows).forEach((row, idx) => {
+                row.querySelectorAll('input[name^="details["]').forEach((input) => {
+                    input.name = input.name.replace(/^details\[\d+\]/, `details[${idx}]`);
+                });
+            });
+            rowIndex = tbody.rows.length;
+        }
+
+        // เพิ่มแถวใหม่
+        addRowBtn.addEventListener('click', function () {
+            tbody.appendChild(createRow(rowIndex, ''));
             rowIndex++;
         });
 
-        // ฟังก์ชันลบแถว
-        document.getElementById('tableBody').addEventListener('click', function (e) {
-            if (e.target.closest('.remove-row')) {
-                let row = e.target.closest('tr');
-                let tbody = document.getElementById('tableBody');
-                
-                // ป้องกันไม่ให้ลบจนหมดตาราง (เหลือไว้อย่างน้อย 1 แถว)
-                if (tbody.rows.length > 1) {
-                    row.remove();
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'ไม่สามารถลบได้',
-                        text: 'ต้องมีรายการข้อมูลอย่างน้อย 1 แถว',
-                        confirmButtonColor: '#4f46e5'
-                    });
+        // ลบแถว
+        tbody.addEventListener('click', function (e) {
+            const removeBtn = e.target.closest('.remove-row');
+            if (!removeBtn) return;
+
+            if (tbody.rows.length > 1) {
+                removeBtn.closest('tr').remove();
+                reindexRows();
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ไม่สามารถลบได้',
+                    text: 'ต้องมีรายการข้อมูลอย่างน้อย 1 แถว',
+                    confirmButtonColor: '#4f46e5'
+                });
+            }
+        });
+
+        // เลือก Product Code แล้วอ้างอิง Description จาก individualgroup_master_dts
+        productCodeSelect.addEventListener('change', async function () {
+            const code = this.value;
+
+            if (!code || code === '-') {
+                tbody.innerHTML = '';
+                tbody.appendChild(createRow(0, ''));
+                rowIndex = 1;
+                return;
+            }
+
+            try {
+                const url = `${descriptionsUrl}?product_code=${encodeURIComponent(code)}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const rawText = await response.text();
+                let data = null;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (_) {
+                    data = null;
                 }
+
+                if (!response.ok) {
+                    const serverMsg = (data && data.message)
+                        ? data.message
+                        : `HTTP ${response.status}`;
+                    throw new Error(serverMsg);
+                }
+
+                const list = (data && Array.isArray(data.descriptions)) ? data.descriptions : [];
+
+                tbody.innerHTML = '';
+                if (list.length > 0) {
+                    list.forEach((desc, idx) => {
+                        tbody.appendChild(createRow(idx, desc));
+                    });
+                    rowIndex = list.length;
+                } else {
+                    tbody.appendChild(createRow(0, ''));
+                    rowIndex = 1;
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ดึงข้อมูลไม่สำเร็จ',
+                    text: error.message || 'ไม่สามารถดึงรายการ Description ตาม Product Code ได้',
+                    confirmButtonColor: '#4f46e5'
+                });
             }
         });
     });
