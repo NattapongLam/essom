@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IndividualgroupMasterHd;
 use App\Models\IndividualgroupPlanningDt;
 use App\Models\IndividualgroupPlanningHd;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class IsoIndividualPlanning extends Controller
      */
     public function create()
     {
-        $hd = null;
+        $hd = IndividualgroupMasterHd::where('individualgroup_master_hds_flag',true)->get();
         return view('iso.indivdual-group-planning-create', compact('hd'));
     }
 
@@ -259,7 +260,7 @@ class IsoIndividualPlanning extends Controller
         //
     }
 
-    public function cancelCompanylimited(Request $request)
+    public function cancelIndividualplanning(Request $request)
     {
         $hd = IndividualgroupPlanningHd::where('individualgroup_planning_hds_id',$request->refid)->update([
             'individualgroup_planning_hds_flag' => 0,
@@ -269,5 +270,36 @@ class IsoIndividualPlanning extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
+    }
+
+    public function getDescriptionsByProductCode(Request $request)
+    {
+        try {
+            $productCode = trim((string) $request->query('product_code', ''));
+
+            if ($productCode === '' || $productCode === '-') {
+                return response()->json(['descriptions' => []]);
+            }
+
+            $descriptions = DB::table('individualgroup_master_dts as dt')
+                ->join(
+                    'individualgroup_master_hds as hd',
+                    'dt.individualgroup_master_hds_id',
+                    '=',
+                    'hd.individualgroup_master_hds_id'
+                )
+                ->where('hd.product_code', $productCode)
+                ->whereNotNull('dt.description')
+                ->orderBy('dt.individualgroup_master_dts_id')
+                ->pluck('dt.description');
+
+            return response()->json([
+                'descriptions' => $descriptions,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
