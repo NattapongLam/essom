@@ -71,8 +71,33 @@
         color: #334155;
     }
 
-    /* DataTables Customization Overrides เพื่อให้เข้ากับโทนสีม่วง */
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+    /* Evaluation Status Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .status-good {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .status-fair {
+        background-color: #fef9c3;
+        color: #854d0e;
+    }
+
+    .status-poor {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* DataTables Customization Overrides */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
         background: var(--indigo-primary) !important;
         border-color: var(--indigo-primary) !important;
@@ -96,27 +121,40 @@
     }
 </style>
 
+@php
+    $renderStatus = function ($status) {
+        return match ($status) {
+            'ดี' => '<span class="status-badge status-good">ดี</span>',
+            'พอใช้' => '<span class="status-badge status-fair">พอใช้</span>',
+            'ไม่ดี' => '<span class="status-badge status-poor">ไม่ดี</span>',
+            default => '<span class="text-muted">-</span>',
+        };
+    };
+@endphp
+
 <div class="container-fluid mt-4">
-    <div class="row">  
+    <div class="row">
         <div class="col-12">
             <div class="card modern-card">
-                <!-- Header ส่วนหัวข้อไล่เฉดสีม่วงอินดิโก -->
                 <div class="card-header modern-header text-center">
                     <h5 class="m-0">การประเมินสมรรถนะของผู้ส่งมอบ/ผู้ขาย สำหรับสินค้าและบริการที่ใช้งาน</h5>
                 </div>
-                
-                <div class="card-body p-4">   
+
+                <div class="card-body p-4">
                     <div class="table-responsive">
                         <table id="tb_job" class="table table-modern text-center w-100">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">ลำดับ</th>
-                                    <th style="width: 25%">ชื่อบริษัท</th>
-                                    <th style="width: 20%">รายการ</th>
-                                    <th style="width: 12%">คุณภาพการใช้งานของสินค้า</th>
-                                    <th style="width: 12%">ความเรียบร้อยของสินค้า</th>
-                                    <th style="width: 12%">บริการของผู้ขาย</th>
-                                    <th style="width: 14%">การให้บริการหลังการขาย</th>
+                                    <th style="width: 16%">ชื่อบริษัท</th>
+                                    <th style="width: 12%">ประเภทจัดซื้อ</th>
+                                    <th style="width: 12%">กลุ่มสินค้า</th>
+                                    <th style="width: 11%">แผนก</th>
+                                    <th style="width: 15%">รายการ</th>
+                                    <th style="width: 6%">คุณภาพการใช้งานของสินค้า</th>
+                                    <th style="width: 6%">ความเรียบร้อยของสินค้า</th>
+                                    <th style="width: 6%">บริการของผู้ขาย</th>
+                                    <th style="width: 6%">การให้บริการหลังการขาย</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,16 +162,19 @@
                                     <tr>
                                         <td class="font-weight-bold bg-light">{{ $key + 1 }}</td>
                                         <td class="text-left font-weight-500">{{ $item->vendor_name }}</td>
+                                        <td class="text-center font-weight-500">{{ $item->product_selection_hd_type }}</td>
+                                        <td class="text-center font-weight-500">{{ $item->product_selection_hd_group }}</td>
+                                        <td class="text-center font-weight-500">{{ $item->product_selection_hd_department }}</td>
                                         <td class="text-left">{{ $item->product_group_name }}</td>
-                                        <td>{{ $item->quality_status }}</td>
-                                        <td>{{ $item->neatness_status }}</td>
-                                        <td>{{ $item->vendor_service_status }}</td>
-                                        <td>{{ $item->after_sale_status }}</td>
+                                        <td>{!! $renderStatus($item->quality_status) !!}</td>
+                                        <td>{!! $renderStatus($item->neatness_status) !!}</td>
+                                        <td>{!! $renderStatus($item->vendor_service_status) !!}</td>
+                                        <td>{!! $renderStatus($item->after_sale_status) !!}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>          
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,8 +188,8 @@
 <script>
 $(document).ready(function() {
     $('#tb_job').DataTable({
-        "pageLength": 50,
-        "lengthMenu": [
+        pageLength: 50,
+        lengthMenu: [
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
@@ -156,10 +197,6 @@ $(document).ready(function() {
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
-        columnDefs: [{
-            targets: 1,
-            type: 'time-date-sort'
-        }],
         order: [
             [0, "asc"]
         ],
@@ -168,7 +205,7 @@ $(document).ready(function() {
             footer: false
         },
         pagingType: "full_numbers",
-        bSort: true,    
+        ordering: true
     });
 });
 </script>
