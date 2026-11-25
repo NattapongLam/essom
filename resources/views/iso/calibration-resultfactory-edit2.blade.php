@@ -204,6 +204,7 @@
                     <form action="{{ route('calibration-resultfactory.update', $hd->calibration_resultfactory_hds_id) }}" method="POST">
                     @csrf    
                     @method('PUT')
+                    <input type="hidden" name="ref_doc" value="Edit"> 
                     <!-- Top Form Fields -->
                     <div class="row g-3">
                         <div class="col-md-3">
@@ -293,12 +294,30 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="width: 60px;">ลำดับ</th>
-                                        <th rowspan="2">ระดับน้ำที่ตวง (mL)</th>
-                                        <th rowspan="2">น้ำหนักจริง (g)=(mL)</th>
-                                        <th rowspan="2">น้ำหนักภาชนะตวงเมื่อมีน้ำ (g)</th>
-                                        <th rowspan="2">น้ำหนักน้ำจากภาชนะตวง (g)=(mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (%)</th>
+                                        <th rowspan="2">
+                                            ระดับน้ำที่ตวง 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="standard_unit" value="{{$hd->standard_unit}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            น้ำหนักจริง
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="value_unit" value="{{$hd->value_unit}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            น้ำหนักภาชนะตวงเมื่อมีน้ำ 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="equipment_unit" value="{{$hd->equipment_unit}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            น้ำหนักน้ำจากภาชนะตวง 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="error_unit" value="{{$hd->error_unit}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="measured_unit" value="{{$hd->measured_unit}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="acceptable_unit" value="{{$hd->acceptable_unit}}">
+                                        </th>
                                         <th rowspan="2">หมายเหตุ</th>
                                         <th rowspan="2" style="width: 60px;">ลบ</th>
                                     </tr>
@@ -357,11 +376,26 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="width: 60px;">ลำดับ</th>
-                                        <th rowspan="2">ระดับน้ำที่มันตวง (mL)</th>
-                                        <th rowspan="2">ระดับน้ำมันที่ขีดสเกล (mL)</th>
-                                        <th rowspan="2">ระดับน้ำมันที่อ่านได้ (mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (%)</th>
+                                        <th rowspan="2">
+                                            ระดับน้ำที่มันตวง 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="standard_unit1" value="{{$hd->standard_unit1}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            ระดับน้ำมันที่ขีดสเกล 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="value_unit1" value="{{$hd->value_unit1}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            ระดับน้ำมันที่อ่านได้
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="equipment_unit1" value="{{$hd->equipment_unit1}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="error_unit1" value="{{$hd->error_unit1}}">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="measured_unit1" value="{{$hd->measured_unit1}}">
+                                        </th>
                                         <th rowspan="2">หมายเหตุ</th>
                                         <th rowspan="2" style="width: 60px;">ลบ</th>
                                     </tr>
@@ -417,7 +451,7 @@
                                 <label class="mb-2">ผลการประเมิน</label>
                                 <div class="checkbox-group-wrapper">
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="accept_status1" name="evaluation_round" value="ยอมรับได้" {{ $hd->evaluation_round == 'ยอมรับได้' ? 'checked' : '' }}>
+                                        <input type="radio" id="accept_status1" name="evaluation_round" value="ยอมรับได้" {{ $hd->evaluation_round == 'ยอมรับได้' ? 'checked' : '' }} >
                                         <label for="accept_status1">ยอมรับได้</label>
                                     </div>
                                     <div class="checkbox-indigo-container">
@@ -449,14 +483,28 @@
                                 <label class="mb-2">ผลการอนุมัติขั้นสุดท้าย</label>
                                 <div class="checkbox-group-wrapper">
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน" {{ $hd->final_approval == 'ผ่าน' ? 'checked' : '' }}>
+                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน" {{ $hd->final_approval == 'ผ่าน' ? 'checked' : '' }} readonly>
                                         <label for="pass_status1">ผ่าน</label>
                                     </div>
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน" {{ $hd->final_approval == 'ไม่ผ่าน' ? 'checked' : '' }}>
+                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน" {{ $hd->final_approval == 'ไม่ผ่าน' ? 'checked' : '' }} readonly>
                                         <label for="pass_status2">ไม่ผ่าน</label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ผู้อนุมัติ</label>
+                                <input class="form-control" type="text" value="" name="final_at" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>วันที่</label>
+                                <input class="form-control" type="date"  value="" name="final_date" readonly>
                             </div>
                         </div>
                     </div>

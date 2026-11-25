@@ -80,7 +80,8 @@ class IsoCalibrationResultFactory extends Controller
                     'evaluation_round'                     => $request->evaluation_round,
                     'approved_at'                          => $request->approved_at,
                     'approved_date'                        => $request->approved_date,
-                    'final_approval'                       => $request->final_approval,
+                    'measured_unit'                        => $request->measured_unit,
+                    'acceptable_unit'                      => $request->acceptable_unit,
                 ]);
 
                 // 3. บันทึกข้อมูลรายการตารางย่อย (Details) แบบ Loop ตามแถวที่เพิ่มเข้ามา
@@ -138,10 +139,16 @@ class IsoCalibrationResultFactory extends Controller
                     'evaluation_round'                     => $request->evaluation_round,
                     'approved_at'                          => $request->approved_at,
                     'approved_date'                        => $request->approved_date,
-                    'final_approval'                       => $request->final_approval,
                     'liquid_unit'                          => $request->liquid_unit,
                     'container_unit'                       => $request->container_unit,
                     'specific_note'                        => $request->specific_note,
+                    'measured_unit'                        => $request->measured_unit,
+                    'acceptable_unit'                      => $request->acceptable_unit,
+                    'standard_unit1'                        => $request->standard_unit1,
+                    'value_unit1'                           => $request->value_unit1,
+                    'equipment_unit1'                       => $request->equipment_unit1,
+                    'error_unit1'                           => $request->error_unit1,
+                    'measured_unit1'                        => $request->measured_unit1,
                 ]);
 
                 // 3. บันทึกข้อมูลรายการตารางย่อย (Details) แบบ Loop ตามแถวที่เพิ่มเข้ามา
@@ -200,7 +207,26 @@ class IsoCalibrationResultFactory extends Controller
      */
     public function show($id)
     {
-        //
+        $hd = CalibrationResultfactoryHd::find($id);
+        
+        if (!$hd) {
+            return redirect()->back()->with('error', 'ไม่พบข้อมูลที่ต้องการแก้ไข');
+        }
+
+        if ($hd->docutype == "F7150.1") {
+            $dt = CalibrationResultfactoryDt::where('calibration_resultfactory_hds_id', $id)->get();
+            return view('iso.calibration-resultfactory-update1', compact('hd', 'dt'));
+            
+        } elseif ($hd->docutype == "F7150.2") {
+            // ดึงข้อมูลทั้งหมดของ Header นี้มาครั้งเดียว
+            $dt = CalibrationResultfactoryDt::where('calibration_resultfactory_hds_id', $id)->get();
+            
+            // แยกข้อมูลสำหรับตาราง A และ B โดยใช้ Collection filter หรือ where
+            $dt1 = $dt->where('table_type', 'A');
+            $dt2 = $dt->where('table_type', 'B');
+
+            return view('iso.calibration-resultfactory-update2', compact('hd', 'dt', 'dt1', 'dt2'));
+        }
     }
 
     /**
@@ -242,164 +268,201 @@ class IsoCalibrationResultFactory extends Controller
      */
     public function update(Request $request, $id)
     {
-        // ใช้ Database Transaction เพื่อความปลอดภัยของข้อมูล
-        DB::beginTransaction();
-        try {
-            $hd = CalibrationResultfactoryHd::findOrFail($id);
+        if($request->ref_doc == "Edit"){
+            // ใช้ Database Transaction เพื่อความปลอดภัยของข้อมูล
+            DB::beginTransaction();
+            try {
+                $hd = CalibrationResultfactoryHd::findOrFail($id);
 
-            // 1. ตรวจสอบประเภทเอกสารเพื่ออัปเดต Header ตามฟอร์มที่เหมาะสม
-            if ($hd->docutype == "F7150.1") {
-                $hd->update([
-                    'docutype'                           => $request->docutype,
-                    'calibration_name'                   => $request->calibration_name,
-                    'calibration_code'                   => $request->calibration_code,
-                    'calibration_brand'                  => $request->calibration_brand,
-                    'calibration_resultfactory_hds_date' => $request->calibration_resultfactory_hds_date,
-                    'standard_tools'                     => $request->standard_tools,
-                    'room_temperature'                   => $request->room_temperature,
-                    'atmospheric_pressur'                => $request->atmospheric_pressur,
-                    'measurement_scales'                 => $request->measurement_scales,
-                    'additional_details'                 => $request->additional_details,
-                    'standard_unit'                      => $request->standard_unit,
-                    'value_unit'                         => $request->value_unit,
-                    'equipment_unit'                     => $request->equipment_unit,
-                    'error_unit'                         => $request->error_unit,
-                    'evaluation_round'                   => $request->evaluation_round,
-                    'approved_at'                        => $request->approved_at,
-                    'approved_date'                      => $request->approved_date,
-                    'final_approval'                     => $request->final_approval,
-                ]);
+                // 1. ตรวจสอบประเภทเอกสารเพื่ออัปเดต Header ตามฟอร์มที่เหมาะสม
+                if ($hd->docutype == "F7150.1") {
+                    $hd->update([
+                        'docutype'                           => $request->docutype,
+                        'calibration_name'                   => $request->calibration_name,
+                        'calibration_code'                   => $request->calibration_code,
+                        'calibration_brand'                  => $request->calibration_brand,
+                        'calibration_resultfactory_hds_date' => $request->calibration_resultfactory_hds_date,
+                        'standard_tools'                     => $request->standard_tools,
+                        'room_temperature'                   => $request->room_temperature,
+                        'atmospheric_pressur'                => $request->atmospheric_pressur,
+                        'measurement_scales'                 => $request->measurement_scales,
+                        'additional_details'                 => $request->additional_details,
+                        'standard_unit'                      => $request->standard_unit,
+                        'value_unit'                         => $request->value_unit,
+                        'equipment_unit'                     => $request->equipment_unit,
+                        'error_unit'                         => $request->error_unit,
+                        'evaluation_round'                   => $request->evaluation_round,
+                        'approved_at'                        => $request->approved_at,
+                        'approved_date'                      => $request->approved_date,
+                        'measured_unit'                      => $request->measured_unit,
+                        'acceptable_unit'                    => $request->acceptable_unit,
+                    ]);
 
-                // 2. จัดการข้อมูลรายละเอียด (Details) สำหรับ F7150.1
-                $dtsIds = $request->input('dts_id', []);
-                $submittedIds = [];
+                    // 2. จัดการข้อมูลรายละเอียด (Details) สำหรับ F7150.1
+                    $dtsIds = $request->input('dts_id', []);
+                    $submittedIds = [];
 
-                if ($request->has('standard_value')) {
-                    foreach ($request->standard_value as $index => $standardValue) {
-                        $detailId = $dtsIds[$index] ?? null;
+                    if ($request->has('standard_value')) {
+                        foreach ($request->standard_value as $index => $standardValue) {
+                            $detailId = $dtsIds[$index] ?? null;
 
-                        $dataToSave = [
-                            'calibration_resultfactory_hds_id' => $id,
-                            'listno'               => $request->listno[$index] ?? ($index + 1),
-                            'standard_value'       => $standardValue,
-                            'correct_value'        => $request->correct_value[$index] ?? null,
-                            'calibration_value'    => $request->calibration_value[$index] ?? null,
-                            'error_value'          => $request->error_value[$index] ?? null,
-                            'measured_percent'     => $request->measured_percent[$index] ?? null,
-                            'acceptable_percent'   => $request->acceptable_percent[$index] ?? null,
-                            'remark'               => $request->remark[$index] ?? null,
-                        ];
+                            $dataToSave = [
+                                'calibration_resultfactory_hds_id' => $id,
+                                'listno'               => $request->listno[$index] ?? ($index + 1),
+                                'standard_value'       => $standardValue,
+                                'correct_value'        => $request->correct_value[$index] ?? null,
+                                'calibration_value'    => $request->calibration_value[$index] ?? null,
+                                'error_value'          => $request->error_value[$index] ?? null,
+                                'measured_percent'     => $request->measured_percent[$index] ?? null,
+                                'acceptable_percent'   => $request->acceptable_percent[$index] ?? null,
+                                'remark'               => $request->remark[$index] ?? null,
+                            ];
 
-                        if (!empty($detailId)) {
-                            CalibrationResultfactoryDt::where('calibration_resultfactory_dts_id', $detailId)->update($dataToSave);
-                            $submittedIds[] = $detailId;
-                        } else {
-                            $newDetail = CalibrationResultfactoryDt::create($dataToSave);
-                            $submittedIds[] = $newDetail->calibration_resultfactory_dts_id;
+                            if (!empty($detailId)) {
+                                CalibrationResultfactoryDt::where('calibration_resultfactory_dts_id', $detailId)->update($dataToSave);
+                                $submittedIds[] = $detailId;
+                            } else {
+                                $newDetail = CalibrationResultfactoryDt::create($dataToSave);
+                                $submittedIds[] = $newDetail->calibration_resultfactory_dts_id;
+                            }
                         }
                     }
-                }
 
-                // ลบแถว F7150.1 ที่ถูกกดลบทิ้ง
-                CalibrationResultfactoryDt::where('calibration_resultfactory_hds_id', $id)
-                    ->whereNotIn('calibration_resultfactory_dts_id', $submittedIds)
-                    ->delete();
+                    // ลบแถว F7150.1 ที่ถูกกดลบทิ้ง
+                    CalibrationResultfactoryDt::where('calibration_resultfactory_hds_id', $id)
+                        ->whereNotIn('calibration_resultfactory_dts_id', $submittedIds)
+                        ->delete();
 
-            } elseif ($hd->docutype == "F7150.2") {
-                $hd->update([
-                    'docutype'                           => $request->docutype,
-                    'calibration_name'                   => $request->calibration_name,
-                    'calibration_code'                   => $request->calibration_code,
-                    'calibration_resultfactory_hds_date' => $request->calibration_resultfactory_hds_date,
-                    'standard_tools'                     => $request->standard_tools,
-                    'room_temperature'                   => $request->room_temperature,
-                    'liquid_unit'                        => $request->liquid_unit,
-                    'atmospheric_pressur'                => $request->atmospheric_pressur,
-                    'container_unit'                     => $request->container_unit,
-                    'specific_note'                      => $request->specific_note,
-                    'measurement_scales'                 => $request->measurement_scales,
-                    'additional_details'                 => $request->additional_details,
-                    'scale_neatness'                     => $request->scale_neatness,
-                    'evaluation_round'                   => $request->evaluation_round,
-                    'approved_at'                        => $request->approved_at,
-                    'approved_date'                      => $request->approved_date,
-                    'final_approval'                     => $request->final_approval,
-                ]);
+                } elseif ($hd->docutype == "F7150.2") {
+                    $hd->update([
+                        'docutype'                           => $request->docutype,
+                        'calibration_name'                   => $request->calibration_name,
+                        'calibration_code'                   => $request->calibration_code,
+                        'calibration_resultfactory_hds_date' => $request->calibration_resultfactory_hds_date,
+                        'standard_tools'                     => $request->standard_tools,
+                        'room_temperature'                   => $request->room_temperature,
+                        'liquid_unit'                        => $request->liquid_unit,
+                        'atmospheric_pressur'                => $request->atmospheric_pressur,
+                        'container_unit'                     => $request->container_unit,
+                        'specific_note'                      => $request->specific_note,
+                        'measurement_scales'                 => $request->measurement_scales,
+                        'additional_details'                 => $request->additional_details,
+                        'scale_neatness'                     => $request->scale_neatness,
+                        'evaluation_round'                   => $request->evaluation_round,
+                        'approved_at'                        => $request->approved_at,
+                        'approved_date'                      => $request->approved_date,
+                        'standard_unit'                      => $request->standard_unit,
+                        'value_unit'                         => $request->value_unit,
+                        'equipment_unit'                     => $request->equipment_unit,
+                        'error_unit'                         => $request->error_unit,
+                        'measured_unit'                      => $request->measured_unit,
+                        'acceptable_unit'                    => $request->acceptable_unit,
+                        'standard_unit1'                     => $request->standard_unit1,
+                        'value_unit1'                        => $request->value_unit1,
+                        'equipment_unit1'                    => $request->equipment_unit1,
+                        'error_unit1'                        => $request->error_unit1,
+                        'measured_unit1'                     => $request->measured_unit1,
+                    ]);
 
-                $submittedIds = [];
+                    $submittedIds = [];
 
-                // 3. จัดการข้อมูลตาราง A (F7150.2)
-                $dtsIdsA = $request->input('dts_id', []);
-                if ($request->has('standard_value')) {
-                    foreach ($request->standard_value as $index => $val) {
-                        $detailId = $dtsIdsA[$index] ?? null;
+                    // 3. จัดการข้อมูลตาราง A (F7150.2)
+                    $dtsIdsA = $request->input('dts_id', []);
+                    if ($request->has('standard_value')) {
+                        foreach ($request->standard_value as $index => $val) {
+                            $detailId = $dtsIdsA[$index] ?? null;
 
-                        $dataA = [
-                            'calibration_resultfactory_hds_id' => $id,
-                            'listno'             => $request->listno[$index] ?? ($index + 1),
-                            'standard_value'     => $val,
-                            'correct_value'      => $request->correct_value[$index] ?? null,
-                            'calibration_value'  => $request->calibration_value[$index] ?? null,
-                            'error_value'        => $request->error_value[$index] ?? null,
-                            'measured_percent'   => $request->measured_percent[$index] ?? null,
-                            'acceptable_percent' => $request->acceptable_percent[$index] ?? null,
-                            'remark'             => $request->remark[$index] ?? null,
-                            'table_type'         => 'A',
-                        ];
+                            $dataA = [
+                                'calibration_resultfactory_hds_id' => $id,
+                                'listno'             => $request->listno[$index] ?? ($index + 1),
+                                'standard_value'     => $val,
+                                'correct_value'      => $request->correct_value[$index] ?? null,
+                                'calibration_value'  => $request->calibration_value[$index] ?? null,
+                                'error_value'        => $request->error_value[$index] ?? null,
+                                'measured_percent'   => $request->measured_percent[$index] ?? null,
+                                'acceptable_percent' => $request->acceptable_percent[$index] ?? null,
+                                'remark'             => $request->remark[$index] ?? null,
+                                'table_type'         => 'A',
+                            ];
 
-                        if (!empty($detailId)) {
-                            CalibrationResultfactoryDt::where('calibration_resultfactory_dts_id', $detailId)->update($dataA);
-                            $submittedIds[] = $detailId;
-                        } else {
-                            $newDetail = CalibrationResultfactoryDt::create($dataA);
-                            $submittedIds[] = $newDetail->calibration_resultfactory_dts_id;
+                            if (!empty($detailId)) {
+                                CalibrationResultfactoryDt::where('calibration_resultfactory_dts_id', $detailId)->update($dataA);
+                                $submittedIds[] = $detailId;
+                            } else {
+                                $newDetail = CalibrationResultfactoryDt::create($dataA);
+                                $submittedIds[] = $newDetail->calibration_resultfactory_dts_id;
+                            }
                         }
                     }
-                }
 
-                // 4. จัดการข้อมูลตาราง B (F7150.2)
-                $dtsIdsB = $request->input('dts_id_b', []);
-                if ($request->has('standard_value_b')) {
-                    foreach ($request->standard_value_b as $index => $val) {
-                        $detailId = $dtsIdsB[$index] ?? null;
+                    // 4. จัดการข้อมูลตาราง B (F7150.2)
+                    $dtsIdsB = $request->input('dts_id_b', []);
+                    if ($request->has('standard_value_b')) {
+                        foreach ($request->standard_value_b as $index => $val) {
+                            $detailId = $dtsIdsB[$index] ?? null;
 
-                        $dataB = [
-                            'calibration_resultfactory_hds_id' => $id,
-                            'listno'             => $request->listno_b[$index] ?? ($index + 1),
-                            'standard_value'     => $val,
-                            'correct_value'      => $request->correct_value_b[$index] ?? null,
-                            'calibration_value'  => $request->calibration_value_b[$index] ?? null,
-                            'error_value'        => $request->error_value_b[$index] ?? null,
-                            'measured_percent'   => $request->measured_percent_b[$index] ?? null,
-                            'acceptable_percent' => null, // ถ้าไม่มีช่องนี้ในตาราง B สามารถเว้นว่างไว้ได้
-                            'remark'             => $request->remark_b[$index] ?? null,
-                            'table_type'         => 'B',
-                        ];
+                            $dataB = [
+                                'calibration_resultfactory_hds_id' => $id,
+                                'listno'             => $request->listno_b[$index] ?? ($index + 1),
+                                'standard_value'     => $val,
+                                'correct_value'      => $request->correct_value_b[$index] ?? null,
+                                'calibration_value'  => $request->calibration_value_b[$index] ?? null,
+                                'error_value'        => $request->error_value_b[$index] ?? null,
+                                'measured_percent'   => $request->measured_percent_b[$index] ?? null,
+                                'acceptable_percent' => null, // ถ้าไม่มีช่องนี้ในตาราง B สามารถเว้นว่างไว้ได้
+                                'remark'             => $request->remark_b[$index] ?? null,
+                                'table_type'         => 'B',
+                            ];
 
-                        if (!empty($detailId)) {
-                            CalibrationResultfactoryDt::where('calibration_resultfactory_dts_id', $detailId)->update($dataB);
-                            $submittedIds[] = $detailId;
-                        } else {
-                            $newDetail = CalibrationResultfactoryDt::create($dataB);
-                            $submittedIds[] = $newDetail->calibration_resultfactory_dts_id;
+                            if (!empty($detailId)) {
+                                CalibrationResultfactoryDt::where('calibration_resultfactory_dts_id', $detailId)->update($dataB);
+                                $submittedIds[] = $detailId;
+                            } else {
+                                $newDetail = CalibrationResultfactoryDt::create($dataB);
+                                $submittedIds[] = $newDetail->calibration_resultfactory_dts_id;
+                            }
                         }
                     }
+
+                    // ลบแถวตาราง A และ B ของ F7150.2 ที่ถูกกดลบทิ้ง
+                    CalibrationResultfactoryDt::where('calibration_resultfactory_hds_id', $id)
+                        ->whereNotIn('calibration_resultfactory_dts_id', $submittedIds)
+                        ->delete();
                 }
 
-                // ลบแถวตาราง A และ B ของ F7150.2 ที่ถูกกดลบทิ้ง
-                CalibrationResultfactoryDt::where('calibration_resultfactory_hds_id', $id)
-                    ->whereNotIn('calibration_resultfactory_dts_id', $submittedIds)
-                    ->delete();
+                DB::commit();
+
+                return redirect()->route('calibration-resultfactory.index')->with('success', 'บันทึกข้อมูลสำเร็จเรียบร้อยแล้ว');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' . $e->getMessage())->withInput();
             }
+        }elseif($request->ref_doc == "Update"){
+             DB::beginTransaction();
+            try {
+                $hd = CalibrationResultfactoryHd::findOrFail($id);
+                if ($hd->docutype == "F7150.1") {
+                    $hd->update([
+                        'final_approval'=> $request->final_approval,
+                        'final_at' => $request->final_at,
+                        'final_date' => $request->final_at,
+                    ]);
+                } elseif ($hd->docutype == "F7150.2") {
+                        $hd->update([
+                            'final_approval'=> $request->final_approval,
+                            'final_at' => $request->final_at,
+                            'final_date' => $request->final_at,
+                        ]);
+                }
+                DB::commit();
 
-            DB::commit();
-
-            return redirect()->route('calibration-resultfactory.index')->with('success', 'บันทึกข้อมูลสำเร็จเรียบร้อยแล้ว');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' . $e->getMessage())->withInput();
-        }
+                return redirect()->route('calibration-resultfactory.index')->with('success', 'บันทึกข้อมูลสำเร็จเรียบร้อยแล้ว');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'เกิดข้อผิดพลาดในการบันทึกข้อมูล: ' . $e->getMessage())->withInput();
+            }
+        }      
     }
     /**
      * Remove the specified resource from storage.

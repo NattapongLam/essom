@@ -292,12 +292,30 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="width: 60px;">ลำดับ</th>
-                                        <th rowspan="2">ระดับน้ำที่ตวง (mL)</th>
-                                        <th rowspan="2">น้ำหนักจริง (g)=(mL)</th>
-                                        <th rowspan="2">น้ำหนักภาชนะตวงเมื่อมีน้ำ (g)</th>
-                                        <th rowspan="2">น้ำหนักน้ำจากภาชนะตวง (g)=(mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (%)</th>
+                                        <th rowspan="2">
+                                            ระดับน้ำที่ตวง 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="standard_unit">
+                                        </th>
+                                        <th rowspan="2">
+                                            น้ำหนักจริง
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="value_unit">
+                                        </th>
+                                        <th rowspan="2">
+                                            น้ำหนักภาชนะตวงเมื่อมีน้ำ
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="equipment_unit">
+                                        </th>
+                                        <th rowspan="2">
+                                            น้ำหนักน้ำจากภาชนะตวง
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="error_unit">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="measured_unit">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="acceptable_unit">
+                                        </th>
                                         <th rowspan="2">หมายเหตุ</th>
                                         <th rowspan="2" style="width: 60px;">ลบ</th>
                                     </tr>
@@ -323,11 +341,26 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="width: 60px;">ลำดับ</th>
-                                        <th rowspan="2">ระดับน้ำที่มันตวง (mL)</th>
-                                        <th rowspan="2">ระดับน้ำมันที่ขีดสเกล (mL)</th>
-                                        <th rowspan="2">ระดับน้ำมันที่อ่านได้ (mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (mL)</th>
-                                        <th rowspan="2">ความคลาดเคลื่อน (%)</th>
+                                        <th rowspan="2">
+                                            ระดับน้ำที่มันตวง 
+                                             <input class="form-control" type="text" placeholder="หน่วย" name="standard_unit1">
+                                        </th>
+                                        <th rowspan="2">
+                                            ระดับน้ำมันที่ขีดสเกล 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="value_unit1">
+                                        </th>
+                                        <th rowspan="2">
+                                            ระดับน้ำมันที่อ่านได้ 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="equipment_unit1">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="error_unit1">
+                                        </th>
+                                        <th rowspan="2">
+                                            ความคลาดเคลื่อน 
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="measured_unit1">
+                                        </th>
                                         <th rowspan="2">หมายเหตุ</th>
                                         <th rowspan="2" style="width: 60px;">ลบ</th>
                                     </tr>
@@ -385,14 +418,28 @@
                                 <label class="mb-2">ผลการอนุมัติขั้นสุดท้าย</label>
                                 <div class="checkbox-group-wrapper">
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน">
+                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน" readonly>
                                         <label for="pass_status1">ผ่าน</label>
                                     </div>
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน">
+                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน" readonly>
                                         <label for="pass_status2">ไม่ผ่าน</label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ผู้อนุมัติ</label>
+                                <input class="form-control" type="text" value="" name="final_at" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>วันที่</label>
+                                <input class="form-control" type="date"  value="" name="final_date" readonly>
                             </div>
                         </div>
                     </div>

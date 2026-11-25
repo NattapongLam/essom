@@ -16,6 +16,8 @@ class CalibrationResultfactoryHd extends Model
         'atmospheric_pressur', 'measurement_scales', 'additional_details',
         'standard_unit', 'value_unit', 'equipment_unit', 'error_unit',
         'evaluation_round', 'approved_at', 'approved_date', 'final_approval',
-        'calibration_resultfactory_hds_flag','liquid_unit','container_unit'
+        'calibration_resultfactory_hds_flag','liquid_unit','container_unit',
+        'measured_unit','acceptable_unit','standard_unit1','value_unit1','equipment_unit1',
+        'error_unit1','measured_unit1'
     ];
 }
