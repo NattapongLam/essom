@@ -308,8 +308,14 @@
                                         <th rowspan="2" style="width: 60px;">ลบ</th>
                                     </tr>
                                     <tr>
-                                        <th>วัดได้ %</th>
-                                        <th>ยอมรับได้ %</th>
+                                        <th>
+                                            วัดได้
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="measured_unit">
+                                        </th>
+                                        <th>
+                                            ยอมรับได้
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="acceptable_unit">
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -361,14 +367,28 @@
                                 <label class="mb-2">ผลการอนุมัติขั้นสุดท้าย</label>
                                 <div class="checkbox-group-wrapper">
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน">
+                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน" readonly>
                                         <label for="pass_status1">ผ่าน</label>
                                     </div>
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน">
+                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน" readonly>
                                         <label for="pass_status2">ไม่ผ่าน</label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ผู้อนุมัติ</label>
+                                <input class="form-control" type="text" value="" name="final_at" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>วันที่</label>
+                                <input class="form-control" type="date"  value="" name="final_date" readonly>
                             </div>
                         </div>
                     </div>

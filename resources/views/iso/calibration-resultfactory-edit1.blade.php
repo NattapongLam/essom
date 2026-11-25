@@ -208,7 +208,8 @@
                 <div class="card-body">      
                     <form action="{{ route('calibration-resultfactory.update', $hd->calibration_resultfactory_hds_id) }}" method="POST">
                     @csrf    
-                    @method('PUT')      
+                    @method('PUT')    
+                    <input type="hidden" name="ref_doc" value="Edit">  
                     <!-- Top Form Fields -->
                     <div class="row g-3">
                         <div class="col-md-3">
@@ -309,8 +310,14 @@
                                         <th rowspan="2" style="width: 60px;">ลบ</th>
                                     </tr>
                                     <tr>
-                                        <th>วัดได้ %</th>
-                                        <th>ยอมรับได้ %</th>
+                                        <th>
+                                            วัดได้
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="measured_unit" value="{{$hd->measured_unit}}">
+                                        </th>
+                                        <th>
+                                            ยอมรับได้
+                                            <input class="form-control" type="text" placeholder="หน่วย" name="acceptable_unit" value="{{$hd->acceptable_unit}}">
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -395,18 +402,31 @@
                                 <label class="mb-2">ผลการอนุมัติขั้นสุดท้าย</label>
                                 <div class="checkbox-group-wrapper">
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน" {{ $hd->final_approval == 'ผ่าน' ? 'checked' : '' }}>
+                                        <input type="radio" id="pass_status1" name="final_approval" value="ผ่าน" {{ $hd->final_approval == 'ผ่าน' ? 'checked' : '' }} readonly>
                                         <label for="pass_status1">ผ่าน</label>
                                     </div>
                                     <div class="checkbox-indigo-container">
-                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน" {{ $hd->final_approval == 'ไม่ผ่าน' ? 'checked' : '' }}>
+                                        <input type="radio" id="pass_status2" name="final_approval" value="ไม่ผ่าน" {{ $hd->final_approval == 'ไม่ผ่าน' ? 'checked' : '' }} readonly>
                                         <label for="pass_status2">ไม่ผ่าน</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ผู้อนุมัติ</label>
+                                <input class="form-control" type="text" value="" name="final_at" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>วันที่</label>
+                                <input class="form-control" type="date"  value="" name="final_date" readonly>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mt-4">
                         <div class="col-md-12 text-end">
                             <button type="submit" class="btn btn-indigo-light px-4 py-2" style="font-size: 1rem !important;">

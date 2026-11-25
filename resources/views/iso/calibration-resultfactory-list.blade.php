@@ -256,6 +256,7 @@
                         <table id="tb_job" class="table table-striped table-hover table-bordered text-center w-100">
                             <thead>
                                 <tr>
+                                    <th>ผลการอนุมัติ</th>
                                     <th>วันสอบเทียบ</th>
                                     <th>ชื่อเครื่องมือ</th>
                                     <th>หมายเลขเครื่อง</th>
@@ -267,6 +268,16 @@
                             <tbody>
                                 @foreach ($hd as $item)
                                    <tr>
+                                        <td>
+                                            @if($item->final_approval)
+                                                {{$item->final_approval}}
+                                            @else
+                                                <a href="{{route('calibration-resultfactory.show',$item->calibration_resultfactory_hds_id)}}" class="btn btn-sm btn-success action-btn text-white" style="background-color: #0bf559;" title="อนุมัติ">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            
+                                        </td>
                                         <td>{{$item->calibration_resultfactory_hds_date}}</td>
                                         <td>{{$item->calibration_name}}</td>
                                         <td>{{$item->calibration_code}}</td>
