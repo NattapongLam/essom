@@ -172,6 +172,10 @@
                         <a href="{{ route('product-selection.report') }}" class="btn btn-indigo-outline btn-sm">
                             <i class="fas fa-chart-bar mr-1"></i> ประเมินสมรรถนะของผู้ส่งมอบ/ผู้ขาย
                         </a>
+                        &nbsp;
+                        <a href="{{route('product-selection-master.index')}}" class="btn-indigo-add">
+                            <i class="fas fa-cog"></i> ตั้งค่ารายการตรวจสอบ
+                        </a>
                     </div>         
                 </div>
 
