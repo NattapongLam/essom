@@ -434,6 +434,7 @@ Route::post('/cancelActivity5spdt' , [App\Http\Controllers\IsoActivity5sPdt::cla
 Route::group([
     'middleware' =>  ['auth','permission:iso-activity5soff']
 ],function(){
+Route::get('/activity-5soffs/print-quarter', [App\Http\Controllers\IsoActivity5sOff::class, 'printQuarter'])->name('activity-5soffs.print-quarter');
 Route::resource('/activity-5soffs' , App\Http\Controllers\IsoActivity5sOff::class);
 Route::post('/cancelActivity5off' , [App\Http\Controllers\IsoActivity5sOff::class , 'cancelActivity5off']);
 Route::resource('/activityoff-masters' , App\Http\Controllers\IsoActivityOffMaster::class);

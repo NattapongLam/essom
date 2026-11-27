@@ -74,6 +74,7 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
+        cursor: pointer;
     }
     .btn-indigo-add:hover {
         box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35) !important;
@@ -81,14 +82,23 @@
         color: #ffffff !important;
         text-decoration: none;
     }
-    
+
     /* Variant button for F7150.2 to look slightly secondary yet premium */
     .btn-indigo-add.btn-alt {
-        background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8) !important;
+        background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%) !important;
         box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2) !important;
     }
     .btn-indigo-add.btn-alt:hover {
         box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35) !important;
+    }
+
+    /* Print Quarter Button */
+    .btn-indigo-add.btn-print-q {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+    }
+    .btn-indigo-add.btn-print-q:hover {
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35) !important;
     }
 
     /* Table Customization */
@@ -209,7 +219,7 @@
 </style>
 
 <div class="objective-container">
-    <div class="row">  
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
@@ -228,17 +238,20 @@
                             <a href="{{ route('activity-5soffs.create') }}" class="btn-indigo-add">
                                 <i class="fas fa-plus-circle"></i> เพิ่มข้อมูลใหม่
                             </a>
-                            <a href="{{route('activityoff-masters.index')}}" class="btn-indigo-add btn-alt">
+                            <a href="{{ route('activityoff-masters.index') }}" class="btn-indigo-add btn-alt">
                                 <i class="fas fa-cog"></i> ตั้งค่ารายการตรวจสอบ
                             </a>
+                            <button type="button" class="btn-indigo-add btn-print-q" data-toggle="modal" data-target="#printQuarterModal">
+                                <i class="fas fa-print"></i> ปริ้นรายไตรมาส
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="card-body">            
+                <div class="card-body">
                     <div class="table-responsive">
                         <table id="tb_job" class="table table-striped table-hover table-bordered text-center w-100">
-                            <thead>     
+                            <thead>
                                 <tr>
                                     <th>หน่วยงานที่ถูกตรวจ</th>
                                     <th>ชั้นที่ถูกตรวจ</th>
@@ -246,28 +259,28 @@
                                     <th>วันที่</th>
                                     <th>แก้ไข</th>
                                     <th>ลบ</th>
-                                </tr>                        
+                                </tr>
                             </thead>
                             <tbody>
-                                @foreach ($hd as $item)
+                                @foreach ($hd as$item)
                                     <tr>
-                                        <td>{{$item->department_name}}</td>
-                                        <td>{{$item->floor}}</td>
-                                        <td>{{$item->percentage_score}}</td>
-                                        <td>{{$item->audit_date}}</td>
+                                        <td>{{ $item->department_name }}</td>
+                                        <td>{{ $item->floor }}</td>
+                                        <td>{{ $item->percentage_score }}</td>
+                                        <td>{{ $item->audit_date }}</td>
                                         <td>
-                                            <a href="{{route('activity-5soffs.edit',$item->activitys_off_hds_id)}}" class="btn btn-sm btn-warning action-btn text-white" style="background-color: #f59e0b;" title="ประเมิน">
+                                            <a href="{{ route('activity-5soffs.edit', $item->activitys_off_hds_id) }}" class="btn btn-sm btn-warning action-btn text-white" style="background-color: #f59e0b;" title="ประเมิน">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm action-btn" style="background-color: #ef4444;"  
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm action-btn" style="background-color: #ef4444;"
                                                 onclick="confirmDel('{{ $item->activitys_off_hds_id }}')" title="ลบ">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach                              
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -277,13 +290,54 @@
     </div>
 </div>
 
+<!-- Modal เลือกปีและไตรมาสสำหรับปริ้นรายงาน -->
+<div class="modal fade" id="printQuarterModal" tabindex="-1" role="dialog" aria-labelledby="printQuarterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 16px; border: none;">
+            <div class="modal-header" style="border-bottom: 1px solid #f1f5f9;">
+                <h5 class="modal-title font-weight-bold" id="printQuarterModalLabel">
+                    <i class="fas fa-print text-success mr-1"></i> ปริ้นสรุปผลการตรวจรายไตรมาส
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('activity-5soffs.print-quarter') }}" method="GET" target="_blank">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold">เลือกปี (พ.ศ. / ค.ศ.)</label>
+                        <select name="year" class="form-control" required>
+                            @for ($y = date('Y'); $y >= date('Y') - 5; $y--)
+                                <option value="{{ $y }}">{{ $y + 543 }} ({{$y }})</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="font-weight-bold">ไตรมาสล่าสุด (สำหรับแสดง Auditor และหมายเหตุ)</label>
+                        <select name="quarter" class="form-control" required>
+                            <option value="1">ไตรมาส 1 (ม.ค. - มี.ค.)</option>
+                            <option value="2">ไตรมาส 2 (เม.ย. - มิ.ย.)</option>
+                            <option value="3">ไตรมาส 3 (ก.ค. - ก.ย.)</option>
+                            <option value="4" selected>ไตรมาส 4 (ต.ค. - ธ.ค.)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #f1f5f9;">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">ยกเลิก</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-file-alt"></i> เปิดหน้าปริ้นรายงาน
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scriptjs')
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
-$(document).ready(function() {
-    $('#tb_job').DataTable({
+$(document).ready(function() {$('#tb_job').DataTable({
         "pageLength": 50,
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -315,7 +369,8 @@ $(document).ready(function() {
         }
     });
 });
-confirmDel = (refid) =>{       
+
+confirmDel = (refid) => {
     Swal.fire({
         title: 'คุณแน่ใจหรือไม่ !',
         text: `คุณต้องการลบรายการนี้หรือไม่ ?`,
