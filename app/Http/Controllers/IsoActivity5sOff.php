@@ -249,6 +249,7 @@ class IsoActivity5sOff extends Controller
     {
         //
     }
+
     public function cancelActivity5off(Request $request)
     {
         $hd = ActivitysOffHd::where('activitys_off_hds_id',$request->refid)->update([
@@ -259,5 +260,121 @@ class IsoActivity5sOff extends Controller
             'status' => true,
             'message' => 'ยกเลิกเอกสารเรียบร้อยแล้ว'
         ]);    
+    }
+
+    public function printQuarter(Request $request)
+    {
+        $year = (int) $request->input('year', date('Y'));
+        $selectedQuarter = (int) $request->input('quarter', 4);
+
+        // ดึงข้อมูลจาก SQL Server ตามปีที่เลือก
+        // *หมายเหตุ: หากมีค่า flag ที่หมายถึงยกเลิก (เช่น 'C' หรือ '0') ให้เพิ่ม ->where('activitys_off_hds_flag', '!=', 'C') ตามจริง
+        $records = DB::table('activitys_off_hds')
+            ->whereRaw('YEAR(audit_date) = ?', [$year])
+            ->where('activitys_off_hds_flag',true)
+            ->orderBy('department_name', 'asc')
+            ->orderBy('floor', 'asc')
+            ->orderBy('audit_date', 'asc')
+            ->get();
+
+        $groupedData = [];
+
+        foreach ($records as $row) {
+            if (empty($row->audit_date)) {
+                continue;
+            }
+
+            $timestamp = strtotime($row->audit_date);
+            $month = (int) date('n', $timestamp);
+            $quarter = (int) ceil($month / 3); // 1-3 => Q1, 4-6 => Q2, 7-9 => Q3, 10-12 => Q4
+
+            // รวมกลุ่มตามหน่วยงานและชั้น
+            $dept = trim((string) ($row->department_name ?? ''));
+            $floor = trim((string) ($row->floor ?? ''));
+            $key = $dept . '|' . $floor;
+
+            if (!isset($groupedData[$key])) {
+                $areaLabel = [];
+                if ($floor !== '') {
+                    $areaLabel[] = "ชั้น {$floor}";
+                }
+                if ($dept !== '') {
+                    $areaLabel[] = $dept;
+                }
+
+                $groupedData[$key] = [
+                    'area'            => implode(' ', $areaLabel) ?: '-',
+                    'department_name' => $dept !== '' ? $dept : '-',
+                    'auditors'        => [],
+                    'auditees'        => [],
+                    'q1'              => null,
+                    'q2'              => null,
+                    'q3'              => null,
+                    'q4'              => null,
+                    'audit_date'      => null,
+                    'strength'        => '',
+                    'weakness'        => '',
+                    'suggestion'      => '',
+                    'avr'             => 0,
+                    'rank'            => '-',
+                ];
+            }
+
+            // เก็บคะแนน % ของแต่ละไตรมาส
+            if (!is_null($row->percentage_score) && is_numeric($row->percentage_score)) {
+                $score = (float) $row->percentage_score;
+                $groupedData[$key]["q{$quarter}"] = rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.');
+            }
+
+            // อัปเดตข้อมูล Auditor, วันที่ และหมายเหตุ เมื่อตรงกับไตรมาสที่เลือก (หรือไตรมาสก่อนหน้าที่ตรวจล่าสุด)
+            if ($quarter <= $selectedQuarter) {
+                $thaiShortYear = substr((string) ((int) date('Y', $timestamp) + 543), -2);
+                $groupedData[$key]['audit_date'] = date('d-m-', $timestamp) . $thaiShortYear;
+
+                $auditors = [];
+                if (!empty($row->auditor_1)) {
+                    $auditors[] = trim((string) $row->auditor_1);
+                }
+                if (!empty($row->auditor_2)) {
+                    $auditors[] = trim((string) $row->auditor_2);
+                }
+                $groupedData[$key]['auditors'] = $auditors;
+
+                $groupedData[$key]['strength']   = (string) ($row->strength ?? '');
+                $groupedData[$key]['weakness']   = (string) ($row->weakness ?? '');
+                $groupedData[$key]['suggestion'] = (string) ($row->suggestion ?? '');
+            }
+        }
+
+        // คำนวณค่าเฉลี่ย AVR จากไตรมาสที่มีคะแนน
+        foreach ($groupedData as &$item) {
+            $validScores = [];
+            foreach (['q1', 'q2', 'q3', 'q4'] as $qKey) {
+                if (!is_null($item[$qKey]) && $item[$qKey] !== '') {
+                    $validScores[] = (float) $item[$qKey];
+                }
+            }
+            $item['avr'] = count($validScores) > 0
+                ? (int) round(array_sum($validScores) / count($validScores))
+                : 0;
+        }
+        unset($item);
+
+        // จัดอันดับ (Rank) จากคะแนน AVR มากไปน้อย
+        $avrValues = array_column($groupedData, 'avr');
+        rsort($avrValues);
+
+        foreach ($groupedData as &$item) {
+            $pos = array_search($item['avr'], $avrValues);
+            $item['rank'] = ($pos !== false) ? ($pos + 1) : '-';
+        }
+        unset($item);
+
+        return view('iso.activity-5soff-print', [
+            'rows'            => array_values($groupedData),
+            'year'            => $year,
+            'thaiYear'        => $year + 543,
+            'selectedQuarter' => $selectedQuarter,
+        ]);
     }
 }
